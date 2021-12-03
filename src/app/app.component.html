@@ -1,7 +1,5 @@
 <ng-container *ngIf="notes$ | async">
-  <ng-container *ngFor="let note of notes$ | async">
-    <p>{{note.text}}</p>
-  </ng-container>
+  <note *ngFor="let note of notes$ | async" [note]="note"></note>
 </ng-container>
 <button class="card card-small" tabindex="0" (click)="newNote()">
   <svg class="material-icons" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
