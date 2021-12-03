@@ -1,1 +1,33 @@
-<p>{{note.text}}</p>
+<mat-card cdkDrag matRipple
+          [matRippleDisabled]="disabled"
+          (click)="copy(); $event.stopPropagation();"
+          [style.top.px]="note.posY"
+          [style.left.px]="note.posX">
+  <mat-card-title>{{note.header ?? 'Note'}}</mat-card-title>
+  <mat-card-subtitle>{{note.content}}</mat-card-subtitle>
+  <mat-card-actions align="end">
+    <button mat-icon-button (click)="edit(); $event.stopPropagation()"
+            (mousedown)="disabled=true"
+            (mouseup)="disabled=false">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="delete(); $event.stopPropagation()"
+            (mousedown)="disabled=true"
+            (mouseup)="disabled=false">
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="menu"
+            (click)="$event.stopPropagation()"
+            (mousedown)="disabled=true"
+            (mouseup)="disabled=false">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>title</mat-icon>
+        Edit header
+      </button>
+    </mat-menu>
+  </mat-card-actions>
+  <mat-card-footer [style.margin-bottom.px]="-32"></mat-card-footer>
+</mat-card>

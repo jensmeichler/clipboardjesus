@@ -10,9 +10,11 @@ import {BehaviorSubject} from 'rxjs';
 export class AppComponent {
   notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
 
-  newNote() {
+  newNote(event: MouseEvent) {
     let currentNotes = this.notes$.getValue() ?? [];
-    currentNotes?.push(new Note());
+    let posX = event.pageX;
+    let posY = event.pageY;
+    currentNotes?.push(new Note(posX, posY));
     this.notes$.next(currentNotes);
   }
 }

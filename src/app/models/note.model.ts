@@ -1,11 +1,15 @@
 export class Note {
-  text: string;
+  content = '';
+  header?: string;
+  posX: number;
+  posY: number;
+  deleted = false;
 
-  constructor() {
-    this.text = '';
+  constructor(posX: number, posY: number) {
+    this.posX = posX;
+    this.posY = posY;
     navigator.clipboard.readText().then((text) => {
-      console.log('Pasted content: ', text);
-      this.text = text;
+      this.content = text;
     });
   }
 }

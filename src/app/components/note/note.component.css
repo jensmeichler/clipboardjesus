@@ -1,3 +1,9 @@
 :host {
-  display: flex;
+  position: absolute;
+  cursor: pointer;
+}
+
+.mat-card:hover {
+  box-shadow: 0 0 16px black;
+  z-index: 100;
 }

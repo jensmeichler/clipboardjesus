@@ -1,5 +1,7 @@
-<div class="clipboard" (click)="newNote()">
+<div class="clipboard" (click)="newNote($event)">
   <ng-container *ngIf="notes$ | async">
-    <note *ngFor="let note of notes$ | async" [note]="note"></note>
+    <ng-container *ngFor="let note of notes$ | async">
+      <note *ngIf="!note.deleted" [note]="note"></note>
+    </ng-container>
   </ng-container>
 </div>
