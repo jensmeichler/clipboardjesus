@@ -49,4 +49,8 @@ export class NoteComponent {
     let filteredNotes = notes!.filter(x => x !== this.note);
     this.notes$.next(filteredNotes!);
   }
+
+  check() {
+    this.note.checked = !this.note.checked;
+  }
 }

@@ -1,6 +1,7 @@
 html, body {
   --color-background: #131313;
   --color-accent: #4d4d4d;
+  --color-note: #424242;
 
   color-scheme: dark;
 
@@ -13,7 +14,12 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-app-edit-note-dialog > .flex-container {
+mat-dialog-container.mat-dialog-container {
+  padding: 0;
+}
+
+mat-card-title.flex-container,
+h1.flex-container {
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -1,19 +1,26 @@
-<h1 mat-dialog-title class="flex-container"
-    cdkDrag cdkDragHandle
-    cdkDragRootElement=".cdk-overlay-pane">
-  Edit note
-  <a>
-    <input [(ngModel)]="data.foregroundColor" type="color" style="margin-right: 10px">
-    <input [(ngModel)]="data.backgroundColor" type="color">
-  </a>
-</h1>
-<div mat-dialog-content>
-  <mat-form-field appearance="fill" [style.width]="'100%'">
-    <mat-label>Header</mat-label>
-    <input matInput [(ngModel)]="data.header">
-  </mat-form-field>
-  <mat-form-field appearance="fill" [style.width]="'100%'">
-    <mat-label>Content</mat-label>
-    <textarea matInput [(ngModel)]="data.content" style="height: 200px"></textarea>
-  </mat-form-field>
+<div [style.padding.px]="24"
+     [style.color]="data.foregroundColor"
+     [style.background]="data.backgroundColorGradient
+        ? 'linear-gradient(to bottom, ' + data.backgroundColor + ', ' + data.backgroundColorGradient
+        : data.backgroundColor">
+  <h1 mat-dialog-title class="flex-container"
+      cdkDrag cdkDragHandle
+      cdkDragRootElement=".cdk-overlay-pane">
+    Edit note
+    <a>
+      <input [(ngModel)]="data.foregroundColor" type="color" style="margin-right: 5px">
+      <input [(ngModel)]="data.backgroundColor" type="color" style="margin-right: 5px; margin-left: 5px">
+      <input [(ngModel)]="data.backgroundColorGradient" type="color" style="margin-left: 5px">
+    </a>
+  </h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill" [style.width]="'100%'">
+      <mat-label>Header</mat-label>
+      <input matInput [(ngModel)]="data.header">
+    </mat-form-field>
+    <mat-form-field appearance="fill" [style.width]="'100%'">
+      <mat-label>Content</mat-label>
+      <textarea matInput [(ngModel)]="data.content" style="height: 200px"></textarea>
+    </mat-form-field>
+  </div>
 </div>
