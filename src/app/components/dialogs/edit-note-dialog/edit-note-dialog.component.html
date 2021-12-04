@@ -2,7 +2,11 @@
     cdkDrag cdkDragHandle
     cdkDragRootElement=".cdk-overlay-pane">
   Edit note
-  <input [(ngModel)]="data.color" type="color"></h1>
+  <a>
+    <input [(ngModel)]="data.foregroundColor" type="color" style="margin-right: 10px">
+    <input [(ngModel)]="data.backgroundColor" type="color">
+  </a>
+</h1>
 <div mat-dialog-content>
   <mat-form-field appearance="fill" [style.width]="'100%'">
     <mat-label>Header</mat-label>

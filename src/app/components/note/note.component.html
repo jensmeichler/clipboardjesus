@@ -4,7 +4,8 @@
           (click)="copy(); $event.stopPropagation();"
           [style.top.px]="note.posY"
           [style.left.px]="note.posX"
-          [style.background]="note.color">
+          [style.color]="note.foregroundColor"
+          [style.background]="note.backgroundColor">
   <mat-card-title>{{note.header ?? 'Note'}}</mat-card-title>
   <mat-card-subtitle>{{note.content}}</mat-card-subtitle>
   <mat-card-actions align="end">

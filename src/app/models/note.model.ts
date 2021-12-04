@@ -1,7 +1,8 @@
 export class Note {
   content = '';
   header?: string;
-  color?: string;
+  foregroundColor: string = '#ffffff';
+  backgroundColor: string = '#424242';
   posX: number;
   posY: number;
 
