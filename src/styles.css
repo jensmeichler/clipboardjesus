@@ -2,6 +2,8 @@ html, body {
   --color-background: #131313;
   --color-accent: #4d4d4d;
 
+  color-scheme: dark;
+
   margin: 0;
   height: 100%;
   background: var(--color-background);
@@ -9,4 +11,10 @@ html, body {
 
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+app-edit-note-dialog > .flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

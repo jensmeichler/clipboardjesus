@@ -1,6 +1,7 @@
 export class Note {
   content = '';
   header?: string;
+  color?: string;
   posX: number;
   posY: number;
 
