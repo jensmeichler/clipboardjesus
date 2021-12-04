@@ -3,7 +3,7 @@ export class Note {
   header?: string;
   posX: number;
   posY: number;
-  deleted = false;
+  marked = false;
 
   constructor(posX: number, posY: number) {
     this.posX = posX;

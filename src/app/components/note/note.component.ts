@@ -45,6 +45,8 @@ export class NoteComponent {
   }
 
   delete() {
-    this.note.deleted = true;
+    let notes = this.notes$.getValue();
+    let filteredNotes = notes!.filter(x => x !== this.note);
+    this.notes$.next(filteredNotes!);
   }
 }

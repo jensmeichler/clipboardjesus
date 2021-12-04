@@ -1,9 +1,20 @@
 :host {
   position: absolute;
   cursor: pointer;
+  animation: fade-in 0.3s;
 }
 
 .mat-card:hover {
   box-shadow: 0 0 16px black;
-  z-index: 100;
+  z-index: 99;
+}
+
+.mat-card-subtitle {
+  white-space: pre-wrap;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
 }
