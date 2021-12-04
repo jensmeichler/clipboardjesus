@@ -33,7 +33,7 @@ export class NoteComponent {
 
   edit() {
     const dialogRef = this.dialog.open(EditNoteDialogComponent, {
-      width: '250px',
+      width: '50vw',
       data: this.note,
     });
 
