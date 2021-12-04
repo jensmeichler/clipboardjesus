@@ -1,7 +1,6 @@
-import {Component} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {Note} from './models/note.model';
 import {BehaviorSubject} from 'rxjs';
-import {NoteService} from "./services/note.service";
 
 @Component({
   selector: 'app-root',
@@ -9,9 +8,6 @@ import {NoteService} from "./services/note.service";
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  constructor(private readonly noteService: NoteService) {
-  }
-
   notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
 
   newNote(event: MouseEvent) {
@@ -23,11 +19,56 @@ export class AppComponent {
   }
 
   saveNotes() {
-    this.noteService.save(this.notes$.getValue()!, 'Notes.json')
+    let content = JSON.stringify(this.notes$.getValue());
+    let a = document.createElement('a');
+    let file = new Blob([content], {type: 'text/plain'});
+    a.href = URL.createObjectURL(file);
+    a.download = 'Notes.json';
+    a.click();
   }
 
-  getNotes(any: any) {
-    console.log(any)
-    this.notes$.next(this.noteService.get())
+  getNotes(event: any) {
+    if (event.dataTransfer.items[0].kind === 'file') {
+      let file: Blob = event.dataTransfer.items[0].getAsFile();
+      let fileReader = new FileReader();
+      fileReader.onload = () => {
+        let currentNotes: Note[] = this.notes$.getValue() ?? [];
+        let uploadedNotes: Note[] = JSON.parse(fileReader.result!.toString());
+        uploadedNotes.forEach((upload: Note) => {
+          if (!currentNotes.some(curr => {
+            return upload.content === curr.content
+              && upload.header === curr.header
+              && upload.posX === curr.posX
+              && upload.posY === curr.posY
+          })) {
+            currentNotes.push(upload);
+          }
+        })
+        this.notes$.next(currentNotes);
+      }
+      fileReader.readAsText(file);
+    }
+  }
+
+  @HostListener("dragover", ["$event"]) onDragOver(event: any) {
+    event.preventDefault();
+  }
+
+  @HostListener("dragenter", ["$event"]) onDragEnter(event: any) {
+    event.preventDefault();
+  }
+
+  @HostListener("dragend", ["$event"]) onDragEnd(event: any) {
+    event.preventDefault();
+  }
+
+  @HostListener("dragleave", ["$event"]) onDragLeave(event: any) {
+    event.preventDefault();
+  }
+
+  @HostListener("drop", ["$event"]) onDrop(event: any) {
+    this.getNotes(event);
+    event.preventDefault();
+    event.stopPropagation();
   }
 }

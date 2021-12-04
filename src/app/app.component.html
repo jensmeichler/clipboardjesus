@@ -1,4 +1,4 @@
-<div class="clipboard" (click)="newNote($event)">
+<div class="clipboard" (click)="newNote($event)" (drop)="getNotes($event)">
   <button mat-fab color="primary"
           (click)="saveNotes(); $event.stopPropagation()"
           [disabled]="!(notes$ | async)?.length">
