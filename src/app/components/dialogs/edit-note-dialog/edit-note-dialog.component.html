@@ -1,10 +1,14 @@
-<h1 mat-dialog-title>Edit note</h1>
+<h1 mat-dialog-title class="flex-container"
+    cdkDrag cdkDragHandle
+    cdkDragRootElement=".cdk-overlay-pane">
+  Edit note
+  <input [(ngModel)]="data.color" type="color"></h1>
 <div mat-dialog-content>
   <mat-form-field appearance="fill" [style.width]="'100%'">
     <mat-label>Header</mat-label>
     <input matInput [(ngModel)]="data.header">
   </mat-form-field>
-  <mat-form-field appearance="fill" [style.width]="'100%'" class="big-form-field">
+  <mat-form-field appearance="fill" [style.width]="'100%'">
     <mat-label>Content</mat-label>
     <textarea matInput [(ngModel)]="data.content" style="height: 200px"></textarea>
   </mat-form-field>
