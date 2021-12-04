@@ -53,18 +53,22 @@ export class AppComponent {
 
   @HostListener("dragover", ["$event"])
   @HostListener("dragenter", ["$event"])
-  onDragEnter(event: any) {
+  onDragging(event: any) {
     this.isDragging = true;
     event.preventDefault();
   }
 
   @HostListener("dragend", ["$event"])
   @HostListener("dragleave", ["$event"])
+  onNotDragging(event: any) {
+    this.isDragging = false;
+    event.preventDefault();
+  }
+
   @HostListener("drop", ["$event"])
   onDrop(event: any) {
     this.getNotes(event);
-    this.isDragging = false;
-    event.preventDefault();
+    this.onNotDragging(event)
     event.stopPropagation();
   }
 }
