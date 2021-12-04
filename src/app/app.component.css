@@ -1,5 +1,10 @@
 .clipboard {
-  height: 100vh;
+  height: 98vh;
+  border: 1vh solid #131313;
+}
+
+.drag-over {
+  border: 1vh dashed #4d4d4d;
 }
 
 .mat-fab {

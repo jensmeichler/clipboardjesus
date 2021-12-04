@@ -9,6 +9,7 @@ import {BehaviorSubject} from 'rxjs';
 })
 export class AppComponent {
   notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
+  isDragging = false;
 
   newNote(event: MouseEvent) {
     let currentNotes = this.notes$.getValue() ?? [];
@@ -51,24 +52,29 @@ export class AppComponent {
   }
 
   @HostListener("dragover", ["$event"]) onDragOver(event: any) {
-    event.preventDefault();
+    this.dragMove(event, true);
   }
 
   @HostListener("dragenter", ["$event"]) onDragEnter(event: any) {
-    event.preventDefault();
+    this.dragMove(event, true);
   }
 
   @HostListener("dragend", ["$event"]) onDragEnd(event: any) {
-    event.preventDefault();
+    this.dragMove(event, false);
   }
 
   @HostListener("dragleave", ["$event"]) onDragLeave(event: any) {
-    event.preventDefault();
+    this.dragMove(event, false);
   }
 
   @HostListener("drop", ["$event"]) onDrop(event: any) {
     this.getNotes(event);
-    event.preventDefault();
+    this.dragMove(event, false);
     event.stopPropagation();
+  }
+
+  private dragMove(event: any, drag: boolean) {
+    this.isDragging = drag;
+    event.preventDefault();
   }
 }

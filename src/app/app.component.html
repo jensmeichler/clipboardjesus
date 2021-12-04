@@ -1,4 +1,5 @@
-<div class="clipboard" (click)="newNote($event)" (drop)="getNotes($event)">
+<div class="clipboard" [ngClass]="isDragging ? 'drag-over' : ''"
+     (click)="newNote($event)" (drop)="getNotes($event)">
   <button mat-fab color="primary"
           (click)="saveNotes(); $event.stopPropagation()"
           [disabled]="!(notes$ | async)?.length">
