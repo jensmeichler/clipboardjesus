@@ -1,7 +1,10 @@
 html, body {
+  --color-background: #131313;
+  --color-accent: #4d4d4d;
+
   margin: 0;
   height: 100%;
-  background: #131313;
+  background: var(--color-background);
 }
 
 body {

@@ -51,30 +51,20 @@ export class AppComponent {
     }
   }
 
-  @HostListener("dragover", ["$event"]) onDragOver(event: any) {
-    this.dragMove(event, true);
-  }
-
-  @HostListener("dragenter", ["$event"]) onDragEnter(event: any) {
-    this.dragMove(event, true);
-  }
-
-  @HostListener("dragend", ["$event"]) onDragEnd(event: any) {
-    this.dragMove(event, false);
-  }
-
-  @HostListener("dragleave", ["$event"]) onDragLeave(event: any) {
-    this.dragMove(event, false);
-  }
-
-  @HostListener("drop", ["$event"]) onDrop(event: any) {
-    this.getNotes(event);
-    this.dragMove(event, false);
-    event.stopPropagation();
-  }
-
-  private dragMove(event: any, drag: boolean) {
-    this.isDragging = drag;
+  @HostListener("dragover", ["$event"])
+  @HostListener("dragenter", ["$event"])
+  onDragEnter(event: any) {
+    this.isDragging = true;
     event.preventDefault();
+  }
+
+  @HostListener("dragend", ["$event"])
+  @HostListener("dragleave", ["$event"])
+  @HostListener("drop", ["$event"])
+  onDrop(event: any) {
+    this.getNotes(event);
+    this.isDragging = false;
+    event.preventDefault();
+    event.stopPropagation();
   }
 }
