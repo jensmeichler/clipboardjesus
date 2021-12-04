@@ -1,4 +1,7 @@
 <div class="clipboard" (click)="newNote($event)">
+  <button mat-fab color="primary" (click)="$event.stopPropagation()">
+    <mat-icon>home</mat-icon>
+  </button>
   <ng-container *ngIf="notes$ | async">
     <ng-container *ngFor="let note of notes$ | async">
       <note *ngIf="!note.deleted" [note]="note"></note>

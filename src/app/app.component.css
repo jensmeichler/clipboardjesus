@@ -1,3 +1,9 @@
 .clipboard {
   height: 100vh;
 }
+
+.mat-fab {
+  position: absolute;
+  bottom: 32px;
+  right: 32px;
+}
