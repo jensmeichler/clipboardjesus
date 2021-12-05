@@ -1,9 +1,6 @@
-<mat-card cdkDrag matRipple
-          cdkDragBoundary=".clipboard"
+<mat-card matRipple
           [matRippleDisabled]="disabled"
           (click)="copy(); $event.stopPropagation();"
-          [style.top.px]="note.posY"
-          [style.left.px]="note.posX"
           [style.color]="note.foregroundColor"
           [style.background]="note.backgroundColorGradient
             ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
