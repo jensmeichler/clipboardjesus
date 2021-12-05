@@ -7,7 +7,7 @@
       cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane">
     Edit note
-    <a>
+    <a *ngIf="data.foregroundColor && data.backgroundColor">
       <input [(ngModel)]="data.foregroundColor" type="color" style="margin-right: 5px">
       <input [(ngModel)]="data.backgroundColor" type="color" style="margin-right: 5px; margin-left: 5px">
       <input [(ngModel)]="data.backgroundColorGradient" type="color" style="margin-left: 5px">
