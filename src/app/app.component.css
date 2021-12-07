@@ -14,6 +14,18 @@
   z-index: 100;
 }
 
+.donate-button {
+  position: absolute;
+  bottom: 80px;
+  right: 14px;
+  z-index: 100;
+  transition: transform ease-in-out 0.3s;
+}
+
+.donate-button:hover {
+  transform: scale(2) rotate(-10deg) translateY(-12px) translateX(-3px);
+}
+
 note:hover {
   box-shadow: 0 0 16px black;
   z-index: 99;
