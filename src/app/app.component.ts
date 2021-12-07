@@ -1,6 +1,7 @@
 import {Component, HostListener} from '@angular/core';
-import {Note} from './models/note.model';
+import * as moment from 'moment';
 import {BehaviorSubject} from 'rxjs';
+import {Note} from './models/note.model';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,7 @@ export class AppComponent {
     let a = document.createElement('a');
     let file = new Blob([content], {type: 'text/plain'});
     a.href = URL.createObjectURL(file);
-    a.download = 'Notes.json';
+    a.download = moment(new Date()).format('YYYY-MM-DD-HH-mm') + '.notes.json';
     a.click();
   }
 
