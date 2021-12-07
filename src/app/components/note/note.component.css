@@ -9,7 +9,7 @@
   z-index: 99;
 }
 
-.mat-card-subtitle {
+.mat-card-content {
   white-space: pre-wrap;
   color: inherit;
   padding-top: 1rem;

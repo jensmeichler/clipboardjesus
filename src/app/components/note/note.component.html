@@ -9,7 +9,7 @@
     {{note.header ?? 'Note'}}
     <mat-icon *ngIf="note.checked">checked</mat-icon>
   </mat-card-title>
-  <mat-card-subtitle>{{note.content}}</mat-card-subtitle>
+  <mat-card-content>{{note.content}}</mat-card-content>
   <mat-card-actions align="end">
     <button mat-icon-button (click)="edit(); $event.stopPropagation()"
             (mousedown)="disabled=true"
