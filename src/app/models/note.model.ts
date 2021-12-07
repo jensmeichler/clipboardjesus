@@ -8,11 +8,15 @@ export class Note {
   posY: number;
   checked: boolean = false;
 
-  constructor(posX: number, posY: number) {
+  constructor(posX: number, posY: number, content?: string) {
     this.posX = posX;
     this.posY = posY;
-    navigator.clipboard.readText().then((text) => {
-      this.content = text;
-    });
+    if (content) {
+      this.content = content;
+    } else {
+      navigator.clipboard.readText().then((text) => {
+        this.content = text;
+      });
+    }
   }
 }
