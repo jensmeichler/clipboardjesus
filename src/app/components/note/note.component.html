@@ -1,6 +1,7 @@
 <mat-card matRipple
           [matRippleDisabled]="disabled"
           (click)="copy(); $event.stopPropagation();"
+          (auxclick)="delete(); $event.stopPropagation();"
           [style.color]="note.foregroundColor"
           [style.background]="note.backgroundColorGradient
             ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
