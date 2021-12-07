@@ -12,6 +12,7 @@
 .mat-card-subtitle {
   white-space: pre-wrap;
   color: inherit;
+  padding-top: 1rem;
 }
 
 @keyframes fade-in {
