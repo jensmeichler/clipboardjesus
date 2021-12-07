@@ -13,3 +13,8 @@
   right: 32px;
   z-index: 100;
 }
+
+note:hover {
+  box-shadow: 0 0 16px black;
+  z-index: 99;
+}

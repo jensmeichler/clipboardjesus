@@ -4,11 +4,6 @@
   animation: fade-in 0.3s;
 }
 
-.mat-card:hover {
-  box-shadow: 0 0 16px black;
-  z-index: 99;
-}
-
 .mat-card-content {
   white-space: pre-wrap;
   color: inherit;
