@@ -54,6 +54,14 @@ export class AppComponent {
             case 'txt':
             case 'json':
             case 'rtf':
+            case 'md':
+            case 'html':
+            case 'css':
+            case 'scss':
+            case 'ts':
+            case 'js':
+            case 'cs':
+            case 'cshtml':
               this.addNote(new Note(posX, posY, fileReader.result!.toString()));
               break;
             default:
