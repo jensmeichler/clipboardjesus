@@ -4,9 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "build": "ng build --base-href",
+    "deploy": "ng build --base-href && npx angular-cli-ghpages --dir=dist/clipboard"
   },
   "private": true,
   "dependencies": {
