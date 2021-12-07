@@ -40,12 +40,12 @@ export class AppComponent {
   dropFile(event: any) {
     let posX = event.pageX;
     let posY = event.pageY;
-    let data = event.dataTransfer.items[0];
+    let data = event.dataTransfer.items[0] as DataTransferItem;
     if (data.kind === 'file') {
-      let file: Blob = data.getAsFile();
+      let file = data.getAsFile()!;
       let fileReader = new FileReader();
       fileReader.onload = () => {
-        let fileName = (file as any).name as string;
+        let fileName = file.name as string;
         if (fileName.endsWith('notes.json')) {
           this.writeNotes(fileReader.result!.toString());
         } else {
@@ -65,11 +65,8 @@ export class AppComponent {
       }
       fileReader.readAsText(file);
     } else if (data.kind === 'string') {
-      data.getAsString((value: string) => {
-        this.addNote(new Note(posX, posY, value));
-        //TODO: BUG refresh not made
-        //this.changeDetectorRef.detectChanges();
-      })
+      let draggedText = event.dataTransfer.getData('text');
+      this.addNote(new Note(posX, posY, draggedText));
     }
   }
 
