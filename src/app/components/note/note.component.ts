@@ -1,9 +1,9 @@
-import {Component, Input} from '@angular/core';
-import {Note} from "../../models/note.model";
 import {Clipboard} from "@angular/cdk/clipboard";
-import {BehaviorSubject} from "rxjs";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {Component, Input} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {BehaviorSubject} from "rxjs";
+import {Note} from "../../models/note.model";
 import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dialog.component";
 
 @Component({
@@ -24,6 +24,20 @@ export class NoteComponent {
     private readonly snackBar: MatSnackBar,
     private readonly dialog: MatDialog
   ) {
+  }
+
+  click(event: any) {
+    switch (event.button) {
+      case 0:
+        this.copy();
+        break;
+      case 1:
+        this.delete();
+        break;
+      case 2:
+        break;
+    }
+    event.stopPropagation();
   }
 
   copy() {
