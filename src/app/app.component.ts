@@ -5,7 +5,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import * as moment from 'moment';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {EditNoteDialogComponent} from "./components/dialogs/edit-note-dialog/edit-note-dialog.component";
-import {Note} from './models/note.model';
+import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
+import {Note, TaskList} from './models';
 
 @Component({
   selector: 'app-root',
@@ -116,6 +117,21 @@ export class AppComponent {
     this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
       this.addNote(newNote);
     });
+  }
+
+  openNewTaskListDialog() {
+    if (this.dialogSubscription) {
+      this.dialogSubscription.unsubscribe();
+    }
+
+    let newTaskList = new TaskList(this.rightClickPosX, this.rightClickPosY);
+    const dialogRef = this.dialog.open(EditTaskListDialogComponent, {
+      width: '50vw',
+      data: newTaskList,
+    });
+
+    //TODO
+    alert('not implemented yet :(')
   }
 
   @ViewChild(MatMenuTrigger)

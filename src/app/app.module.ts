@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {MatChipsModule} from "@angular/material/chips";
 import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {NoteComponent} from './components/note/note.component';
@@ -16,9 +17,10 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
+import { EditTaskListDialogComponent } from './components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, NoteComponent, EditNoteDialogComponent],
+  declarations: [AppComponent, NoteComponent, EditNoteDialogComponent, EditTaskListDialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -33,7 +35,8 @@ import {FormsModule} from "@angular/forms";
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatChipsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

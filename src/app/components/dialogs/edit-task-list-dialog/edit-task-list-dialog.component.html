@@ -1,0 +1,37 @@
+<div [style.padding.px]="24"
+     [style.color]="data.foregroundColor"
+     [style.background]="data.backgroundColorGradient
+        ? 'linear-gradient(to bottom, ' + data.backgroundColor + ', ' + data.backgroundColorGradient
+        : data.backgroundColor">
+  <h1 mat-dialog-title class="flex-container"
+      cdkDrag cdkDragHandle
+      cdkDragRootElement=".cdk-overlay-pane">
+    Edit note
+    <a *ngIf="data.foregroundColor && data.backgroundColor">
+      <input [(ngModel)]="data.foregroundColor" type="color" style="margin-right: 5px">
+      <input [(ngModel)]="data.backgroundColor" type="color" style="margin-right: 5px; margin-left: 5px">
+      <input [(ngModel)]="data.backgroundColorGradient" type="color" style="margin-left: 5px">
+    </a>
+  </h1>
+  <div mat-dialog-content>
+    <mat-form-field appearance="fill" [style.width]="'100%'">
+      <mat-label>Header</mat-label>
+      <input matInput [(ngModel)]="data.header">
+    </mat-form-field>
+    <mat-form-field appearance="fill" [style.width]="'100%'">
+      <mat-label>Tasks</mat-label>
+      <mat-chip-list #chipList>
+        <mat-chip
+          *ngFor="let item of data.items"
+          [value]="item"
+          (removed)="removeItem(item)">
+          {{item}}
+        </mat-chip>
+        <input
+          placeholder="New item..."
+          [matChipInputFor]="chipList"
+          (matChipInputTokenEnd)="addItem($event)">
+      </mat-chip-list>
+    </mat-form-field>
+  </div>
+</div>
