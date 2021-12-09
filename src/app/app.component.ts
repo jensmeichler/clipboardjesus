@@ -128,7 +128,7 @@ export class AppComponent {
 
     let newTaskList = new TaskList(this.rightClickPosX, this.rightClickPosY);
     const dialogRef = this.dialog.open(EditTaskListDialogComponent, {
-      width: '50vw',
+      width: 'var(--width-edit-dialog)',
       data: newTaskList,
     });
 
