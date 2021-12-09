@@ -8,11 +8,15 @@
     {{taskList.header ?? 'Tasks'}}
   </mat-card-title>
   <mat-card-content>
-    <p *ngFor="let task of taskList.items">
-      <mat-checkbox
-        [checked]="task.checked">
-        {{task.value}}
+    <p *ngFor="let item of taskList.items"
+       class="flex-container" style="margin: 0">
+      <mat-checkbox [checked]="item.checked">
+        {{item.value}}
       </mat-checkbox>
+      <button mat-icon-button style="margin-right: -8px"
+              (click)="deleteItem(item);$event.stopPropagation()">
+        <mat-icon>delete</mat-icon>
+      </button>
     </p>
   </mat-card-content>
   <mat-card-actions align="end">

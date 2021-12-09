@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {TaskList} from "../../models";
+import {TaskItem, TaskList} from "../../models";
 import {BehaviorSubject} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
@@ -44,5 +44,9 @@ export class TaskListComponent {
     let taskLists = this.taskLists$.getValue();
     let filteredNotes = taskLists!.filter(x => x !== this.taskList);
     this.taskLists$.next(filteredNotes!);
+  }
+
+  deleteItem(item: TaskItem) {
+    this.taskList.items = this.taskList.items.filter(x => x !== item);
   }
 }
