@@ -32,15 +32,9 @@ export class NoteComponent {
   }
 
   edit() {
-    const dialogRef = this.dialog.open(EditNoteDialogComponent, {
+    this.dialog.open(EditNoteDialogComponent, {
       width: '50vw',
       data: this.note,
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.note = result;
-      }
     });
   }
 

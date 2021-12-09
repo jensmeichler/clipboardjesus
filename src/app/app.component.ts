@@ -1,7 +1,10 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, HostListener, ViewChild} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
+import {MatMenuTrigger} from "@angular/material/menu";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import * as moment from 'moment';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, Subscription} from 'rxjs';
+import {EditNoteDialogComponent} from "./components/dialogs/edit-note-dialog/edit-note-dialog.component";
 import {Note} from './models/note.model';
 
 @Component({
@@ -10,7 +13,10 @@ import {Note} from './models/note.model';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  constructor(private readonly snackBar: MatSnackBar) {
+  constructor(
+    private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog
+  ) {
   }
 
   notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
@@ -92,6 +98,36 @@ export class AppComponent {
       }
     })
     this.notes$.next(currentNotes);
+  }
+
+  dialogSubscription?: Subscription;
+
+  openNewNoteDialog() {
+    if (this.dialogSubscription) {
+      this.dialogSubscription.unsubscribe();
+    }
+
+    let newNote = new Note(this.rightClickPosX, this.rightClickPosY, '');
+    const dialogRef = this.dialog.open(EditNoteDialogComponent, {
+      width: '50vw',
+      data: newNote,
+    });
+
+    this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
+      this.addNote(newNote);
+    });
+  }
+
+  @ViewChild(MatMenuTrigger)
+  contextMenu!: MatMenuTrigger;
+  rightClickPosX = 0;
+  rightClickPosY = 0;
+
+  onRightClick(event: any) {
+    event.preventDefault();
+    this.rightClickPosX = event.clientX;
+    this.rightClickPosY = event.clientY;
+    this.contextMenu.openMenu();
   }
 
   @HostListener("dragover", ["$event"])

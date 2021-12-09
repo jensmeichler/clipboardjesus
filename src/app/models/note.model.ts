@@ -11,7 +11,7 @@ export class Note {
   constructor(posX: number, posY: number, content?: string) {
     this.posX = posX;
     this.posY = posY;
-    if (content) {
+    if (content != undefined) {
       this.content = content;
     } else {
       navigator.clipboard.readText().then((text) => {

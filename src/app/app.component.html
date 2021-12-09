@@ -1,5 +1,8 @@
 <div class="clipboard" [ngClass]="isDragging ? 'drag-over' : ''"
-     (click)="newNote($event)" (drop)="onDrop($event)">
+     (click)="newNote($event)"
+     (drop)="onDrop($event)"
+     (contextmenu)="onRightClick($event)"
+>
   <button mat-fab color="primary"
           (click)="saveNotes(); $event.stopPropagation()"
           [disabled]="!(notes$ | async)?.length">
@@ -14,6 +17,18 @@
     </ng-container>
   </ng-container>
 </div>
+
+<div style="visibility: hidden; position: fixed"
+     [style.left.px]="rightClickPosX"
+     [style.top.px]="rightClickPosY"
+     [matMenuTriggerFor]="contextMenu">
+</div>
+<mat-menu #contextMenu="matMenu">
+  <button mat-menu-item (click)="openNewNoteDialog()">
+    <mat-icon>note</mat-icon>
+    New Note
+  </button>
+</mat-menu>
 
 <a mat-icon-button class="donate-button" color="primary"
    href="https://www.buymeacoffee.com/jensmeichler" target="_blank"
