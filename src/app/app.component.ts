@@ -21,6 +21,8 @@ export class AppComponent {
   }
 
   notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
+  taskLists$: BehaviorSubject<TaskList[] | null> = new BehaviorSubject<TaskList[] | null>(null);
+
   isDragging = false;
 
   newNote(event: MouseEvent) {
@@ -130,8 +132,12 @@ export class AppComponent {
       data: newTaskList,
     });
 
-    //TODO
-    alert('not implemented yet :(')
+
+    this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
+      let currentTasks = this.taskLists$.getValue() ?? [];
+      currentTasks?.push(newTaskList);
+      this.taskLists$.next(currentTasks);
+    });
   }
 
   @ViewChild(MatMenuTrigger)

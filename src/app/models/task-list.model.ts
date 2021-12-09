@@ -1,5 +1,7 @@
+import {TaskItem} from "./task-item.model";
+
 export class TaskList {
-  items: string[] = [];
+  items: TaskItem[] = [];
   header?: string;
   foregroundColor: string = '#ffffff';
   backgroundColor: string = '#424242';

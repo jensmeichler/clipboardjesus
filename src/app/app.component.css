@@ -26,7 +26,7 @@
   transform: scale(2) rotate(-10deg) translateY(-14px) translateX(-6px);
 }
 
-note:hover {
+note:hover, task-list:hover {
   box-shadow: 0 0 16px black;
   z-index: 99;
 }

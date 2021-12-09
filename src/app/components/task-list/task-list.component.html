@@ -1,0 +1,27 @@
+<mat-card (click)="click($event);"
+          (auxclick)="click($event);"
+          [style.color]="taskList.foregroundColor"
+          [style.background]="taskList.backgroundColorGradient
+            ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
+            : taskList.backgroundColor">
+  <mat-card-title class="flex-container">
+    {{taskList.header ?? 'Tasks'}}
+  </mat-card-title>
+  <mat-card-content>
+    <p *ngFor="let task of taskList.items">
+      <mat-checkbox
+        [checked]="task.checked">
+        {{task.value}}
+      </mat-checkbox>
+    </p>
+  </mat-card-content>
+  <mat-card-actions align="end">
+    <button mat-icon-button (click)="edit(); $event.stopPropagation()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="delete(); $event.stopPropagation()">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-card-actions>
+  <mat-card-footer [style.margin-bottom.px]="-32"></mat-card-footer>
+</mat-card>

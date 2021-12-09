@@ -17,10 +17,12 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule} from "@angular/forms";
-import { EditTaskListDialogComponent } from './components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component';
+import {EditTaskListDialogComponent} from './components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component';
+import {TaskListComponent} from './components/task-list/task-list.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
-  declarations: [AppComponent, NoteComponent, EditNoteDialogComponent, EditTaskListDialogComponent],
+  declarations: [AppComponent, NoteComponent, EditNoteDialogComponent, EditTaskListDialogComponent, TaskListComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -36,7 +38,8 @@ import { EditTaskListDialogComponent } from './components/dialogs/edit-task-list
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    MatChipsModule
+    MatChipsModule,
+    MatCheckboxModule
   ],
   providers: [],
   bootstrap: [AppComponent],
