@@ -110,7 +110,7 @@ export class AppComponent {
 
     let newNote = new Note(this.rightClickPosX, this.rightClickPosY, '');
     const dialogRef = this.dialog.open(EditNoteDialogComponent, {
-      width: '50vw',
+      width: 'var(--width-edit-dialog)',
       data: newNote,
     });
 

@@ -3,7 +3,7 @@ import {Component, Input} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {BehaviorSubject} from "rxjs";
-import {Note} from "../../models/note.model";
+import {Note} from "../../models";
 import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dialog.component";
 
 @Component({
@@ -47,7 +47,7 @@ export class NoteComponent {
 
   edit() {
     this.dialog.open(EditNoteDialogComponent, {
-      width: '50vw',
+      width: 'var(--width-edit-dialog)',
       data: this.note,
     });
   }

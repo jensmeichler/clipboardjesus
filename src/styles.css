@@ -2,12 +2,19 @@ html, body {
   --color-background: #131313;
   --color-accent: #4d4d4d;
   --color-note: #424242;
+  --width-edit-dialog: 50vw;
 
   color-scheme: dark;
 
   margin: 0;
   height: 100%;
   background: var(--color-background);
+}
+
+@media screen and (max-width: 800px) {
+  html, body {
+    --width-edit-dialog: 100vw;
+  }
 }
 
 body {
