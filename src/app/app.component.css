@@ -23,7 +23,7 @@
 }
 
 .donate-button:hover {
-  transform: scale(2) rotate(-10deg) translateY(-12px) translateX(-3px);
+  transform: scale(2) rotate(-10deg) translateY(-14px) translateX(-6px);
 }
 
 note:hover {
