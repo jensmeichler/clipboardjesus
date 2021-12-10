@@ -9,8 +9,8 @@
   </mat-card-title>
   <mat-card-content>
     <ng-container *ngFor="let item of taskList.items">
-      <a class="flex-container" style="margin: 0">
-        <ng-container *ngIf="item !== itemToEdit">
+      <ng-container *ngIf="item !== itemToEdit">
+        <a class="flex-container" style="margin: 0; gap: 20px;">
           <mat-checkbox [checked]="item.checked" (change)="markAsChecked(item)">
             {{item.value}}
           </mat-checkbox>
@@ -24,20 +24,21 @@
               <mat-icon>delete</mat-icon>
             </button>
           </div>
-        </ng-container>
-        <ng-container *ngIf="item === itemToEdit">
-          <div style="flex-grow: 1; display: flex">
+        </a>
+      </ng-container>
+      <ng-container *ngIf="item === itemToEdit">
+        <a class="flex-container" style="margin: 0">
+          <div style="display: contents">
             <mat-checkbox [checked]="item.checked" (change)="markAsChecked(item)">
             </mat-checkbox>
-            <input type="text" [(ngModel)]="item.value" autofocus
-                   style="flex-grow: 1; margin: 0 -20px 0 6px" (mousedown)="$event.stopPropagation()">
+            <input type="text" [(ngModel)]="item.value" (mousedown)="$event.stopPropagation()" autofocus>
           </div>
-          <button mat-icon-button class="item-button" style="margin-right: -8px"
+          <button mat-icon-button class="item-button animated" style="margin-right: -8px"
                   (click)="endEditItem(item);$event.stopPropagation()">
             <mat-icon>check</mat-icon>
           </button>
-        </ng-container>
-      </a>
+        </a>
+      </ng-container>
     </ng-container>
   </mat-card-content>
   <mat-card-actions align="end">
