@@ -15,6 +15,8 @@ export class TaskListComponent {
   @Input()
   taskLists$ = new BehaviorSubject<TaskList[] | null>(null);
 
+  itemToEdit?: TaskItem;
+
   constructor(
     private readonly dialog: MatDialog
   ) {
@@ -44,6 +46,24 @@ export class TaskListComponent {
     let taskLists = this.taskLists$.getValue();
     let filteredNotes = taskLists!.filter(x => x !== this.taskList);
     this.taskLists$.next(filteredNotes!);
+  }
+
+  startEditItem(item: TaskItem) {
+    console.log(item)
+    this.itemToEdit = item;
+  }
+
+  endEditItem(item: TaskItem) {
+    console.log(item)
+    let index = this.taskList.items.indexOf(item);
+    this.taskList.items[index] = item;
+    this.itemToEdit = undefined;
+  }
+
+  markAsChecked(item: TaskItem) {
+    item.checked = !item.checked;
+    let index = this.taskList.items.indexOf(item);
+    this.taskList.items[index] = item;
   }
 
   deleteItem(item: TaskItem) {

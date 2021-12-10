@@ -8,16 +8,37 @@
     {{taskList.header ?? 'Tasks'}}
   </mat-card-title>
   <mat-card-content>
-    <p *ngFor="let item of taskList.items"
-       class="flex-container" style="margin: 0">
-      <mat-checkbox [checked]="item.checked">
-        {{item.value}}
-      </mat-checkbox>
-      <button mat-icon-button style="margin-right: -8px"
-              (click)="deleteItem(item);$event.stopPropagation()">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </p>
+    <ng-container *ngFor="let item of taskList.items">
+      <a class="flex-container" style="margin: 0">
+        <ng-container *ngIf="item !== itemToEdit">
+          <mat-checkbox [checked]="item.checked" (change)="markAsChecked(item)">
+            {{item.value}}
+          </mat-checkbox>
+          <div>
+            <button mat-icon-button class="item-button"
+                    (click)="startEditItem(item);$event.stopPropagation()">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button class="item-button" style="margin-right: -8px"
+                    (click)="deleteItem(item);$event.stopPropagation()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="item === itemToEdit">
+          <div style="flex-grow: 1; display: flex">
+            <mat-checkbox [checked]="item.checked" (change)="markAsChecked(item)">
+            </mat-checkbox>
+            <input type="text" [(ngModel)]="item.value" autofocus onfocus="item.value = item.value"
+                   style="width: 100%; flex-grow: 1; margin: 0 -20px 0 6px" (mousedown)="$event.stopPropagation()">
+          </div>
+          <button mat-icon-button class="item-button" style="margin-right: -8px"
+                  (click)="endEditItem(item);$event.stopPropagation()">
+            <mat-icon>check</mat-icon>
+          </button>
+        </ng-container>
+      </a>
+    </ng-container>
   </mat-card-content>
   <mat-card-actions align="end">
     <button mat-icon-button (click)="edit(); $event.stopPropagation()">

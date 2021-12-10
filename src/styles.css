@@ -38,3 +38,16 @@ h1.flex-container {
   align-items: center;
   gap: 20px;
 }
+
+.item-button {
+  opacity: 0.3;
+}
+
+.mat-icon-button {
+  transition: all ease-in-out 0.2s;
+}
+
+.mat-icon-button:hover {
+  transform: scale(1.3);
+  opacity: 1;
+}
