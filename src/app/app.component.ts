@@ -7,6 +7,7 @@ import {BehaviorSubject, Subscription} from 'rxjs';
 import {EditNoteDialogComponent} from "./components/dialogs/edit-note-dialog/edit-note-dialog.component";
 import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
 import {Note, TaskList} from './models';
+import {NotesJson} from "./models/notes-json.model";
 
 @Component({
   selector: 'app-root',
@@ -37,14 +38,14 @@ export class AppComponent {
     this.notes$.next(currentNotes);
   }
 
-  saveNotes() {
-    if (this.taskLists$.getValue()) {
-      alert('Tasks are not saved yet :(')
-    }
+  save() {
+    let json = {
+      notes: this.notes$.getValue(),
+      taskLists: this.taskLists$.getValue()
+    } as NotesJson;
 
-    let content = JSON.stringify(this.notes$.getValue());
     let a = document.createElement('a');
-    let file = new Blob([content], {type: 'text/plain'});
+    let file = new Blob([JSON.stringify(json)], {type: 'text/plain'});
     a.href = URL.createObjectURL(file);
     a.download = moment(new Date()).format('YYYY-MM-DD-HH-mm') + '.notes.json';
     a.click();
@@ -93,7 +94,12 @@ export class AppComponent {
 
   private writeNotes(json: string) {
     let currentNotes: Note[] = this.notes$.getValue() ?? [];
-    let uploadedNotes: Note[] = JSON.parse(json);
+    let currentTaskLists: TaskList[] = this.taskLists$.getValue() ?? [];
+
+    let uploadedData = JSON.parse(json) as NotesJson;
+    let uploadedNotes = uploadedData.notes;
+    let uploadedTaskLists = uploadedData.taskLists;
+
     uploadedNotes.forEach((upload: Note) => {
       if (!currentNotes.some(curr => {
         return upload.content === curr.content
@@ -104,6 +110,17 @@ export class AppComponent {
         currentNotes.push(upload);
       }
     })
+    uploadedTaskLists.forEach((upload: TaskList) => {
+      if (!currentTaskLists.some(curr => {
+        return upload.items == curr.items
+          && upload.header === curr.header
+          && upload.posX === curr.posX
+          && upload.posY === curr.posY
+      })) {
+        currentTaskLists.push(upload);
+      }
+    })
+
     this.notes$.next(currentNotes);
   }
 

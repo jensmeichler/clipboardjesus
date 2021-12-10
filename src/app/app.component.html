@@ -3,8 +3,8 @@
      (drop)="onDrop($event)"
      (contextmenu)="onRightClick($event)">
   <button mat-fab color="primary"
-          (click)="saveNotes(); $event.stopPropagation()"
-          [disabled]="!(notes$ | async)?.length">
+          (click)="save(); $event.stopPropagation()"
+          [disabled]="!(notes$ | async)?.length && !(taskLists$ | async)?.length">
     <mat-icon>save</mat-icon>
   </button>
   <ng-container *ngFor="let note of notes$ | async">
