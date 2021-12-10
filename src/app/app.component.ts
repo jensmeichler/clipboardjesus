@@ -122,6 +122,7 @@ export class AppComponent {
     })
 
     this.notes$.next(currentNotes);
+    this.taskLists$.next(currentTaskLists);
   }
 
   dialogSubscription?: Subscription;
