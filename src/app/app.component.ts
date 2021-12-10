@@ -38,6 +38,10 @@ export class AppComponent {
   }
 
   saveNotes() {
+    if (this.taskLists$.getValue()) {
+      alert('Tasks are not saved yet :(')
+    }
+
     let content = JSON.stringify(this.notes$.getValue());
     let a = document.createElement('a');
     let file = new Blob([content], {type: 'text/plain'});
