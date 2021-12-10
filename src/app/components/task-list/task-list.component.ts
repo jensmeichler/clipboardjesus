@@ -35,6 +35,12 @@ export class TaskListComponent {
     event.stopPropagation();
   }
 
+  addItem() {
+    let newItem = new TaskItem('');
+    this.taskList.items.push(newItem);
+    this.itemToEdit = newItem;
+  }
+
   edit() {
     this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',

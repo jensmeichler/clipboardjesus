@@ -29,8 +29,8 @@
           <div style="flex-grow: 1; display: flex">
             <mat-checkbox [checked]="item.checked" (change)="markAsChecked(item)">
             </mat-checkbox>
-            <input type="text" [(ngModel)]="item.value" autofocus onfocus="item.value = item.value"
-                   style="width: 100%; flex-grow: 1; margin: 0 -20px 0 6px" (mousedown)="$event.stopPropagation()">
+            <input type="text" [(ngModel)]="item.value" autofocus
+                   style="flex-grow: 1; margin: 0 -20px 0 6px" (mousedown)="$event.stopPropagation()">
           </div>
           <button mat-icon-button class="item-button" style="margin-right: -8px"
                   (click)="endEditItem(item);$event.stopPropagation()">
@@ -41,6 +41,9 @@
     </ng-container>
   </mat-card-content>
   <mat-card-actions align="end">
+    <button mat-icon-button (click)="addItem(); $event.stopPropagation()">
+      <mat-icon>add</mat-icon>
+    </button>
     <button mat-icon-button (click)="edit(); $event.stopPropagation()">
       <mat-icon>edit</mat-icon>
     </button>
