@@ -100,7 +100,7 @@ export class AppComponent {
     let uploadedNotes = uploadedData.notes;
     let uploadedTaskLists = uploadedData.taskLists;
 
-    uploadedNotes.forEach((upload: Note) => {
+    uploadedNotes?.forEach((upload: Note) => {
       if (!currentNotes.some(curr => {
         return upload.content === curr.content
           && upload.header === curr.header
@@ -110,10 +110,9 @@ export class AppComponent {
         currentNotes.push(upload);
       }
     })
-    uploadedTaskLists.forEach((upload: TaskList) => {
+    uploadedTaskLists?.forEach((upload: TaskList) => {
       if (!currentTaskLists.some(curr => {
-        return upload.items == curr.items
-          && upload.header === curr.header
+        return upload.header === curr.header
           && upload.posX === curr.posX
           && upload.posY === curr.posY
       })) {
