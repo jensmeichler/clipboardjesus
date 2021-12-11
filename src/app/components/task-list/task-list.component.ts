@@ -3,6 +3,7 @@ import {TaskItem, TaskList} from "../../models";
 import {BehaviorSubject} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'task-list',
@@ -74,5 +75,9 @@ export class TaskListComponent {
 
   deleteItem(item: TaskItem) {
     this.taskList.items = this.taskList.items.filter(x => x !== item);
+  }
+
+  dropItem(event: CdkDragDrop<TaskItem[]>) {
+    moveItemInArray(this.taskList.items, event.previousIndex, event.currentIndex);
   }
 }

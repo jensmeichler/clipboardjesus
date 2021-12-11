@@ -7,10 +7,10 @@
   <mat-card-title class="flex-container">
     {{taskList.header ?? 'Tasks'}}
   </mat-card-title>
-  <mat-card-content>
+  <mat-card-content cdkDropList (cdkDropListDropped)="dropItem($event)">
     <ng-container *ngFor="let item of taskList.items">
       <ng-container *ngIf="item !== itemToEdit">
-        <a class="flex-container" style="margin: 0; gap: 20px;">
+        <a class="flex-container" style="margin: 0; gap: 20px;" cdkDrag>
           <mat-checkbox [checked]="item.checked" (change)="markAsChecked(item)">
             {{item.value}}
           </mat-checkbox>
