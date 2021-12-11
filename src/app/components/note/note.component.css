@@ -1,7 +1,7 @@
 :host {
   position: absolute;
   cursor: pointer;
-  animation: fade-in 0.3s;
+  animation: fade-in 0.2s;
 }
 
 .mat-card-title {
@@ -15,6 +15,10 @@
 
 @keyframes fade-in {
   0% {
+    transform: scale(0);
     opacity: 0;
+  }
+  50% {
+    transform: scale(1.1);
   }
 }
