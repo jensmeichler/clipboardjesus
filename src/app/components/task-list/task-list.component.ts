@@ -3,7 +3,7 @@ import {TaskItem, TaskList} from "../../models";
 import {BehaviorSubject} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
-import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'task-list',
@@ -78,6 +78,15 @@ export class TaskListComponent {
   }
 
   dropItem(event: CdkDragDrop<TaskItem[]>) {
-    moveItemInArray(this.taskList.items, event.previousIndex, event.currentIndex);
+    if (event.previousContainer === event.container) {
+      moveItemInArray(this.taskList.items, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        this.taskList.items,
+        event.previousIndex,
+        event.currentIndex,
+      );
+    }
   }
 }

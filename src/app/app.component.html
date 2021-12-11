@@ -13,12 +13,14 @@
           [style.left.px]="note.posX"
           [note]="note" [notes$]="notes$"></note>
   </ng-container>
-  <ng-container *ngFor="let taskList of taskLists$ | async">
-    <task-list cdkDrag cdkDragBoundary=".clipboard"
-               [style.top.px]="taskList.posY"
-               [style.left.px]="taskList.posX"
-               [taskList]="taskList" [taskLists$]="taskLists$"></task-list>
-  </ng-container>
+  <div cdkDropListGroup>
+    <ng-container *ngFor="let taskList of taskLists$ | async">
+      <task-list cdkDrag cdkDragBoundary=".clipboard"
+                 [style.top.px]="taskList.posY"
+                 [style.left.px]="taskList.posX"
+                 [taskList]="taskList" [taskLists$]="taskLists$"></task-list>
+    </ng-container>
+  </div>
 </div>
 
 <div style="visibility: hidden; position: fixed"
