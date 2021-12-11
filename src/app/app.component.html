@@ -2,7 +2,7 @@
      (click)="newNote($event)"
      (drop)="onDrop($event)"
      (contextmenu)="onRightClick($event)">
-  <button mat-fab color="primary"
+  <button mat-fab color="primary" matTooltip="Save notes.json to downloads" matTooltipPosition="left"
           (click)="save(); $event.stopPropagation()"
           [disabled]="!(notes$ | async)?.length && !(taskLists$ | async)?.length">
     <mat-icon>save</mat-icon>
@@ -39,6 +39,6 @@
 
 <a mat-icon-button class="donate-button" color="primary"
    href="https://www.buymeacoffee.com/jensmeichler" target="_blank"
-   (click)="$event.stopPropagation()">
+   (click)="$event.stopPropagation()" matTooltip="Donate" matTooltipPosition="above">
   <mat-icon>favorite</mat-icon>
 </a>
