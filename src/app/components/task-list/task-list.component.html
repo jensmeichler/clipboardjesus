@@ -16,11 +16,11 @@
           </mat-checkbox>
           <div>
             <button mat-icon-button class="item-button"
-                    (click)="startEditItem(item);$event.stopPropagation()">
+                    (click)="startEditItem(item); $event.stopPropagation()">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button class="item-button" style="margin-right: -8px"
-                    (click)="deleteItem(item);$event.stopPropagation()">
+                    (click)="deleteItem(item); $event.stopPropagation()">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
@@ -34,7 +34,7 @@
             <input type="text" [(ngModel)]="item.value" (mousedown)="$event.stopPropagation()" autofocus>
           </div>
           <button mat-icon-button class="item-button animated" style="margin-right: -8px"
-                  (click)="endEditItem(item);$event.stopPropagation()">
+                  (click)="endEditItem(item); $event.stopPropagation()">
             <mat-icon>check</mat-icon>
           </button>
         </a>

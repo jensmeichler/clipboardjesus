@@ -31,7 +31,7 @@
     <mat-menu #menu="matMenu">
       <button mat-menu-item (click)="check()">
         <mat-icon>check</mat-icon>
-        Check
+        {{note.checked ? 'Uncheck' : 'Check'}}
       </button>
     </mat-menu>
   </mat-card-actions>
