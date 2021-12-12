@@ -16,6 +16,23 @@ export class ImageComponent {
   constructor() {
   }
 
+  click(event: any) {
+    switch (event.button) {
+      case 0:
+        break;
+      case 1:
+        this.delete();
+        break;
+      case 2:
+        break;
+    }
+    event.stopPropagation();
+  }
+
+  open() {
+    window.open(this.image.source, '_blank');
+  }
+
   delete() {
     let images = this.images$.getValue();
     let filteredImages = images!.filter(x => x !== this.image);

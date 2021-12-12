@@ -1,6 +1,7 @@
 <mat-card matRipple style="padding: 5px 5px 0 5px; min-height: 32px"
-          (click)="$event.stopPropagation()"
-          (auxclick)="$event.stopPropagation()"
+          (click)="click($event)"
+          (auxclick)="click($event)"
+          (dblclick)="open()"
           class="flex-container">
   <img [src]="image.source" [alt]="image.source" height="120" style="border-radius: 3px">
   <button mat-icon-button (click)="delete(); $event.stopPropagation()"
