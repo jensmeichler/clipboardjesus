@@ -49,6 +49,18 @@ h1.flex-container,
   animation: default-animation 0.3s;
 }
 
+.draggable-note {
+  transition: box-shadow ease-in-out 0.3s;
+  box-shadow: 0 0 6px black;
+  border-radius: 4px;
+}
+
+.draggable-note:hover {
+  z-index: 99;
+  box-shadow: 0 0 16px black;
+}
+
+
 @keyframes default-animation {
   0% {
     opacity: 0;

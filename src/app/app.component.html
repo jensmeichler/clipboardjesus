@@ -9,6 +9,7 @@
   </button>
   <ng-container *ngFor="let note of notes$ | async">
     <note cdkDrag cdkDragBoundary=".clipboard"
+          class="draggable-note"
           [style.top.px]="note.posY"
           [style.left.px]="note.posX"
           [note]="note" [notes$]="notes$"></note>
@@ -16,6 +17,7 @@
   <div cdkDropListGroup>
     <ng-container *ngFor="let taskList of taskLists$ | async">
       <task-list cdkDrag cdkDragBoundary=".clipboard"
+                 class="draggable-note"
                  [style.top.px]="taskList.posY"
                  [style.left.px]="taskList.posX"
                  [taskList]="taskList" [taskLists$]="taskLists$"></task-list>
