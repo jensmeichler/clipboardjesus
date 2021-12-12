@@ -13,14 +13,14 @@
         <span class="flex-container" style="margin: 0; gap: 20px;" cdkDrag>
           <span>
             <ng-container *ngIf="item.isSubTask">
-              <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -12px"
+              <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -6px"
                       (click)="item.isSubTask = false; $event.stopPropagation()"
                       matTooltip="Move to left" matTooltipPosition="left">
                 <mat-icon>remove</mat-icon>
               </button>
             </ng-container>
             <ng-container *ngIf="!item.isSubTask">
-              <button mat-icon-button class="item-button" style="opacity: 0.1; margin: 0 -6px 0 -34px"
+              <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -34px"
                       (click)="item.isSubTask = true; $event.stopPropagation()"
                       matTooltip="Move to right" matTooltipPosition="left">
                 <mat-icon>arrow_right</mat-icon>
@@ -51,14 +51,14 @@
         <span class="flex-container" style="margin: 0">
           <span style="display: contents">
             <ng-container *ngIf="item.isSubTask">
-              <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -12px"
+              <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -6px"
                       (click)="item.isSubTask = false; $event.stopPropagation()"
                       matTooltip="Move to left" matTooltipPosition="left">
                 <mat-icon>remove</mat-icon>
               </button>
             </ng-container>
             <ng-container *ngIf="!item.isSubTask">
-              <button mat-icon-button class="item-button" style="opacity: 0.1; margin: 0 -6px 0 -34px"
+              <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -34px"
                       (click)="item.isSubTask = true; $event.stopPropagation()"
                       matTooltip="Move to right" matTooltipPosition="left">
                 <mat-icon>arrow_right</mat-icon>
