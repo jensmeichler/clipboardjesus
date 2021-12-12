@@ -42,6 +42,20 @@ export class TaskListComponent {
     this.itemToEdit = newItem;
   }
 
+  addItemAfter(parent: TaskItem) {
+    let newItem = new TaskItem('');
+    newItem.isSubTask = parent.isSubTask;
+
+    transferArrayItem(
+      [newItem],
+      this.taskList.items,
+      0,
+      this.taskList.items.indexOf(parent) + 1,
+    );
+
+    this.itemToEdit = newItem;
+  }
+
   edit() {
     this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
@@ -56,12 +70,10 @@ export class TaskListComponent {
   }
 
   startEditItem(item: TaskItem) {
-    console.log(item)
     this.itemToEdit = item;
   }
 
   endEditItem(item: TaskItem) {
-    console.log(item)
     let index = this.taskList.items.indexOf(item);
     this.taskList.items[index] = item;
     this.itemToEdit = undefined;

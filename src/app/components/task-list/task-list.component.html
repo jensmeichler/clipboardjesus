@@ -10,11 +10,32 @@
   <mat-card-content cdkDropList (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="taskList.items">
     <ng-container *ngFor="let item of taskList.items">
       <ng-container *ngIf="item !== itemToEdit">
-        <a class="flex-container" style="margin: 0; gap: 20px;" cdkDrag>
-          <mat-checkbox [checked]="item.checked" (change)="markAsChecked(item)">
-            {{item.value}}
-          </mat-checkbox>
-          <div>
+        <span class="flex-container" style="margin: 0; gap: 20px;" cdkDrag>
+          <span>
+            <ng-container *ngIf="item.isSubTask">
+              <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -12px"
+                      (click)="item.isSubTask = false; $event.stopPropagation()"
+                      matTooltip="Move to left" matTooltipPosition="left">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </ng-container>
+            <ng-container *ngIf="!item.isSubTask">
+              <button mat-icon-button class="item-button" style="opacity: 0.1; margin: 0 -6px 0 -34px"
+                      (click)="item.isSubTask = true; $event.stopPropagation()"
+                      matTooltip="Move to right" matTooltipPosition="left">
+                <mat-icon>arrow_right</mat-icon>
+              </button>
+            </ng-container>
+            <mat-checkbox [(ngModel)]="item.checked">
+              {{item.value}}
+            </mat-checkbox>
+            <button mat-icon-button class="item-button" style="opacity: 0.1"
+                    (click)="addItemAfter(item); $event.stopPropagation()"
+                    matTooltip="Add task" matTooltipPosition="right">
+              <mat-icon>add</mat-icon>
+            </button>
+          </span>
+          <span>
             <button mat-icon-button class="item-button"
                     (click)="startEditItem(item); $event.stopPropagation()">
               <mat-icon>edit</mat-icon>
@@ -23,21 +44,35 @@
                     (click)="deleteItem(item); $event.stopPropagation()">
               <mat-icon>delete</mat-icon>
             </button>
-          </div>
-        </a>
+          </span>
+        </span>
       </ng-container>
       <ng-container *ngIf="item === itemToEdit">
-        <a class="flex-container" style="margin: 0">
-          <div style="display: contents">
+        <span class="flex-container" style="margin: 0">
+          <span style="display: contents">
+            <ng-container *ngIf="item.isSubTask">
+              <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -12px"
+                      (click)="item.isSubTask = false; $event.stopPropagation()"
+                      matTooltip="Move to left" matTooltipPosition="left">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </ng-container>
+            <ng-container *ngIf="!item.isSubTask">
+              <button mat-icon-button class="item-button" style="opacity: 0.1; margin: 0 -6px 0 -34px"
+                      (click)="item.isSubTask = true; $event.stopPropagation()"
+                      matTooltip="Move to right" matTooltipPosition="left">
+                <mat-icon>arrow_right</mat-icon>
+              </button>
+            </ng-container>
             <mat-checkbox [checked]="item.checked" (change)="markAsChecked(item)">
             </mat-checkbox>
             <input type="text" [(ngModel)]="item.value" (mousedown)="$event.stopPropagation()" autofocus>
-          </div>
+          </span>
           <button mat-icon-button class="item-button animated" style="margin-right: -8px"
                   (click)="endEditItem(item); $event.stopPropagation()">
             <mat-icon>check</mat-icon>
           </button>
-        </a>
+        </span>
       </ng-container>
     </ng-container>
   </mat-card-content>

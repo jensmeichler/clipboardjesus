@@ -19,7 +19,7 @@ input {
   border: none;
   border-radius: 5px;
   padding: 5px;
-  margin-left: 8px;
+  margin-left: 6px;
   outline: none;
   font-size: 14px;
   width: 100%;
@@ -39,9 +39,9 @@ input {
 @keyframes input-animation {
   0% {
     background: transparent;
-    transform: translate(-5px, -1px);
+    transform: translate(-3px, 1px);
   }
   10% {
-    transform: translate(-4px, -1px);
+    transform: translate(-2px, 0.8px);
   }
 }
