@@ -21,9 +21,17 @@ import {EditTaskListDialogComponent} from './components/dialogs/edit-task-list-d
 import {TaskListComponent} from './components/task-list/task-list.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {ImageComponent} from './components/image/image.component';
 
 @NgModule({
-  declarations: [AppComponent, NoteComponent, EditNoteDialogComponent, EditTaskListDialogComponent, TaskListComponent],
+  declarations: [
+    AppComponent,
+    NoteComponent,
+    EditNoteDialogComponent,
+    EditTaskListDialogComponent,
+    TaskListComponent,
+    ImageComponent
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

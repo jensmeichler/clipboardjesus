@@ -1,0 +1,10 @@
+<mat-card matRipple style="padding: 5px 5px 0 5px; min-height: 32px"
+          (click)="$event.stopPropagation()"
+          (auxclick)="$event.stopPropagation()"
+          class="flex-container">
+  <img [src]="image.source" [alt]="image.source" height="120" style="border-radius: 3px">
+  <button mat-icon-button (click)="delete(); $event.stopPropagation()"
+          style="position: absolute; bottom: 0; right: 0; background: #424242; border-radius: 4px">
+    <mat-icon>delete</mat-icon>
+  </button>
+</mat-card>

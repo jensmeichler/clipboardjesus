@@ -1,0 +1,5 @@
+:host {
+  position: absolute;
+  cursor: default;
+  animation: fade-in 0.2s;
+}
