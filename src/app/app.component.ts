@@ -72,23 +72,22 @@ export class AppComponent {
     if (data.kind === 'file') {
       let file = data.getAsFile()!;
       let filePath = data.webkitGetAsEntry().fullPath;
-      let fileReader = new FileReader();
-      fileReader.onload = () => {
-        if (file.name.endsWith('notes.json')) {
-          this.writeNotes(fileReader.result!.toString());
-        } else if (file.type.startsWith('text') || file.type.startsWith('application')) {
-          file.text().then(text => {
-            this.addNote(new Note(posX, posY, text));
-          })
-        } else if (file.type.startsWith('image')) {
-          let newImage = new Image(posX, posY, filePath);
-          this.addImage(newImage);
-        } else {
-          this.snackBar.open('Type ' + file.type.toUpperCase() + ' not supported',
-            undefined, {duration: 4000});
-        }
+
+      if (file.name.endsWith('notes.json')) {
+        file.text().then(text => {
+          this.writeNotes(text);
+        })
+      } else if (file.type.startsWith('text') || file.type.startsWith('application')) {
+        file.text().then(text => {
+          this.addNote(new Note(posX, posY, text));
+        })
+      } else if (file.type.startsWith('image')) {
+        let newImage = new Image(posX, posY, filePath);
+        this.addImage(newImage);
+      } else {
+        this.snackBar.open('Type ' + file.type.toUpperCase() + ' not supported',
+          undefined, {duration: 4000});
       }
-      fileReader.readAsText(file);
     } else if (data.kind === 'string') {
       let draggedText = event.dataTransfer.getData('text');
       if (draggedText) {
