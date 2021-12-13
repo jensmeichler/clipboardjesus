@@ -39,9 +39,9 @@ input {
 @keyframes input-animation {
   0% {
     background: transparent;
-    transform: translate(-3px, 1px);
+    transform: translateX(-3px);
   }
   10% {
-    transform: translate(-2px, 0.8px);
+    transform: translateX(-2px);
   }
 }
