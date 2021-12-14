@@ -181,6 +181,12 @@ export class AppComponent {
     event.source._dragRef.reset();
     item.posX += event.distance.x;
     item.posY += event.distance.y;
+    if (item.posX < 0){
+      item.posX = 0;
+    }
+    if (item.posY < 0){
+      item.posY = 0;
+    }
   }
 
   @ViewChild(MatMenuTrigger)
