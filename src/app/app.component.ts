@@ -177,6 +177,12 @@ export class AppComponent {
     });
   }
 
+  saveItemPosition(event: any, item: { posX: number, posY: number }) {
+    event.source._dragRef.reset();
+    item.posX += event.distance.x;
+    item.posY += event.distance.y;
+  }
+
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
   rightClickPosX = 0;

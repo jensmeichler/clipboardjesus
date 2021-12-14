@@ -8,23 +8,23 @@
     <mat-icon>save</mat-icon>
   </button>
   <ng-container *ngFor="let note of notes$ | async">
-    <note cdkDrag cdkDragBoundary=".clipboard"
-          class="draggable-note"
+    <note cdkDrag class="draggable-note"
+          (cdkDragEnded)="saveItemPosition($event, note)"
           [style.top.px]="note.posY"
           [style.left.px]="note.posX"
           [note]="note" [notes$]="notes$"></note>
   </ng-container>
   <ng-container *ngFor="let image of images$ | async">
-    <image cdkDrag cdkDragBoundary=".clipboard"
-           class="draggable-note"
+    <image cdkDrag class="draggable-note"
+           (cdkDragEnded)="saveItemPosition($event, image)"
            [style.top.px]="image.posY"
            [style.left.px]="image.posX"
            [image]="image" [images$]="images$"></image>
   </ng-container>
   <div cdkDropListGroup>
     <ng-container *ngFor="let taskList of taskLists$ | async">
-      <task-list cdkDrag cdkDragBoundary=".clipboard"
-                 class="draggable-note"
+      <task-list cdkDrag class="draggable-note"
+                 (cdkDragEnded)="saveItemPosition($event, taskList)"
                  [style.top.px]="taskList.posY"
                  [style.left.px]="taskList.posX"
                  [taskList]="taskList" [taskLists$]="taskLists$"></task-list>
