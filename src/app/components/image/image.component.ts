@@ -13,6 +13,8 @@ export class ImageComponent {
   @Input()
   images$ = new BehaviorSubject<Image[] | null>(null);
 
+  loadingFailed = false;
+
   constructor() {
   }
 

@@ -3,3 +3,15 @@
   cursor: default;
   animation: fade-in 0.2s;
 }
+
+.mat-icon-button:hover {
+  transform: none;
+}
+
+.mat-icon-button mat-icon {
+  transition: all ease-in-out 0.1s;
+}
+
+.mat-icon-button:hover mat-icon {
+  transform: scale(1.2);
+}

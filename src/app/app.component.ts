@@ -89,13 +89,13 @@ export class AppComponent {
           undefined, {duration: 4000});
       }
     } else if (data.kind === 'string') {
-      let draggedText = event.dataTransfer.getData('text');
-      if (draggedText) {
-        this.addNote(new Note(posX, posY, draggedText));
-      } else {
-        let draggedImageLink = event.dataTransfer.getData('text/uri-list');
-        let newImage = new Image(posX, posY, draggedImageLink);
+      let draggedUrl = event.dataTransfer.getData('text/uri-list');
+      if (draggedUrl) {
+        let newImage = new Image(posX, posY, draggedUrl);
         this.addImage(newImage);
+      } else {
+        let draggedText = event.dataTransfer.getData('text');
+        this.addNote(new Note(posX, posY, draggedText));
       }
     }
   }
