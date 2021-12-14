@@ -21,6 +21,7 @@ export class ImageComponent {
   click(event: any) {
     switch (event.button) {
       case 0:
+        this.open();
         break;
       case 1:
         this.delete();
