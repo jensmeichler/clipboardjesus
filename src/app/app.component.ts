@@ -71,8 +71,6 @@ export class AppComponent {
     let data = event.dataTransfer.items[0] as DataTransferItem;
     if (data.kind === 'file') {
       let file = data.getAsFile()!;
-      let filePath = data.webkitGetAsEntry().fullPath;
-
       if (file.name.endsWith('notes.json')) {
         file.text().then(text => {
           this.writeNotes(text);
@@ -81,9 +79,6 @@ export class AppComponent {
         file.text().then(text => {
           this.addNote(new Note(posX, posY, text));
         })
-      } else if (file.type.startsWith('image')) {
-        let newImage = new Image(posX, posY, filePath);
-        this.addImage(newImage);
       } else {
         this.snackBar.open('Type ' + file.type.toUpperCase() + ' not supported',
           undefined, {duration: 4000});
