@@ -22,6 +22,8 @@ import {TaskListComponent} from './components/task-list/task-list.component';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {ImageComponent} from './components/image/image.component';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,11 @@ import {ImageComponent} from './components/image/image.component';
     FormsModule,
     MatChipsModule,
     MatCheckboxModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent],
