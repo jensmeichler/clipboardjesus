@@ -11,6 +11,7 @@
 .mat-card-content {
   white-space: pre-wrap;
   color: inherit;
+  margin-bottom: 0;
 }
 
 @keyframes fade-in {

@@ -6,8 +6,8 @@
           [style.background]="note.backgroundColorGradient
             ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
             : note.backgroundColor">
-  <mat-card-title class="flex-container">
-    {{note.header ?? 'Note'}}
+  <mat-card-title *ngIf="note.header" class="flex-container">
+    {{note.header}}
   </mat-card-title>
   <mat-card-content>{{note.content}}</mat-card-content>
   <mat-card-actions align="end">
