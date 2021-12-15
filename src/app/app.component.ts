@@ -77,7 +77,7 @@ export class AppComponent {
         })
       } else if (file.type.startsWith('text') || file.type.startsWith('application')) {
         file.text().then(text => {
-          this.addNote(new Note(posX, posY, text));
+          this.addNote(new Note(posX, posY, text, file.name));
         })
       } else {
         this.snackBar.open('Type ' + file.type.toUpperCase() + ' not supported',
@@ -176,10 +176,10 @@ export class AppComponent {
     event.source._dragRef.reset();
     item.posX += event.distance.x;
     item.posY += event.distance.y;
-    if (item.posX < 0){
+    if (item.posX < 0) {
       item.posX = 0;
     }
-    if (item.posY < 0){
+    if (item.posY < 0) {
       item.posY = 0;
     }
   }
