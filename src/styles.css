@@ -53,6 +53,7 @@ h1.flex-container,
   transition: box-shadow ease-in-out 0.3s;
   box-shadow: 0 0 6px black;
   border-radius: 4px;
+  z-index: 1;
 }
 
 .draggable-note:hover {

@@ -29,31 +29,63 @@
 .startup-logo {
   font-size: 7rem;
   position: absolute;
-  top: 36vh;
+  top: 0;
+  right: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  color: #ffffff1f;
-  animation: fade-out cubic-bezier(0.5, -0.3, 0, 2) 4s;
-  opacity: 0;
-  transform: scale(0);
+  color: #7b1ea2;
+  animation: fade-out cubic-bezier(0.5, -0.3, 0, 2) 6s;
+  transform: scale(0.3) translate(6em, -0.7em);
+  width: auto;
+  cursor: default;
 }
 
 @keyframes fade-out {
   0% {
-    opacity: 1;
+    width: 100%;
+    top: 36vh;
+    right: auto;
+    color: #ffffff1f;
+    transform: scale(0);
   }
-  10% {
-    opacity: 1;
+  8% {
+    width: 100%;
+    top: 36vh;
+    right: auto;
+    color: #ffffff1f;
     transform: scale(1);
   }
-  80% {
-    opacity: 1;
+  50% {
+    width: 100%;
+    top: 36vh;
+    right: auto;
+    color: #ffffff1f;
     transform: scale(1);
+    opacity: 1;
+  }
+  89% {
+    width: 100%;
+    top: 36vh;
+    right: auto;
+    color: #ffffff1f;
+    transform: scale(0);
+    opacity: 0;
+  }
+  90% {
+    width: auto;
+    top: 0;
+    right: 0;
+    color: #7b1ea2;
+    transform: scale(0.3) translate(6em, -2em);
+    opacity: 0;
   }
   100% {
-    opacity: 0;
-    transform: scale(0);
+    width: auto;
+    top: 0;
+    right: 0;
+    color: #7b1ea2;
+    transform: scale(0.3) translate(6em, -0.7em);
+    opacity: 1;
   }
 }
