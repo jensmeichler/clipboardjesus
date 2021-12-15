@@ -6,7 +6,6 @@ export class Note {
   backgroundColorGradient?: string;
   posX: number;
   posY: number;
-  checked: boolean = false;
 
   constructor(posX: number, posY: number, content?: string, header?: string) {
     this.posX = posX;
