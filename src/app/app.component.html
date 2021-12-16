@@ -1,6 +1,6 @@
-<div class="clipboard" [ngClass]="isDragging ? 'drag-over' : ''"
+<div class="clipboard"
      (click)="newNote($event)"
-     (drop)="onDrop($event)"
+     (drop)="dropFile($event)" customDragDrop
      (contextmenu)="onRightClick($event)">
   <button mat-fab color="primary" matTooltip="Save notes.json to downloads" matTooltipPosition="left"
           (click)="save(); $event.stopPropagation()"

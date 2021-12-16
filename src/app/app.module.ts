@@ -24,6 +24,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {ImageComponent} from './components/image/image.component';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
+import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {environment} from '../environments/environment';
     EditNoteDialogComponent,
     EditTaskListDialogComponent,
     TaskListComponent,
-    ImageComponent
+    ImageComponent,
+    CustomDragDropDirective
   ],
   imports: [
     BrowserModule,

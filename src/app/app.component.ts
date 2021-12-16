@@ -1,4 +1,4 @@
-import {Component, HostListener, ViewChild} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {BehaviorSubject, Subscription} from 'rxjs';
@@ -14,8 +14,6 @@ import {DataService} from "./services/data.service";
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  isDragging = false;
-
   notes$: BehaviorSubject<Note[] | null>;
   taskLists$: BehaviorSubject<TaskList[] | null>;
   images$: BehaviorSubject<Image[] | null>;
@@ -123,26 +121,5 @@ export class AppComponent {
     this.rightClickPosX = event.clientX;
     this.rightClickPosY = event.clientY;
     this.contextMenu.openMenu();
-  }
-
-  @HostListener("dragover", ["$event"])
-  @HostListener("dragenter", ["$event"])
-  onDragging(event: any) {
-    this.isDragging = true;
-    event.preventDefault();
-  }
-
-  @HostListener("dragend", ["$event"])
-  @HostListener("dragleave", ["$event"])
-  onNotDragging(event: any) {
-    this.isDragging = false;
-    event.preventDefault();
-  }
-
-  @HostListener("drop", ["$event"])
-  onDrop(event: any) {
-    this.dropFile(event);
-    this.onNotDragging(event)
-    event.stopPropagation();
   }
 }
