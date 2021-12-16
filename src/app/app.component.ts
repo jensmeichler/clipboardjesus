@@ -7,7 +7,7 @@ import {BehaviorSubject, Subscription} from 'rxjs';
 import {EditNoteDialogComponent} from "./components/dialogs/edit-note-dialog/edit-note-dialog.component";
 import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
 import {Image, Note, TaskList} from './models';
-import {NotesJson} from "./models/notes-json.model";
+import {DataService} from "./services/data.service";
 
 @Component({
   selector: 'app-root',
@@ -15,49 +15,31 @@ import {NotesJson} from "./models/notes-json.model";
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  constructor(
-    private readonly snackBar: MatSnackBar,
-    private readonly dialog: MatDialog
-  ) {
-  }
 
-  notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
-  taskLists$: BehaviorSubject<TaskList[] | null> = new BehaviorSubject<TaskList[] | null>(null);
-  images$: BehaviorSubject<Image[] | null> = new BehaviorSubject<Image[] | null>(null);
+  notes$: BehaviorSubject<Note[] | null>;
+  taskLists$: BehaviorSubject<TaskList[] | null>;
+  images$: BehaviorSubject<Image[] | null>;
 
   isDragging = false;
+
+  constructor(
+    private readonly snackBar: MatSnackBar,
+    private readonly dialog: MatDialog,
+    private readonly dataService: DataService
+  ) {
+    this.notes$ = dataService.notes$;
+    this.taskLists$ = dataService.taskLists$;
+    this.images$ = dataService.images$;
+  }
 
   newNote(event: MouseEvent) {
     let posX = event.pageX;
     let posY = event.pageY;
-    this.addNote(new Note(posX, posY))
-  }
-
-  private addNote(note: Note) {
-    let currentNotes = this.notes$.getValue() ?? [];
-    currentNotes?.push(note);
-    this.notes$.next(currentNotes);
-  }
-
-  private addTaskList(taskList: TaskList) {
-    let currentTasks = this.taskLists$.getValue() ?? [];
-    currentTasks?.push(taskList);
-    this.taskLists$.next(currentTasks);
-  }
-
-  private addImage(image: Image) {
-    let currentImages = this.images$.getValue() ?? [];
-    currentImages?.push(image);
-    this.images$.next(currentImages);
+    this.dataService.addNote(new Note(posX, posY))
   }
 
   save() {
-    let json = {
-      notes: this.notes$.getValue(),
-      taskLists: this.taskLists$.getValue(),
-      images: this.images$.getValue()
-    } as NotesJson;
-
+    let json = this.dataService.getAsJson();
     let a = document.createElement('a');
     let file = new Blob([JSON.stringify(json)], {type: 'text/plain'});
     a.href = URL.createObjectURL(file);
@@ -73,11 +55,11 @@ export class AppComponent {
       let file = data.getAsFile()!;
       if (file.name.endsWith('notes.json')) {
         file.text().then(text => {
-          this.writeNotes(text);
+          this.dataService.writeNotes(text);
         })
       } else if (file.type.startsWith('text') || file.type.startsWith('application')) {
         file.text().then(text => {
-          this.addNote(new Note(posX, posY, text, file.name));
+          this.dataService.addNote(new Note(posX, posY, text, file.name));
         })
       } else {
         this.snackBar.open('Type ' + file.type.toUpperCase() + ' not supported',
@@ -87,55 +69,12 @@ export class AppComponent {
       let draggedUrl = event.dataTransfer.getData('text/uri-list');
       if (draggedUrl) {
         let newImage = new Image(posX, posY, draggedUrl);
-        this.addImage(newImage);
+        this.dataService.addImage(newImage);
       } else {
         let draggedText = event.dataTransfer.getData('text');
-        this.addNote(new Note(posX, posY, draggedText));
+        this.dataService.addNote(new Note(posX, posY, draggedText));
       }
     }
-  }
-
-  private writeNotes(json: string) {
-    let currentNotes: Note[] = this.notes$.getValue() ?? [];
-    let currentTaskLists: TaskList[] = this.taskLists$.getValue() ?? [];
-    let currentImages: Image[] = this.images$.getValue() ?? [];
-
-    let uploadedData = JSON.parse(json) as NotesJson;
-    let uploadedNotes = uploadedData.notes;
-    let uploadedTaskLists = uploadedData.taskLists;
-    let uploadedImages = uploadedData.images;
-
-    uploadedNotes?.forEach((upload: Note) => {
-      if (!currentNotes.some(curr => {
-        return upload.content === curr.content
-          && upload.header === curr.header
-          && upload.posX === curr.posX
-          && upload.posY === curr.posY
-      })) {
-        currentNotes.push(upload);
-      }
-    });
-    uploadedTaskLists?.forEach((upload: TaskList) => {
-      if (!currentTaskLists.some(curr => {
-        return upload.header === curr.header
-          && upload.posX === curr.posX
-          && upload.posY === curr.posY
-      })) {
-        currentTaskLists.push(upload);
-      }
-    });
-    uploadedImages?.forEach((upload: Image) => {
-      if (!currentImages.some(curr => {
-        return upload.source === curr.source
-          && upload.posX === curr.posX
-          && upload.posY === curr.posY
-      })) {
-        currentImages.push(upload);
-      }
-    });
-    this.notes$.next(currentNotes);
-    this.taskLists$.next(currentTaskLists);
-    this.images$.next(currentImages);
   }
 
   dialogSubscription?: Subscription;
@@ -152,7 +91,7 @@ export class AppComponent {
     });
 
     this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
-      this.addNote(newNote);
+      this.dataService.addNote(newNote);
     });
   }
 
@@ -168,7 +107,7 @@ export class AppComponent {
     });
 
     this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
-      this.addTaskList(newTaskList);
+      this.dataService.addTaskList(newTaskList);
     });
   }
 
