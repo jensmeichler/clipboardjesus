@@ -1,4 +1,4 @@
-<mat-card matRipple
+<mat-card matRipple [matRippleDisabled]="disabled"
           (click)="click($event)"
           (auxclick)="click($event)"
           [style.color]="note.foregroundColor"
