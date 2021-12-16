@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {Image, Note, TaskList} from "../models";
 import {NotesJson} from "../models/notes-json.model";
+import * as moment from "moment";
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,7 @@ export class DataService {
     } as NotesJson;
   }
 
-  writeNotes(json: string) {
+  setFromJson(json: string) {
     let currentNotes: Note[] = this.notes$.getValue() ?? [];
     let currentTaskLists: TaskList[] = this.taskLists$.getValue() ?? [];
     let currentImages: Image[] = this.images$.getValue() ?? [];
@@ -78,5 +79,14 @@ export class DataService {
     this.notes$.next(currentNotes);
     this.taskLists$.next(currentTaskLists);
     this.images$.next(currentImages);
+  }
+
+  save() {
+    let json = this.getAsJson();
+    let a = document.createElement('a');
+    let file = new Blob([JSON.stringify(json)], {type: 'text/plain'});
+    a.href = URL.createObjectURL(file);
+    a.download = moment(new Date()).format('YYYY-MM-DD-HH-mm') + '.notes.json';
+    a.click();
   }
 }

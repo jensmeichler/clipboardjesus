@@ -1,7 +1,6 @@
 import {Component, HostListener, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
-import * as moment from 'moment';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {EditNoteDialogComponent} from "./components/dialogs/edit-note-dialog/edit-note-dialog.component";
 import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
@@ -32,18 +31,11 @@ export class AppComponent {
   }
 
   newNote(event: MouseEvent) {
-    let posX = event.pageX;
-    let posY = event.pageY;
-    this.dataService.addNote(new Note(posX, posY))
+    this.dataService.addNote(new Note(event.pageX, event.pageY))
   }
 
   save() {
-    let json = this.dataService.getAsJson();
-    let a = document.createElement('a');
-    let file = new Blob([JSON.stringify(json)], {type: 'text/plain'});
-    a.href = URL.createObjectURL(file);
-    a.download = moment(new Date()).format('YYYY-MM-DD-HH-mm') + '.notes.json';
-    a.click();
+    this.dataService.save();
   }
 
   dropFile(event: any) {
@@ -54,7 +46,7 @@ export class AppComponent {
       let file = data.getAsFile()!;
       if (file.name.endsWith('notes.json')) {
         file.text().then(text => {
-          this.dataService.writeNotes(text);
+          this.dataService.setFromJson(text);
         })
       } else if (file.type.startsWith('text') || file.type.startsWith('application')) {
         file.text().then(text => {
