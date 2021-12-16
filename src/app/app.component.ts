@@ -1,13 +1,13 @@
 import {Component, HostListener, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import * as moment from 'moment';
 import {BehaviorSubject, Subscription} from 'rxjs';
 import {EditNoteDialogComponent} from "./components/dialogs/edit-note-dialog/edit-note-dialog.component";
 import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
 import {Image, Note, TaskList} from './models';
 import {NotesJson} from "./models/notes-json.model";
+import {HashyService} from "./services/hashy.service";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +16,7 @@ import {NotesJson} from "./models/notes-json.model";
 })
 export class AppComponent {
   constructor(
-    private readonly snackBar: MatSnackBar,
+    private readonly hashy: HashyService,
     private readonly dialog: MatDialog
   ) {
   }
@@ -80,8 +80,7 @@ export class AppComponent {
           this.addNote(new Note(posX, posY, text, file.name));
         })
       } else {
-        this.snackBar.open('Type ' + file.type.toUpperCase() + ' not supported',
-          undefined, {duration: 4000});
+        this.hashy.show('Type ' + file.type.toUpperCase() + ' not supported');
       }
     } else if (data.kind === 'string') {
       let draggedUrl = event.dataTransfer.getData('text/uri-list');

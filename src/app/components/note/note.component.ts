@@ -1,10 +1,10 @@
 import {Clipboard} from "@angular/cdk/clipboard";
 import {Component, Input} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar} from "@angular/material/snack-bar";
 import {BehaviorSubject} from "rxjs";
 import {Note} from "../../models";
 import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dialog.component";
+import {HashyService} from "../../services/hashy.service";
 
 @Component({
   selector: 'note',
@@ -21,7 +21,7 @@ export class NoteComponent {
 
   constructor(
     private readonly clipboard: Clipboard,
-    private readonly snackBar: MatSnackBar,
+    private readonly hashy: HashyService,
     private readonly dialog: MatDialog
   ) {
   }
@@ -42,7 +42,7 @@ export class NoteComponent {
 
   copy() {
     this.clipboard.copy(this.note.content);
-    this.snackBar.open('COPIED TO CLIPBOARD', undefined, {duration: 1000})
+    this.hashy.show('COPIED TO CLIPBOARD', 1);
   }
 
   edit() {

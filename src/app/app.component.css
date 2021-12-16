@@ -26,6 +26,19 @@
   transform: scale(1.5) rotate(-10deg) translateY(-12px) translateX(-6px);
 }
 
+.hashy {
+  position: absolute;
+  bottom: 32px;
+  left: -128px;
+  transition: transform ease-in-out 0.3s;
+  transform: translate(0, 60px) scale(0);
+}
+
+.show-hashy {
+  bottom: 32px;
+  transform: translate(160px, 0);
+}
+
 .startup-logo {
   font-size: 7rem;
   position: absolute;
