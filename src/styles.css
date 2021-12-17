@@ -61,6 +61,15 @@ h1.flex-container,
   box-shadow: 0 0 16px black;
 }
 
+.mat-snack-bar-container {
+  background: #69f0ae;
+  border: 4px solid #58c992;
+  border-radius: 14px !important;
+}
+
+.mat-snack-bar-container .mat-simple-snackbar {
+  font-size: larger;
+}
 
 @keyframes default-animation {
   0% {

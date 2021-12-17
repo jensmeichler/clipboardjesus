@@ -51,7 +51,7 @@ export class AppComponent {
           this.dataService.addNote(new Note(posX, posY, text, file.name));
         })
       } else {
-        this.hashy.show('Type ' + file.type.toUpperCase() + ' not supported');
+        this.hashy.show('Type ' + file.type.toUpperCase() + ' is not supported', 4000);
       }
     } else if (data.kind === 'string') {
       let draggedUrl = event.dataTransfer.getData('text/uri-list');

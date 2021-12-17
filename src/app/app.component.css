@@ -6,34 +6,24 @@
 
 .mat-fab {
   position: absolute;
-  bottom: 32px;
-  right: 32px;
+  bottom: 24px;
+  right: 24px;
   z-index: 100;
-}
-
-.donate-button {
-  position: absolute;
-  bottom: 80px;
-  right: 14px;
-  z-index: 100;
-  transition: transform ease-in-out 0.3s;
-}
-
-.donate-button:hover {
-  transform: scale(1.5) rotate(-10deg) translateY(-12px) translateX(-6px);
 }
 
 .hashy {
   position: absolute;
-  bottom: 32px;
-  left: -128px;
-  transition: transform ease-in-out 0.3s;
-  transform: translate(0, 60px) scale(0);
+  bottom: 42px;
+  left: 22px;
+  transition: all cubic-bezier(0.5, -0.3, 0, 2) 2s;
+  transform: translateY(60px) scale(0);
+  opacity: 0;
 }
 
 .show-hashy {
-  bottom: 32px;
-  transform: translate(160px, 0);
+  transition: all cubic-bezier(0.5, -0.3, 0, 2) 0.3s;
+  transform: translateY(0) scale(1);
+  opacity: 1;
 }
 
 .startup-logo {
@@ -48,7 +38,7 @@
   animation: fade-out cubic-bezier(0.5, -0.3, 0, 2) 6s;
   transform: scale(0.3) translate(5.7em, -0.4em);
   width: auto;
-  cursor: default;
+  text-decoration: none;
 }
 
 @keyframes fade-out {

@@ -8,10 +8,14 @@ export class HashyService {
   constructor(private readonly snackBar: MatSnackBar) {
   }
 
-  show(text: string, seconds?: number) {
-    this.snackBar.open(text,
-      undefined, {duration: seconds ? seconds * 1000 : 4000, horizontalPosition: "left"});
+  async show(text: string, milliseconds: number) {
+    document.getElementsByClassName('hashy')[0].classList.add('show-hashy');
 
-    //TODO: show hashy via jQuery (add class show-hashy)
+    await this.snackBar.open(text, undefined, {
+      duration: milliseconds,
+      horizontalPosition: "left"
+    }).afterDismissed().toPromise();
+
+    document.getElementsByClassName('hashy')[0].classList.remove('show-hashy');
   }
 }
