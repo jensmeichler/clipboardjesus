@@ -21,7 +21,7 @@ export class AppComponent {
   constructor(
     private readonly dialog: MatDialog,
     private readonly dataService: DataService,
-    private readonly hashy: HashyService,
+    public readonly hashy: HashyService,
   ) {
     this.notes$ = dataService.notes$;
     this.taskLists$ = dataService.taskLists$;

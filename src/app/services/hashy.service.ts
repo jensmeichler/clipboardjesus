@@ -1,21 +1,24 @@
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HashyService {
+  showHashy = new BehaviorSubject<boolean>(false);
+
   constructor(private readonly snackBar: MatSnackBar) {
   }
 
   async show(text: string, milliseconds: number) {
-    document.getElementsByClassName('hashy')[0].classList.add('show-hashy');
+    this.showHashy.next(true);
 
     await this.snackBar.open(text, undefined, {
       duration: milliseconds,
       horizontalPosition: "left"
     }).afterDismissed().toPromise();
 
-    document.getElementsByClassName('hashy')[0].classList.remove('show-hashy');
+    this.showHashy.next(false);
   }
 }
