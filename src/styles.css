@@ -26,6 +26,7 @@ html, body {
 
 mat-dialog-container.mat-dialog-container {
   padding: 0;
+  border-radius: 4px;
   box-shadow: var(--shadow-strong);
 }
 
