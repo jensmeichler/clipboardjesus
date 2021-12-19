@@ -119,6 +119,7 @@ export class DataService {
           && upload.posY === curr.posY
       })) {
         currentNotes.push(upload);
+        this.itemsCount++;
       }
     });
     uploadedTaskLists?.forEach((upload: TaskList) => {
@@ -128,6 +129,7 @@ export class DataService {
           && upload.posY === curr.posY
       })) {
         currentTaskLists.push(upload);
+        this.itemsCount++;
       }
     });
     uploadedImages?.forEach((upload: Image) => {
@@ -137,6 +139,7 @@ export class DataService {
           && upload.posY === curr.posY
       })) {
         currentImages.push(upload);
+        this.itemsCount++;
       }
     });
     this.notes$.next(currentNotes);
