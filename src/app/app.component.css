@@ -39,7 +39,7 @@
   animation: fade-out cubic-bezier(0.5, -0.3, 0, 2) 6s;
   transform: scale(0.3) translate(5.7em, -0.4em);
   width: auto;
-  text-decoration: none;
+  cursor: pointer;
 }
 
 @keyframes fade-out {

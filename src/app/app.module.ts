@@ -25,6 +25,7 @@ import {ImageComponent} from './components/image/image.component';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
+import {AboutDialogComponent} from './components/dialogs/about-dialog/about-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
     EditTaskListDialogComponent,
     TaskListComponent,
     ImageComponent,
-    CustomDragDropDirective
+    CustomDragDropDirective,
+    AboutDialogComponent
   ],
   imports: [
     BrowserModule,

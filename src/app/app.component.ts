@@ -7,6 +7,7 @@ import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-d
 import {Image, Note, TaskList} from './models';
 import {HashyService} from "./services/hashy.service";
 import {DataService} from "./services/data.service";
+import {AboutDialogComponent} from "./components/dialogs/about-dialog/about-dialog.component";
 
 @Component({
   selector: 'app-root',
@@ -110,6 +111,10 @@ export class AppComponent {
     if (item.posY < 0) {
       item.posY = 0;
     }
+  }
+
+  showAboutDialog() {
+    this.dialog.open(AboutDialogComponent);
   }
 
   @ViewChild(MatMenuTrigger)
