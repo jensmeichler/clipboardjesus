@@ -17,3 +17,8 @@
   margin-top: 20px;
   margin-left: -24px;
 }
+
+.flex-container {
+  justify-content: left;
+  margin-left: 8px;
+}
