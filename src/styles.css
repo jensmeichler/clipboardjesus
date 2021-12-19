@@ -67,6 +67,7 @@ h1.flex-container,
 }
 
 .draggable-note-selected {
+  z-index: 98;
   box-shadow: 0 0 10px var(--color-secondary) !important;
 }
 

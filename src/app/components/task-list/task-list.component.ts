@@ -1,9 +1,9 @@
 import {Component, Input} from '@angular/core';
 import {TaskItem, TaskList} from "../../models";
-import {BehaviorSubject} from "rxjs";
 import {MatDialog} from "@angular/material/dialog";
 import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
+import {DataService} from "../../services/data.service";
 
 @Component({
   selector: 'task-list',
@@ -13,15 +13,18 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag
 export class TaskListComponent {
   @Input()
   taskList: TaskList = {} as TaskList;
-  @Input()
-  taskLists$ = new BehaviorSubject<TaskList[] | null>(null);
 
   itemToEdit?: TaskItem;
   selected = false;
 
   constructor(
-    private readonly dialog: MatDialog
-  ) {
+    private readonly dialog: MatDialog,
+    private readonly dataService: DataService) {
+  }
+
+  select() {
+    this.selected = !this.selected;
+    this.dataService.selectTaskList(this.taskList, this.selected);
   }
 
   click(event: any) {
@@ -65,9 +68,7 @@ export class TaskListComponent {
   }
 
   delete() {
-    let taskLists = this.taskLists$.getValue();
-    let filteredNotes = taskLists!.filter(x => x !== this.taskList);
-    this.taskLists$.next(filteredNotes!);
+    this.dataService.deleteTaskList(this.taskList);
   }
 
   startEditItem(item: TaskItem) {

@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Image} from "../../models";
-import {BehaviorSubject} from "rxjs";
 import {HashyService} from "../../services/hashy.service";
+import {DataService} from "../../services/data.service";
 
 @Component({
   selector: 'image',
@@ -11,12 +11,12 @@ import {HashyService} from "../../services/hashy.service";
 export class ImageComponent {
   @Input()
   image: Image = {} as Image;
-  @Input()
-  images$ = new BehaviorSubject<Image[] | null>(null);
 
   loadingFailed = false;
 
-  constructor(private readonly hashy: HashyService) {
+  constructor(
+    private readonly hashy: HashyService,
+    private readonly dataService: DataService) {
   }
 
   onLoadingFailed() {
@@ -43,8 +43,6 @@ export class ImageComponent {
   }
 
   delete() {
-    let images = this.images$.getValue();
-    let filteredImages = images!.filter(x => x !== this.image);
-    this.images$.next(filteredImages!);
+    this.dataService.deleteImage(this.image);
   }
 }

@@ -81,7 +81,7 @@
     <button mat-icon-button (click)="addItem(); $event.stopPropagation()">
       <mat-icon>add</mat-icon>
     </button>
-    <button mat-icon-button (click)="selected = !selected; $event.stopPropagation()">
+    <button mat-icon-button (click)="select(); $event.stopPropagation()">
       <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
     </button>
     <button mat-icon-button (click)="edit(); $event.stopPropagation()">

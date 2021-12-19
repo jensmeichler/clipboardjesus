@@ -26,6 +26,7 @@ import {ServiceWorkerModule} from '@angular/service-worker';
 import {environment} from '../environments/environment';
 import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
 import {AboutDialogComponent} from './components/dialogs/about-dialog/about-dialog.component';
+import {MatBadgeModule} from "@angular/material/badge";
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import {AboutDialogComponent} from './components/dialogs/about-dialog/about-dial
     MatChipsModule,
     MatCheckboxModule,
     MatTooltipModule,
+    MatBadgeModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       registrationStrategy: 'registerWhenStable:30000'

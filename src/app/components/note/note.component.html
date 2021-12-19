@@ -11,7 +11,7 @@
   </mat-card-title>
   <mat-card-content>{{note.content}}</mat-card-content>
   <mat-card-actions align="end">
-    <button mat-icon-button (click)="selected = !selected; $event.stopPropagation()"
+    <button mat-icon-button (click)="select(); $event.stopPropagation()"
             (mousedown)="disabled=true"
             (mouseup)="disabled=false">
       <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>

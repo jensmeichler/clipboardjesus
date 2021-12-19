@@ -11,25 +11,89 @@ export class DataService {
   taskLists$: BehaviorSubject<TaskList[] | null> = new BehaviorSubject<TaskList[] | null>(null);
   images$: BehaviorSubject<Image[] | null> = new BehaviorSubject<Image[] | null>(null);
 
+  itemsCount = 0;
+  selectedItemsCount = 0;
+
+  private selectedNotes: Note[] = [];
+  private selectedTaskLists: TaskList[] = [];
+
+  selectNote(note: Note, selected: boolean) {
+    if (selected) {
+      this.selectedNotes.push(note);
+      this.selectedItemsCount++;
+    } else {
+      if (this.selectedNotes.some(x => x === note)) {
+        this.selectedNotes = this.selectedNotes!.filter(x => x !== note);
+        this.selectedItemsCount--;
+      }
+    }
+  }
+
+  selectTaskList(taskList: TaskList, selected: boolean) {
+    if (selected) {
+      this.selectedTaskLists.push(taskList);
+      this.selectedItemsCount++;
+    } else {
+      if (this.selectedTaskLists.some(x => x === taskList)) {
+        this.selectedTaskLists = this.selectedTaskLists!.filter(x => x !== taskList);
+        this.selectedItemsCount--;
+      }
+    }
+  }
+
   addNote(note: Note) {
     let currentNotes = this.notes$.getValue() ?? [];
     currentNotes?.push(note);
     this.notes$.next(currentNotes);
+    this.itemsCount++;
   }
 
   addTaskList(taskList: TaskList) {
     let currentTasks = this.taskLists$.getValue() ?? [];
     currentTasks?.push(taskList);
     this.taskLists$.next(currentTasks);
+    this.itemsCount++;
   }
 
   addImage(image: Image) {
     let currentImages = this.images$.getValue() ?? [];
     currentImages?.push(image);
     this.images$.next(currentImages);
+    this.itemsCount++;
+  }
+
+  deleteNote(note: Note) {
+    this.selectNote(note, false);
+    this.itemsCount--;
+
+    let notes = this.notes$.getValue();
+    let filteredNotes = notes!.filter(x => x !== note);
+    this.notes$.next(filteredNotes!);
+  }
+
+  deleteTaskList(taskList: TaskList) {
+    this.selectTaskList(taskList, false);
+    this.itemsCount--;
+
+    let taskLists = this.taskLists$.getValue();
+    let filteredTaskLists = taskLists!.filter(x => x !== taskList);
+    this.taskLists$.next(filteredTaskLists!);
+  }
+
+  deleteImage(image: Image) {
+    let images = this.images$.getValue();
+    let filteredImages = images!.filter(x => x !== image);
+    this.images$.next(filteredImages!);
+    this.itemsCount--;
   }
 
   getAsJson(): NotesJson {
+    if (this.selectedItemsCount) {
+      return {
+        notes: this.selectedNotes,
+        taskLists: this.selectedTaskLists
+      } as NotesJson
+    }
     return {
       notes: this.notes$.getValue(),
       taskLists: this.taskLists$.getValue(),

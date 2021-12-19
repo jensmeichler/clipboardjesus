@@ -1,10 +1,10 @@
 import {Clipboard} from "@angular/cdk/clipboard";
 import {Component, Input} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {BehaviorSubject} from "rxjs";
 import {Note} from "../../models";
 import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dialog.component";
 import {HashyService} from "../../services/hashy.service";
+import {DataService} from "../../services/data.service";
 
 @Component({
   selector: 'note',
@@ -14,8 +14,6 @@ import {HashyService} from "../../services/hashy.service";
 export class NoteComponent {
   @Input()
   note: Note = {} as Note;
-  @Input()
-  notes$ = new BehaviorSubject<Note[] | null>(null);
 
   disabled = false;
   selected = false;
@@ -23,8 +21,14 @@ export class NoteComponent {
   constructor(
     private readonly clipboard: Clipboard,
     private readonly hashy: HashyService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly dataService: DataService
   ) {
+  }
+
+  select() {
+    this.selected = !this.selected;
+    this.dataService.selectNote(this.note, this.selected);
   }
 
   click(event: any) {
@@ -54,8 +58,6 @@ export class NoteComponent {
   }
 
   delete() {
-    let notes = this.notes$.getValue();
-    let filteredNotes = notes!.filter(x => x !== this.note);
-    this.notes$.next(filteredNotes!);
+    this.dataService.deleteNote(this.note);
   }
 }

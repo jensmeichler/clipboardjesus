@@ -1,7 +1,7 @@
 import {Component, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {BehaviorSubject, Subscription} from 'rxjs';
+import {Subscription} from "rxjs";
 import {EditNoteDialogComponent} from "./components/dialogs/edit-note-dialog/edit-note-dialog.component";
 import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
 import {Image, Note, TaskList} from './models';
@@ -15,18 +15,11 @@ import {AboutDialogComponent} from "./components/dialogs/about-dialog/about-dial
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  notes$: BehaviorSubject<Note[] | null>;
-  taskLists$: BehaviorSubject<TaskList[] | null>;
-  images$: BehaviorSubject<Image[] | null>;
-
   constructor(
     private readonly dialog: MatDialog,
-    private readonly dataService: DataService,
+    public readonly dataService: DataService,
     public readonly hashy: HashyService,
   ) {
-    this.notes$ = dataService.notes$;
-    this.taskLists$ = dataService.taskLists$;
-    this.images$ = dataService.images$;
   }
 
   newNote(event: MouseEvent) {
