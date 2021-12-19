@@ -4,7 +4,7 @@ html, body {
   --color-note: #424242;
   --color-primary: #7b1ea2;
   --color-secondary: #69f0ae;
-  --shadow-light: 0 0 6px black;
+  --shadow-light: 0 0 8px #000000a9;
   --shadow-strong: 0 0 16px black;
   --width-edit-dialog: 50vw;
   --font-family: Roboto, "Helvetica Neue", sans-serif;
