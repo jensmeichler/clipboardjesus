@@ -4,6 +4,8 @@ html, body {
   --color-note: #424242;
   --color-primary: #7b1ea2;
   --color-secondary: #69f0ae;
+  --shadow-light: 0 0 6px black;
+  --shadow-strong: 0 0 16px black;
   --width-edit-dialog: 50vw;
   --font-family: Roboto, "Helvetica Neue", sans-serif;
 
@@ -24,6 +26,7 @@ html, body {
 
 mat-dialog-container.mat-dialog-container {
   padding: 0;
+  box-shadow: var(--shadow-strong);
 }
 
 mat-card-title.flex-container,
@@ -53,14 +56,14 @@ h1.flex-container,
 
 .draggable-note {
   transition: box-shadow ease-in-out 0.3s;
-  box-shadow: 0 0 6px black;
+  box-shadow: var(--shadow-light);
   border-radius: 4px;
   z-index: 1;
 }
 
 .draggable-note:hover {
   z-index: 99;
-  box-shadow: 0 0 16px black;
+  box-shadow: var(--shadow-strong);
 }
 
 .mat-snack-bar-container {

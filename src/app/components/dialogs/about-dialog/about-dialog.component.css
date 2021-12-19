@@ -2,3 +2,15 @@
   border-radius: 4px;
   margin-top: 4px;
 }
+
+.hashy-icon {
+  width: 100px;
+}
+
+.hashy-icon-wrapper {
+  max-height: 100px;
+  overflow: hidden;
+  position: relative;
+  bottom: 0;
+  margin-top: 20px;
+}
