@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {Image, Note, TaskList} from "../models";
-import {NotesJson} from "../models/notes-json.model";
+import {Image, Note, TaskList, NotesJson} from "../models";
 import * as moment from "moment";
 
 @Injectable({
