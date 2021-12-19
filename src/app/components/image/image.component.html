@@ -1,12 +1,12 @@
 <mat-card matRipple style="padding: 5px 5px 0 5px; min-height: 32px"
-          (click)="$event.stopPropagation()"
-          (dblclick)="click($event)"
+          (click)="click($event)"
+          (dblclick)="open()"
           (auxclick)="click($event)"
           class="flex-container">
   <img *ngIf="!loadingFailed" [src]="image.source" height="140" style="border-radius: 3px"
-       (error)="loadingFailed = true">
+       (error)="onLoadingFailed()" alt="loading failed">
   <div *ngIf="loadingFailed" style="padding: 10px 10px 15px 10px; overflow-wrap: anywhere;">
-    <a [href]="image.source" target="_blank">{{image.source}}</a>
+    {{image.source}}
   </div>
   <button mat-icon-button (click)="delete(); $event.stopPropagation()"
           style="position: absolute; bottom: 0; right: 0; background: #424242; border-radius: 4px">

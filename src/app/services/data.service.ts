@@ -81,12 +81,14 @@ export class DataService {
     this.images$.next(currentImages);
   }
 
-  save() {
+  save(): string {
     let json = this.getAsJson();
+    let filename = moment(new Date()).format('YYYY-MM-DD-HH-mm') + '.notes.json';
     let a = document.createElement('a');
     let file = new Blob([JSON.stringify(json)], {type: 'text/plain'});
     a.href = URL.createObjectURL(file);
-    a.download = moment(new Date()).format('YYYY-MM-DD-HH-mm') + '.notes.json';
+    a.download = filename;
     a.click();
+    return filename;
   }
 }

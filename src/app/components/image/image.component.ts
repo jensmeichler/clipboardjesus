@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {Image} from "../../models";
 import {BehaviorSubject} from "rxjs";
+import {HashyService} from "../../services/hashy.service";
 
 @Component({
   selector: 'image',
@@ -15,13 +16,18 @@ export class ImageComponent {
 
   loadingFailed = false;
 
-  constructor() {
+  constructor(private readonly hashy: HashyService) {
+  }
+
+  onLoadingFailed() {
+    this.loadingFailed = true
+    this.hashy.show('Failed to show image from link', 4000);
   }
 
   click(event: any) {
     switch (event.button) {
       case 0:
-        this.open();
+        this.hashy.show('Tip: Double click to open', 3000)
         break;
       case 1:
         this.delete();

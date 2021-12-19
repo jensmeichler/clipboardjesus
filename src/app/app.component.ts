@@ -33,7 +33,8 @@ export class AppComponent {
   }
 
   save() {
-    this.dataService.save();
+    let filename = this.dataService.save();
+    this.hashy.show('Saved as ' + filename, 3000);
   }
 
   dropFile(event: any) {
