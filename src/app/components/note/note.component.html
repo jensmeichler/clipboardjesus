@@ -1,6 +1,7 @@
 <mat-card matRipple [matRippleDisabled]="disabled"
           (click)="click($event)"
           (auxclick)="click($event)"
+          [class.draggable-note-selected]="selected"
           [style.color]="note.foregroundColor"
           [style.background]="note.backgroundColorGradient
             ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
@@ -10,6 +11,11 @@
   </mat-card-title>
   <mat-card-content>{{note.content}}</mat-card-content>
   <mat-card-actions align="end">
+    <button mat-icon-button (click)="selected = !selected; $event.stopPropagation()"
+            (mousedown)="disabled=true"
+            (mouseup)="disabled=false">
+      <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
+    </button>
     <button mat-icon-button (click)="edit(); $event.stopPropagation()"
             (mousedown)="disabled=true"
             (mouseup)="disabled=false">

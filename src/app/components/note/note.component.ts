@@ -18,6 +18,7 @@ export class NoteComponent {
   notes$ = new BehaviorSubject<Note[] | null>(null);
 
   disabled = false;
+  selected = false;
 
   constructor(
     private readonly clipboard: Clipboard,

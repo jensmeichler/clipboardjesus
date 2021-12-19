@@ -17,6 +17,7 @@ export class TaskListComponent {
   taskLists$ = new BehaviorSubject<TaskList[] | null>(null);
 
   itemToEdit?: TaskItem;
+  selected = false;
 
   constructor(
     private readonly dialog: MatDialog
