@@ -21,7 +21,7 @@ export class ImageComponent {
 
   onLoadingFailed() {
     this.loadingFailed = true
-    this.hashy.show('Failed to show image from link', 4000);
+    this.hashy.show('Failed to load image from link', 3000);
   }
 
   click(event: any) {
