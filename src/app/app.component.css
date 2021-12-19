@@ -16,15 +16,25 @@
   bottom: 42px;
   left: 22px;
   z-index: 100;
-  transition: all cubic-bezier(0.5, -0.3, 0, 2) 2s;
+  transition: all cubic-bezier(0.8, -0.5, 0.8, 1) 0.5s;
   transform: translateY(60px) scale(0);
-  opacity: 0;
 }
 
 .show-hashy {
   transition: all cubic-bezier(0.5, -0.3, 0, 2) 0.3s;
   transform: translateY(0) scale(1);
+}
+
+.hashy-bg {
+  opacity: 0;
+  transition-delay: 100ms;
+}
+
+.show-hashy-bg {
+  transition: all cubic-bezier(0.5, -0.3, 0, 2) 0.3s;
+  transform: translateY(0) scale(1);
   opacity: 1;
+  transition-delay: 0.1s;
 }
 
 .startup-logo {
@@ -77,7 +87,7 @@
     width: auto;
     top: 0;
     right: 0;
-    color: #7b1ea2;
+    color: var(--color-primary);
     transform: scale(0.3) translate(5.7em, -1.7em);
     opacity: 0;
   }
