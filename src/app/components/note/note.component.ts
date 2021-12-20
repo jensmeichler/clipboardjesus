@@ -1,10 +1,11 @@
 import {Clipboard} from "@angular/cdk/clipboard";
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {Note} from "../../models";
 import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dialog.component";
 import {HashyService} from "../../services/hashy.service";
 import {DataService} from "../../services/data.service";
+import {MatMenuTrigger} from "@angular/material/menu";
 
 @Component({
   selector: 'note',
@@ -59,5 +60,18 @@ export class NoteComponent {
 
   delete() {
     this.dataService.deleteNote(this.note);
+  }
+
+  @ViewChild(MatMenuTrigger)
+  contextMenu!: MatMenuTrigger;
+  rightClickPosX = 0;
+  rightClickPosY = 0;
+
+  onRightClick(event: any) {
+    event.preventDefault();
+    this.rightClickPosX = event.clientX;
+    this.rightClickPosY = event.clientY;
+    this.contextMenu.openMenu();
+    event.stopPropagation();
   }
 }

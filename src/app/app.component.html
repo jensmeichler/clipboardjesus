@@ -18,13 +18,6 @@
           [style.zIndex]="note.posZ ?? 'auto'"
           [note]="note"></note>
   </ng-container>
-  <ng-container *ngFor="let image of dataService.images$ | async">
-    <image cdkDrag class="draggable-note"
-           (cdkDragEnded)="saveItemPosition($event, image)"
-           [style.top.px]="image.posY"
-           [style.left.px]="image.posX"
-           [image]="image"></image>
-  </ng-container>
   <div cdkDropListGroup>
     <ng-container *ngFor="let taskList of dataService.taskLists$ | async">
       <task-list cdkDrag class="draggable-note"
@@ -33,6 +26,13 @@
                  [style.left.px]="taskList.posX"
                  [style.zIndex]="taskList.posZ ?? 'auto'"
                  [taskList]="taskList"></task-list>
+    </ng-container>
+    <ng-container *ngFor="let image of dataService.images$ | async">
+      <image cdkDrag class="draggable-note"
+             (cdkDragEnded)="saveItemPosition($event, image)"
+             [style.top.px]="image.posY"
+             [style.left.px]="image.posX"
+             [image]="image"></image>
     </ng-container>
   </div>
 </div>
