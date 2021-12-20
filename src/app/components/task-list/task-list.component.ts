@@ -1,9 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {TaskItem, TaskList} from "../../models";
 import {MatDialog} from "@angular/material/dialog";
 import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {DataService} from "../../services/data.service";
+import {MatMenuTrigger} from "@angular/material/menu";
 
 @Component({
   selector: 'task-list',
@@ -102,5 +103,18 @@ export class TaskListComponent {
         event.currentIndex,
       );
     }
+  }
+
+  @ViewChild(MatMenuTrigger)
+  contextMenu!: MatMenuTrigger;
+  rightClickPosX = 0;
+  rightClickPosY = 0;
+
+  onRightClick(event: any) {
+    event.preventDefault();
+    this.rightClickPosX = event.clientX;
+    this.rightClickPosY = event.clientY;
+    this.contextMenu.openMenu();
+    event.stopPropagation();
   }
 }

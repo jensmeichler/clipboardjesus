@@ -1,5 +1,6 @@
 <mat-card (click)="click($event);"
           (auxclick)="click($event);"
+          (contextmenu)="onRightClick($event)"
           [class.draggable-note-selected]="selected"
           [style.color]="taskList.foregroundColor"
           [style.background]="taskList.backgroundColorGradient
@@ -93,3 +94,23 @@
   </mat-card-actions>
   <mat-card-footer [style.margin-bottom.px]="-32"></mat-card-footer>
 </mat-card>
+
+<div style="visibility: hidden; position: fixed"
+     [style.left.px]="rightClickPosX"
+     [style.top.px]="rightClickPosY"
+     [matMenuTriggerFor]="contextMenu">
+</div>
+<mat-menu #contextMenu="matMenu">
+  <button mat-menu-item (click)="select()">
+    <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
+    {{selected ? 'Remove selection' : 'Select note'}}
+  </button>
+  <button mat-menu-item (click)="edit()">
+    <mat-icon>edit</mat-icon>
+    Edit note
+  </button>
+  <button mat-menu-item (click)="delete()">
+    <mat-icon>delete</mat-icon>
+    Delete note
+  </button>
+</mat-menu>
