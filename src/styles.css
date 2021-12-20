@@ -63,12 +63,12 @@ h1.flex-container,
 }
 
 .draggable-note:hover {
-  z-index: 99;
+  z-index: 99 !important;
   box-shadow: var(--shadow-strong);
 }
 
 .draggable-note-selected {
-  z-index: 98;
+  z-index: 98 !important;
   box-shadow: 0 0 20px var(--color-secondary) !important;
 }
 
