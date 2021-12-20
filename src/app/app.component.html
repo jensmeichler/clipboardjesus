@@ -15,6 +15,7 @@
           (cdkDragEnded)="saveItemPosition($event, note)"
           [style.top.px]="note.posY"
           [style.left.px]="note.posX"
+          [style.zIndex]="note.posZ ?? 'auto'"
           [note]="note"></note>
   </ng-container>
   <ng-container *ngFor="let image of dataService.images$ | async">
@@ -30,6 +31,7 @@
                  (cdkDragEnded)="saveItemPosition($event, taskList)"
                  [style.top.px]="taskList.posY"
                  [style.left.px]="taskList.posX"
+                 [style.zIndex]="taskList.posZ ?? 'auto'"
                  [taskList]="taskList"></task-list>
     </ng-container>
   </div>

@@ -42,6 +42,9 @@ export class DataService {
   }
 
   addNote(note: Note) {
+    if (!note.posZ) {
+      note.posZ = this.getHighestIndex();
+    }
     let currentNotes = this.notes$.getValue() ?? [];
     currentNotes?.push(note);
     this.notes$.next(currentNotes);
@@ -49,6 +52,9 @@ export class DataService {
   }
 
   addTaskList(taskList: TaskList) {
+    if (!taskList.posZ) {
+      taskList.posZ = this.getHighestIndex();
+    }
     let currentTasks = this.taskLists$.getValue() ?? [];
     currentTasks?.push(taskList);
     this.taskLists$.next(currentTasks);
@@ -156,5 +162,26 @@ export class DataService {
     a.download = filename;
     a.click();
     return filename;
+  }
+
+  private getHighestIndex(): number | undefined {
+    let highestNote = this.notes$.getValue()
+      ?.filter(n => n.posZ)
+      ?.reduce((hn, n) => Math.max(hn, n.posZ!), 0);
+    let highestTaskList = this.taskLists$.getValue()
+      ?.filter(t => t.posZ)
+      ?.reduce((ht, t) => Math.max(ht, t.posZ!), 0);
+
+    if (highestNote && highestTaskList) {
+      return highestNote > highestTaskList
+        ? highestNote + 1
+        : highestTaskList + 1;
+    } else if (highestNote || highestTaskList) {
+      return highestNote
+        ? highestNote + 1
+        : highestTaskList! + 1;
+    } else {
+      return undefined;
+    }
   }
 }
