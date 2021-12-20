@@ -6,7 +6,7 @@ import {BehaviorSubject} from "rxjs";
   providedIn: 'root'
 })
 export class HashyService {
-  showHashy = new BehaviorSubject<boolean>(false);
+  showHashy = new BehaviorSubject(false);
 
   constructor(private readonly snackBar: MatSnackBar) {
   }
