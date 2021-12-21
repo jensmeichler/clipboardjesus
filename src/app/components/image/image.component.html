@@ -2,6 +2,7 @@
           (click)="click($event)"
           (dblclick)="open()"
           (auxclick)="click($event)"
+          (contextmenu)="onRightClick($event)"
           class="flex-container">
   <img *ngIf="!loadingFailed" [src]="image.source" height="140" style="border-radius: 3px"
        (error)="onLoadingFailed()" alt="loading failed">
@@ -13,3 +14,31 @@
     <mat-icon>delete</mat-icon>
   </button>
 </mat-card>
+
+<div style="visibility: hidden; position: fixed"
+     [style.left.px]="rightClickPosX"
+     [style.top.px]="rightClickPosY"
+     [matMenuTriggerFor]="contextMenu">
+</div>
+<mat-menu #contextMenu="matMenu">
+  <button mat-menu-item (click)="dataService.bringToFront(this.image)">
+    <mat-icon>flip_to_front</mat-icon>
+    Bring to front
+  </button>
+  <button mat-menu-item (click)="dataService.bringForward(this.image)">
+    <mat-icon>add_circle_outline</mat-icon>
+    Bring forward
+  </button>
+  <button mat-menu-item (click)="dataService.sendBackward(this.image)">
+    <mat-icon>remove_circle_outline</mat-icon>
+    Send backward
+  </button>
+  <button mat-menu-item (click)="dataService.flipToBack(this.image)">
+    <mat-icon>flip_to_back</mat-icon>
+    Send to back
+  </button>
+  <button mat-menu-item (click)="delete()">
+    <mat-icon>delete</mat-icon>
+    Delete
+  </button>
+</mat-menu>

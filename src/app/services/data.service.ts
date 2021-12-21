@@ -62,6 +62,9 @@ export class DataService {
   }
 
   addImage(image: Image) {
+    if (image.posZ == undefined) {
+      image.posZ = this.getNextIndex();
+    }
     let currentImages = this.images$.getValue() ?? [];
     currentImages?.push(image);
     this.images$.next(currentImages);
@@ -75,6 +78,8 @@ export class DataService {
     let notes = this.notes$.getValue();
     let filteredNotes = notes!.filter(x => x !== note);
     this.notes$.next(filteredNotes!);
+
+    this.reArrangeIndices();
   }
 
   deleteTaskList(taskList: TaskList) {
@@ -84,6 +89,8 @@ export class DataService {
     let taskLists = this.taskLists$.getValue();
     let filteredTaskLists = taskLists!.filter(x => x !== taskList);
     this.taskLists$.next(filteredTaskLists!);
+
+    this.reArrangeIndices();
   }
 
   deleteImage(image: Image) {
@@ -91,6 +98,8 @@ export class DataService {
     let filteredImages = images!.filter(x => x !== image);
     this.images$.next(filteredImages!);
     this.itemsCount--;
+
+    this.reArrangeIndices();
   }
 
   getAsJson(): NotesJson {
@@ -207,13 +216,19 @@ export class DataService {
   private getIndexItems(): IndexItem[] {
     let notes = this.notes$.getValue() as IndexItem[];
     let taskLists = this.taskLists$.getValue() as IndexItem[];
+    let images = this.images$.getValue() as IndexItem[];
+    let result: IndexItem[] = [];
 
-    if (notes && taskLists) {
-      return notes.concat(taskLists);
-    } else if (notes || taskLists) {
-      return notes ?? taskLists;
-    } else {
-      return [];
+    if (notes) {
+      result = result.concat(notes);
     }
+    if (taskLists) {
+      result = result.concat(taskLists);
+    }
+    if (images) {
+      result = result.concat(images);
+    }
+
+    return result;
   }
 }

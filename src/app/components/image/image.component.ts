@@ -1,4 +1,5 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
+import {MatMenuTrigger} from "@angular/material/menu";
 import {Image} from "../../models";
 import {HashyService} from "../../services/hashy.service";
 import {DataService} from "../../services/data.service";
@@ -16,7 +17,7 @@ export class ImageComponent {
 
   constructor(
     private readonly hashy: HashyService,
-    private readonly dataService: DataService) {
+    public readonly dataService: DataService) {
   }
 
   onLoadingFailed() {
@@ -44,5 +45,18 @@ export class ImageComponent {
 
   delete() {
     this.dataService.deleteImage(this.image);
+  }
+
+  @ViewChild(MatMenuTrigger)
+  contextMenu!: MatMenuTrigger;
+  rightClickPosX = 0;
+  rightClickPosY = 0;
+
+  onRightClick(event: any) {
+    event.preventDefault();
+    this.rightClickPosX = event.clientX;
+    this.rightClickPosY = event.clientY;
+    this.contextMenu.openMenu();
+    event.stopPropagation();
   }
 }
