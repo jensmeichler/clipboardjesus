@@ -31,6 +31,11 @@ export class AppComponent {
     this.hashy.show('Saved as ' + filename, 3000, true);
   }
 
+  saveAs() {
+    let filename = this.dataService.saveAs();
+    this.hashy.show('Saved as ' + filename, 3000, true);
+  }
+
   dropFile(event: any) {
     let posX = event.pageX;
     let posY = event.pageY;

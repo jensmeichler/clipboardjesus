@@ -4,7 +4,20 @@
   transition: border ease-in-out 0.2s;
 }
 
-.mat-fab {
+.fab-container:hover > .save-as-button:not(:disabled) {
+  transform: translateY(-70px);
+  transition-delay: 0s;
+  opacity: 1;
+}
+
+.save-as-button {
+  position: absolute;
+  transition: all cubic-bezier(0.5, -0.3, 0, 1.2) 0.3s;
+  transition-delay: 1s;
+  opacity: 0;
+}
+
+.fab-container {
   position: absolute;
   bottom: 24px;
   right: 24px;

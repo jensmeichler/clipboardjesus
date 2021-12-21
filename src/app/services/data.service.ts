@@ -189,6 +189,10 @@ export class DataService {
     return filename;
   }
 
+  saveAs(): string {
+    return 'NOT IMPLEMENTED YET';
+  }
+
   bringToFront(item: { posZ?: number }) {
     item.posZ = this.getNextIndex();
     this.reArrangeIndices();

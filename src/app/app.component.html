@@ -2,14 +2,21 @@
      (click)="newNote($event)"
      (drop)="dropFile($event)" customDragDrop
      (contextmenu)="onRightClick($event)">
-  <button mat-fab color="primary" matTooltip="Save notes.json to downloads" matTooltipPosition="left"
-          (click)="save(); $event.stopPropagation()"
-          [disabled]="!dataService.itemsCount">
-    <mat-icon [matBadge]="dataService.selectedItemsCount ? dataService.selectedItemsCount : ''"
-              matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="large">
-      save
-    </mat-icon>
-  </button>
+  <div class="fab-container">
+    <button mat-fab color="accent" matTooltip="Save as" matTooltipPosition="left"
+            (click)="saveAs(); $event.stopPropagation()" class="save-as-button"
+            [disabled]="!dataService.itemsCount">
+      <mat-icon>save_as</mat-icon>
+    </button>
+    <button mat-fab color="primary" matTooltip="Save notes.json to downloads" matTooltipPosition="left"
+            (click)="save(); $event.stopPropagation()"
+            [disabled]="!dataService.itemsCount">
+      <mat-icon [matBadge]="dataService.selectedItemsCount ? dataService.selectedItemsCount : ''"
+                matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="large">
+        save
+      </mat-icon>
+    </button>
+  </div>
   <ng-container *ngFor="let note of dataService.notes$ | async">
     <note cdkDrag class="draggable-note"
           (cdkDragEnded)="saveItemPosition($event, note)"
