@@ -1,3 +1,4 @@
+import {Clipboard} from "@angular/cdk/clipboard";
 import {Component, Input, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Image} from "../../models";
@@ -17,6 +18,7 @@ export class ImageComponent {
 
   constructor(
     private readonly hashy: HashyService,
+    private readonly clipboard: Clipboard,
     public readonly dataService: DataService) {
   }
 
@@ -41,6 +43,11 @@ export class ImageComponent {
 
   open() {
     window.open(this.image.source, '_blank');
+  }
+
+  copy() {
+    this.clipboard.copy(this.image.source);
+    this.hashy.show('Copied to clipboard', 1000);
   }
 
   delete() {
