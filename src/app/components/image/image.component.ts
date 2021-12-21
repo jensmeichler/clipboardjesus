@@ -15,6 +15,7 @@ export class ImageComponent {
   image: Image = {} as Image;
 
   loadingFailed = false;
+  selected = false;
 
   constructor(
     private readonly hashy: HashyService,
@@ -25,6 +26,11 @@ export class ImageComponent {
   onLoadingFailed() {
     this.loadingFailed = true
     this.hashy.show('Failed to load image from link', 3000);
+  }
+
+  select() {
+    this.selected = !this.selected;
+    this.dataService.selectImage(this.image, this.selected);
   }
 
   click(event: any) {

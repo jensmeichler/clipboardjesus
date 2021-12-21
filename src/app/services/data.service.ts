@@ -16,6 +16,7 @@ export class DataService {
 
   private selectedNotes: Note[] = [];
   private selectedTaskLists: TaskList[] = [];
+  private selectedImages: Image[] = [];
 
   selectNote(note: Note, selected: boolean) {
     if (selected) {
@@ -36,6 +37,18 @@ export class DataService {
     } else {
       if (this.selectedTaskLists.some(x => x === taskList)) {
         this.selectedTaskLists = this.selectedTaskLists!.filter(x => x !== taskList);
+        this.selectedItemsCount--;
+      }
+    }
+  }
+
+  selectImage(image: Image, selected: boolean) {
+    if (selected) {
+      this.selectedImages.push(image);
+      this.selectedItemsCount++;
+    } else {
+      if (this.selectedImages.some(x => x === image)) {
+        this.selectedImages = this.selectedImages!.filter(x => x !== image);
         this.selectedItemsCount--;
       }
     }
@@ -94,10 +107,12 @@ export class DataService {
   }
 
   deleteImage(image: Image) {
+    this.selectImage(image, false);
+    this.itemsCount--;
+
     let images = this.images$.getValue();
     let filteredImages = images!.filter(x => x !== image);
     this.images$.next(filteredImages!);
-    this.itemsCount--;
 
     this.reArrangeIndices();
   }
@@ -106,7 +121,8 @@ export class DataService {
     if (this.selectedItemsCount) {
       return {
         notes: this.selectedNotes,
-        taskLists: this.selectedTaskLists
+        taskLists: this.selectedTaskLists,
+        images: this.selectedImages
       } as NotesJson
     }
     return {
