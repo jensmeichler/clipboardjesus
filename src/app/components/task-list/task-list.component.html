@@ -117,9 +117,13 @@
     <mat-icon>flip_to_back</mat-icon>
     Send to back
   </button>
+  <button mat-menu-item (click)="addItem()">
+    <mat-icon>add</mat-icon>
+    Add item
+  </button>
   <button mat-menu-item (click)="select()">
     <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
-    {{selected ? 'Remove selection' : 'Select note'}}
+    {{selected ? 'Remove selection' : 'Select'}}
   </button>
   <button mat-menu-item (click)="edit()">
     <mat-icon>edit</mat-icon>
