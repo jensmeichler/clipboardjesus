@@ -28,7 +28,7 @@ export class AppComponent {
 
   save() {
     let filename = this.dataService.save();
-    this.hashy.show('Saved as ' + filename, 3000);
+    this.hashy.show('Saved as ' + filename, 3000, true);
   }
 
   dropFile(event: any) {
@@ -46,7 +46,7 @@ export class AppComponent {
           this.dataService.addNote(new Note(posX, posY, text, file.name));
         })
       } else {
-        this.hashy.show('Type ' + file.type.toUpperCase() + ' is not supported', 4000);
+        this.hashy.show('Type ' + file.type.toUpperCase() + ' is not supported', 4000, true);
       }
     } else if (data.kind === 'string') {
       let draggedUrl = event.dataTransfer.getData('text/uri-list');

@@ -48,7 +48,7 @@ export class NoteComponent {
 
   copy() {
     this.clipboard.copy(this.note.content);
-    this.hashy.show('Copied to clipboard', 1000);
+    this.hashy.show('Copied to clipboard', 600);
   }
 
   edit() {

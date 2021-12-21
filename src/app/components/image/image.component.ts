@@ -25,7 +25,7 @@ export class ImageComponent {
 
   onLoadingFailed() {
     this.loadingFailed = true
-    this.hashy.show('Failed to load image from link', 3000);
+    this.hashy.show('Failed to load image from link', 3000, true);
   }
 
   select() {
@@ -36,7 +36,7 @@ export class ImageComponent {
   click(event: any) {
     switch (event.button) {
       case 0:
-        this.hashy.show('Tip: Double click to open', 3000)
+        this.hashy.show('Tip: Double click to open', 3000, true)
         break;
       case 1:
         this.delete();
@@ -53,7 +53,7 @@ export class ImageComponent {
 
   copy() {
     this.clipboard.copy(this.image.source);
-    this.hashy.show('Copied to clipboard', 1000);
+    this.hashy.show('Copied to clipboard', 600);
   }
 
   delete() {

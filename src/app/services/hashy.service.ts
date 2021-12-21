@@ -11,10 +11,10 @@ export class HashyService {
   constructor(private readonly snackBar: MatSnackBar) {
   }
 
-  async show(text: string, milliseconds: number) {
+  async show(text: string, milliseconds: number, showOkButton?: boolean) {
     this.showHashy.next(true);
 
-    await this.snackBar.open(text, undefined, {
+    await this.snackBar.open(text, showOkButton ? 'Ok' : undefined, {
       duration: milliseconds,
       horizontalPosition: "left"
     }).afterDismissed().toPromise();
