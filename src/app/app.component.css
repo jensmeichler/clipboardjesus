@@ -8,14 +8,14 @@
   position: absolute;
   bottom: 24px;
   right: 24px;
-  z-index: 100;
+  z-index: 103;
 }
 
 .hashy {
   position: absolute;
   bottom: 42px;
   left: 22px;
-  z-index: 100;
+  z-index: 103;
   transition: all cubic-bezier(0.8, -0.5, 0.8, 1) 0.5s;
   transform: translateY(60px) scale(0);
 }

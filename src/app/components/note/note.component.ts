@@ -23,7 +23,7 @@ export class NoteComponent {
     private readonly clipboard: Clipboard,
     private readonly hashy: HashyService,
     private readonly dialog: MatDialog,
-    private readonly dataService: DataService
+    public readonly dataService: DataService
   ) {
   }
 

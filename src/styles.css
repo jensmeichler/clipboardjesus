@@ -59,16 +59,15 @@ h1.flex-container,
   transition: box-shadow ease-in-out 0.3s;
   box-shadow: var(--shadow-light);
   border-radius: 4px;
-  z-index: 1;
 }
 
 .draggable-note:hover {
-  z-index: 99 !important;
+  z-index: 102 !important;
   box-shadow: var(--shadow-strong);
 }
 
 .draggable-note-selected {
-  z-index: 98 !important;
+  z-index: 101 !important;
   box-shadow: 0 0 20px var(--color-secondary) !important;
 }
 

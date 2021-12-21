@@ -20,7 +20,7 @@ export class TaskListComponent {
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly dataService: DataService) {
+    public readonly dataService: DataService) {
   }
 
   select() {

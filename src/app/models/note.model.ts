@@ -12,9 +12,7 @@ export class Note {
     this.posX = posX;
     this.posY = posY;
     this.posZ = posZ;
-    if (header != undefined) {
-      this.header = header;
-    }
+    this.header = header;
     if (content != undefined) {
       this.content = content;
     } else {

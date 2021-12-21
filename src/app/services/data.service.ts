@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
-import {Image, Note, TaskList, NotesJson} from "../models";
 import * as moment from "moment";
+import {BehaviorSubject} from "rxjs";
+import {Image, IndexItem, Note, NotesJson, TaskList} from "../models";
 
 @Injectable({
   providedIn: 'root'
@@ -42,8 +42,8 @@ export class DataService {
   }
 
   addNote(note: Note) {
-    if (!note.posZ) {
-      note.posZ = this.getHighestIndex();
+    if (note.posZ == undefined) {
+      note.posZ = this.getNextIndex();
     }
     let currentNotes = this.notes$.getValue() ?? [];
     currentNotes?.push(note);
@@ -52,8 +52,8 @@ export class DataService {
   }
 
   addTaskList(taskList: TaskList) {
-    if (!taskList.posZ) {
-      taskList.posZ = this.getHighestIndex();
+    if (taskList.posZ == undefined) {
+      taskList.posZ = this.getNextIndex();
     }
     let currentTasks = this.taskLists$.getValue() ?? [];
     currentTasks?.push(taskList);
@@ -164,24 +164,56 @@ export class DataService {
     return filename;
   }
 
-  private getHighestIndex(): number | undefined {
-    let highestNote = this.notes$.getValue()
+  bringToFront(item: { posZ?: number }) {
+    item.posZ = this.getNextIndex();
+    this.reArrangeIndices();
+  }
+
+  bringForward(item: IndexItem) {
+    item.posZ! += 1.5;
+    this.reArrangeIndices();
+  }
+
+  sendBackward(item: IndexItem) {
+    item.posZ! -= 1.5;
+    this.reArrangeIndices();
+  }
+
+  flipToBack(item: IndexItem) {
+    item.posZ = 0;
+    this.reArrangeIndices();
+  }
+
+  private reArrangeIndices() {
+    let indexItems = this.getIndexItems()
+      .filter(x => x.posZ != undefined)
+      .sort((a, b) => a.posZ! - b.posZ!);
+    let i = 1;
+    indexItems.forEach(item => {
+      item.posZ = i++;
+    })
+  }
+
+  private getNextIndex(): number {
+    let highestItem = this.getIndexItems()
       ?.filter(n => n.posZ)
       ?.reduce((hn, n) => Math.max(hn, n.posZ!), 0);
-    let highestTaskList = this.taskLists$.getValue()
-      ?.filter(t => t.posZ)
-      ?.reduce((ht, t) => Math.max(ht, t.posZ!), 0);
 
-    if (highestNote && highestTaskList) {
-      return highestNote > highestTaskList
-        ? highestNote + 1
-        : highestTaskList + 1;
-    } else if (highestNote || highestTaskList) {
-      return highestNote
-        ? highestNote + 1
-        : highestTaskList! + 1;
+    return highestItem
+      ? highestItem + 1
+      : 1
+  }
+
+  private getIndexItems(): IndexItem[] {
+    let notes = this.notes$.getValue() as IndexItem[];
+    let taskLists = this.taskLists$.getValue() as IndexItem[];
+
+    if (notes && taskLists) {
+      return notes.concat(taskLists);
+    } else if (notes || taskLists) {
+      return notes ?? taskLists;
     } else {
-      return undefined;
+      return [];
     }
   }
 }
