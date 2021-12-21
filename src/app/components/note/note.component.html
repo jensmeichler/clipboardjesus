@@ -37,36 +37,41 @@
      [matMenuTriggerFor]="contextMenu">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <button mat-menu-item (click)="dataService.bringToFront(this.note)">
-    <mat-icon>flip_to_front</mat-icon>
-    Bring to front
-  </button>
-  <button mat-menu-item (click)="dataService.bringForward(this.note)">
-    <mat-icon>add_circle_outline</mat-icon>
-    Bring forward
-  </button>
-  <button mat-menu-item (click)="dataService.sendBackward(this.note)">
-    <mat-icon>remove_circle_outline</mat-icon>
-    Send backward
-  </button>
-  <button mat-menu-item (click)="dataService.flipToBack(this.note)">
-    <mat-icon>flip_to_back</mat-icon>
-    Send to back
-  </button>
-  <button mat-menu-item (click)="copy()">
-    <mat-icon>content_copy</mat-icon>
-    Copy
-  </button>
-  <button mat-menu-item (click)="select()">
-    <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
-    {{selected ? 'Remove selection' : 'Select'}}
-  </button>
-  <button mat-menu-item (click)="edit()">
-    <mat-icon>edit</mat-icon>
-    Edit
-  </button>
-  <button mat-menu-item (click)="delete()">
-    <mat-icon>delete</mat-icon>
-    Delete
-  </button>
+  <div [style.color]="note.foregroundColor + '!important'"
+       [style.background]="note.backgroundColorGradient
+            ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
+            : note.backgroundColor">
+    <button mat-menu-item (click)="dataService.bringToFront(this.note)">
+      <mat-icon>flip_to_front</mat-icon>
+      Bring to front
+    </button>
+    <button mat-menu-item (click)="dataService.bringForward(this.note)">
+      <mat-icon>add_circle_outline</mat-icon>
+      Bring forward
+    </button>
+    <button mat-menu-item (click)="dataService.sendBackward(this.note)">
+      <mat-icon>remove_circle_outline</mat-icon>
+      Send backward
+    </button>
+    <button mat-menu-item (click)="dataService.flipToBack(this.note)">
+      <mat-icon>flip_to_back</mat-icon>
+      Send to back
+    </button>
+    <button mat-menu-item (click)="copy()">
+      <mat-icon>content_copy</mat-icon>
+      Copy
+    </button>
+    <button mat-menu-item (click)="select()">
+      <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
+      {{selected ? 'Remove selection' : 'Select'}}
+    </button>
+    <button mat-menu-item (click)="edit()">
+      <mat-icon>edit</mat-icon>
+      Edit
+    </button>
+    <button mat-menu-item (click)="delete()">
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+  </div>
 </mat-menu>

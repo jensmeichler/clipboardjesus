@@ -101,36 +101,41 @@
      [matMenuTriggerFor]="contextMenu">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <button mat-menu-item (click)="dataService.bringToFront(this.taskList)">
-    <mat-icon>flip_to_front</mat-icon>
-    Bring to front
-  </button>
-  <button mat-menu-item (click)="dataService.bringForward(this.taskList)">
-    <mat-icon>add_circle_outline</mat-icon>
-    Bring forward
-  </button>
-  <button mat-menu-item (click)="dataService.sendBackward(this.taskList)">
-    <mat-icon>remove_circle_outline</mat-icon>
-    Send backward
-  </button>
-  <button mat-menu-item (click)="dataService.flipToBack(this.taskList)">
-    <mat-icon>flip_to_back</mat-icon>
-    Send to back
-  </button>
-  <button mat-menu-item (click)="addItem()">
-    <mat-icon>add</mat-icon>
-    Add item
-  </button>
-  <button mat-menu-item (click)="select()">
-    <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
-    {{selected ? 'Remove selection' : 'Select'}}
-  </button>
-  <button mat-menu-item (click)="edit()">
-    <mat-icon>edit</mat-icon>
-    Edit
-  </button>
-  <button mat-menu-item (click)="delete()">
-    <mat-icon>delete</mat-icon>
-    Delete
-  </button>
+  <div [style.color]="taskList.foregroundColor + '!important'"
+       [style.background]="taskList.backgroundColorGradient
+            ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
+            : taskList.backgroundColor">
+    <button mat-menu-item (click)="dataService.bringToFront(this.taskList)">
+      <mat-icon>flip_to_front</mat-icon>
+      Bring to front
+    </button>
+    <button mat-menu-item (click)="dataService.bringForward(this.taskList)">
+      <mat-icon>add_circle_outline</mat-icon>
+      Bring forward
+    </button>
+    <button mat-menu-item (click)="dataService.sendBackward(this.taskList)">
+      <mat-icon>remove_circle_outline</mat-icon>
+      Send backward
+    </button>
+    <button mat-menu-item (click)="dataService.flipToBack(this.taskList)">
+      <mat-icon>flip_to_back</mat-icon>
+      Send to back
+    </button>
+    <button mat-menu-item (click)="addItem()">
+      <mat-icon>add</mat-icon>
+      Add item
+    </button>
+    <button mat-menu-item (click)="select()">
+      <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
+      {{selected ? 'Remove selection' : 'Select'}}
+    </button>
+    <button mat-menu-item (click)="edit()">
+      <mat-icon>edit</mat-icon>
+      Edit
+    </button>
+    <button mat-menu-item (click)="delete()">
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+  </div>
 </mat-menu>
