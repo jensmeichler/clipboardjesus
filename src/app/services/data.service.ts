@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
 import * as moment from "moment";
 import {BehaviorSubject} from "rxjs";
+import {SaveAsDialogComponent} from "../components/dialogs/save-as-dialog/save-as-dialog.component";
 import {Image, IndexItem, Note, NotesJson, TaskList} from "../models";
+import {HashyService} from "./hashy.service";
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +20,11 @@ export class DataService {
   private selectedNotes: Note[] = [];
   private selectedTaskLists: TaskList[] = [];
   private selectedImages: Image[] = [];
+
+  constructor(
+    private readonly dialog: MatDialog,
+    private readonly hashy: HashyService) {
+  }
 
   selectNote(note: Note, selected: boolean) {
     if (selected) {
@@ -178,19 +186,30 @@ export class DataService {
     this.images$.next(currentImages);
   }
 
-  save(): string {
+  save(filename?: string) {
+    filename ??= moment(new Date()).format('YYYY-MM-DD-HH-mm') + '.notes.json';
     let json = this.getAsJson();
-    let filename = moment(new Date()).format('YYYY-MM-DD-HH-mm') + '.notes.json';
+
     let a = document.createElement('a');
     let file = new Blob([JSON.stringify(json)], {type: 'text/plain'});
     a.href = URL.createObjectURL(file);
     a.download = filename;
     a.click();
-    return filename;
+
+    this.hashy.show('Saved as ' + filename, 3000, true);
   }
 
-  saveAs(): string {
-    return 'NOT IMPLEMENTED YET';
+  saveAs() {
+    this.dialog.open(SaveAsDialogComponent, {
+      position: {
+        bottom: '90px',
+        right: 'var(--margin-edge)'
+      }
+    }).afterClosed().subscribe(filename => {
+      if (filename) {
+        this.save(filename.endsWith('.notes.json') ? filename : filename + '.notes.json');
+      }
+    });
   }
 
   bringToFront(item: { posZ?: number }) {

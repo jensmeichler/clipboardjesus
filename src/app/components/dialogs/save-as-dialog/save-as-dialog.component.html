@@ -1,0 +1,7 @@
+<div class="flex-container">
+  <mat-form-field appearance="fill" color="accent">
+    <mat-label>Filename</mat-label>
+    <input matInput [(ngModel)]="filename" cdkFocusInitial>
+  </mat-form-field>
+  <button mat-button [mat-dialog-close]="filename" style="height: 54px">Ok</button>
+</div>

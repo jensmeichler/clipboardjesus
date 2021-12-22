@@ -3,7 +3,7 @@
      (drop)="dropFile($event)" customDragDrop
      (contextmenu)="onRightClick($event)">
   <div class="fab-container">
-    <button mat-fab color="accent" matTooltip="Save as" matTooltipPosition="left"
+    <button mat-mini-fab color="accent" matTooltip="Save as" matTooltipPosition="left"
             (click)="saveAs(); $event.stopPropagation()" class="save-as-button"
             [disabled]="!dataService.itemsCount">
       <mat-icon>save_as</mat-icon>

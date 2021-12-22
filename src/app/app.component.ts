@@ -27,13 +27,11 @@ export class AppComponent {
   }
 
   save() {
-    let filename = this.dataService.save();
-    this.hashy.show('Saved as ' + filename, 3000, true);
+    this.dataService.save();
   }
 
   saveAs() {
-    let filename = this.dataService.saveAs();
-    this.hashy.show('Saved as ' + filename, 3000, true);
+    this.dataService.saveAs();
   }
 
   dropFile(event: any) {

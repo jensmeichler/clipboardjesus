@@ -27,6 +27,7 @@ import {environment} from '../environments/environment';
 import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
 import {AboutDialogComponent} from './components/dialogs/about-dialog/about-dialog.component';
 import {MatBadgeModule} from "@angular/material/badge";
+import { SaveAsDialogComponent } from './components/dialogs/save-as-dialog/save-as-dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {MatBadgeModule} from "@angular/material/badge";
     TaskListComponent,
     ImageComponent,
     CustomDragDropDirective,
-    AboutDialogComponent
+    AboutDialogComponent,
+    SaveAsDialogComponent
   ],
   imports: [
     BrowserModule,
