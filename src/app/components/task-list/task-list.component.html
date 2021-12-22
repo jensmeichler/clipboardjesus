@@ -16,14 +16,14 @@
           <span>
             <ng-container *ngIf="item.isSubTask">
               <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -6px"
-                      (click)="item.isSubTask = false; $event.stopPropagation()"
+                      (click)="item.isSubTask = false"
                       matTooltip="Move to left" matTooltipPosition="left">
                 <mat-icon>remove</mat-icon>
               </button>
             </ng-container>
             <ng-container *ngIf="!item.isSubTask">
               <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -34px"
-                      (click)="item.isSubTask = true; $event.stopPropagation()"
+                      (click)="item.isSubTask = true"
                       matTooltip="Move to right" matTooltipPosition="left">
                 <mat-icon>arrow_right</mat-icon>
               </button>
@@ -32,18 +32,18 @@
               {{item.value}}
             </mat-checkbox>
             <button mat-icon-button class="item-button" style="opacity: 0.1"
-                    (click)="addItemAfter(item); $event.stopPropagation()"
+                    (click)="addItemAfter(item)"
                     matTooltip="Add task" matTooltipPosition="right">
               <mat-icon>add</mat-icon>
             </button>
           </span>
           <span>
             <button mat-icon-button class="item-button"
-                    (click)="startEditItem(item); $event.stopPropagation()">
+                    (click)="startEditItem(item)">
               <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button class="item-button" style="margin-right: -8px"
-                    (click)="deleteItem(item); $event.stopPropagation()">
+                    (click)="deleteItem(item)">
               <mat-icon>delete</mat-icon>
             </button>
           </span>
@@ -54,24 +54,24 @@
           <span style="display: contents">
             <ng-container *ngIf="item.isSubTask">
               <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -6px"
-                      (click)="item.isSubTask = false; $event.stopPropagation()"
+                      (click)="item.isSubTask = false"
                       matTooltip="Move to left" matTooltipPosition="left">
                 <mat-icon>remove</mat-icon>
               </button>
             </ng-container>
             <ng-container *ngIf="!item.isSubTask">
               <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -34px"
-                      (click)="item.isSubTask = true; $event.stopPropagation()"
+                      (click)="item.isSubTask = true"
                       matTooltip="Move to right" matTooltipPosition="left">
                 <mat-icon>arrow_right</mat-icon>
               </button>
             </ng-container>
             <mat-checkbox [checked]="item.checked" (change)="markAsChecked(item)">
             </mat-checkbox>
-            <input type="text" [(ngModel)]="item.value" (mousedown)="$event.stopPropagation()" autofocus>
+            <input [(ngModel)]="item.value" (mousedown)="$event.stopPropagation()" autofocus>
           </span>
           <button mat-icon-button class="item-button animated" style="margin-right: -8px"
-                  (click)="endEditItem(item); $event.stopPropagation()">
+                  (click)="endEditItem(item)">
             <mat-icon>check</mat-icon>
           </button>
         </span>
@@ -79,16 +79,16 @@
     </ng-container>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-icon-button (click)="addItem(); $event.stopPropagation()">
+    <button mat-icon-button (click)="addItem()">
       <mat-icon>add</mat-icon>
     </button>
-    <button mat-icon-button (click)="select(); $event.stopPropagation()">
+    <button mat-icon-button (click)="select()">
       <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
     </button>
-    <button mat-icon-button (click)="edit(); $event.stopPropagation()">
+    <button mat-icon-button (click)="edit()">
       <mat-icon>edit</mat-icon>
     </button>
-    <button mat-icon-button (click)="delete(); $event.stopPropagation()">
+    <button mat-icon-button (click)="delete()">
       <mat-icon>delete</mat-icon>
     </button>
   </mat-card-actions>
