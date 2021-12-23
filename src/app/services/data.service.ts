@@ -87,6 +87,10 @@ export class DataService {
 
   async addNote(note: Note) {
     note.content ??= await navigator.clipboard.readText();
+    if (!note.content) {
+      this.hashy.show('Your clipboard is empty', 3000);
+      return;
+    }
 
     if (note.posZ == undefined) {
       note.posZ = this.getNextIndex();
