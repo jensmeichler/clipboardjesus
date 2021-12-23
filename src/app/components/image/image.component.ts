@@ -17,6 +17,8 @@ export class ImageComponent {
   loadingFailed = false;
   selected = false;
 
+  disabled = false;
+
   constructor(
     private readonly hashy: HashyService,
     private readonly clipboard: Clipboard,
