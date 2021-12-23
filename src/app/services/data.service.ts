@@ -73,7 +73,9 @@ export class DataService {
     }
   }
 
-  addNote(note: Note) {
+  async addNote(note: Note) {
+    note.content ??= await navigator.clipboard.readText();
+
     if (note.posZ == undefined) {
       note.posZ = this.getNextIndex();
     }

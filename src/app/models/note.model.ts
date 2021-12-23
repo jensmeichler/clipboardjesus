@@ -1,5 +1,5 @@
 export class Note {
-  content = '';
+  content?;
   header?: string;
   foregroundColor: string = '#ffffff';
   backgroundColor: string = '#424242';
@@ -13,12 +13,6 @@ export class Note {
     this.posY = posY;
     this.posZ = posZ;
     this.header = header;
-    if (content != undefined) {
-      this.content = content;
-    } else {
-      navigator.clipboard.readText().then((text) => {
-        this.content = text;
-      });
-    }
+    this.content = content;
   }
 }

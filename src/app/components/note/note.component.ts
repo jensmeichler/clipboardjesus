@@ -1,12 +1,12 @@
 import {Clipboard} from "@angular/cdk/clipboard";
 import {Component, Input, OnDestroy, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
+import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
 import {Note} from "../../models";
-import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dialog.component";
-import {HashyService} from "../../services/hashy.service";
 import {DataService} from "../../services/data.service";
-import {MatMenuTrigger} from "@angular/material/menu";
+import {HashyService} from "../../services/hashy.service";
+import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dialog.component";
 
 @Component({
   selector: 'note',
@@ -54,8 +54,10 @@ export class NoteComponent implements OnDestroy {
   }
 
   copy() {
-    this.clipboard.copy(this.note.content);
-    this.hashy.show('Copied to clipboard', 600);
+    if (this.note.content) {
+      this.clipboard.copy(this.note.content);
+      this.hashy.show('Copied to clipboard', 600);
+    }
   }
 
   edit() {
