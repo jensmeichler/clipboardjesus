@@ -1,6 +1,6 @@
 <mat-card (click)="click($event);"
           (auxclick)="click($event);"
-          (contextmenu)="onRightClick($event)"
+          (contextmenu)="showContextMenu($event)"
           [class.draggable-note-selected]="selected"
           [style.color]="taskList.foregroundColor"
           [style.background]="taskList.backgroundColorGradient
@@ -90,6 +90,9 @@
     </button>
     <button mat-icon-button (click)="delete()">
       <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button (click)="showContextMenu($event)">
+      <mat-icon>more_vert</mat-icon>
     </button>
   </mat-card-actions>
   <mat-card-footer [style.margin-bottom.px]="-32"></mat-card-footer>

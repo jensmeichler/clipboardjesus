@@ -67,7 +67,7 @@ export class NoteComponent {
   rightClickPosX = 0;
   rightClickPosY = 0;
 
-  onRightClick(event: any) {
+  showContextMenu(event: any) {
     event.preventDefault();
     this.rightClickPosX = event.clientX;
     this.rightClickPosY = event.clientY;

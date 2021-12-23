@@ -1,7 +1,7 @@
 <mat-card matRipple [matRippleDisabled]="disabled"
           (click)="click($event)"
           (auxclick)="click($event)"
-          (contextmenu)="onRightClick($event)"
+          (contextmenu)="showContextMenu($event)"
           [class.draggable-note-selected]="selected"
           [style.color]="note.foregroundColor"
           [style.background]="note.backgroundColorGradient
@@ -26,6 +26,11 @@
             (mousedown)="disabled=true"
             (mouseup)="disabled=false">
       <mat-icon>delete</mat-icon>
+    </button>
+    <button mat-icon-button (click)="showContextMenu($event)"
+            (mousedown)="disabled=true"
+            (mouseup)="disabled=false">
+      <mat-icon>more_vert</mat-icon>
     </button>
   </mat-card-actions>
   <mat-card-footer [style.margin-bottom.px]="-32"></mat-card-footer>

@@ -4,14 +4,20 @@
   animation: fade-in 0.2s;
 }
 
-.mat-icon-button:hover {
-  transform: none;
-}
-
 .mat-icon-button mat-icon {
   transition: all ease-in-out 0.1s;
 }
 
-.mat-icon-button:hover mat-icon {
-  transform: scale(1.2);
+:host:hover .img-button-group {
+  transform: translateX(0);
+}
+
+.img-button-group {
+  transition: transform ease-in-out 0.18s;
+  transform: translateX(80px);
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #424242;
+  border-radius: 4px;
 }
