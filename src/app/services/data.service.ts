@@ -37,6 +37,18 @@ export class DataService {
     }
   }
 
+  clearAllData() {
+    this.selectedNotes = [];
+    this.selectedTaskLists = [];
+    this.selectedImages = [];
+    this.selectedItemsCount = 0;
+
+    this.notes$.next([]);
+    this.taskLists$.next([]);
+    this.images$.next([]);
+    this.itemsCount = 0;
+  }
+
   selectNote(note: Note, selected: boolean) {
     if (selected) {
       this.selectedNotes.push(note);
@@ -217,7 +229,7 @@ export class DataService {
     a.download = filename;
     a.click();
 
-    this.hashy.show('Saved as ' + filename, 3000, true);
+    this.hashy.show('Saved as ' + filename, 3000, 'Ok');
 
     this.cacheData();
   }

@@ -1,24 +1,46 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subscription} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
-export class HashyService {
+export class HashyService implements OnDestroy {
   showHashy = new BehaviorSubject(false);
+
+  dismissSubscription?: Subscription;
+  actionSubscription?: Subscription;
 
   constructor(private readonly snackBar: MatSnackBar) {
   }
 
-  async show(text: string, milliseconds: number, showOkButton?: boolean) {
-    this.showHashy.next(true);
+  ngOnDestroy() {
+    this.unsubscribeAll();
+  }
 
-    await this.snackBar.open(text, showOkButton ? 'Ok' : undefined, {
+  show(text: string, milliseconds: number, button?: string, action?: Function) {
+    this.showHashy.next(true);
+    this.unsubscribeAll();
+
+    let snackBarRef = this.snackBar.open(text, button ?? undefined, {
       duration: milliseconds,
       horizontalPosition: "left"
-    }).afterDismissed().toPromise();
+    });
 
-    this.showHashy.next(false);
+    this.dismissSubscription = snackBarRef.afterDismissed().subscribe(() => {
+      this.showHashy.next(false);
+    })
+
+    if (action) {
+      this.actionSubscription = snackBarRef.onAction().subscribe(() => {
+        action();
+        this.showHashy.next(false);
+      });
+    }
+  }
+
+  private unsubscribeAll() {
+    this.dismissSubscription?.unsubscribe();
+    this.actionSubscription?.unsubscribe();
   }
 }

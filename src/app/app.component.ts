@@ -50,7 +50,7 @@ export class AppComponent {
           this.dataService.addNote(new Note(posX, posY, text, file.name));
         })
       } else {
-        this.hashy.show('Type ' + file.type.toUpperCase() + ' is not supported', 4000, true);
+        this.hashy.show('Type ' + file.type.toUpperCase() + ' is not supported', 4000, 'Ok');
       }
     } else if (data.kind === 'string') {
       let draggedUrl = event.dataTransfer.getData('text/uri-list');
@@ -96,6 +96,13 @@ export class AppComponent {
     this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
       this.dataService.addTaskList(newTaskList);
     });
+  }
+
+  clearAll() {
+    this.dataService.clearAllData();
+    this.hashy.show('All notes deleted', 6000, 'Undo', () => {
+      this.dataService.fetchDataFromCache();
+    })
   }
 
   saveItemPosition(event: any, item: { posX: number, posY: number }) {
