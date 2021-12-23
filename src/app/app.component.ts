@@ -115,6 +115,8 @@ export class AppComponent {
     if (item.posY < 0) {
       item.posY = 0;
     }
+
+    this.dataService.cacheData();
   }
 
   showAboutDialog() {
