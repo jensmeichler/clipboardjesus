@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {ApplicationRef, Injectable, OnDestroy} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {BehaviorSubject, Subscription} from "rxjs";
 
@@ -11,7 +11,9 @@ export class HashyService implements OnDestroy {
   dismissSubscription?: Subscription;
   actionSubscription?: Subscription;
 
-  constructor(private readonly snackBar: MatSnackBar) {
+  constructor(
+    private readonly snackBar: MatSnackBar,
+    private readonly appRef: ApplicationRef) {
   }
 
   ngOnDestroy() {
@@ -29,12 +31,14 @@ export class HashyService implements OnDestroy {
 
     this.dismissSubscription = snackBarRef.afterDismissed().subscribe(() => {
       this.showHashy.next(false);
+      this.appRef.tick();
     })
 
     if (action) {
       this.actionSubscription = snackBarRef.onAction().subscribe(() => {
         action();
         this.showHashy.next(false);
+        this.appRef.tick();
       });
     }
   }
