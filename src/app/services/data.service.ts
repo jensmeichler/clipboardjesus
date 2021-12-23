@@ -3,13 +3,15 @@ import {MatDialog} from "@angular/material/dialog";
 import * as moment from "moment";
 import {BehaviorSubject} from "rxjs";
 import {SaveAsDialogComponent} from "../components/dialogs/save-as-dialog/save-as-dialog.component";
-import {Image, IndexItem, Note, NotesJson, TaskList} from "../models";
+import {Image, IndexItem, Note, NotesJson, TaskList, Tab} from "../models";
 import {HashyService} from "./hashy.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
+  tabs$: BehaviorSubject<Tab[] | null> = new BehaviorSubject<Tab[] | null>(null);
+
   notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
   taskLists$: BehaviorSubject<TaskList[] | null> = new BehaviorSubject<TaskList[] | null>(null);
   images$: BehaviorSubject<Image[] | null> = new BehaviorSubject<Image[] | null>(null);
@@ -24,6 +26,20 @@ export class DataService {
   constructor(
     private readonly dialog: MatDialog,
     private readonly hashy: HashyService) {
+    this.tabs$.next([
+      {
+        label: 'Tab 1',
+        notes: [],
+        taskLists: [],
+        images: []
+      },
+      {
+        label: 'Tab 2',
+        notes: [],
+        taskLists: [],
+        images: []
+      }
+    ])
   }
 
   cacheData() {

@@ -1,5 +1,5 @@
 .clipboard {
-  height: 98vh;
+  height: calc(98vh - 49px);
   border: 1vh dashed var(--color-background);
   transition: border ease-in-out 0.2s;
 }
@@ -61,7 +61,7 @@
   justify-content: center;
   color: #7b1ea2;
   animation: fade-out cubic-bezier(0.5, -0.3, 0, 2) 6s;
-  transform: scale(0.3) translate(5.7em, -0.4em);
+  transform: scale(0.2) translate(10em, -1.1em);
   width: auto;
   cursor: pointer;
   filter: drop-shadow(0 0 16px black);
@@ -104,7 +104,7 @@
     top: 0;
     right: 0;
     color: var(--color-primary);
-    transform: scale(0.3) translate(5.7em, -1.7em);
+    transform: scale(0.2) translate(10em, -1.7em);
     opacity: 0;
   }
   100% {

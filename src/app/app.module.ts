@@ -27,7 +27,8 @@ import {environment} from '../environments/environment';
 import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
 import {AboutDialogComponent} from './components/dialogs/about-dialog/about-dialog.component';
 import {MatBadgeModule} from "@angular/material/badge";
-import { SaveAsDialogComponent } from './components/dialogs/save-as-dialog/save-as-dialog.component';
+import {SaveAsDialogComponent} from './components/dialogs/save-as-dialog/save-as-dialog.component';
+import {MatTabsModule} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { SaveAsDialogComponent } from './components/dialogs/save-as-dialog/save-
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    MatTabsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
