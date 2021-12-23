@@ -222,6 +222,8 @@ export class DataService {
     a.click();
 
     this.hashy.show('Saved as ' + filename, 3000, true);
+
+    this.cacheData();
   }
 
   saveAs() {
