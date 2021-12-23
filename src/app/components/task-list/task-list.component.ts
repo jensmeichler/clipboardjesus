@@ -1,4 +1,5 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, ViewChild} from '@angular/core';
+import {Subscription} from "rxjs";
 import {TaskItem, TaskList} from "../../models";
 import {MatDialog} from "@angular/material/dialog";
 import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
@@ -11,9 +12,11 @@ import {MatMenuTrigger} from "@angular/material/menu";
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css']
 })
-export class TaskListComponent {
+export class TaskListComponent implements OnDestroy {
   @Input()
   taskList: TaskList = {} as TaskList;
+
+  dialogSubscription?: Subscription;
 
   itemToEdit?: TaskItem;
   selected = false;
@@ -21,6 +24,10 @@ export class TaskListComponent {
   constructor(
     private readonly dialog: MatDialog,
     public readonly dataService: DataService) {
+  }
+
+  ngOnDestroy() {
+    this.dialogSubscription?.unsubscribe();
   }
 
   select() {
@@ -45,6 +52,8 @@ export class TaskListComponent {
     let newItem = new TaskItem('');
     this.taskList.items.push(newItem);
     this.itemToEdit = newItem;
+
+    this.dataService.cacheData();
   }
 
   addItemAfter(parent: TaskItem) {
@@ -62,9 +71,11 @@ export class TaskListComponent {
   }
 
   edit() {
-    this.dialog.open(EditTaskListDialogComponent, {
+    this.dialogSubscription = this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: this.taskList,
+    }).afterClosed().subscribe(result => {
+      this.dataService.cacheData();
     });
   }
 
@@ -80,6 +91,8 @@ export class TaskListComponent {
     let index = this.taskList.items.indexOf(item);
     this.taskList.items[index] = item;
     this.itemToEdit = undefined;
+
+    this.dataService.cacheData();
   }
 
   markAsChecked(item: TaskItem) {
@@ -90,6 +103,8 @@ export class TaskListComponent {
 
   deleteItem(item: TaskItem) {
     this.taskList.items = this.taskList.items.filter(x => x !== item);
+
+    this.dataService.cacheData();
   }
 
   dropItem(event: CdkDragDrop<TaskItem[]>) {
@@ -103,6 +118,8 @@ export class TaskListComponent {
         event.currentIndex,
       );
     }
+
+    this.dataService.cacheData();
   }
 
   @ViewChild(MatMenuTrigger)

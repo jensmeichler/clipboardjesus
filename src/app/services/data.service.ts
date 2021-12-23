@@ -118,8 +118,6 @@ export class DataService {
     this.notes$.next(filteredNotes!);
 
     this.reArrangeIndices();
-
-    this.cacheData();
   }
 
   deleteTaskList(taskList: TaskList) {
@@ -131,8 +129,6 @@ export class DataService {
     this.taskLists$.next(filteredTaskLists!);
 
     this.reArrangeIndices();
-
-    this.cacheData();
   }
 
   deleteImage(image: Image) {
@@ -144,8 +140,6 @@ export class DataService {
     this.images$.next(filteredImages!);
 
     this.reArrangeIndices();
-
-    this.cacheData();
   }
 
   getAsJson(): NotesJson {
@@ -267,6 +261,8 @@ export class DataService {
     indexItems.forEach(item => {
       item.posZ = i++;
     })
+
+    this.cacheData();
   }
 
   private getNextIndex(): number {

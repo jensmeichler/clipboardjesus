@@ -1,6 +1,7 @@
 import {Clipboard} from "@angular/cdk/clipboard";
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, Input, OnDestroy, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
+import {Subscription} from "rxjs";
 import {Note} from "../../models";
 import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dialog.component";
 import {HashyService} from "../../services/hashy.service";
@@ -12,9 +13,11 @@ import {MatMenuTrigger} from "@angular/material/menu";
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.css']
 })
-export class NoteComponent {
+export class NoteComponent implements OnDestroy {
   @Input()
   note: Note = {} as Note;
+
+  dialogSubscription?: Subscription;
 
   disabled = false;
   selected = false;
@@ -25,6 +28,10 @@ export class NoteComponent {
     private readonly dialog: MatDialog,
     public readonly dataService: DataService
   ) {
+  }
+
+  ngOnDestroy() {
+    this.dialogSubscription?.unsubscribe();
   }
 
   select() {
@@ -52,9 +59,11 @@ export class NoteComponent {
   }
 
   edit() {
-    this.dialog.open(EditNoteDialogComponent, {
+    this.dialogSubscription = this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: this.note,
+    }).afterClosed().subscribe(result => {
+      this.dataService.cacheData();
     });
   }
 
