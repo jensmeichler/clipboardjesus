@@ -65,6 +65,7 @@
   width: auto;
   cursor: pointer;
   filter: drop-shadow(0 0 16px black);
+  z-index: 103;
 }
 
 @keyframes fade-out {
@@ -74,7 +75,6 @@
     right: auto;
     color: #424242;
     transform: scale(0);
-    z-index: 104;
   }
   8% {
     width: 100%;
@@ -82,7 +82,6 @@
     right: auto;
     color: #4b4b4b;
     transform: scale(0.7);
-    z-index: 104;
   }
   50% {
     width: 100%;
@@ -91,7 +90,6 @@
     color: #4b4b4b;
     transform: scale(0.7);
     opacity: 1;
-    z-index: 104;
   }
   89% {
     width: 100%;
@@ -100,7 +98,6 @@
     color: #4b4b4b;
     transform: scale(0);
     opacity: 0;
-    z-index: 104;
   }
   90% {
     width: auto;
