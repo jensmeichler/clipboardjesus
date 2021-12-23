@@ -18,8 +18,9 @@ export class AppComponent {
   constructor(
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
-    public readonly hashy: HashyService,
+    public readonly hashy: HashyService
   ) {
+    dataService.fetchDataFromCache();
   }
 
   newNote(event: MouseEvent) {

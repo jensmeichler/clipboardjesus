@@ -64,6 +64,7 @@
   transform: scale(0.3) translate(5.7em, -0.4em);
   width: auto;
   cursor: pointer;
+  filter: drop-shadow(0 0 16px black);
 }
 
 @keyframes fade-out {
@@ -71,31 +72,35 @@
     width: 100%;
     top: 36vh;
     right: auto;
-    color: #ffffff1f;
+    color: #424242;
     transform: scale(0);
+    z-index: 104;
   }
   8% {
     width: 100%;
     top: 36vh;
     right: auto;
-    color: #ffffff1f;
+    color: #4b4b4b;
     transform: scale(0.7);
+    z-index: 104;
   }
   50% {
     width: 100%;
     top: 36vh;
     right: auto;
-    color: #ffffff1f;
+    color: #4b4b4b;
     transform: scale(0.7);
     opacity: 1;
+    z-index: 104;
   }
   89% {
     width: 100%;
     top: 36vh;
     right: auto;
-    color: #ffffff1f;
+    color: #4b4b4b;
     transform: scale(0);
     opacity: 0;
+    z-index: 104;
   }
   90% {
     width: auto;

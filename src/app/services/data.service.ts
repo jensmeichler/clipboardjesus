@@ -26,6 +26,17 @@ export class DataService {
     private readonly hashy: HashyService) {
   }
 
+  cacheData() {
+    localStorage.setItem("clipboard_data", JSON.stringify(this.getAsJson()));
+  }
+
+  fetchDataFromCache() {
+    let data = localStorage.getItem("clipboard_data");
+    if (data) {
+      this.setFromJson(data);
+    }
+  }
+
   selectNote(note: Note, selected: boolean) {
     if (selected) {
       this.selectedNotes.push(note);
@@ -70,6 +81,8 @@ export class DataService {
     currentNotes?.push(note);
     this.notes$.next(currentNotes);
     this.itemsCount++;
+
+    this.cacheData();
   }
 
   addTaskList(taskList: TaskList) {
@@ -80,6 +93,8 @@ export class DataService {
     currentTasks?.push(taskList);
     this.taskLists$.next(currentTasks);
     this.itemsCount++;
+
+    this.cacheData();
   }
 
   addImage(image: Image) {
@@ -90,6 +105,8 @@ export class DataService {
     currentImages?.push(image);
     this.images$.next(currentImages);
     this.itemsCount++;
+
+    this.cacheData();
   }
 
   deleteNote(note: Note) {
@@ -101,6 +118,8 @@ export class DataService {
     this.notes$.next(filteredNotes!);
 
     this.reArrangeIndices();
+
+    this.cacheData();
   }
 
   deleteTaskList(taskList: TaskList) {
@@ -112,6 +131,8 @@ export class DataService {
     this.taskLists$.next(filteredTaskLists!);
 
     this.reArrangeIndices();
+
+    this.cacheData();
   }
 
   deleteImage(image: Image) {
@@ -123,6 +144,8 @@ export class DataService {
     this.images$.next(filteredImages!);
 
     this.reArrangeIndices();
+
+    this.cacheData();
   }
 
   getAsJson(): NotesJson {
@@ -184,6 +207,8 @@ export class DataService {
     this.notes$.next(currentNotes);
     this.taskLists$.next(currentTaskLists);
     this.images$.next(currentImages);
+
+    this.cacheData();
   }
 
   save(filename?: string) {
