@@ -88,7 +88,7 @@
     <button mat-icon-button (click)="edit()">
       <mat-icon>edit</mat-icon>
     </button>
-    <button mat-icon-button (click)="delete()">
+    <button mat-icon-button (click)="delete(); $event.stopPropagation()">
       <mat-icon>delete</mat-icon>
     </button>
     <button mat-icon-button (click)="showContextMenu($event)">
