@@ -40,6 +40,10 @@
      [matMenuTriggerFor]="contextMenu">
 </div>
 <mat-menu #contextMenu="matMenu">
+  <button mat-menu-item (click)="dataService.addTab()">
+    <mat-icon>add</mat-icon>
+    Add new tab
+  </button>
   <button mat-menu-item (click)="openNewNoteDialog()">
     <mat-icon>note</mat-icon>
     Create note

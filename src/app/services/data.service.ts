@@ -11,13 +11,7 @@ import {HashyService} from "./hashy.service";
 })
 export class DataService {
   currentTabIndex = 0;
-  tabs: number[] = [0, 1, 2];
-
-  setSelectedTab(tabId: number) {
-    this.cacheData();
-    this.currentTabIndex = tabId;
-    this.fetchDataFromCache(tabId);
-  };
+  tabs: number[] = [0];
 
   notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
   taskLists$: BehaviorSubject<TaskList[] | null> = new BehaviorSubject<TaskList[] | null>(null);
@@ -36,7 +30,6 @@ export class DataService {
   }
 
   cacheData() {
-    console.log('cached '+ this.currentTabIndex)
     localStorage.setItem("clipboard_data_" + this.currentTabIndex, JSON.stringify(this.getAsJson(this.currentTabIndex)));
   }
 
@@ -47,6 +40,16 @@ export class DataService {
       this.setFromJson(data);
     }
   }
+
+  addTab() {
+    this.tabs.push(this.tabs.length);
+  }
+
+  setSelectedTab(index: number) {
+    this.cacheData();
+    this.currentTabIndex = index;
+    this.fetchDataFromCache(index);
+  };
 
   clearAllData() {
     this.selectedNotes = [];
