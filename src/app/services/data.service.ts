@@ -3,14 +3,21 @@ import {MatDialog} from "@angular/material/dialog";
 import * as moment from "moment";
 import {BehaviorSubject} from "rxjs";
 import {SaveAsDialogComponent} from "../components/dialogs/save-as-dialog/save-as-dialog.component";
-import {Image, IndexItem, Note, NotesJson, TaskList, Tab} from "../models";
+import {Image, IndexItem, Note, NotesJson, TaskList} from "../models";
 import {HashyService} from "./hashy.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  tabs$: BehaviorSubject<Tab[] | null> = new BehaviorSubject<Tab[] | null>(null);
+  currentTabIndex = 0;
+  tabs: number[] = [0, 1, 2];
+
+  setSelectedTab(tabId: number) {
+    this.cacheData();
+    this.currentTabIndex = tabId;
+    this.fetchDataFromCache(tabId);
+  };
 
   notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
   taskLists$: BehaviorSubject<TaskList[] | null> = new BehaviorSubject<TaskList[] | null>(null);
@@ -26,28 +33,16 @@ export class DataService {
   constructor(
     private readonly dialog: MatDialog,
     private readonly hashy: HashyService) {
-    this.tabs$.next([
-      {
-        label: 'Tab 1',
-        notes: [],
-        taskLists: [],
-        images: []
-      },
-      {
-        label: 'Tab 2',
-        notes: [],
-        taskLists: [],
-        images: []
-      }
-    ])
   }
 
   cacheData() {
-    localStorage.setItem("clipboard_data", JSON.stringify(this.getAsJson()));
+    console.log('cached '+ this.currentTabIndex)
+    localStorage.setItem("clipboard_data_" + this.currentTabIndex, JSON.stringify(this.getAsJson(this.currentTabIndex)));
   }
 
-  fetchDataFromCache() {
-    let data = localStorage.getItem("clipboard_data");
+  fetchDataFromCache(tabId?: number) {
+    this.clearAllData();
+    let data = localStorage.getItem("clipboard_data_" + tabId ?? this.currentTabIndex);
     if (data) {
       this.setFromJson(data);
     }
@@ -176,8 +171,8 @@ export class DataService {
     this.reArrangeIndices();
   }
 
-  getAsJson(): NotesJson {
-    if (this.selectedItemsCount) {
+  getAsJson(tabIndex?: number): NotesJson {
+    if (tabIndex == undefined && this.selectedItemsCount) {
       return {
         notes: this.selectedNotes,
         taskLists: this.selectedTaskLists,

@@ -20,7 +20,7 @@ export class AppComponent {
     public readonly dataService: DataService,
     public readonly hashy: HashyService
   ) {
-    dataService.fetchDataFromCache();
+    dataService.fetchDataFromCache(0);
   }
 
   newNote(event: MouseEvent) {
@@ -112,8 +112,8 @@ export class AppComponent {
     if (item.posX < 0) {
       item.posX = 0;
     }
-    if (item.posY < 0) {
-      item.posY = 0;
+    if (item.posY < 49) {
+      item.posY = 49;
     }
 
     this.dataService.cacheData();

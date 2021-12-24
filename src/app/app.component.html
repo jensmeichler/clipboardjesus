@@ -1,5 +1,5 @@
-<mat-tab-group>
-  <mat-tab *ngFor="let tab of dataService.tabs$ | async" label="{{tab.label}}">
+<mat-tab-group (selectedIndexChange)="dataService.setSelectedTab($event)" animationDuration="0">
+  <mat-tab *ngFor="let tabIndex of dataService.tabs" label="Board {{tabIndex + 1}}">
     <div class="clipboard"
          (click)="newNote($event)"
          (drop)="dropFile($event)" customDragDrop
@@ -7,7 +7,7 @@
       <ng-container *ngFor="let note of dataService.notes$ | async">
         <note cdkDrag class="draggable-note"
               (cdkDragEnded)="saveItemPosition($event, note)"
-              [style.top.px]="note.posY"
+              [style.top.px]="note.posY - 49"
               [style.left.px]="note.posX"
               [style.zIndex]="note.posZ"
               [note]="note"></note>
@@ -16,7 +16,7 @@
         <ng-container *ngFor="let taskList of dataService.taskLists$ | async">
           <task-list cdkDrag class="draggable-note"
                      (cdkDragEnded)="saveItemPosition($event, taskList)"
-                     [style.top.px]="taskList.posY"
+                     [style.top.px]="taskList.posY - 49"
                      [style.left.px]="taskList.posX"
                      [style.zIndex]="taskList.posZ"
                      [taskList]="taskList"></task-list>
@@ -24,35 +24,35 @@
         <ng-container *ngFor="let image of dataService.images$ | async">
           <image cdkDrag class="draggable-note"
                  (cdkDragEnded)="saveItemPosition($event, image)"
-                 [style.top.px]="image.posY"
+                 [style.top.px]="image.posY - 49"
                  [style.left.px]="image.posX"
                  [style.zIndex]="image.posZ"
                  [image]="image"></image>
         </ng-container>
       </div>
     </div>
-
-    <div style="visibility: hidden; position: fixed"
-         [style.left.px]="rightClickPosX"
-         [style.top.px]="rightClickPosY"
-         [matMenuTriggerFor]="contextMenu">
-    </div>
-    <mat-menu #contextMenu="matMenu">
-      <button mat-menu-item (click)="openNewNoteDialog()">
-        <mat-icon>note</mat-icon>
-        Create note
-      </button>
-      <button mat-menu-item (click)="openNewTaskListDialog()">
-        <mat-icon>list</mat-icon>
-        Create task list
-      </button>
-      <button mat-menu-item (click)="clearAll()">
-        <mat-icon>delete</mat-icon>
-        Delete all
-      </button>
-    </mat-menu>
   </mat-tab>
 </mat-tab-group>
+
+<div style="visibility: hidden; position: fixed"
+     [style.left.px]="rightClickPosX"
+     [style.top.px]="rightClickPosY"
+     [matMenuTriggerFor]="contextMenu">
+</div>
+<mat-menu #contextMenu="matMenu">
+  <button mat-menu-item (click)="openNewNoteDialog()">
+    <mat-icon>note</mat-icon>
+    Create note
+  </button>
+  <button mat-menu-item (click)="openNewTaskListDialog()">
+    <mat-icon>list</mat-icon>
+    Create task list
+  </button>
+  <button mat-menu-item (click)="clearAll()">
+    <mat-icon>delete</mat-icon>
+    Delete all
+  </button>
+</mat-menu>
 
 <div class="fab-container">
   <button mat-mini-fab color="accent" matTooltip="Save as" matTooltipPosition="left"
