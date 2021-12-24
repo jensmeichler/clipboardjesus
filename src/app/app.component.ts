@@ -20,7 +20,6 @@ export class AppComponent {
     public readonly dataService: DataService,
     public readonly hashy: HashyService
   ) {
-    dataService.fetchDataFromCache(0);
   }
 
   newNote(event: MouseEvent) {

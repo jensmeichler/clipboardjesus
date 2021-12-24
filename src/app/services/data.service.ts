@@ -26,7 +26,17 @@ export class DataService {
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly hashy: HashyService) {
+    private readonly hashy: HashyService
+  ) {
+    for (let i = 1; i < 20; i++) {
+      const key = "clipboard_data_" + i;
+      const data = localStorage.getItem(key);
+      if (data) {
+        this.tabs.push(i);
+      }
+    }
+
+    this.fetchDataFromCache(0);
   }
 
   cacheData() {
@@ -47,7 +57,13 @@ export class DataService {
   }
 
   addTab() {
-    this.tabs.push(this.tabs.length);
+    const newIndex = this.tabs.length;
+    this.tabs.push(newIndex);
+    localStorage.setItem("clipboard_data_" + newIndex, JSON.stringify({
+      notes: [],
+      taskLists: [],
+      images: []
+    } as NotesJson))
   }
 
   removeTab() {
@@ -69,7 +85,6 @@ export class DataService {
     this.tabs = result;
 
     let isRightTab = index > (this.tabs.length - 1);
-    console.log(isRightTab, index, result)
     this.fetchDataFromCache(isRightTab ? index - 1 : index);
   }
 

@@ -1,5 +1,5 @@
 <mat-tab-group (selectedIndexChange)="dataService.setSelectedTab($event)" animationDuration="0">
-  <mat-tab *ngFor="let tabIndex of dataService.tabs" label="Board {{tabIndex + 1}}">
+  <mat-tab *ngFor="let tabIndex of dataService.tabs" label="#Board {{tabIndex + 1}}">
     <div class="clipboard"
          (click)="newNote($event)"
          (drop)="dropFile($event)" customDragDrop
