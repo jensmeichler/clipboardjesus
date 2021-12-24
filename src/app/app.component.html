@@ -40,14 +40,18 @@
      [matMenuTriggerFor]="contextMenu">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <button mat-menu-item (click)="dataService.addTab()">
-    <mat-icon>add</mat-icon>
-    Add new tab
-  </button>
-  <button mat-menu-item (click)="dataService.removeTab()">
-    <mat-icon>close</mat-icon>
-    Close tab
-  </button>
+  <ng-container *ngIf="dataService.tabs.length < 20">
+    <button mat-menu-item (click)="dataService.addTab()">
+      <mat-icon>add</mat-icon>
+      Add new tab
+    </button>
+  </ng-container>
+  <ng-container *ngIf="dataService.tabs.length > 1">
+    <button mat-menu-item (click)="dataService.removeTab()">
+      <mat-icon>close</mat-icon>
+      Close tab
+    </button>
+  </ng-container>
   <button mat-menu-item (click)="openNewNoteDialog()">
     <mat-icon>note</mat-icon>
     Create note
