@@ -30,12 +30,17 @@ export class DataService {
   }
 
   cacheData() {
-    localStorage.setItem("clipboard_data_" + this.currentTabIndex, JSON.stringify(this.getAsJson(this.currentTabIndex)));
+    let key = "clipboard_data_" + this.currentTabIndex;
+    localStorage.setItem(key, JSON.stringify(this.getAsJson(this.currentTabIndex)));
   }
 
   fetchDataFromCache(tabId?: number) {
     this.clearAllData();
-    let data = localStorage.getItem("clipboard_data_" + tabId ?? this.currentTabIndex);
+    if (tabId != undefined) {
+      this.currentTabIndex = tabId;
+    }
+    let key = "clipboard_data_" + this.currentTabIndex;
+    let data = localStorage.getItem(key);
     if (data) {
       this.setFromJson(data);
     }
@@ -45,8 +50,30 @@ export class DataService {
     this.tabs.push(this.tabs.length);
   }
 
+  removeTab() {
+    let index = this.currentTabIndex;
+    let key: string = "clipboard_data_" + index;
+    localStorage.removeItem(key);
+
+    let result = this.tabs.filter(i => i < index);
+    let rightTabs = this.tabs.filter(i => i > index);
+    rightTabs.forEach(i => {
+      const oldKey = "clipboard_data_" + i;
+      const newKey = "clipboard_data_" + (i - 1);
+
+      let tabContent = localStorage.getItem(oldKey);
+      localStorage.removeItem(oldKey);
+      localStorage.setItem(newKey, tabContent!);
+      result.push(i - 1);
+    })
+    this.tabs = result;
+
+    let isRightTab = index > (this.tabs.length - 1);
+    console.log(isRightTab, index, result)
+    this.fetchDataFromCache(isRightTab ? index - 1 : index);
+  }
+
   setSelectedTab(index: number) {
-    this.cacheData();
     this.currentTabIndex = index;
     this.fetchDataFromCache(index);
   };
