@@ -72,7 +72,8 @@
           [disabled]="!dataService.itemsCount">
     <mat-icon>save_as</mat-icon>
   </button>
-  <button mat-fab color="primary" matTooltip="Save notes.json to downloads" matTooltipPosition="left"
+  <button mat-fab color="primary" matTooltipPosition="left"
+          [matTooltip]="dataService.selectedItemsCount ? 'Save ' + dataService.selectedItemsCount + ' items' : 'Save current tab'"
           (click)="save(); $event.stopPropagation()"
           [disabled]="!dataService.itemsCount">
     <mat-icon [matBadge]="dataService.selectedItemsCount ? dataService.selectedItemsCount : ''"
