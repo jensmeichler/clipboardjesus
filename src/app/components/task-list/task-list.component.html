@@ -1,7 +1,6 @@
 <mat-card (click)="click($event);"
           (auxclick)="click($event);"
           (contextmenu)="showContextMenu($event)"
-          [class.draggable-note-selected]="selected"
           [style.color]="taskList.foregroundColor"
           [style.background]="taskList.backgroundColorGradient
             ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
@@ -83,7 +82,7 @@
       <mat-icon>add</mat-icon>
     </button>
     <button mat-icon-button (click)="select()">
-      <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
+      <mat-icon>{{taskList.selected ? 'close' : 'check'}}</mat-icon>
     </button>
     <button mat-icon-button (click)="edit()">
       <mat-icon>edit</mat-icon>
@@ -129,8 +128,8 @@
       Add item
     </button>
     <button mat-menu-item (click)="select()">
-      <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
-      {{selected ? 'Remove selection' : 'Select'}}
+      <mat-icon>{{taskList.selected ? 'close' : 'check'}}</mat-icon>
+      {{taskList.selected ? 'Remove selection' : 'Select'}}
     </button>
     <button mat-menu-item (click)="edit()">
       <mat-icon>edit</mat-icon>

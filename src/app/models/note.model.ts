@@ -7,6 +7,7 @@ export class Note {
   posX: number;
   posY: number;
   posZ?: number;
+  selected?: boolean;
 
   constructor(posX: number, posY: number, content?: string, header?: string, posZ?: number) {
     this.posX = posX;

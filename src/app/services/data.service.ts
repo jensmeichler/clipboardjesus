@@ -3,7 +3,7 @@ import {MatDialog} from "@angular/material/dialog";
 import * as moment from "moment";
 import {BehaviorSubject} from "rxjs";
 import {SaveAsDialogComponent} from "../components/dialogs/save-as-dialog/save-as-dialog.component";
-import {Image, IndexItem, Note, NotesJson, TaskList} from "../models";
+import {Image, IndexItem, Note, Tab, TaskList} from "../models";
 import {HashyService} from "./hashy.service";
 
 @Injectable({
@@ -63,7 +63,7 @@ export class DataService {
       notes: [],
       taskLists: [],
       images: []
-    } as NotesJson))
+    } as Tab))
   }
 
   removeTab() {
@@ -105,7 +105,7 @@ export class DataService {
     this.itemsCount = 0;
   }
 
-  selectNote(note: Note, selected: boolean) {
+  selectNote(note: Note, selected?: boolean) {
     if (selected) {
       this.selectedNotes.push(note);
       this.selectedItemsCount++;
@@ -117,7 +117,7 @@ export class DataService {
     }
   }
 
-  selectTaskList(taskList: TaskList, selected: boolean) {
+  selectTaskList(taskList: TaskList, selected?: boolean) {
     if (selected) {
       this.selectedTaskLists.push(taskList);
       this.selectedItemsCount++;
@@ -129,7 +129,7 @@ export class DataService {
     }
   }
 
-  selectImage(image: Image, selected: boolean) {
+  selectImage(image: Image, selected?: boolean) {
     if (selected) {
       this.selectedImages.push(image);
       this.selectedItemsCount++;
@@ -216,19 +216,19 @@ export class DataService {
     this.reArrangeIndices();
   }
 
-  getAsJson(tabIndex?: number): NotesJson {
+  getAsJson(tabIndex?: number): Tab {
     if (tabIndex == undefined && this.selectedItemsCount) {
       return {
         notes: this.selectedNotes,
         taskLists: this.selectedTaskLists,
         images: this.selectedImages
-      } as NotesJson
+      } as Tab
     }
     return {
       notes: this.notes$.getValue(),
       taskLists: this.taskLists$.getValue(),
       images: this.images$.getValue()
-    } as NotesJson;
+    } as Tab;
   }
 
   setFromJson(json: string) {
@@ -236,7 +236,7 @@ export class DataService {
     let currentTaskLists: TaskList[] = this.taskLists$.getValue() ?? [];
     let currentImages: Image[] = this.images$.getValue() ?? [];
 
-    let uploadedData = JSON.parse(json) as NotesJson;
+    let uploadedData = JSON.parse(json) as Tab;
     let uploadedNotes = uploadedData.notes;
     let uploadedTaskLists = uploadedData.taskLists;
     let uploadedImages = uploadedData.images;

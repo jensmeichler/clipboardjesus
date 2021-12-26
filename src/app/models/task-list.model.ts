@@ -9,6 +9,7 @@ export class TaskList {
   posX: number;
   posY: number;
   posZ?: number;
+  selected?: boolean;
 
   constructor(posX: number, posY: number, posZ?: number) {
     this.posX = posX;

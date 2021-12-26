@@ -19,7 +19,6 @@ export class TaskListComponent implements OnDestroy {
   dialogSubscription?: Subscription;
 
   itemToEdit?: TaskItem;
-  selected = false;
 
   constructor(
     private readonly dialog: MatDialog,
@@ -31,8 +30,8 @@ export class TaskListComponent implements OnDestroy {
   }
 
   select() {
-    this.selected = !this.selected;
-    this.dataService.selectTaskList(this.taskList, this.selected);
+    this.taskList.selected = this.taskList.selected ? undefined : true;
+    this.dataService.selectTaskList(this.taskList, this.taskList.selected);
   }
 
   click(event: any) {

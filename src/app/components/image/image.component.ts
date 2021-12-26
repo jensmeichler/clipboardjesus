@@ -15,7 +15,6 @@ export class ImageComponent {
   image: Image = {} as Image;
 
   loadingFailed = false;
-  selected = false;
 
   disabled = false;
 
@@ -30,8 +29,8 @@ export class ImageComponent {
   }
 
   select() {
-    this.selected = !this.selected;
-    this.dataService.selectImage(this.image, this.selected);
+    this.image.selected = this.image.selected ? undefined : true;
+    this.dataService.selectImage(this.image, this.image.selected);
   }
 
   click(event: any) {

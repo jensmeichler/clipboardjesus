@@ -2,7 +2,6 @@
           (click)="click($event)"
           (auxclick)="click($event)"
           (contextmenu)="showContextMenu($event)"
-          [class.draggable-note-selected]="selected"
           [style.color]="note.foregroundColor"
           [style.background]="note.backgroundColorGradient
             ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
@@ -15,7 +14,7 @@
     <button mat-icon-button (click)="select(); $event.stopPropagation()"
             (mousedown)="disabled=true"
             (mouseup)="disabled=false">
-      <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
+      <mat-icon>{{note.selected ? 'close' : 'check'}}</mat-icon>
     </button>
     <button mat-icon-button (click)="edit(); $event.stopPropagation()"
             (mousedown)="disabled=true"
@@ -67,8 +66,8 @@
       Copy
     </button>
     <button mat-menu-item (click)="select()">
-      <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
-      {{selected ? 'Remove selection' : 'Select'}}
+      <mat-icon>{{note.selected ? 'close' : 'check'}}</mat-icon>
+      {{note.selected ? 'Remove selection' : 'Select'}}
     </button>
     <button mat-menu-item (click)="edit()">
       <mat-icon>edit</mat-icon>

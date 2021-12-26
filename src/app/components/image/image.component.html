@@ -4,7 +4,6 @@
           (dblclick)="open()"
           (auxclick)="click($event)"
           (contextmenu)="showContextMenu($event)"
-          [class.draggable-note-selected]="selected"
           class="flex-container">
   <img *ngIf="!loadingFailed" [src]="image.source" height="140" style="border-radius: 3px"
        (error)="onLoadingFailed()" alt="loading failed">
@@ -56,8 +55,8 @@
     Copy link
   </button>
   <button mat-menu-item (click)="select()">
-    <mat-icon>{{selected ? 'close' : 'check'}}</mat-icon>
-    {{selected ? 'Remove selection' : 'Select'}}
+    <mat-icon>{{image.selected ? 'close' : 'check'}}</mat-icon>
+    {{image.selected ? 'Remove selection' : 'Select'}}
   </button>
   <button mat-menu-item (click)="delete()">
     <mat-icon>delete</mat-icon>

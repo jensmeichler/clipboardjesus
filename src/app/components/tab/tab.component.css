@@ -1,0 +1,21 @@
+.clipboard {
+  height: calc(98vh - 49px);
+  border: 1vh dashed var(--color-background);
+  transition: border ease-in-out 0.2s;
+}
+
+.draggable-note {
+  transition: box-shadow ease-in-out 0.3s;
+  box-shadow: var(--shadow-light);
+  border-radius: 4px;
+}
+
+.draggable-note:hover {
+  z-index: 102 !important;
+  box-shadow: var(--shadow-strong);
+}
+
+.draggable-note-selected {
+  z-index: 101 !important;
+  box-shadow: 0 0 20px var(--color-secondary) !important;
+}

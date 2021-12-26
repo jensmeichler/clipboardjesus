@@ -1,9 +1,3 @@
-.clipboard {
-  height: calc(98vh - 49px);
-  border: 1vh dashed var(--color-background);
-  transition: border ease-in-out 0.2s;
-}
-
 .save-as-button {
   position: absolute;
   margin: 8px;
