@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
+import {Image, Note} from "../../models";
 import {DataService} from "../../services/data.service";
 import {HashyService} from "../../services/hashy.service";
-import {Image, Note} from "../../models";
 
 @Component({
   selector: 'clipboard-tab',
@@ -9,7 +9,6 @@ import {Image, Note} from "../../models";
   styleUrls: ['./tab.component.css']
 })
 export class TabComponent {
-
   constructor(
     private readonly hashy: HashyService,
     public readonly dataService: DataService) {

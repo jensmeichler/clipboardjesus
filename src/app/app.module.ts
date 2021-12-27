@@ -42,7 +42,7 @@ import { TabComponent } from './components/tab/tab.component';
     CustomDragDropDirective,
     AboutDialogComponent,
     SaveAsDialogComponent,
-    TabComponent
+    TabComponent,
   ],
   imports: [
     BrowserModule,

@@ -59,6 +59,7 @@ export class DataService {
       taskLists: [],
       images: []
     } as Tab))
+    this.setSelectedTab(newIndex);
   }
 
   removeTab() {
@@ -84,9 +85,13 @@ export class DataService {
   }
 
   setSelectedTab(index: number) {
-    this.currentTabIndex = index;
-    this.clearAllData();
-    this.fetchDataFromCache(index);
+    if (index == this.tabs.length) {
+      this.addTab();
+    } else {
+      this.currentTabIndex = index;
+      this.clearAllData();
+      this.fetchDataFromCache(index);
+    }
   };
 
   clearAllData() {

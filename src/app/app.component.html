@@ -1,5 +1,14 @@
 <mat-tab-group (selectedIndexChange)="dataService.setSelectedTab($event)" animationDuration="0">
-  <mat-tab *ngFor="let tabIndex of dataService.tabs" label="#Board {{tabIndex + 1}}">
+  <mat-tab *ngFor="let tabIndex of dataService.tabs">
+    <ng-template mat-tab-label>
+      #Board {{tabIndex + 1}}
+      <ng-container *ngIf="dataService.currentTabIndex == tabIndex">
+        <mat-icon class="tab-button" matTooltip="Edit tab">edit</mat-icon>
+        <ng-container *ngIf="dataService.tabs.length > 1">
+          <mat-icon class="tab-button" (click)="dataService.removeTab()" matTooltip="Close tab">close</mat-icon>
+        </ng-container>
+      </ng-container>
+    </ng-template>
     <clipboard-tab (contextmenu)="onRightClick($event)"></clipboard-tab>
   </mat-tab>
 </mat-tab-group>
