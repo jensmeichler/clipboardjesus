@@ -150,6 +150,9 @@ export class DataService {
 
   deleteNote(note: Note) {
     this.itemsCount--;
+    if (note.selected) {
+      this.selectedItemsCount--;
+    }
 
     let notes = this.notes$.getValue();
     let filteredNotes = notes!.filter(x => x !== note);
@@ -160,6 +163,9 @@ export class DataService {
 
   deleteTaskList(taskList: TaskList) {
     this.itemsCount--;
+    if (taskList.selected) {
+      this.selectedItemsCount--;
+    }
 
     let taskLists = this.taskLists$.getValue();
     let filteredTaskLists = taskLists!.filter(x => x !== taskList);
@@ -170,6 +176,9 @@ export class DataService {
 
   deleteImage(image: Image) {
     this.itemsCount--;
+    if (image.selected) {
+      this.selectedItemsCount--;
+    }
 
     let images = this.images$.getValue();
     let filteredImages = images!.filter(x => x !== image);
