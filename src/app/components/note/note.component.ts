@@ -34,8 +34,8 @@ export class NoteComponent implements OnDestroy {
   }
 
   select() {
-    this.note.selected = this.note.selected ? undefined : true;
-    this.dataService.selectNote(this.note, this.note.selected);
+    this.note.selected = !this.note.selected;
+    this.dataService.onSelectionChange(this.note);
   }
 
   click(event: any) {

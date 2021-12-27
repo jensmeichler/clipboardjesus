@@ -30,8 +30,8 @@ export class TaskListComponent implements OnDestroy {
   }
 
   select() {
-    this.taskList.selected = this.taskList.selected ? undefined : true;
-    this.dataService.selectTaskList(this.taskList, this.taskList.selected);
+    this.taskList.selected = !this.taskList.selected;
+    this.dataService.onSelectionChange(this.taskList);
   }
 
   click(event: any) {

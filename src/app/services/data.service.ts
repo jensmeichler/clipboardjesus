@@ -20,10 +20,6 @@ export class DataService {
   itemsCount = 0;
   selectedItemsCount = 0;
 
-  private selectedNotes: Note[] = [];
-  private selectedTaskLists: TaskList[] = [];
-  private selectedImages: Image[] = [];
-
   constructor(
     private readonly dialog: MatDialog,
     private readonly hashy: HashyService
@@ -41,11 +37,10 @@ export class DataService {
 
   cacheData() {
     let key = "clipboard_data_" + this.currentTabIndex;
-    localStorage.setItem(key, JSON.stringify(this.getAsJson(this.currentTabIndex)));
+    localStorage.setItem(key, JSON.stringify(this.getAsJson(true)));
   }
 
   fetchDataFromCache(tabId?: number) {
-    this.clearAllData();
     if (tabId != undefined) {
       this.currentTabIndex = tabId;
     }
@@ -90,55 +85,25 @@ export class DataService {
 
   setSelectedTab(index: number) {
     this.currentTabIndex = index;
+    this.clearAllData();
     this.fetchDataFromCache(index);
   };
 
   clearAllData() {
-    this.selectedNotes = [];
-    this.selectedTaskLists = [];
-    this.selectedImages = [];
-    this.selectedItemsCount = 0;
-
     this.notes$.next([]);
     this.taskLists$.next([]);
     this.images$.next([]);
     this.itemsCount = 0;
+    this.selectedItemsCount = 0;
   }
 
-  selectNote(note: Note, selected?: boolean) {
-    if (selected) {
-      this.selectedNotes.push(note);
+  onSelectionChange(item: { selected?: boolean }) {
+    if (item.selected) {
       this.selectedItemsCount++;
     } else {
-      if (this.selectedNotes.some(x => x === note)) {
-        this.selectedNotes = this.selectedNotes!.filter(x => x !== note);
-        this.selectedItemsCount--;
-      }
+      this.selectedItemsCount--;
     }
-  }
-
-  selectTaskList(taskList: TaskList, selected?: boolean) {
-    if (selected) {
-      this.selectedTaskLists.push(taskList);
-      this.selectedItemsCount++;
-    } else {
-      if (this.selectedTaskLists.some(x => x === taskList)) {
-        this.selectedTaskLists = this.selectedTaskLists!.filter(x => x !== taskList);
-        this.selectedItemsCount--;
-      }
-    }
-  }
-
-  selectImage(image: Image, selected?: boolean) {
-    if (selected) {
-      this.selectedImages.push(image);
-      this.selectedItemsCount++;
-    } else {
-      if (this.selectedImages.some(x => x === image)) {
-        this.selectedImages = this.selectedImages!.filter(x => x !== image);
-        this.selectedItemsCount--;
-      }
-    }
+    this.cacheData();
   }
 
   async addNote(note: Note) {
@@ -184,7 +149,6 @@ export class DataService {
   }
 
   deleteNote(note: Note) {
-    this.selectNote(note, false);
     this.itemsCount--;
 
     let notes = this.notes$.getValue();
@@ -195,7 +159,6 @@ export class DataService {
   }
 
   deleteTaskList(taskList: TaskList) {
-    this.selectTaskList(taskList, false);
     this.itemsCount--;
 
     let taskLists = this.taskLists$.getValue();
@@ -206,7 +169,6 @@ export class DataService {
   }
 
   deleteImage(image: Image) {
-    this.selectImage(image, false);
     this.itemsCount--;
 
     let images = this.images$.getValue();
@@ -216,12 +178,12 @@ export class DataService {
     this.reArrangeIndices();
   }
 
-  getAsJson(tabIndex?: number): Tab {
-    if (tabIndex == undefined && this.selectedItemsCount) {
+  getAsJson(ignoreSelection?: boolean): Tab {
+    if (!ignoreSelection && this.selectedItemsCount) {
       return {
-        notes: this.selectedNotes,
-        taskLists: this.selectedTaskLists,
-        images: this.selectedImages
+        notes: this.notes$.getValue()?.filter(x => x.selected),
+        taskLists: this.taskLists$.getValue()?.filter(x => x.selected),
+        images: this.images$.getValue()?.filter(x => x.selected),
       } as Tab
     }
     return {
@@ -243,33 +205,35 @@ export class DataService {
 
     uploadedNotes?.forEach((upload: Note) => {
       if (!currentNotes.some(curr => {
-        return upload.content === curr.content
-          && upload.header === curr.header
-          && upload.posX === curr.posX
-          && upload.posY === curr.posY
+        return this.compareNote(upload, curr);
       })) {
         currentNotes.push(upload);
         this.itemsCount++;
+        if (upload.selected) {
+          this.onSelectionChange(upload);
+        }
       }
     });
     uploadedTaskLists?.forEach((upload: TaskList) => {
       if (!currentTaskLists.some(curr => {
-        return upload.header === curr.header
-          && upload.posX === curr.posX
-          && upload.posY === curr.posY
+        return this.compareTaskList(upload, curr);
       })) {
         currentTaskLists.push(upload);
         this.itemsCount++;
+        if (upload.selected) {
+          this.onSelectionChange(upload);
+        }
       }
     });
     uploadedImages?.forEach((upload: Image) => {
       if (!currentImages.some(curr => {
-        return upload.source === curr.source
-          && upload.posX === curr.posX
-          && upload.posY === curr.posY
+        return this.compareImage(upload, curr);
       })) {
         currentImages.push(upload);
         this.itemsCount++;
+        if (upload.selected) {
+          this.onSelectionChange(upload);
+        }
       }
     });
     this.notes$.next(currentNotes);
@@ -282,6 +246,10 @@ export class DataService {
   save(filename?: string) {
     filename ??= moment(new Date()).format('YYYY-MM-DD-HH-mm') + '.notes.json';
     let json = this.getAsJson();
+
+    json.notes.forEach(x => x.selected = undefined);
+    json.taskLists.forEach(x => x.selected = undefined);
+    json.images.forEach(x => x.selected = undefined);
 
     let a = document.createElement('a');
     let file = new Blob([JSON.stringify(json)], {type: 'text/plain'});
@@ -366,5 +334,24 @@ export class DataService {
     }
 
     return result;
+  }
+
+  compareNote(left: Note, right: Note): boolean {
+    return left.content === right.content
+      && left.header === right.header
+      && left.posX === right.posX
+      && left.posY === right.posY
+  }
+
+  compareTaskList(left: TaskList, right: TaskList): boolean {
+    return left.header === right.header
+      && left.posX === right.posX
+      && left.posY === right.posY
+  }
+
+  compareImage(left: Image, right: Image): boolean {
+    return left.source === right.source
+      && left.posX === right.posX
+      && left.posY === right.posY
   }
 }

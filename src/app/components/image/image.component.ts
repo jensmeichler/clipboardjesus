@@ -29,8 +29,8 @@ export class ImageComponent {
   }
 
   select() {
-    this.image.selected = this.image.selected ? undefined : true;
-    this.dataService.selectImage(this.image, this.image.selected);
+    this.image.selected = !this.image.selected;
+    this.dataService.onSelectionChange(this.image);
   }
 
   click(event: any) {
