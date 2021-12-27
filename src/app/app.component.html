@@ -1,15 +1,15 @@
 <mat-tab-group (selectedIndexChange)="dataService.setSelectedTab($event)" animationDuration="0"
                [(selectedIndex)]="dataService.currentTabIndex">
-  <mat-tab *ngFor="let tabIndex of dataService.tabs">
+  <mat-tab *ngFor="let tab of dataService.tabs">
     <ng-template mat-tab-label>
-      #Board {{tabIndex + 1}}
-      <ng-container *ngIf="dataService.currentTabIndex == tabIndex">
-        <mat-icon class="tab-button" matTooltip="Edit tab">edit</mat-icon>
+      <div style="margin-left: 8px; margin-right: 4px">{{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}</div>
+      <ng-container *ngIf="dataService.currentTabIndex == tab.index">
+        <mat-icon class="tab-button" matTooltip="Edit tab" (click)="openEditTabDialog()">edit</mat-icon>
         <ng-container *ngIf="dataService.tabs.length > 1">
           <mat-icon class="tab-button" (click)="dataService.removeTab()" matTooltip="Close tab">close</mat-icon>
         </ng-container>
       </ng-container>
-      <ng-container *ngIf="dataService.tabs.length - 1 == tabIndex">
+      <ng-container *ngIf="dataService.tabs.length - 1 == tab.index && dataService.tabs.length < 20">
         <mat-icon style="transform: translateX(28px)" matTooltip="New tab"
                   (click)="dataService.addTab(); $event.stopPropagation()">
           add
@@ -26,18 +26,6 @@
      [matMenuTriggerFor]="contextMenu">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <ng-container *ngIf="dataService.tabs.length < 20">
-    <button mat-menu-item (click)="dataService.addTab()">
-      <mat-icon>add</mat-icon>
-      Add new tab
-    </button>
-  </ng-container>
-  <ng-container *ngIf="dataService.tabs.length > 1">
-    <button mat-menu-item (click)="dataService.removeTab()">
-      <mat-icon>close</mat-icon>
-      Close tab
-    </button>
-  </ng-container>
   <button mat-menu-item (click)="openNewNoteDialog()">
     <mat-icon>note</mat-icon>
     Create note

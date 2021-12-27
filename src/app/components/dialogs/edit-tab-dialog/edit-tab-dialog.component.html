@@ -1,0 +1,16 @@
+<div [style.padding.px]="16">
+  <h1 mat-dialog-title class="flex-container"
+      cdkDrag cdkDragHandle
+      cdkDragRootElement=".cdk-overlay-pane">
+    <span class="flex-container">
+      <mat-icon mat-dialog-close style="transform: translateX(-5px)">close</mat-icon>
+      <span>Edit tab</span>
+    </span>
+  </h1>
+  <div mat-dialog-content style="margin: 0; padding: 0">
+    <mat-form-field appearance="fill" [style.width]="'100%'">
+      <mat-label>Header</mat-label>
+      <input matInput [(ngModel)]="data.label">
+    </mat-form-field>
+  </div>
+</div>

@@ -11,7 +11,7 @@ import {HashyService} from "./hashy.service";
 })
 export class DataService {
   currentTabIndex = 0;
-  tabs: number[] = [0];
+  tabs: Tab[] = [];
 
   notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
   taskLists$: BehaviorSubject<TaskList[] | null> = new BehaviorSubject<TaskList[] | null>(null);
@@ -24,15 +24,21 @@ export class DataService {
     private readonly dialog: MatDialog,
     private readonly hashy: HashyService
   ) {
-    for (let i = 1; i < 20; i++) {
+    for (let i = 0; i < 20; i++) {
       const key = "clipboard_data_" + i;
       const data = localStorage.getItem(key);
       if (data) {
-        this.tabs.push(i);
+        const tab = JSON.parse(data) as Tab;
+        tab.index = i;
+        this.tabs.push(tab);
       }
     }
 
     this.fetchDataFromCache(0);
+
+    if (!this.tabs.length) {
+      this.addTab();
+    }
   }
 
   cacheData() {
@@ -52,14 +58,15 @@ export class DataService {
   }
 
   addTab() {
-    const newIndex = this.tabs.length;
-    this.tabs.push(newIndex);
-    localStorage.setItem("clipboard_data_" + newIndex, JSON.stringify({
+    const newTab = {
+      index: this.tabs.length,
       notes: [],
       taskLists: [],
       images: []
-    } as Tab))
-    this.setSelectedTab(newIndex);
+    } as Tab;
+    this.tabs.push(newTab);
+    localStorage.setItem("clipboard_data_" + newTab.index, JSON.stringify(newTab));
+    this.setSelectedTab(newTab.index);
   }
 
   removeTab() {
@@ -67,16 +74,18 @@ export class DataService {
     let key: string = "clipboard_data_" + index;
     localStorage.removeItem(key);
 
-    let result = this.tabs.filter(i => i < index);
-    let rightTabs = this.tabs.filter(i => i > index);
-    rightTabs.forEach(i => {
-      const oldKey = "clipboard_data_" + i;
-      const newKey = "clipboard_data_" + (i - 1);
+    let result = this.tabs.filter(tab => tab.index < index);
+    let rightTabs = this.tabs.filter(tab => tab.index > index);
+    rightTabs.forEach(tab => {
+      const oldKey = "clipboard_data_" + tab.index;
+      const newKey = "clipboard_data_" + (tab.index - 1);
 
       let tabContent = localStorage.getItem(oldKey);
       localStorage.removeItem(oldKey);
       localStorage.setItem(newKey, tabContent!);
-      result.push(i - 1);
+
+      tab.index--;
+      result.push(tab);
     })
     this.tabs = result;
 
@@ -190,14 +199,19 @@ export class DataService {
   }
 
   getAsJson(ignoreSelection?: boolean): Tab {
+    const label = this.tabs[this.currentTabIndex].label
+      ? this.tabs[this.currentTabIndex].label
+      : undefined;
     if (!ignoreSelection && this.selectedItemsCount) {
       return {
+        label,
         notes: this.notes$.getValue()?.filter(x => x.selected),
         taskLists: this.taskLists$.getValue()?.filter(x => x.selected),
         images: this.images$.getValue()?.filter(x => x.selected),
       } as Tab
     }
     return {
+      label,
       notes: this.notes$.getValue(),
       taskLists: this.taskLists$.getValue(),
       images: this.images$.getValue()
@@ -209,10 +223,10 @@ export class DataService {
     let currentTaskLists: TaskList[] = this.taskLists$.getValue() ?? [];
     let currentImages: Image[] = this.images$.getValue() ?? [];
 
-    let uploadedData = JSON.parse(json) as Tab;
-    let uploadedNotes = uploadedData.notes;
-    let uploadedTaskLists = uploadedData.taskLists;
-    let uploadedImages = uploadedData.images;
+    let uploadedTab = JSON.parse(json) as Tab;
+    let uploadedNotes = uploadedTab.notes;
+    let uploadedTaskLists = uploadedTab.taskLists;
+    let uploadedImages = uploadedTab.images;
 
     uploadedNotes?.forEach((upload: Note) => {
       if (!currentNotes.some(curr => {
@@ -247,6 +261,8 @@ export class DataService {
         }
       }
     });
+
+    this.tabs[this.currentTabIndex].label = uploadedTab.label;
     this.notes$.next(currentNotes);
     this.taskLists$.next(currentTaskLists);
     this.images$.next(currentImages);

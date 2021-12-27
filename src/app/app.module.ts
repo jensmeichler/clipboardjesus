@@ -29,7 +29,8 @@ import {AboutDialogComponent} from './components/dialogs/about-dialog/about-dial
 import {MatBadgeModule} from "@angular/material/badge";
 import {SaveAsDialogComponent} from './components/dialogs/save-as-dialog/save-as-dialog.component';
 import {MatTabsModule} from "@angular/material/tabs";
-import { TabComponent } from './components/tab/tab.component';
+import {TabComponent} from './components/tab/tab.component';
+import {EditTabDialogComponent} from './components/dialogs/edit-tab-dialog/edit-tab-dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { TabComponent } from './components/tab/tab.component';
     AboutDialogComponent,
     SaveAsDialogComponent,
     TabComponent,
+    EditTabDialogComponent,
   ],
   imports: [
     BrowserModule,

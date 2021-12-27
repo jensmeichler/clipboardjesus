@@ -8,6 +8,7 @@ import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-d
 import {Note, TaskList} from './models';
 import {DataService} from "./services/data.service";
 import {HashyService} from "./services/hashy.service";
+import {EditTabDialogComponent} from "./components/dialogs/edit-tab-dialog/edit-tab-dialog.component";
 
 @Component({
   selector: 'app-root',
@@ -61,6 +62,21 @@ export class AppComponent {
 
     this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
       this.dataService.addTaskList(newTaskList);
+    });
+  }
+
+  openEditTabDialog() {
+    if (this.dialogSubscription) {
+      this.dialogSubscription.unsubscribe();
+    }
+
+    const dialogRef = this.dialog.open(EditTabDialogComponent, {
+      width: 'var(--width-edit-dialog)',
+      data: this.dataService.tabs[this.dataService.currentTabIndex],
+    });
+
+    this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
+      this.dataService.cacheData();
     });
   }
 
