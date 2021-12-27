@@ -81,17 +81,14 @@ export class DataService {
     this.tabs = result;
 
     let isRightTab = index > (this.tabs.length - 1);
+    this.clearAllData();
     this.fetchDataFromCache(isRightTab ? index - 1 : index);
   }
 
   setSelectedTab(index: number) {
-    if (index == this.tabs.length) {
-      this.addTab();
-    } else {
-      this.currentTabIndex = index;
-      this.clearAllData();
-      this.fetchDataFromCache(index);
-    }
+    this.currentTabIndex = index;
+    this.clearAllData();
+    this.fetchDataFromCache(index);
   };
 
   clearAllData() {
