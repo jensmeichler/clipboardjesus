@@ -87,6 +87,10 @@ export class AppComponent {
     })
   }
 
+  clearAllForever() {
+    this.dataService.clearCache();
+  }
+
   showAboutDialog() {
     this.dialog.open(AboutDialogComponent);
   }

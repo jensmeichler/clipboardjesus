@@ -1,23 +1,23 @@
-import {Directive, ElementRef, HostListener} from '@angular/core';
+import {Directive, HostBinding, HostListener} from '@angular/core';
 
 @Directive({
   selector: '[customDragDrop]'
 })
 export class CustomDragDropDirective {
-  constructor(private readonly elementRef: ElementRef) {
-  }
+  @HostBinding('class')
+  elementClass = 'clipboard';
 
   @HostListener("dragover", ["$event"])
   @HostListener("dragenter", ["$event"])
   onDragging(event: any) {
-    this.elementRef.nativeElement.style.border = '1vh dashed var(--color-accent)';
+    this.elementClass = 'clipboard clipboard-hover';
     event.preventDefault();
   }
 
   @HostListener("dragend", ["$event"])
   @HostListener("dragleave", ["$event"])
   onNotDragging(event: any) {
-    this.elementRef.nativeElement.style.border = '1vh dashed var(--color-background)';
+    this.elementClass = 'clipboard';
     event.preventDefault();
   }
 

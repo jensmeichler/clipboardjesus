@@ -6,6 +6,12 @@
       <mat-icon mat-dialog-close style="transform: translateX(-5px)">close</mat-icon>
       <span>Edit tab</span>
     </span>
+    <a>
+      <input [(ngModel)]="data.color" type="color" matTooltipPosition="above" style="margin-right: 5px"
+             [matTooltip]="data.color ? 'Edit background color' : 'Add background color'">
+      <input [(ngModel)]="data.gradient" type="color" matTooltipPosition="above" style="margin-left: 5px"
+             [matTooltip]="data.gradient ? 'Edit gradient color' : 'Add gradient'">
+    </a>
   </h1>
   <div mat-dialog-content style="margin: 0; padding: 0">
     <mat-form-field appearance="fill" [style.width]="'100%'">

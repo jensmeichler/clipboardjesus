@@ -1,7 +1,29 @@
 .clipboard {
+  height: calc(100vh - 49px);
+  background: inherit;
+}
+
+.clipboard-hover {
   height: calc(98vh - 49px);
-  border: 1vh dashed var(--color-background);
-  transition: border ease-in-out 0.2s;
+  border: 1vh solid;
+  animation-name: rainbow;
+  animation-duration: 0.6s;
+  animation-iteration-count: infinite;
+  border-image: conic-gradient(var(--color-primary), var(--color-secondary),
+  var(--color-primary), var(--color-secondary),
+  var(--color-primary), var(--color-secondary),
+  var(--color-primary), var(--color-secondary),
+  var(--color-primary)) 1;
+}
+
+@keyframes rainbow {
+  50% {
+    border-image: conic-gradient(var(--color-secondary), var(--color-primary),
+    var(--color-secondary), var(--color-primary),
+    var(--color-secondary), var(--color-primary),
+    var(--color-secondary), var(--color-primary),
+    var(--color-secondary)) 1;
+  }
 }
 
 .draggable-note {

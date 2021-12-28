@@ -1,6 +1,6 @@
-<div class="clipboard"
+<div class="clipboard" customDragDrop
      (click)="newNote($event)"
-     (drop)="dropFile($event)" customDragDrop>
+     (drop)="dropFile($event)">
   <ng-container *ngFor="let note of dataService.notes$ | async">
     <note cdkDrag class="draggable-note" [class.draggable-note-selected]="note.selected"
           (cdkDragEnded)="saveItemPosition($event, note)"

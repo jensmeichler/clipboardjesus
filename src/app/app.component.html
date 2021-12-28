@@ -16,7 +16,10 @@
         </mat-icon>
       </ng-container>
     </ng-template>
-    <clipboard-tab (contextmenu)="onRightClick($event)"></clipboard-tab>
+    <clipboard-tab (contextmenu)="onRightClick($event)"
+                   [style.background]="tab.gradient
+                      ? 'linear-gradient(to bottom, ' + tab.color + ', ' + tab.gradient
+                      : tab.color"></clipboard-tab>
   </mat-tab>
 </mat-tab-group>
 
@@ -36,7 +39,11 @@
   </button>
   <button mat-menu-item (click)="clearAll()">
     <mat-icon>delete</mat-icon>
-    Delete all
+    Delete tab content
+  </button>
+  <button mat-menu-item (click)="clearAllForever()">
+    <mat-icon>delete_forever</mat-icon>
+    Delete all tabs
   </button>
 </mat-menu>
 

@@ -108,6 +108,17 @@ export class DataService {
     this.selectedItemsCount = 0;
   }
 
+  clearCache() {
+    for (let i = 0; i < 20; i++) {
+      const key = "clipboard_data_" + i;
+      localStorage.removeItem(key);
+    }
+    this.currentTabIndex = 0;
+    this.tabs = [];
+    this.clearAllData();
+    this.addTab();
+  }
+
   onSelectionChange(item: { selected?: boolean }) {
     if (item.selected) {
       this.selectedItemsCount++;
@@ -202,16 +213,21 @@ export class DataService {
     const label = this.tabs[this.currentTabIndex].label
       ? this.tabs[this.currentTabIndex].label
       : undefined;
+    const color = this.tabs[this.currentTabIndex].color
+      ? this.tabs[this.currentTabIndex].color
+      : undefined;
+    const gradient = this.tabs[this.currentTabIndex].gradient
+      ? this.tabs[this.currentTabIndex].gradient
+      : undefined;
     if (!ignoreSelection && this.selectedItemsCount) {
       return {
-        label,
         notes: this.notes$.getValue()?.filter(x => x.selected),
         taskLists: this.taskLists$.getValue()?.filter(x => x.selected),
         images: this.images$.getValue()?.filter(x => x.selected),
       } as Tab
     }
     return {
-      label,
+      label, color, gradient,
       notes: this.notes$.getValue(),
       taskLists: this.taskLists$.getValue(),
       images: this.images$.getValue()
@@ -262,7 +278,8 @@ export class DataService {
       }
     });
 
-    this.tabs[this.currentTabIndex].label = uploadedTab.label;
+    uploadedTab.index = this.currentTabIndex;
+    this.tabs[this.currentTabIndex] = uploadedTab;
     this.notes$.next(currentNotes);
     this.taskLists$.next(currentTaskLists);
     this.images$.next(currentImages);
