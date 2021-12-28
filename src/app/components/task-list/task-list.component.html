@@ -27,7 +27,7 @@
                 <mat-icon>arrow_right</mat-icon>
               </button>
             </ng-container>
-            <mat-checkbox [(ngModel)]="item.checked">
+            <mat-checkbox [(ngModel)]="item.checked" (change)="dataService.cacheData()">
               {{item.value}}
             </mat-checkbox>
             <button mat-icon-button class="item-button" style="opacity: 0.1"

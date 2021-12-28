@@ -63,7 +63,7 @@ export class NoteComponent implements OnDestroy {
     this.dialogSubscription = this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: this.note,
-    }).afterClosed().subscribe(result => {
+    }).afterClosed().subscribe(() => {
       this.dataService.cacheData();
     });
   }

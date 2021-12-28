@@ -73,7 +73,7 @@ export class TaskListComponent implements OnDestroy {
     this.dialogSubscription = this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: this.taskList,
-    }).afterClosed().subscribe(result => {
+    }).afterClosed().subscribe(() => {
       this.dataService.cacheData();
     });
   }
@@ -98,6 +98,7 @@ export class TaskListComponent implements OnDestroy {
     item.checked = !item.checked;
     let index = this.taskList.items.indexOf(item);
     this.taskList.items[index] = item;
+    this.dataService.cacheData();
   }
 
   deleteItem(item: TaskItem) {
