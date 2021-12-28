@@ -20,7 +20,7 @@ export class HashyService implements OnDestroy {
     this.unsubscribeAll();
   }
 
-  show(text: string, milliseconds: number, button?: string, action?: Function) {
+  show(text: string, milliseconds: number, button?: string, buttonAction?: Function, dismissAction?: Function) {
     this.showHashy.next(true);
     this.unsubscribeAll();
 
@@ -31,12 +31,15 @@ export class HashyService implements OnDestroy {
 
     this.dismissSubscription = snackBarRef.afterDismissed().subscribe(() => {
       this.showHashy.next(false);
+      if (dismissAction) {
+        dismissAction();
+      }
       this.appRef.tick();
     })
 
-    if (action) {
+    if (buttonAction) {
       this.actionSubscription = snackBarRef.onAction().subscribe(() => {
-        action();
+        buttonAction();
         this.showHashy.next(false);
         this.appRef.tick();
       });

@@ -76,15 +76,21 @@ export class AppComponent {
     });
 
     this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
-      this.dataService.cacheData();
+      this.hashy.show('Tab edited', 5000, 'Undo', () => {
+        this.dataService.fetchDataFromCache();
+      }, () => {
+        this.dataService.cacheData();
+      });
     });
   }
 
   clearAll() {
     this.dataService.clearAllData();
-    this.hashy.show('All notes deleted', 6000, 'Undo', () => {
+    this.hashy.show('All notes deleted', 5000, 'Undo', () => {
       this.dataService.fetchDataFromCache();
-    })
+    }, () => {
+      this.dataService.cacheData();
+    });
   }
 
   clearAllForever() {
