@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {MatBottomSheetModule} from "@angular/material/bottom-sheet";
 import {MatChipsModule} from "@angular/material/chips";
 import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
@@ -31,6 +32,7 @@ import {SaveAsDialogComponent} from './components/dialogs/save-as-dialog/save-as
 import {MatTabsModule} from "@angular/material/tabs";
 import {TabComponent} from './components/tab/tab.component';
 import {EditTabDialogComponent} from './components/dialogs/edit-tab-dialog/edit-tab-dialog.component';
+import {DeleteDialogComponent} from './components/dialogs/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,7 @@ import {EditTabDialogComponent} from './components/dialogs/edit-tab-dialog/edit-
     SaveAsDialogComponent,
     TabComponent,
     EditTabDialogComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +61,7 @@ import {EditTabDialogComponent} from './components/dialogs/edit-tab-dialog/edit-
     MatIconModule,
     MatMenuModule,
     MatDialogModule,
+    MatBottomSheetModule,
     MatFormFieldModule,
     MatInputModule,
     FormsModule,

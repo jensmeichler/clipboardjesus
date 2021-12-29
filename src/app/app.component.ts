@@ -1,8 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
+import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
 import {AboutDialogComponent} from "./components/dialogs/about-dialog/about-dialog.component";
+import {DeleteDialogComponent} from "./components/dialogs/delete-dialog/delete-dialog.component";
 import {EditNoteDialogComponent} from "./components/dialogs/edit-note-dialog/edit-note-dialog.component";
 import {EditTabDialogComponent} from "./components/dialogs/edit-tab-dialog/edit-tab-dialog.component";
 import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
@@ -18,6 +20,7 @@ import {HashyService} from "./services/hashy.service";
 export class AppComponent {
   constructor(
     private readonly dialog: MatDialog,
+    private readonly bottomSheet: MatBottomSheet,
     public readonly dataService: DataService,
     public readonly hashy: HashyService
   ) {
@@ -90,7 +93,7 @@ export class AppComponent {
   }
 
   clearAllForever() {
-    this.dataService.clearCache();
+    this.bottomSheet.open(DeleteDialogComponent);
   }
 
   showAboutDialog() {
