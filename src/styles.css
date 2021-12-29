@@ -25,6 +25,11 @@ html, body {
   }
 }
 
+.mat-tab-header {
+  width: calc(100vw - 180px);
+  border: none;
+}
+
 mat-dialog-container.mat-dialog-container {
   padding: 0;
   border-radius: 4px;
