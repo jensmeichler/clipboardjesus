@@ -60,6 +60,7 @@ export class DataService {
   addTab() {
     const newTab = {
       index: this.tabs.length,
+      color: '#131313',
       notes: [],
       taskLists: [],
       images: []
