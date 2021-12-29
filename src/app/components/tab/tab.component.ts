@@ -26,7 +26,7 @@ export class TabComponent {
       let file = data.getAsFile()!;
       if (file.name.endsWith('notes.json')) {
         file.text().then(text => {
-          this.dataService.setFromJson(text);
+          this.dataService.setFromJson(JSON.parse(text));
         })
       } else if (file.type.startsWith('text') || file.type.startsWith('application')) {
         file.text().then(text => {
