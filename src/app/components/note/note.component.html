@@ -59,6 +59,12 @@
       <mat-icon>flip_to_back</mat-icon>
       Send to back
     </button>
+    <ng-container *ngIf="dataService.tabs.length > 1">
+      <button mat-menu-item [matMenuTriggerFor]="tabs">
+        <mat-icon>drive_file_move</mat-icon>
+        Move
+      </button>
+    </ng-container>
     <button mat-menu-item (click)="copy()">
       <mat-icon>content_copy</mat-icon>
       Copy
@@ -75,5 +81,18 @@
       <mat-icon>delete</mat-icon>
       Delete
     </button>
+  </div>
+</mat-menu>
+
+<mat-menu #tabs="matMenu">
+  <div [style.color]="note.foregroundColor"
+       [style.background]="note.backgroundColorGradient
+            ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
+            : note.backgroundColor">
+    <ng-container *ngFor="let tab of dataService.tabs">
+      <button mat-menu-item (click)="moveToTab(tab.index)" *ngIf="dataService.currentTabIndex != tab.index">
+        {{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}
+      </button>
+    </ng-container>
   </div>
 </mat-menu>

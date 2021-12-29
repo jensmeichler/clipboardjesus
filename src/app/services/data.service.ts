@@ -407,6 +407,39 @@ export class DataService {
     return result;
   }
 
+  moveNoteToTab(index: number, note: Note) {
+    const key = "clipboard_data_" + index;
+    const data = localStorage.getItem(key);
+    let otherTab = JSON.parse(data!) as Tab;
+
+    otherTab.notes.push(note);
+    this.deleteNote(note);
+
+    localStorage.setItem(key, JSON.stringify(otherTab));
+  }
+
+  moveTaskListToTab(index: number, taskList: TaskList) {
+    const key = "clipboard_data_" + index;
+    const data = localStorage.getItem(key);
+    let otherTab = JSON.parse(data!) as Tab;
+
+    otherTab.taskLists.push(taskList);
+    this.deleteTaskList(taskList);
+
+    localStorage.setItem(key, JSON.stringify(otherTab));
+  }
+
+  moveImageToTab(index: number, image: Image) {
+    const key = "clipboard_data_" + index;
+    const data = localStorage.getItem(key);
+    let otherTab = JSON.parse(data!) as Tab;
+
+    otherTab.images.push(image);
+    this.deleteImage(image);
+
+    localStorage.setItem(key, JSON.stringify(otherTab));
+  }
+
   compareNote(left: Note, right: Note): boolean {
     return left.content === right.content
       && left.header === right.header

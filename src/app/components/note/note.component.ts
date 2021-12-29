@@ -90,6 +90,10 @@ export class NoteComponent implements OnDestroy {
     this.dataService.deleteNote(this.note);
   }
 
+  moveToTab(index: number) {
+    this.dataService.moveNoteToTab(index, this.note);
+  }
+
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
   rightClickPosX = 0;

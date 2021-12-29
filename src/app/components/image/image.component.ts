@@ -77,6 +77,10 @@ export class ImageComponent {
     this.dataService.deleteImage(this.image);
   }
 
+  moveToTab(index: number) {
+    this.dataService.moveImageToTab(index, this.image);
+  }
+
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
   rightClickPosX = 0;

@@ -122,6 +122,10 @@ export class TaskListComponent implements OnDestroy {
     this.dataService.cacheData();
   }
 
+  moveToTab(index: number) {
+    this.dataService.moveTaskListToTab(index, this.taskList);
+  }
+
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
   rightClickPosX = 0;

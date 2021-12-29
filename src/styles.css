@@ -25,6 +25,10 @@ html, body {
   }
 }
 
+.mat-menu-panel {
+  min-height: 0 !important;
+}
+
 mat-tab-header:after {
   background: deeppink;
 }
