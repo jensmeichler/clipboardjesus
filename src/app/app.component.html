@@ -9,18 +9,20 @@
           <mat-icon class="tab-button" (click)="dataService.removeTab()" matTooltip="Close tab">close</mat-icon>
         </ng-container>
       </ng-container>
-      <ng-container *ngIf="dataService.tabs.length - 1 == tab.index && dataService.tabs.length < 20">
-        <mat-icon style="transform: translateX(28px)" matTooltip="New tab"
-                  (click)="dataService.addTab(); $event.stopPropagation()">
-          add
-        </mat-icon>
-      </ng-container>
     </ng-template>
     <mat-divider></mat-divider>
     <clipboard-tab (contextmenu)="onRightClick($event)"
                    [style.background]="tab.gradient
                       ? 'linear-gradient(to bottom, ' + tab.color + ', ' + tab.gradient
                       : tab.color"></clipboard-tab>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <div style="padding: 24px; margin: -24px"
+           (click)="dataService.addTab(); $event.stopPropagation()">
+        <mat-icon matTooltip="New tab" style="transform: translateY(2px)">add</mat-icon>
+      </div>
+    </ng-template>
   </mat-tab>
 </mat-tab-group>
 

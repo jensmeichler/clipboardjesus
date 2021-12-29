@@ -30,6 +30,10 @@ html, body {
   border: none;
 }
 
+.mat-tab-label:last-child {
+  min-width: 0 !important;
+}
+
 mat-dialog-container.mat-dialog-container {
   padding: 0;
   border-radius: 4px;
