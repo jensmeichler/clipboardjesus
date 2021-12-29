@@ -1,28 +1,111 @@
 .clipboard {
-  height: calc(100vh - 49px);
+  height: calc(100vh - 50px);
   background: inherit;
+  border-top: 1px solid #FFFFFF19;
 }
 
 .clipboard-hover {
-  height: calc(98vh - 49px);
-  border: 1vh solid;
+  height: calc(100vh - 54px);
+  border: 2px solid;
   animation-name: rainbow;
-  animation-duration: 0.6s;
+  animation-duration: 1s;
   animation-iteration-count: infinite;
-  border-image: conic-gradient(var(--color-primary), var(--color-secondary),
-  var(--color-primary), var(--color-secondary),
-  var(--color-primary), var(--color-secondary),
-  var(--color-primary), var(--color-secondary),
-  var(--color-primary)) 1;
+  border-image: conic-gradient(
+    var(--color-primary),
+    var(--color-primary),
+    var(--color-secondary),
+    var(--color-secondary),
+    var(--color-primary),
+    var(--color-primary),
+    var(--color-secondary),
+    var(--color-secondary),
+    var(--color-primary),
+    var(--color-primary),
+    var(--color-secondary),
+    var(--color-secondary),
+    var(--color-primary),
+    var(--color-primary),
+    var(--color-secondary),
+    var(--color-secondary),
+    var(--color-primary),
+    var(--color-primary),
+    var(--color-secondary),
+    var(--color-secondary),
+    var(--color-primary)) 1;
 }
 
 @keyframes rainbow {
+  25% {
+    border-image: conic-gradient(
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary)) 1;
+  }
   50% {
-    border-image: conic-gradient(var(--color-secondary), var(--color-primary),
-    var(--color-secondary), var(--color-primary),
-    var(--color-secondary), var(--color-primary),
-    var(--color-secondary), var(--color-primary),
-    var(--color-secondary)) 1;
+    border-image: conic-gradient(
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary)) 1;
+  }
+  75% {
+    border-image: conic-gradient(
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-primary),
+      var(--color-secondary),
+      var(--color-secondary)) 1;
   }
 }
 

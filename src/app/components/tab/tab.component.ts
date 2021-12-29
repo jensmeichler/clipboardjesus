@@ -54,8 +54,8 @@ export class TabComponent {
     if (item.posX < 0) {
       item.posX = 0;
     }
-    if (item.posY < 49) {
-      item.posY = 49;
+    if (item.posY < 50) {
+      item.posY = 50;
     }
 
     this.dataService.cacheData();
