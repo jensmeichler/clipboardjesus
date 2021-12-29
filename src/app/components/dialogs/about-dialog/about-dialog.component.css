@@ -22,3 +22,18 @@
   justify-content: left;
   margin-left: 8px;
 }
+
+.heart {
+  color: #c33f3f;
+  filter: drop-shadow(0 0 10px currentColor);
+  animation-name: pulse;
+  animation-duration: 1.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+  50% {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 0 currentColor);
+  }
+}
