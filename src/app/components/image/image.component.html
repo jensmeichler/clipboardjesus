@@ -13,14 +13,12 @@
     {{image.source}}
   </div>
   <div class="img-button-group">
-    <button mat-icon-button (click)="delete(); $event.stopPropagation()"
-            (mousedown)="rippleDisabled=true"
-            (mouseup)="rippleDisabled=false">
+    <button mat-icon-button (mousedown)="rippleDisabled=true"
+            (mouseup)="delete(); $event.stopPropagation(); rippleDisabled=false">
       <mat-icon>delete</mat-icon>
     </button>
-    <button mat-icon-button (click)="showContextMenu($event)"
-            (mousedown)="rippleDisabled=true"
-            (mouseup)="rippleDisabled=false">
+    <button mat-icon-button (mousedown)="rippleDisabled=true"
+            (mouseup)="showContextMenu($event); rippleDisabled=false">
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>
