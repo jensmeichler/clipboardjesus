@@ -39,7 +39,7 @@ export class EditTabDialogComponent {
     this.dataService.taskLists$.next([]);
     const oldTaskListsCount = this.taskListsCount;
     this.taskListsCount = '0';
-    this.hashy.show('All taskLists deleted', 5000, 'Undo', () => {
+    this.hashy.show('All task lists deleted', 5000, 'Undo', () => {
       this.dataService.fetchDataFromCache();
     }, () => {
       this.dataService.cacheData();
