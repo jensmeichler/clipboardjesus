@@ -25,13 +25,22 @@ html, body {
   }
 }
 
+.mat-ink-bar {
+  top: 0;
+}
+
 .mat-tab-header {
   width: calc(100vw - 180px);
   border: none;
 }
 
+.mat-tab-label {
+  border-radius: 0 0 10px 10px;
+}
+
 .mat-tab-label:last-child {
   min-width: 0 !important;
+  border-radius: 100px;
 }
 
 mat-dialog-container.mat-dialog-container {
