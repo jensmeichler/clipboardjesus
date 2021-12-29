@@ -16,7 +16,11 @@ export class ImageComponent {
 
   loadingFailed = false;
 
-  disabled = false;
+  rippleDisabled = false;
+
+  // Hack for suppress copy after dragging note
+  mouseDown = false;
+  movedPx = 0;
 
   constructor(
     private readonly hashy: HashyService,
@@ -32,11 +36,22 @@ export class ImageComponent {
     this.image.selected = !this.image.selected;
     this.dataService.onSelectionChange(this.image);
   }
+  onMouseDown() {
+    this.mouseDown = true;
+  }
 
-  click(event: any) {
+  onMouseMove() {
+    if (this.mouseDown) {
+      this.movedPx++;
+    }
+  }
+
+  onMouseUp(event: any) {
     switch (event.button) {
       case 0:
-        this.copy();
+        if (this.movedPx < 5) {
+          this.copy();
+        }
         break;
       case 1:
         this.delete();
@@ -44,6 +59,8 @@ export class ImageComponent {
       case 2:
         break;
     }
+    this.mouseDown = false;
+    this.movedPx = 0;
     event.stopPropagation();
   }
 

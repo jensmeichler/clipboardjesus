@@ -1,8 +1,10 @@
-<mat-card matRipple [matRippleDisabled]="disabled"
+<mat-card matRipple [matRippleDisabled]="rippleDisabled"
           style="padding: 5px 5px 0 5px; min-height: 32px"
-          (click)="click($event)"
+          (click)="$event.stopPropagation()"
+          (mousedown)="onMouseDown()"
+          (mousemove)="onMouseMove()"
+          (mouseup)="onMouseUp($event)"
           (dblclick)="open()"
-          (auxclick)="click($event)"
           (contextmenu)="showContextMenu($event)"
           class="flex-container">
   <img *ngIf="!loadingFailed" [src]="image.source" height="140" style="border-radius: 3px"
@@ -12,13 +14,13 @@
   </div>
   <div class="img-button-group">
     <button mat-icon-button (click)="delete(); $event.stopPropagation()"
-            (mousedown)="disabled=true"
-            (mouseup)="disabled=false">
+            (mousedown)="rippleDisabled=true"
+            (mouseup)="rippleDisabled=false">
       <mat-icon>delete</mat-icon>
     </button>
     <button mat-icon-button (click)="showContextMenu($event)"
-            (mousedown)="disabled=true"
-            (mouseup)="disabled=false">
+            (mousedown)="rippleDisabled=true"
+            (mouseup)="rippleDisabled=false">
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>

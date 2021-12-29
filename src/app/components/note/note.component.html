@@ -1,6 +1,8 @@
-<mat-card matRipple [matRippleDisabled]="disabled"
-          (click)="click($event)"
-          (auxclick)="click($event)"
+<mat-card matRipple [matRippleDisabled]="rippleDisabled"
+          (click)="$event.stopPropagation()"
+          (mousedown)="onMouseDown()"
+          (mousemove)="onMouseMove()"
+          (mouseup)="onMouseUp($event)"
           (contextmenu)="showContextMenu($event)"
           [style.color]="note.foregroundColor"
           [style.background]="note.backgroundColorGradient
@@ -12,23 +14,23 @@
   <mat-card-content>{{note.content}}</mat-card-content>
   <mat-card-actions align="end">
     <button mat-icon-button (click)="select(); $event.stopPropagation()"
-            (mousedown)="disabled=true"
-            (mouseup)="disabled=false">
+            (mousedown)="rippleDisabled=true"
+            (mouseup)="rippleDisabled=false">
       <mat-icon>{{note.selected ? 'close' : 'check'}}</mat-icon>
     </button>
     <button mat-icon-button (click)="edit(); $event.stopPropagation()"
-            (mousedown)="disabled=true"
-            (mouseup)="disabled=false">
+            (mousedown)="rippleDisabled=true"
+            (mouseup)="rippleDisabled=false">
       <mat-icon>edit</mat-icon>
     </button>
     <button mat-icon-button (click)="delete(); $event.stopPropagation()"
-            (mousedown)="disabled=true"
-            (mouseup)="disabled=false">
+            (mousedown)="rippleDisabled=true"
+            (mouseup)="rippleDisabled=false">
       <mat-icon>delete</mat-icon>
     </button>
     <button mat-icon-button (click)="showContextMenu($event)"
-            (mousedown)="disabled=true"
-            (mouseup)="disabled=false">
+            (mousedown)="rippleDisabled=true"
+            (mouseup)="rippleDisabled=false">
       <mat-icon>more_vert</mat-icon>
     </button>
   </mat-card-actions>
