@@ -4,11 +4,11 @@ import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
 import {AboutDialogComponent} from "./components/dialogs/about-dialog/about-dialog.component";
 import {EditNoteDialogComponent} from "./components/dialogs/edit-note-dialog/edit-note-dialog.component";
+import {EditTabDialogComponent} from "./components/dialogs/edit-tab-dialog/edit-tab-dialog.component";
 import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
 import {Note, TaskList} from './models';
 import {DataService} from "./services/data.service";
 import {HashyService} from "./services/hashy.service";
-import {EditTabDialogComponent} from "./components/dialogs/edit-tab-dialog/edit-tab-dialog.component";
 
 @Component({
   selector: 'app-root',
@@ -76,11 +76,7 @@ export class AppComponent {
     });
 
     this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
-      this.hashy.show('Tab edited', 5000, 'Undo', () => {
-        this.dataService.fetchDataFromCache();
-      }, () => {
-        this.dataService.cacheData();
-      });
+      this.dataService.cacheData();
     });
   }
 

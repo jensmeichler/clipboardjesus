@@ -94,6 +94,32 @@ export class DataService {
     this.fetchDataFromCache(isRightTab ? index - 1 : index);
   }
 
+  reArrangeTab(sourceIndex: number, targetIndex: number) {
+    const sourceKey = "clipboard_data_" + sourceIndex;
+    const targetKey = "clipboard_data_" + targetIndex;
+
+    let sourceContent = localStorage.getItem(sourceKey);
+    let targetContent = localStorage.getItem(targetKey);
+
+    localStorage.removeItem(sourceKey);
+    localStorage.removeItem(targetKey);
+
+    if (sourceContent) {
+      localStorage.setItem(targetKey, sourceContent);
+    }
+    if (targetContent) {
+      localStorage.setItem(sourceKey, targetContent);
+    }
+
+    this.tabs.forEach(tab => {
+      if (tab.index == sourceIndex) {
+        tab.index = targetIndex;
+      } else if (tab.index == targetIndex) {
+        tab.index = sourceIndex;
+      }
+    })
+  }
+
   setSelectedTab(index: number) {
     this.currentTabIndex = index;
     this.clearAllData();

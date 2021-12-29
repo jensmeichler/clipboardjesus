@@ -22,7 +22,7 @@
     <div class="flex-container">
       <mat-form-field appearance="fill" [style.width]="'100%'">
         <mat-label>Notes</mat-label>
-        <input disabled matInput [value]="notesCount">
+        <input disabled matInput [value]="notesCount" type="number">
         <mat-icon matSuffix>note</mat-icon>
       </mat-form-field>
       <button mat-flat-button (click)="deleteNotes()"
@@ -34,7 +34,7 @@
     <div class="flex-container">
       <mat-form-field appearance="fill" [style.width]="'100%'">
         <mat-label>Task lists</mat-label>
-        <input disabled matInput [value]="taskListsCount">
+        <input disabled matInput [value]="taskListsCount" type="number">
         <mat-icon matSuffix>list</mat-icon>
       </mat-form-field>
       <button mat-flat-button (click)="deleteTaskLists()"
@@ -46,12 +46,22 @@
     <div class="flex-container">
       <mat-form-field appearance="fill" [style.width]="'100%'">
         <mat-label>Images</mat-label>
-        <input disabled matInput [value]="imagesCount">
+        <input disabled matInput [value]="imagesCount" type="number">
         <mat-icon matSuffix>image</mat-icon>
       </mat-form-field>
       <button mat-flat-button (click)="deleteImages()"
               style="height: 53px; transform: translateY(-9px)">
         <mat-icon>delete_forever</mat-icon>
+      </button>
+    </div>
+
+    <div class="flex-container" style="padding: 8px">
+      <button mat-icon-button (click)="moveToLeft()" [disabled]="dataService.currentTabIndex < 1">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      Tab index: {{dataService.currentTabIndex}}
+      <button mat-icon-button (click)="moveToRight()" [disabled]="dataService.currentTabIndex >= dataService.tabs.length - 1">
+        <mat-icon>chevron_right</mat-icon>
       </button>
     </div>
   </div>
