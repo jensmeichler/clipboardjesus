@@ -11,7 +11,9 @@
       <span>Edit task list</span>
     </span>
     <a *ngIf="data.foregroundColor && data.backgroundColor">
-      <input [(ngModel)]="data.backgroundColor" style="margin-right: 5px" type="color"
+      <input [(ngModel)]="data.foregroundColor" style="margin-right: 5px" type="color"
+             matTooltipPosition="above" matTooltip="Edit text color">
+      <input [(ngModel)]="data.backgroundColor" style="margin-right: 5px; margin-left: 5px" type="color"
              matTooltipPosition="above" matTooltip="Edit background color">
       <input [(ngModel)]="data.backgroundColorGradient" style="margin-left: 5px" type="color" matTooltipPosition="above"
              [matTooltip]="data.backgroundColorGradient ? 'Edit gradient color' : 'Add gradient'">
