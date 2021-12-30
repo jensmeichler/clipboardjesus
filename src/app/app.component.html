@@ -12,7 +12,6 @@
     </ng-template>
     <mat-divider style="position: fixed; top: 48px; left: 0; right: 0"></mat-divider>
     <clipboard-tab (contextmenu)="showContextMenu($event)"
-                   (dblclick)="showContextMenu($event)"
                    [style.background]="tab.gradient
                       ? 'linear-gradient(to bottom, ' + tab.color + ', ' + tab.gradient
                       : tab.color"></clipboard-tab>
@@ -71,6 +70,10 @@
     </mat-icon>
   </button>
 </div>
+<button mat-icon-button class="context-menu-button"
+        (click)="showContextMenu($event, true); $event.stopPropagation()">
+  <mat-icon>menu_open</mat-icon>
+</button>
 
 <a target="_blank" class="startup-logo" (click)="showAboutDialog()">
   <span style="margin-right: 12px">Clip</span>

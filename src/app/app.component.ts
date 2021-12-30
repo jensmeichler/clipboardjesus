@@ -41,7 +41,7 @@ export class AppComponent {
       this.dialogSubscription.unsubscribe();
     }
 
-    let newNote = new Note(this.rightClickPosX, this.rightClickPosY, '');
+    let newNote = new Note(this.newNotePositionX, this.newNotePositionY, '');
     const dialogRef = this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: newNote,
@@ -57,7 +57,7 @@ export class AppComponent {
       this.dialogSubscription.unsubscribe();
     }
 
-    let newTaskList = new TaskList(this.rightClickPosX, this.rightClickPosY);
+    let newTaskList = new TaskList(this.newNotePositionX, this.newNotePositionY);
     const dialogRef = this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: newTaskList,
@@ -104,11 +104,16 @@ export class AppComponent {
   contextMenu!: MatMenuTrigger;
   rightClickPosX = 0;
   rightClickPosY = 0;
+  newNotePositionX = 0;
+  newNotePositionY = 0;
 
-  showContextMenu(event: any) {
+  showContextMenu(event: any, ignoreMousePosition?: boolean) {
     event.preventDefault();
     this.rightClickPosX = event.clientX;
     this.rightClickPosY = event.clientY;
     this.contextMenu.openMenu();
+
+    this.newNotePositionX = ignoreMousePosition ? 10 : this.rightClickPosX;
+    this.newNotePositionY = ignoreMousePosition ? 61 : this.rightClickPosY;
   }
 }
