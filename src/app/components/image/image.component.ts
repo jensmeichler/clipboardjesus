@@ -14,7 +14,7 @@ export class ImageComponent {
   @Input()
   image: Image = {} as Image;
 
-  loadingFailed = false;
+  imageLoaded = false;
 
   rippleDisabled = false;
 
@@ -28,8 +28,8 @@ export class ImageComponent {
     public readonly dataService: DataService) {
   }
 
-  onLoadingFailed() {
-    this.loadingFailed = true
+  onImageLoaded() {
+    this.imageLoaded = true
   }
 
   select() {

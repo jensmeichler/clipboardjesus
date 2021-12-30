@@ -7,11 +7,11 @@
           (dblclick)="open()"
           (contextmenu)="showContextMenu($event)"
           class="flex-container">
-  <img *ngIf="!loadingFailed" [src]="image.source" height="140" style="border-radius: 3px"
-       (error)="onLoadingFailed()" alt="loading failed">
-  <div *ngIf="loadingFailed" style="padding: 5px 10px 10px 10px; overflow-wrap: anywhere;">
+  <div *ngIf="!imageLoaded" class="image-link">
     {{image.source}}
   </div>
+  <img [src]="image.source" height="140" style="border-radius: 3px" class="animated"
+       [class.hide]="!imageLoaded" (load)="onImageLoaded()" alt="loading failed">
   <div class="img-button-group">
     <button mat-icon-button (mousedown)="rippleDisabled=true"
             (mouseup)="delete(); $event.stopPropagation(); rippleDisabled=false">

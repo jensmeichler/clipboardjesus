@@ -21,3 +21,12 @@
   background: #424242;
   border-radius: 4px;
 }
+
+.hide {
+  display: none;
+}
+
+.image-link {
+  padding: 5px 10px 10px 10px;
+  overflow-wrap: anywhere;
+}
