@@ -45,9 +45,15 @@
     Edit tab
   </button>
   <button mat-menu-item (click)="clearAll()">
-    <mat-icon>delete</mat-icon>
-    Delete tab content
+    <mat-icon>delete_outline</mat-icon>
+    Clear tab
   </button>
+  <ng-container *ngIf="dataService.tabs.length > 1">
+    <button mat-menu-item (click)="dataService.removeTab()">
+      <mat-icon>delete</mat-icon>
+      Delete tab
+    </button>
+  </ng-container>
   <button mat-menu-item (click)="clearAllForever()">
     <mat-icon>delete_forever</mat-icon>
     Delete all tabs
