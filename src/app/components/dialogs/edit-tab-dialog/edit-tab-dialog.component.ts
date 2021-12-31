@@ -23,6 +23,9 @@ export class EditTabDialogComponent {
     this.imagesCount = dataService.images$.getValue()?.length?.toString() ?? '0';
   }
 
+  purple = '#7b1ea2';
+  green = '#69f0ae';
+
   deleteNotes() {
     this.dataService.notes$.next([]);
     const oldNotesCount = this.notesCount;

@@ -7,6 +7,12 @@
       <span>Edit tab</span>
     </span>
     <a>
+      <mat-icon style="transform: translateY(4px); margin-right: 4px; color: {{green}}"
+                (click)="data.color = green">color_lens
+      </mat-icon>
+      <mat-icon style="transform: translateY(4px); margin-right: 8px; color: {{purple}}"
+                (click)="data.color = purple">color_lens
+      </mat-icon>
       <input [(ngModel)]="data.color" type="color" matTooltipPosition="above" style="margin-right: 5px"
              [matTooltip]="data.color ? 'Edit background color' : 'Add background color'">
     </a>

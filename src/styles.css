@@ -25,6 +25,10 @@ html, body {
   }
 }
 
+mat-icon {
+  cursor: pointer;
+}
+
 .mat-checkbox-frame {
   border-color: currentColor;
   border-radius: 4px !important;
