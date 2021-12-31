@@ -86,6 +86,12 @@ save-as-dialog .mat-form-field-wrapper {
   padding-bottom: 0;
 }
 
+.color-button {
+  filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white) drop-shadow(-1px 1px 0 white) drop-shadow(1px -1px 0 white);
+  transform: translateY(4px);
+  margin-right: 5px;
+}
+
 .item-button {
   opacity: 0.3;
 }

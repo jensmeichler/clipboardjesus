@@ -25,6 +25,7 @@ export class EditTabDialogComponent {
 
   purple = '#7b1ea2';
   green = '#69f0ae';
+  reset = '#131313';
 
   deleteNotes() {
     this.dataService.notes$.next([]);
