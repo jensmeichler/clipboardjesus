@@ -6,7 +6,6 @@ export interface Tab {
   index: number,
   label?: string;
   color: string;
-  gradient?: string;
   notes: Note[];
   taskLists: TaskList[];
   images: Image[];

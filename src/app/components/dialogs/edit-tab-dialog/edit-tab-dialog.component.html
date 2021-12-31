@@ -9,8 +9,6 @@
     <a>
       <input [(ngModel)]="data.color" type="color" matTooltipPosition="above" style="margin-right: 5px"
              [matTooltip]="data.color ? 'Edit background color' : 'Add background color'">
-      <input [(ngModel)]="data.gradient" type="color" matTooltipPosition="above" style="margin-left: 5px"
-             [matTooltip]="data.gradient ? 'Edit gradient color' : 'Add gradient'">
     </a>
   </h1>
   <div mat-dialog-content style="margin: 0; padding: 0">
@@ -60,7 +58,8 @@
         <mat-icon>chevron_left</mat-icon>
       </button>
       Tab index: {{dataService.currentTabIndex}}
-      <button mat-icon-button (click)="moveToRight()" [disabled]="dataService.currentTabIndex >= dataService.tabs.length - 1">
+      <button mat-icon-button (click)="moveToRight()"
+              [disabled]="dataService.currentTabIndex >= dataService.tabs.length - 1">
         <mat-icon>chevron_right</mat-icon>
       </button>
     </div>

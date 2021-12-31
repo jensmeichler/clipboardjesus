@@ -1,6 +1,5 @@
 .clipboard {
-  height: calc(100vh - 50px);
-  background: inherit;
+  height: calc(100vh - 49px);
 }
 
 .clipboard-hover {

@@ -236,9 +236,6 @@ export class DataService {
     const color = this.tabs[this.currentTabIndex].color
       ? this.tabs[this.currentTabIndex].color
       : undefined;
-    const gradient = this.tabs[this.currentTabIndex].gradient
-      ? this.tabs[this.currentTabIndex].gradient
-      : undefined;
     if (!ignoreSelection && this.selectedItemsCount) {
       return {
         notes: this.notes$.getValue()?.filter(x => x.selected),
@@ -247,7 +244,7 @@ export class DataService {
       } as Tab
     }
     return {
-      label, color, gradient,
+      label, color,
       notes: this.notes$.getValue(),
       taskLists: this.taskLists$.getValue(),
       images: this.images$.getValue()

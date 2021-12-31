@@ -11,10 +11,7 @@
       </ng-container>
     </ng-template>
     <mat-divider style="position: fixed; top: 48px; left: 0; right: 0"></mat-divider>
-    <clipboard-tab (contextmenu)="showContextMenu($event)"
-                   [style.background]="tab.gradient
-                      ? 'linear-gradient(to bottom, ' + tab.color + ', ' + tab.gradient
-                      : tab.color"></clipboard-tab>
+    <clipboard-tab [tab]="tab" (contextmenu)="showContextMenu($event)"></clipboard-tab>
   </mat-tab>
   <mat-tab>
     <ng-template mat-tab-label>

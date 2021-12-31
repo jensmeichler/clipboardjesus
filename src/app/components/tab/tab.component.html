@@ -1,10 +1,11 @@
-<div class="clipboard" customDragDrop
+<div *ngIf="tab" class="clipboard" customDragDrop
      (click)="newNote($event)"
-     (drop)="dropFile($event)">
+     (drop)="dropFile($event)"
+     [style.background]="'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + tab.color + ', #131313)'">
   <ng-container *ngFor="let note of dataService.notes$ | async">
     <note cdkDrag class="draggable-note" [class.draggable-note-selected]="note.selected"
           (cdkDragEnded)="saveItemPosition($event, note)"
-          [style.top.px]="note.posY - 50"
+          [style.top.px]="note.posY - 49"
           [style.left.px]="note.posX"
           [style.zIndex]="note.posZ"
           [note]="note"></note>
@@ -13,7 +14,7 @@
     <ng-container *ngFor="let taskList of dataService.taskLists$ | async">
       <task-list cdkDrag class="draggable-note" [class.draggable-note-selected]="taskList.selected"
                  (cdkDragEnded)="saveItemPosition($event, taskList)"
-                 [style.top.px]="taskList.posY - 50"
+                 [style.top.px]="taskList.posY - 49"
                  [style.left.px]="taskList.posX"
                  [style.zIndex]="taskList.posZ"
                  [taskList]="taskList"></task-list>
@@ -21,7 +22,7 @@
     <ng-container *ngFor="let image of dataService.images$ | async">
       <image cdkDrag class="draggable-note" [class.draggable-note-selected]="image.selected"
              (cdkDragEnded)="saveItemPosition($event, image)"
-             [style.top.px]="image.posY - 50"
+             [style.top.px]="image.posY - 49"
              [style.left.px]="image.posX"
              [style.zIndex]="image.posZ"
              [image]="image"></image>
