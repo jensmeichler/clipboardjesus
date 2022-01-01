@@ -41,6 +41,25 @@ export class DataService {
     }
   }
 
+  private static compareNote(left: Note, right: Note): boolean {
+    return left.content === right.content
+      && left.header === right.header
+      && left.posX === right.posX
+      && left.posY === right.posY
+  }
+
+  private static compareTaskList(left: TaskList, right: TaskList): boolean {
+    return left.header === right.header
+      && left.posX === right.posX
+      && left.posY === right.posY
+  }
+
+  private static compareImage(left: Image, right: Image): boolean {
+    return left.source === right.source
+      && left.posX === right.posX
+      && left.posY === right.posY
+  }
+
   cacheData() {
     this.cache.save(this.currentTabIndex, this.getAsJson(true));
   }
@@ -155,9 +174,7 @@ export class DataService {
       return;
     }
 
-    if (note.posZ == undefined) {
-      note.posZ = this.getNextIndex();
-    }
+    this.defineIndex(note);
     let currentNotes = this.notes$.getValue() ?? [];
     currentNotes?.push(note);
     this.notes$.next(currentNotes);
@@ -167,9 +184,7 @@ export class DataService {
   }
 
   addTaskList(taskList: TaskList) {
-    if (taskList.posZ == undefined) {
-      taskList.posZ = this.getNextIndex();
-    }
+    this.defineIndex(taskList);
     let currentTasks = this.taskLists$.getValue() ?? [];
     currentTasks?.push(taskList);
     this.taskLists$.next(currentTasks);
@@ -179,9 +194,7 @@ export class DataService {
   }
 
   addImage(image: Image) {
-    if (image.posZ == undefined) {
-      image.posZ = this.getNextIndex();
-    }
+    this.defineIndex(image);
     let currentImages = this.images$.getValue() ?? [];
     currentImages?.push(image);
     this.images$.next(currentImages);
@@ -355,6 +368,33 @@ export class DataService {
     this.reArrangeIndices();
   }
 
+  moveNoteToTab(index: number, note: Note) {
+    let otherTab = this.cache.fetch(index)!;
+    otherTab.notes.push(note);
+    this.deleteNote(note);
+    this.cache.save(index, otherTab);
+  }
+
+  moveTaskListToTab(index: number, taskList: TaskList) {
+    let otherTab = this.cache.fetch(index)!;
+    otherTab.taskLists.push(taskList);
+    this.deleteTaskList(taskList);
+    this.cache.save(index, otherTab);
+  }
+
+  moveImageToTab(index: number, image: Image) {
+    let otherTab = this.cache.fetch(index)!;
+    otherTab.images.push(image);
+    this.deleteImage(image);
+    this.cache.save(index, otherTab);
+  }
+
+  private defineIndex(item: Note | TaskList | Image) {
+    if (item.posZ == undefined) {
+      item.posZ = this.getNextIndex();
+    }
+  }
+
   private reArrangeIndices() {
     let indexItems = this.getIndexItems()
       .filter(x => x.posZ != undefined)
@@ -394,45 +434,5 @@ export class DataService {
     }
 
     return result;
-  }
-
-  moveNoteToTab(index: number, note: Note) {
-    let otherTab = this.cache.fetch(index)!;
-    otherTab.notes.push(note);
-    this.deleteNote(note);
-    this.cache.save(index, otherTab);
-  }
-
-  moveTaskListToTab(index: number, taskList: TaskList) {
-    let otherTab = this.cache.fetch(index)!;
-    otherTab.taskLists.push(taskList);
-    this.deleteTaskList(taskList);
-    this.cache.save(index, otherTab);
-  }
-
-  moveImageToTab(index: number, image: Image) {
-    let otherTab = this.cache.fetch(index)!;
-    otherTab.images.push(image);
-    this.deleteImage(image);
-    this.cache.save(index, otherTab);
-  }
-
-  private static compareNote(left: Note, right: Note): boolean {
-    return left.content === right.content
-      && left.header === right.header
-      && left.posX === right.posX
-      && left.posY === right.posY
-  }
-
-  private static compareTaskList(left: TaskList, right: TaskList): boolean {
-    return left.header === right.header
-      && left.posX === right.posX
-      && left.posY === right.posY
-  }
-
-  private static compareImage(left: Image, right: Image): boolean {
-    return left.source === right.source
-      && left.posX === right.posX
-      && left.posY === right.posY
   }
 }
