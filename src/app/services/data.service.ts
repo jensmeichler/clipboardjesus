@@ -148,6 +148,35 @@ export class DataService {
     this.selectedItemsCount = 0;
   }
 
+  clearSelection() {
+    let notes = this.notes$.getValue();
+    let taskLists = this.taskLists$.getValue();
+    let images = this.images$.getValue();
+    notes?.forEach(x => x.selected = false);
+    taskLists?.forEach(x => x.selected = false);
+    images?.forEach(x => x.selected = false);
+    this.notes$.next(notes);
+    this.taskLists$.next(taskLists);
+    this.images$.next(images);
+    this.selectedItemsCount = 0;
+    this.cacheData();
+  }
+
+  deleteSelectedItems() {
+    let notes = this.notes$.getValue()?.filter(x => !x.selected);
+    let taskLists = this.taskLists$.getValue()?.filter(x => !x.selected);
+    let images = this.images$.getValue()?.filter(x => !x.selected);
+    this.notes$.next(notes ?? null);
+    this.taskLists$.next(taskLists ?? null);
+    this.images$.next(images ?? null);
+    this.selectedItemsCount = 0;
+    this.hashy.show('Selected items deleted', 3000, 'Undo', () => {
+      this.fetchDataFromCache();
+    }, () => {
+      this.cacheData();
+    })
+  }
+
   clearCache() {
     for (let i = 0; i < 20; i++) {
       this.cache.remove(i);

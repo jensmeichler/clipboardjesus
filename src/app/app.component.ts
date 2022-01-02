@@ -18,6 +18,14 @@ import {HashyService} from "./services/hashy.service";
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  dialogSubscription?: Subscription;
+  @ViewChild(MatMenuTrigger)
+  contextMenu!: MatMenuTrigger;
+  rightClickPosX = 0;
+  rightClickPosY = 0;
+  newNotePositionX = 0;
+  newNotePositionY = 0;
+
   constructor(
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
@@ -34,7 +42,13 @@ export class AppComponent {
     this.dataService.saveAs();
   }
 
-  dialogSubscription?: Subscription;
+  clearSelection() {
+    this.dataService.clearSelection();
+  }
+
+  deleteSelectedItems() {
+    this.dataService.deleteSelectedItems();
+  }
 
   openNewNoteDialog() {
     if (this.dialogSubscription) {
@@ -99,13 +113,6 @@ export class AppComponent {
   showAboutDialog() {
     this.dialog.open(AboutDialogComponent);
   }
-
-  @ViewChild(MatMenuTrigger)
-  contextMenu!: MatMenuTrigger;
-  rightClickPosX = 0;
-  rightClickPosY = 0;
-  newNotePositionX = 0;
-  newNotePositionY = 0;
 
   showContextMenu(event: any, ignoreMousePosition?: boolean) {
     event.preventDefault();
