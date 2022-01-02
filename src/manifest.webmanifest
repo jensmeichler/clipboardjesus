@@ -1,8 +1,8 @@
 {
-  "name": "clipboard",
-  "short_name": "clipboard",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "Clip#board",
+  "short_name": "Clip#board",
+  "theme_color": "#131313",
+  "background_color": "#131313",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
