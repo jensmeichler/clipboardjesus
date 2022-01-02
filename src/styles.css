@@ -8,6 +8,7 @@ html, body {
   --width-edit-dialog: 50vw;
   --margin-edge: 24px;
   --font-family: Roboto, "Helvetica Neue", sans-serif;
+  --border-radius: 12px;
 
   color-scheme: dark;
 
@@ -24,6 +25,19 @@ html, body {
   }
 }
 
+.mat-card {
+  background: var(--color-note);
+  border-radius: var(--border-radius) !important;
+}
+
+.mat-badge-content {
+  border-radius: var(--border-radius);
+}
+
+.mat-button-base {
+  border-radius: var(--border-radius) !important;
+}
+
 mat-icon {
   cursor: pointer;
 }
@@ -32,6 +46,7 @@ mat-icon {
 .mat-bottom-sheet-container,
 .mat-menu-panel {
   background: var(--color-note);
+  border-radius: var(--border-radius) !important;
 }
 
 .mat-checkbox-frame {
@@ -58,7 +73,6 @@ mat-icon {
 
 mat-dialog-container.mat-dialog-container {
   padding: 0;
-  border-radius: 4px;
   box-shadow: var(--shadow-strong);
 }
 

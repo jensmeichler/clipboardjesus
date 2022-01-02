@@ -4,10 +4,6 @@
   animation: fade-in 0.2s;
 }
 
-.mat-card {
-  background: var(--color-note);
-}
-
 .mat-icon-button mat-icon {
   transition: all ease-in-out 0.1s;
 }
@@ -23,7 +19,7 @@
   bottom: 0;
   right: 0;
   background: #212121;
-  border-radius: 4px;
+  border-radius: 12px 0 0 0;
 }
 
 .hide {

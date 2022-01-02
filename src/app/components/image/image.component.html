@@ -1,70 +1,72 @@
-<mat-card matRipple [matRippleDisabled]="rippleDisabled"
-          style="padding: 5px 5px 0 5px; min-height: 32px"
-          (click)="$event.stopPropagation()"
+<mat-card (click)="$event.stopPropagation()"
+          (contextmenu)="showContextMenu($event)"
+          (dblclick)="open()"
           (mousedown)="onMouseDown()"
           (mousemove)="onMouseMove()"
           (mouseup)="onMouseUp($event)"
-          (dblclick)="open()"
-          (contextmenu)="showContextMenu($event)"
-          class="flex-container">
+          [matRippleDisabled]="rippleDisabled"
+          class="flex-container" matRipple
+          style="padding: 5px 5px 0 5px; min-height: 32px">
   <div *ngIf="!imageLoaded" class="image-link">
     {{image.source}}
   </div>
-  <img [src]="image.source" height="140" style="border-radius: 3px" class="animated"
-       [class.hide]="!imageLoaded" (load)="onImageLoaded()" alt="loading failed">
+  <img (load)="onImageLoaded()" [class.hide]="!imageLoaded" [src]="image.source" alt="loading failed"
+       class="animated" height="140" style="border-radius: 8px">
   <div class="img-button-group">
-    <button mat-icon-button (mousedown)="rippleDisabled=true"
-            (mouseup)="delete(); $event.stopPropagation(); rippleDisabled=false">
+    <button (mousedown)="rippleDisabled=true"
+            (mouseup)="delete(); $event.stopPropagation(); rippleDisabled=false"
+            mat-icon-button>
       <mat-icon>delete</mat-icon>
     </button>
-    <button mat-icon-button (mousedown)="rippleDisabled=true"
-            (mouseup)="showContextMenu($event); rippleDisabled=false">
+    <button (mousedown)="rippleDisabled=true"
+            (mouseup)="showContextMenu($event); rippleDisabled=false"
+            mat-icon-button>
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>
 </mat-card>
 
-<div style="visibility: hidden; position: fixed"
+<div [matMenuTriggerFor]="contextMenu"
      [style.left.px]="rightClickPosX"
      [style.top.px]="rightClickPosY"
-     [matMenuTriggerFor]="contextMenu">
+     style="visibility: hidden; position: fixed">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <button mat-menu-item (click)="dataService.bringToFront(this.image)">
+  <button (click)="dataService.bringToFront(this.image)" mat-menu-item>
     <mat-icon>flip_to_front</mat-icon>
     Bring to front
   </button>
-  <button mat-menu-item (click)="dataService.bringForward(this.image)">
+  <button (click)="dataService.bringForward(this.image)" mat-menu-item>
     <mat-icon>add_circle_outline</mat-icon>
     Bring forward
   </button>
-  <button mat-menu-item (click)="dataService.sendBackward(this.image)">
+  <button (click)="dataService.sendBackward(this.image)" mat-menu-item>
     <mat-icon>remove_circle_outline</mat-icon>
     Send backward
   </button>
-  <button mat-menu-item (click)="dataService.flipToBack(this.image)">
+  <button (click)="dataService.flipToBack(this.image)" mat-menu-item>
     <mat-icon>flip_to_back</mat-icon>
     Send to back
   </button>
   <ng-container *ngIf="dataService.tabs.length > 1">
-    <button mat-menu-item [matMenuTriggerFor]="tabs">
+    <button [matMenuTriggerFor]="tabs" mat-menu-item>
       <mat-icon>drive_file_move</mat-icon>
       Move
     </button>
   </ng-container>
-  <button mat-menu-item (click)="open()">
+  <button (click)="open()" mat-menu-item>
     <mat-icon>open_in_new</mat-icon>
     Open link
   </button>
-  <button mat-menu-item (click)="copy()">
+  <button (click)="copy()" mat-menu-item>
     <mat-icon>content_copy</mat-icon>
     Copy link
   </button>
-  <button mat-menu-item (click)="select()">
+  <button (click)="select()" mat-menu-item>
     <mat-icon>{{image.selected ? 'close' : 'check'}}</mat-icon>
     {{image.selected ? 'Remove selection' : 'Select'}}
   </button>
-  <button mat-menu-item (click)="delete()">
+  <button (click)="delete()" mat-menu-item>
     <mat-icon>delete</mat-icon>
     Delete
   </button>
@@ -72,7 +74,7 @@
 
 <mat-menu #tabs="matMenu">
   <ng-container *ngFor="let tab of dataService.tabs">
-    <button mat-menu-item (click)="moveToTab(tab.index)" *ngIf="dataService.currentTabIndex != tab.index">
+    <button (click)="moveToTab(tab.index)" *ngIf="dataService.currentTabIndex != tab.index" mat-menu-item>
       {{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}
     </button>
   </ng-container>
