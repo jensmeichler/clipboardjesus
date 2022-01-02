@@ -9,16 +9,17 @@
       <span>Edit tab</span>
     </span>
     <a>
-      <mat-icon (click)="data.color = green" [style.color]="green"
-                class="color-button">color_lens
+      <mat-icon (click)="data.color = green" [style.color]="green" class="color-button"
+                matTooltip="Set color to {{green}}" matTooltipPosition="above">color_lens
       </mat-icon>
-      <mat-icon (click)="data.color = purple" [style.color]="purple"
-                class="color-button">color_lens
+      <mat-icon (click)="data.color = purple" [style.color]="purple" class="color-button"
+                matTooltip="Set color to {{purple}}" matTooltipPosition="above">color_lens
       </mat-icon>
-      <mat-icon (click)="data.color = reset" [style.color]="reset"
-                class="color-button">format_color_reset
+      <mat-icon (click)="data.color = reset" [style.color]="reset" class="color-button"
+                matTooltip="Reset color" matTooltipPosition="above">format_color_reset
       </mat-icon>
-      <input [(ngModel)]="data.color" [matTooltip]="data.color ? 'Edit background color' : 'Add background color'"
+      <input [(ngModel)]="data.color"
+             [matTooltip]="data.color != '#131313' ? 'Edit background color' : 'Add background color'"
              matTooltipPosition="above" style="margin: 0 5px"
              type="color">
     </a>
