@@ -31,6 +31,7 @@
   transform: scale(0.8);
   animation: grow 0.6s;
 }
+
 .tab-button:first-child {
   margin-left: 8px;
 }
@@ -91,7 +92,7 @@
     width: 100%;
     top: 36vh;
     right: auto;
-    color: #424242;
+    color: #4b4b4b;
     transform: scale(0);
   }
   8% {

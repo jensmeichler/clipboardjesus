@@ -2,7 +2,7 @@ export class Note {
   content?;
   header?: string;
   foregroundColor: string = '#ffffff';
-  backgroundColor: string = '#424242';
+  backgroundColor: string = '#212121';
   backgroundColorGradient?: string;
   posX: number;
   posY: number;
