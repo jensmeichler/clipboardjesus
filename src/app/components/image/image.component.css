@@ -4,6 +4,10 @@
   animation: fade-in 0.2s;
 }
 
+.mat-card {
+  background: var(--color-note);
+}
+
 .mat-icon-button mat-icon {
   transition: all ease-in-out 0.1s;
 }
