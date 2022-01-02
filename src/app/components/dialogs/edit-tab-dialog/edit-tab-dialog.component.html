@@ -1,74 +1,77 @@
-<div [style.padding.px]="16">
-  <h1 mat-dialog-title class="flex-container"
-      cdkDrag cdkDragHandle
-      cdkDragRootElement=".cdk-overlay-pane">
+<div
+  [style.background]="'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + data.color + ', #131313)'"
+  [style.padding.px]="16">
+  <h1 cdkDrag cdkDragHandle
+      cdkDragRootElement=".cdk-overlay-pane" class="flex-container"
+      mat-dialog-title>
     <span class="flex-container">
       <mat-icon mat-dialog-close style="transform: translateX(-5px)">close</mat-icon>
       <span>Edit tab</span>
     </span>
     <a>
-      <mat-icon [style.color]="green" class="color-button"
-                (click)="data.color = green">color_lens
+      <mat-icon (click)="data.color = green" [style.color]="green"
+                class="color-button">color_lens
       </mat-icon>
-      <mat-icon [style.color]="purple" class="color-button"
-                (click)="data.color = purple">color_lens
+      <mat-icon (click)="data.color = purple" [style.color]="purple"
+                class="color-button">color_lens
       </mat-icon>
-      <mat-icon [style.color]="reset" class="color-button"
-                (click)="data.color = reset">format_color_reset
+      <mat-icon (click)="data.color = reset" [style.color]="reset"
+                class="color-button">format_color_reset
       </mat-icon>
-      <input [(ngModel)]="data.color" type="color" matTooltipPosition="above" style="margin: 0 5px"
-             [matTooltip]="data.color ? 'Edit background color' : 'Add background color'">
+      <input [(ngModel)]="data.color" [matTooltip]="data.color ? 'Edit background color' : 'Add background color'"
+             matTooltipPosition="above" style="margin: 0 5px"
+             type="color">
     </a>
   </h1>
   <div mat-dialog-content style="margin: 0; padding: 0">
-    <mat-form-field appearance="fill" [style.width]="'100%'">
+    <mat-form-field [style.width]="'100%'" appearance="fill">
       <mat-label>Header</mat-label>
-      <input matInput [(ngModel)]="data.label">
+      <input [(ngModel)]="data.label" matInput>
     </mat-form-field>
 
     <div class="flex-container">
-      <mat-form-field appearance="fill" [style.width]="'100%'">
+      <mat-form-field [style.width]="'100%'" appearance="fill">
         <mat-label>Notes</mat-label>
-        <input disabled matInput [value]="notesCount" type="number">
+        <input [value]="notesCount" disabled matInput type="number">
         <mat-icon matSuffix>note</mat-icon>
       </mat-form-field>
-      <button mat-flat-button (click)="deleteNotes()"
-              style="height: 53px; transform: translateY(-9px)">
+      <button (click)="deleteNotes()" mat-flat-button
+              style="height: 53px; transform: translateY(-9px); background: transparent">
         <mat-icon>delete_forever</mat-icon>
       </button>
     </div>
 
     <div class="flex-container">
-      <mat-form-field appearance="fill" [style.width]="'100%'">
+      <mat-form-field [style.width]="'100%'" appearance="fill">
         <mat-label>Task lists</mat-label>
-        <input disabled matInput [value]="taskListsCount" type="number">
+        <input [value]="taskListsCount" disabled matInput type="number">
         <mat-icon matSuffix>list</mat-icon>
       </mat-form-field>
-      <button mat-flat-button (click)="deleteTaskLists()"
-              style="height: 53px; transform: translateY(-9px)">
+      <button (click)="deleteTaskLists()" mat-flat-button
+              style="height: 53px; transform: translateY(-9px); background: transparent">
         <mat-icon>delete_forever</mat-icon>
       </button>
     </div>
 
     <div class="flex-container">
-      <mat-form-field appearance="fill" [style.width]="'100%'">
+      <mat-form-field [style.width]="'100%'" appearance="fill">
         <mat-label>Images</mat-label>
-        <input disabled matInput [value]="imagesCount" type="number">
+        <input [value]="imagesCount" disabled matInput type="number">
         <mat-icon matSuffix>image</mat-icon>
       </mat-form-field>
-      <button mat-flat-button (click)="deleteImages()"
-              style="height: 53px; transform: translateY(-9px)">
+      <button (click)="deleteImages()" mat-flat-button
+              style="height: 53px; transform: translateY(-9px); background: transparent">
         <mat-icon>delete_forever</mat-icon>
       </button>
     </div>
 
     <div class="flex-container" style="padding: 8px">
-      <button mat-icon-button (click)="moveToLeft()" [disabled]="dataService.currentTabIndex < 1">
+      <button (click)="moveToLeft()" [disabled]="dataService.currentTabIndex < 1" mat-icon-button>
         <mat-icon>chevron_left</mat-icon>
       </button>
       Tab index: {{dataService.currentTabIndex}}
-      <button mat-icon-button (click)="moveToRight()"
-              [disabled]="dataService.currentTabIndex >= dataService.tabs.length - 1">
+      <button (click)="moveToRight()" [disabled]="dataService.currentTabIndex >= dataService.tabs.length - 1"
+              mat-icon-button>
         <mat-icon>chevron_right</mat-icon>
       </button>
     </div>
