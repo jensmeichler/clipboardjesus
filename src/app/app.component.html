@@ -31,10 +31,6 @@
 </div>
 <mat-menu #contextMenu="matMenu">
   <ng-container *ngIf="dataService.selectedItemsCount">
-    <button (click)="clearSelection()" mat-menu-item>
-      <mat-icon>clear</mat-icon>
-      Clear selection
-    </button>
     <button (click)="deleteSelectedItems()" mat-menu-item>
       <mat-icon>delete</mat-icon>
       Delete {{dataService.selectedItemsCount}} items

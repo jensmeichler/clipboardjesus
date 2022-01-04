@@ -42,10 +42,6 @@ export class AppComponent {
     this.dataService.saveAs();
   }
 
-  clearSelection() {
-    this.dataService.clearSelection();
-  }
-
   deleteSelectedItems() {
     this.dataService.deleteSelectedItems();
   }

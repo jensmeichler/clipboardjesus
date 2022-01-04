@@ -6,6 +6,10 @@ import {Tab} from "../models";
 })
 export class CacheService {
   save(index: number, tab: Tab) {
+    tab.notes?.forEach(x => x.selected = false);
+    tab.taskLists?.forEach(x => x.selected = false);
+    tab.images?.forEach(x => x.selected = false);
+
     const key = "clipboard_data_" + index;
     const content = JSON.stringify(tab);
     localStorage.setItem(key, content);

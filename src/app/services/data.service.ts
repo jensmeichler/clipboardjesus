@@ -178,15 +178,7 @@ export class DataService {
   }
 
   clearSelection() {
-    let notes = this.notes$.getValue();
-    let taskLists = this.taskLists$.getValue();
-    let images = this.images$.getValue();
-    notes?.forEach(x => x.selected = false);
-    taskLists?.forEach(x => x.selected = false);
-    images?.forEach(x => x.selected = false);
-    this.notes$.next(notes);
-    this.taskLists$.next(taskLists);
-    this.images$.next(images);
+    this.editAllItems(item => item.selected = false);
     this.selectedItemsCount = 0;
     this.cacheData();
   }
@@ -217,7 +209,6 @@ export class DataService {
     } else {
       this.selectedItemsCount--;
     }
-    this.cacheData();
   }
 
   async addNote(note: Note) {
@@ -329,9 +320,7 @@ export class DataService {
     let uploadedImages = tab.images;
 
     uploadedNotes?.forEach((upload: Note) => {
-      if (!currentNotes.some(curr => {
-        return DataService.compareNote(upload, curr);
-      })) {
+      if (!currentNotes.some(curr => DataService.compareNote(upload, curr))) {
         currentNotes.push(upload);
         this.itemsCount++;
         if (upload.selected) {
@@ -340,9 +329,7 @@ export class DataService {
       }
     });
     uploadedTaskLists?.forEach((upload: TaskList) => {
-      if (!currentTaskLists.some(curr => {
-        return DataService.compareTaskList(upload, curr);
-      })) {
+      if (!currentTaskLists.some(curr => DataService.compareTaskList(upload, curr))) {
         currentTaskLists.push(upload);
         this.itemsCount++;
         if (upload.selected) {
@@ -351,9 +338,7 @@ export class DataService {
       }
     });
     uploadedImages?.forEach((upload: Image) => {
-      if (!currentImages.some(curr => {
-        return DataService.compareImage(upload, curr);
-      })) {
+      if (!currentImages.some(curr => DataService.compareImage(upload, curr))) {
         currentImages.push(upload);
         this.itemsCount++;
         if (upload.selected) {

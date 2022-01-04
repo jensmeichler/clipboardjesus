@@ -76,7 +76,11 @@ export class TabComponent {
         }
       })
     } else if (event.button == 0) {
-      this.dataService.addNote(new Note(event.pageX, event.pageY))
+      if (this.dataService.selectedItemsCount) {
+        this.dataService.clearSelection();
+      } else {
+        this.dataService.addNote(new Note(event.pageX, event.pageY))
+      }
     }
 
     this.resetCursors();
@@ -111,10 +115,10 @@ export class TabComponent {
     }
   }
 
-  saveItemPosition(event: any, item: { posX: number, posY: number }) {
+  saveItemPosition(event: any, item: { posX: number, posY: number, selected?: boolean }) {
     event.source._dragRef.reset();
 
-    if (this.dataService.selectedItemsCount) {
+    if (this.dataService.selectedItemsCount && item.selected) {
       this.dataService.editAllItems(item => {
         if (item.selected) {
           item.posX += event.distance.x;
