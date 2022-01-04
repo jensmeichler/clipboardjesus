@@ -39,7 +39,6 @@ export class TabComponent {
       this.startCursorPosY = event.pageY;
       this.endCursorPosX = event.pageX;
       this.endCursorPosY = event.pageY;
-      console.log(this.startCursorPosX, this.startCursorPosY)
     } else {
       this.mouseMoveFailure = true;
     }
