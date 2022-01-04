@@ -1,49 +1,49 @@
-<mat-card (click)="$event.stopPropagation()"
-          (auxclick)="$event.stopPropagation()"
+<mat-card (auxclick)="$event.stopPropagation()"
+          (click)="$event.stopPropagation()"
           (contextmenu)="showContextMenu($event)"
           (mouseup)="click($event)"
-          [style.color]="taskList.foregroundColor"
           [style.background]="taskList.backgroundColorGradient
             ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
-            : taskList.backgroundColor">
+            : taskList.backgroundColor"
+          [style.color]="taskList.foregroundColor">
   <mat-card-title class="flex-container">
     {{taskList.header ?? 'Tasks'}}
   </mat-card-title>
-  <mat-card-content cdkDropList (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="taskList.items">
+  <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="taskList.items" cdkDropList>
     <ng-container *ngFor="let item of taskList.items">
       <ng-container *ngIf="item !== itemToEdit">
-        <span class="flex-container" style="margin: 0; gap: 20px;" cdkDrag>
+        <span cdkDrag class="flex-container" style="margin: 0; gap: 20px;">
           <span>
             <ng-container *ngIf="item.isSubTask">
-              <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -6px"
-                      (click)="item.isSubTask = false"
-                      matTooltip="Move to left" matTooltipPosition="left">
+              <button (click)="item.isSubTask = false" class="item-button" mat-icon-button
+                      matTooltip="Move to left"
+                      matTooltipPosition="left" style="opacity: 0.1; margin-left: -6px">
                 <mat-icon>remove</mat-icon>
               </button>
             </ng-container>
             <ng-container *ngIf="!item.isSubTask">
-              <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -34px"
-                      (click)="item.isSubTask = true"
-                      matTooltip="Move to right" matTooltipPosition="left">
+              <button (click)="item.isSubTask = true" class="item-button" mat-icon-button
+                      matTooltip="Move to right"
+                      matTooltipPosition="left" style="opacity: 0.1; margin-left: -34px">
                 <mat-icon>arrow_right</mat-icon>
               </button>
             </ng-container>
-            <mat-checkbox [(ngModel)]="item.checked" (change)="dataService.cacheData()">
+            <mat-checkbox (change)="dataService.cacheData()" [(ngModel)]="item.checked">
               {{item.value}}
             </mat-checkbox>
-            <button mat-icon-button class="item-button" style="opacity: 0.1"
-                    (click)="addItemAfter(item)"
-                    matTooltip="Add task" matTooltipPosition="right">
+            <button (click)="addItemAfter(item)" class="item-button" mat-icon-button
+                    matTooltip="Add task"
+                    matTooltipPosition="right" style="opacity: 0.1">
               <mat-icon>add</mat-icon>
             </button>
           </span>
           <span>
-            <button mat-icon-button class="item-button"
-                    (click)="startEditItem(item)">
+            <button (click)="startEditItem(item)" class="item-button"
+                    mat-icon-button>
               <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button class="item-button" style="margin-right: -8px"
-                    (click)="deleteItem(item)">
+            <button (click)="deleteItem(item)" class="item-button" mat-icon-button
+                    style="margin-right: -8px">
               <mat-icon>delete</mat-icon>
             </button>
           </span>
@@ -53,25 +53,25 @@
         <span class="flex-container" style="margin: 0">
           <span style="display: contents">
             <ng-container *ngIf="item.isSubTask">
-              <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -6px"
-                      (click)="item.isSubTask = false"
-                      matTooltip="Move to left" matTooltipPosition="left">
+              <button (click)="item.isSubTask = false" class="item-button" mat-icon-button
+                      matTooltip="Move to left"
+                      matTooltipPosition="left" style="opacity: 0.1; margin-left: -6px">
                 <mat-icon>remove</mat-icon>
               </button>
             </ng-container>
             <ng-container *ngIf="!item.isSubTask">
-              <button mat-icon-button class="item-button" style="opacity: 0.1; margin-left: -34px"
-                      (click)="item.isSubTask = true"
-                      matTooltip="Move to right" matTooltipPosition="left">
+              <button (click)="item.isSubTask = true" class="item-button" mat-icon-button
+                      matTooltip="Move to right"
+                      matTooltipPosition="left" style="opacity: 0.1; margin-left: -34px">
                 <mat-icon>arrow_right</mat-icon>
               </button>
             </ng-container>
-            <mat-checkbox [checked]="item.checked" (change)="markAsChecked(item)">
+            <mat-checkbox (change)="markAsChecked(item)" [checked]="item.checked">
             </mat-checkbox>
-            <input [(ngModel)]="item.value" (mousedown)="$event.stopPropagation()" autofocus>
+            <input (mousedown)="$event.stopPropagation()" [(ngModel)]="item.value" customAutofocus>
           </span>
-          <button mat-icon-button class="item-button animated" style="margin-right: -8px"
-                  (click)="endEditItem(item)">
+          <button (click)="endEditItem(item)" class="item-button animated" mat-icon-button
+                  style="margin-right: -8px">
             <mat-icon>check</mat-icon>
           </button>
         </span>
@@ -79,67 +79,67 @@
     </ng-container>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-icon-button (click)="addItem()">
+    <button (click)="addItem()" mat-icon-button>
       <mat-icon>add</mat-icon>
     </button>
-    <button mat-icon-button (click)="edit()">
+    <button (click)="edit()" mat-icon-button>
       <mat-icon>edit</mat-icon>
     </button>
-    <button mat-icon-button (click)="delete(); $event.stopPropagation()">
+    <button (click)="delete(); $event.stopPropagation()" mat-icon-button>
       <mat-icon>delete</mat-icon>
     </button>
-    <button mat-icon-button (click)="showContextMenu($event)">
+    <button (click)="showContextMenu($event)" mat-icon-button>
       <mat-icon>more_vert</mat-icon>
     </button>
   </mat-card-actions>
   <mat-card-footer [style.margin-bottom.px]="-32"></mat-card-footer>
 </mat-card>
 
-<div style="visibility: hidden; position: fixed"
+<div [matMenuTriggerFor]="contextMenu"
      [style.left.px]="rightClickPosX"
      [style.top.px]="rightClickPosY"
-     [matMenuTriggerFor]="contextMenu">
+     style="visibility: hidden; position: fixed">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <div [style.color]="taskList.foregroundColor"
-       [style.background]="taskList.backgroundColorGradient
+  <div [style.background]="taskList.backgroundColorGradient
             ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
-            : taskList.backgroundColor">
-    <button mat-menu-item (click)="dataService.bringToFront(this.taskList)">
+            : taskList.backgroundColor"
+       [style.color]="taskList.foregroundColor">
+    <button (click)="dataService.bringToFront(this.taskList)" mat-menu-item>
       <mat-icon>flip_to_front</mat-icon>
       Bring to front
     </button>
-    <button mat-menu-item (click)="dataService.bringForward(this.taskList)">
+    <button (click)="dataService.bringForward(this.taskList)" mat-menu-item>
       <mat-icon>add_circle_outline</mat-icon>
       Bring forward
     </button>
-    <button mat-menu-item (click)="dataService.sendBackward(this.taskList)">
+    <button (click)="dataService.sendBackward(this.taskList)" mat-menu-item>
       <mat-icon>remove_circle_outline</mat-icon>
       Send backward
     </button>
-    <button mat-menu-item (click)="dataService.flipToBack(this.taskList)">
+    <button (click)="dataService.flipToBack(this.taskList)" mat-menu-item>
       <mat-icon>flip_to_back</mat-icon>
       Send to back
     </button>
     <ng-container *ngIf="dataService.tabs.length > 1">
-      <button mat-menu-item [matMenuTriggerFor]="tabs">
+      <button [matMenuTriggerFor]="tabs" mat-menu-item>
         <mat-icon>drive_file_move</mat-icon>
         Move
       </button>
     </ng-container>
-    <button mat-menu-item (click)="addItem()">
+    <button (click)="addItem()" mat-menu-item>
       <mat-icon>add</mat-icon>
       Add item
     </button>
-    <button mat-menu-item (click)="select()">
+    <button (click)="select()" mat-menu-item>
       <mat-icon>{{taskList.selected ? 'close' : 'check'}}</mat-icon>
       {{taskList.selected ? 'Remove selection' : 'Select'}}
     </button>
-    <button mat-menu-item (click)="edit()">
+    <button (click)="edit()" mat-menu-item>
       <mat-icon>edit</mat-icon>
       Edit
     </button>
-    <button mat-menu-item (click)="delete()">
+    <button (click)="delete()" mat-menu-item>
       <mat-icon>delete</mat-icon>
       Delete
     </button>
@@ -147,12 +147,12 @@
 </mat-menu>
 
 <mat-menu #tabs="matMenu">
-  <div [style.color]="taskList.foregroundColor"
-       [style.background]="taskList.backgroundColorGradient
+  <div [style.background]="taskList.backgroundColorGradient
             ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
-            : taskList.backgroundColor">
+            : taskList.backgroundColor"
+       [style.color]="taskList.foregroundColor">
     <ng-container *ngFor="let tab of dataService.tabs">
-      <button mat-menu-item (click)="moveToTab(tab.index)" *ngIf="dataService.currentTabIndex != tab.index">
+      <button (click)="moveToTab(tab.index)" *ngIf="dataService.currentTabIndex != tab.index" mat-menu-item>
         {{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}
       </button>
     </ng-container>

@@ -33,6 +33,7 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {TabComponent} from './components/tab/tab.component';
 import {EditTabDialogComponent} from './components/dialogs/edit-tab-dialog/edit-tab-dialog.component';
 import {DeleteDialogComponent} from './components/dialogs/delete-dialog/delete-dialog.component';
+import {CustomAutofocusDirective} from './directives/custom-autofocus.directive';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import {DeleteDialogComponent} from './components/dialogs/delete-dialog/delete-d
     TabComponent,
     EditTabDialogComponent,
     DeleteDialogComponent,
+    CustomAutofocusDirective,
   ],
   imports: [
     BrowserModule,
