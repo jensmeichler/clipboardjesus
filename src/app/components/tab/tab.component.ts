@@ -34,9 +34,12 @@ export class TabComponent {
 
   onMouseDown(event: MouseEvent) {
     if (!this.mouseDown) {
+      this.mouseDown = true;
       this.startCursorPosX = event.pageX;
       this.startCursorPosY = event.pageY;
-      this.mouseDown = true;
+      this.endCursorPosX = event.pageX;
+      this.endCursorPosY = event.pageY;
+      console.log(this.startCursorPosX, this.startCursorPosY)
     } else {
       this.mouseMoveFailure = true;
     }
@@ -58,12 +61,15 @@ export class TabComponent {
 
     const cursorMoved = Math.abs(event.pageX - this.startCursorPosX) > 5
       || Math.abs(event.pageY - this.startCursorPosY) > 5;
-    this.resetCursors();
 
     if (cursorMoved) {
       this.dataService.editAllItems(item => {
-        if (item.posX > this.startCursorPosX && item.posX < event.pageX
-          && item.posY > this.startCursorPosY && item.posY < event.pageY) {
+        const itemInRangeX = item.posX >= this.startCursorPosX && item.posX <= event.pageX
+          || item.posX < this.startCursorPosX && item.posX > event.pageX;
+        const itemInRangeY = item.posY >= this.startCursorPosY && item.posY <= event.pageY
+          || item.posY < this.startCursorPosY && item.posY > event.pageY;
+
+        if (itemInRangeX && itemInRangeY) {
           if (!item.selected) {
             item.selected = true;
             this.dataService.onSelectionChange(item);
@@ -73,6 +79,8 @@ export class TabComponent {
     } else if (event.button == 0) {
       this.dataService.addNote(new Note(event.pageX, event.pageY))
     }
+
+    this.resetCursors();
   }
 
   dropFile(event: any) {
@@ -106,13 +114,30 @@ export class TabComponent {
 
   saveItemPosition(event: any, item: { posX: number, posY: number }) {
     event.source._dragRef.reset();
-    item.posX += event.distance.x;
-    item.posY += event.distance.y;
-    if (item.posX < 0) {
-      item.posX = 0;
-    }
-    if (item.posY < 49) {
-      item.posY = 49;
+
+    if (this.dataService.selectedItemsCount) {
+      this.dataService.editAllItems(item => {
+        if (item.selected) {
+          item.posX += event.distance.x;
+          item.posY += event.distance.y;
+          if (item.posX < 0) {
+            item.posX = 0;
+          }
+          if (item.posY < 49) {
+            item.posY = 49;
+          }
+        }
+      });
+      this.dataService.removeAllSelections();
+    } else {
+      item.posX += event.distance.x;
+      item.posY += event.distance.y;
+      if (item.posX < 0) {
+        item.posX = 0;
+      }
+      if (item.posY < 49) {
+        item.posY = 49;
+      }
     }
 
     this.dataService.cacheData();

@@ -34,10 +34,34 @@
     </ng-container>
   </div>
 
-  <div class="selection-border"
-       [style.top.px]="startCursorPosY - 46"
-       [style.left.px]="startCursorPosX"
-       [style.width.px]="endCursorPosX - startCursorPosX"
-       [style.height.px]="endCursorPosY - startCursorPosY"
-  ></div>
+  <ng-container *ngIf="mouseDown">
+    <!--bottom right-->
+    <div *ngIf="startCursorPosX < endCursorPosX && startCursorPosY < endCursorPosY" class="selection-border"
+         [style.top]="(startCursorPosY - 49) + 'px'"
+         [style.left]="startCursorPosX + 'px'"
+         [style.bottom]="'calc(100vh - ' + endCursorPosY + 'px)'"
+         [style.right]="'calc(100vw - ' + endCursorPosX + 'px)'"
+    ></div>
+    <!--top left-->
+    <div *ngIf="startCursorPosX > endCursorPosX && startCursorPosY > endCursorPosY" class="selection-border"
+         [style.top]="(endCursorPosY - 49) + 'px'"
+         [style.left]="endCursorPosX + 'px'"
+         [style.bottom]="'calc(100vh - ' + startCursorPosY + 'px)'"
+         [style.right]="'calc(100vw - ' + startCursorPosX + 'px)'"
+    ></div>
+    <!--bottom left-->
+    <div *ngIf="startCursorPosX > endCursorPosX && startCursorPosY < endCursorPosY" class="selection-border"
+         [style.top]="(startCursorPosY - 49) + 'px'"
+         [style.left]="endCursorPosX + 'px'"
+         [style.bottom]="'calc(100vh - ' + endCursorPosY + 'px)'"
+         [style.right]="'calc(100vw - ' + startCursorPosX + 'px)'"
+    ></div>
+    <!--top right-->
+    <div *ngIf="startCursorPosX < endCursorPosX && startCursorPosY > endCursorPosY" class="selection-border"
+         [style.top]="(endCursorPosY - 49) + 'px'"
+         [style.left]="startCursorPosX + 'px'"
+         [style.bottom]="'calc(100vh - ' + startCursorPosY + 'px)'"
+         [style.right]="'calc(100vw - ' + endCursorPosX + 'px)'"
+    ></div>
+  </ng-container>
 </div>

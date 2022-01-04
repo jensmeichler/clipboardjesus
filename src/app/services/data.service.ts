@@ -60,6 +60,11 @@ export class DataService {
       && left.posY === right.posY
   }
 
+  removeAllSelections() {
+    this.editAllItems(item => item.selected = false);
+    this.selectedItemsCount = 0;
+  }
+
   editAllItems(action: (item: Note | TaskList | Image) => void) {
     let notes = this.notes$.getValue();
     let taskLists = this.taskLists$.getValue();
@@ -298,11 +303,13 @@ export class DataService {
       ? this.tabs[this.currentTabIndex].color
       : undefined;
     if (!ignoreSelection && this.selectedItemsCount) {
-      return {
+      const selectedItemsTab = {
         notes: this.notes$.getValue()?.filter(x => x.selected),
         taskLists: this.taskLists$.getValue()?.filter(x => x.selected),
         images: this.images$.getValue()?.filter(x => x.selected),
-      } as Tab
+      } as Tab;
+      this.removeAllSelections();
+      return selectedItemsTab;
     }
     return {
       label, color,

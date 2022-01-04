@@ -14,10 +14,6 @@
   <mat-card-content>{{note.content}}</mat-card-content>
   <mat-card-actions align="end">
     <button mat-icon-button (mousedown)="rippleDisabled=true"
-            (mouseup)="select(); $event.stopPropagation(); rippleDisabled=false">
-      <mat-icon>{{note.selected ? 'close' : 'check'}}</mat-icon>
-    </button>
-    <button mat-icon-button (mousedown)="rippleDisabled=true"
             (mouseup)="edit(); $event.stopPropagation(); rippleDisabled=false">
       <mat-icon>edit</mat-icon>
     </button>
