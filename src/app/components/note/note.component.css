@@ -1,6 +1,5 @@
 :host {
   position: absolute;
-  cursor: pointer;
   animation: fade-in 0.2s;
 }
 

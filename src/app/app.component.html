@@ -1,100 +1,102 @@
-<mat-tab-group (selectedIndexChange)="dataService.setSelectedTab($event)"
-               [(selectedIndex)]="dataService.currentTabIndex"
-               animationDuration="0">
-  <mat-tab *ngFor="let tab of dataService.tabs">
-    <ng-template mat-tab-label>
-      <div style="margin-left: 8px; margin-right: 4px">{{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}</div>
-      <ng-container *ngIf="dataService.currentTabIndex == tab.index">
-        <mat-icon (click)="openEditTabDialog()" class="tab-button" matTooltip="Edit tab">edit</mat-icon>
-        <ng-container *ngIf="dataService.tabs.length > 1">
-          <mat-icon (click)="dataService.removeTab()" class="tab-button" matTooltip="Close tab">close</mat-icon>
+<div customCursor>
+  <mat-tab-group (selectedIndexChange)="dataService.setSelectedTab($event)"
+                 [(selectedIndex)]="dataService.currentTabIndex"
+                 animationDuration="0">
+    <mat-tab *ngFor="let tab of dataService.tabs">
+      <ng-template mat-tab-label>
+        <div style="margin-left: 8px; margin-right: 4px">{{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}</div>
+        <ng-container *ngIf="dataService.currentTabIndex == tab.index">
+          <mat-icon (click)="openEditTabDialog()" class="tab-button" matTooltip="Edit tab">edit</mat-icon>
+          <ng-container *ngIf="dataService.tabs.length > 1">
+            <mat-icon (click)="dataService.removeTab()" class="tab-button" matTooltip="Close tab">close</mat-icon>
+          </ng-container>
         </ng-container>
-      </ng-container>
-    </ng-template>
-    <mat-divider style="position: fixed; top: 48px; left: 0; right: 0"></mat-divider>
-    <clipboard-tab (contextmenu)="showContextMenu($event)" [tab]="tab"></clipboard-tab>
-  </mat-tab>
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <div (click)="dataService.addTab(); $event.stopPropagation()"
-           style="padding: 24px; margin: -24px">
-        <mat-icon matTooltip="New tab" style="transform: translateY(2px)">add</mat-icon>
-      </div>
-    </ng-template>
-  </mat-tab>
-</mat-tab-group>
+      </ng-template>
+      <mat-divider style="position: fixed; top: 48px; left: 0; right: 0"></mat-divider>
+      <clipboard-tab (contextmenu)="showContextMenu($event)" [tab]="tab"></clipboard-tab>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <div (click)="dataService.addTab(); $event.stopPropagation()"
+             style="padding: 24px; margin: -24px">
+          <mat-icon matTooltip="New tab" style="transform: translateY(2px)">add</mat-icon>
+        </div>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 
-<div [matMenuTriggerFor]="contextMenu"
-     [style.left.px]="rightClickPosX"
-     [style.top.px]="rightClickPosY"
-     style="visibility: hidden; position: fixed">
-</div>
-<mat-menu #contextMenu="matMenu">
-  <ng-container *ngIf="dataService.selectedItemsCount">
-    <button (click)="deleteSelectedItems()" mat-menu-item>
-      <mat-icon>delete</mat-icon>
-      Delete {{dataService.selectedItemsCount}} items
+  <div [matMenuTriggerFor]="contextMenu"
+       [style.left.px]="rightClickPosX"
+       [style.top.px]="rightClickPosY"
+       style="visibility: hidden; position: fixed">
+  </div>
+  <mat-menu #contextMenu="matMenu">
+    <ng-container *ngIf="dataService.selectedItemsCount">
+      <button (click)="deleteSelectedItems()" mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        Delete {{dataService.selectedItemsCount}} items
+      </button>
+      <mat-divider></mat-divider>
+    </ng-container>
+    <button (click)="openNewNoteDialog()" mat-menu-item>
+      <mat-icon>note</mat-icon>
+      Create note
     </button>
-    <mat-divider></mat-divider>
-  </ng-container>
-  <button (click)="openNewNoteDialog()" mat-menu-item>
-    <mat-icon>note</mat-icon>
-    Create note
-  </button>
-  <button (click)="openNewTaskListDialog()" mat-menu-item>
-    <mat-icon>list</mat-icon>
-    Create task list
-  </button>
-  <button (click)="openEditTabDialog()" mat-menu-item>
-    <mat-icon>format_paint</mat-icon>
-    Edit tab
-  </button>
-  <button (click)="clearAll()" mat-menu-item>
-    <mat-icon>delete_outline</mat-icon>
-    Clear tab
-  </button>
-  <ng-container *ngIf="dataService.tabs.length > 1">
-    <button (click)="dataService.removeTab()" mat-menu-item>
-      <mat-icon>delete</mat-icon>
-      Delete tab
+    <button (click)="openNewTaskListDialog()" mat-menu-item>
+      <mat-icon>list</mat-icon>
+      Create task list
     </button>
-  </ng-container>
-  <button (click)="clearAllForever()" mat-menu-item>
-    <mat-icon>delete_forever</mat-icon>
-    Delete all tabs
-  </button>
-</mat-menu>
+    <button (click)="openEditTabDialog()" mat-menu-item>
+      <mat-icon>format_paint</mat-icon>
+      Edit tab
+    </button>
+    <button (click)="clearAll()" mat-menu-item>
+      <mat-icon>delete_outline</mat-icon>
+      Clear tab
+    </button>
+    <ng-container *ngIf="dataService.tabs.length > 1">
+      <button (click)="dataService.removeTab()" mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        Delete tab
+      </button>
+    </ng-container>
+    <button (click)="clearAllForever()" mat-menu-item>
+      <mat-icon>delete_forever</mat-icon>
+      Delete all tabs
+    </button>
+  </mat-menu>
 
-<div class="fab-container">
-  <button (click)="saveAs(); $event.stopPropagation()" [disabled]="!dataService.itemsCount" class="save-as-button"
-          color="accent"
-          mat-mini-fab matTooltip="Save as"
-          matTooltipPosition="left">
-    <mat-icon>save_as</mat-icon>
+  <div class="fab-container">
+    <button (click)="saveAs(); $event.stopPropagation()" [disabled]="!dataService.itemsCount" class="save-as-button"
+            color="accent"
+            mat-mini-fab matTooltip="Save as"
+            matTooltipPosition="left">
+      <mat-icon>save_as</mat-icon>
+    </button>
+    <button (click)="save(); $event.stopPropagation()" [disabled]="!dataService.itemsCount"
+            [matTooltip]="dataService.selectedItemsCount ? 'Save ' + dataService.selectedItemsCount + ' items' : 'Save current tab'"
+            color="primary"
+            mat-fab
+            matTooltipPosition="left">
+      <mat-icon [matBadge]="dataService.selectedItemsCount ? dataService.selectedItemsCount : ''"
+                matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="large">
+        save
+      </mat-icon>
+    </button>
+  </div>
+  <button (click)="showContextMenu($event, true); $event.stopPropagation()"
+          class="context-menu-button" mat-icon-button>
+    <mat-icon>menu_open</mat-icon>
   </button>
-  <button (click)="save(); $event.stopPropagation()" [disabled]="!dataService.itemsCount"
-          [matTooltip]="dataService.selectedItemsCount ? 'Save ' + dataService.selectedItemsCount + ' items' : 'Save current tab'"
-          color="primary"
-          mat-fab
-          matTooltipPosition="left">
-    <mat-icon [matBadge]="dataService.selectedItemsCount ? dataService.selectedItemsCount : ''"
-              matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="large">
-      save
-    </mat-icon>
-  </button>
+
+  <a (click)="showAboutDialog()" class="startup-logo" target="_blank">
+    <span style="margin-right: 12px">Clip</span>
+    <img alt="#" height="120" src="favicon.ico" style="transform: translateY(-4px)">
+    <span style="margin-left: 12px">board</span>
+  </a>
+
+  <img [class.show-hashy-bg]="hashy.showHashy | async" alt="hashy"
+       class="hashy hashy-bg" height="124" src="assets/hashy-bg.svg">
+  <img [class.show-hashy]="hashy.showHashy | async" alt="hashy"
+       class="hashy" height="154" src="assets/hashy-fg.svg">
 </div>
-<button (click)="showContextMenu($event, true); $event.stopPropagation()" class="context-menu-button"
-        mat-icon-button>
-  <mat-icon>menu_open</mat-icon>
-</button>
-
-<a (click)="showAboutDialog()" class="startup-logo" target="_blank">
-  <span style="margin-right: 12px">Clip</span>
-  <img alt="#" height="120" src="favicon.ico" style="transform: translateY(-4px)">
-  <span style="margin-left: 12px">board</span>
-</a>
-
-<img [class.show-hashy-bg]="hashy.showHashy | async" alt="hashy"
-     class="hashy hashy-bg" height="124" src="assets/hashy-bg.svg">
-<img [class.show-hashy]="hashy.showHashy | async" alt="hashy"
-     class="hashy" height="154" src="assets/hashy-fg.svg">

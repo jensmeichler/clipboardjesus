@@ -34,6 +34,7 @@ import {TabComponent} from './components/tab/tab.component';
 import {EditTabDialogComponent} from './components/dialogs/edit-tab-dialog/edit-tab-dialog.component';
 import {DeleteDialogComponent} from './components/dialogs/delete-dialog/delete-dialog.component';
 import {CustomAutofocusDirective} from './directives/custom-autofocus.directive';
+import {CustomCursorDirective} from './directives/custom-cursor.directive';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import {CustomAutofocusDirective} from './directives/custom-autofocus.directive'
     EditTabDialogComponent,
     DeleteDialogComponent,
     CustomAutofocusDirective,
+    CustomCursorDirective,
   ],
   imports: [
     BrowserModule,

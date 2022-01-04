@@ -24,21 +24,15 @@ export class TabComponent {
     public readonly dataService: DataService) {
   }
 
-  private resetCursors() {
-    this.startCursorPosX = 0;
-    this.startCursorPosY = 0;
-    this.endCursorPosX = 0;
-    this.endCursorPosY = 0;
-    this.mouseDown = false;
-  }
-
   onMouseDown(event: MouseEvent) {
     if (!this.mouseDown) {
-      this.mouseDown = true;
-      this.startCursorPosX = event.pageX;
-      this.startCursorPosY = event.pageY;
-      this.endCursorPosX = event.pageX;
-      this.endCursorPosY = event.pageY;
+      if (event.button == 0) {
+        this.mouseDown = true;
+        this.startCursorPosX = event.pageX;
+        this.startCursorPosY = event.pageY;
+        this.endCursorPosX = event.pageX;
+        this.endCursorPosY = event.pageY;
+      }
     } else {
       this.mouseMoveFailure = true;
     }
@@ -144,5 +138,13 @@ export class TabComponent {
     }
 
     this.dataService.cacheData();
+  }
+
+  private resetCursors() {
+    this.startCursorPosX = 0;
+    this.startCursorPosY = 0;
+    this.endCursorPosX = 0;
+    this.endCursorPosY = 0;
+    this.mouseDown = false;
   }
 }

@@ -82,7 +82,6 @@
   animation: fade-out cubic-bezier(0.5, -0.3, 0, 2) 6s;
   transform: scale(0.2) translate(10em, -1.1em);
   width: auto;
-  cursor: pointer;
   filter: drop-shadow(0 0 16px black);
   z-index: 103;
 }

@@ -1,3 +1,31 @@
+* {
+  cursor: none !important;
+}
+
+.cursor {
+  background: black;
+  box-shadow: 0 0 0 var(--color-secondary);
+  border: 2px solid var(--color-secondary);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: -7px;
+  left: -7px;
+  z-index: 99999;
+  pointer-events: none;
+
+  animation-name: pulse;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 16px var(--color-secondary);
+  }
+}
+
 html, body {
   --color-background: #131313;
   --color-note: #212121;
@@ -36,10 +64,6 @@ html, body {
 
 .mat-button-base {
   border-radius: var(--border-radius) !important;
-}
-
-mat-icon {
-  cursor: pointer;
 }
 
 .mat-dialog-container,
