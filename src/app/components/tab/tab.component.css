@@ -1,5 +1,6 @@
 .clipboard {
   height: calc(100vh - 49px);
+  user-select: none;
 }
 
 .clipboard-hover {
