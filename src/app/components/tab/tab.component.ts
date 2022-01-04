@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, HostListener, Input} from '@angular/core';
 import {Image, Note, Tab} from "../../models";
 import {DataService} from "../../services/data.service";
 import {HashyService} from "../../services/hashy.service";
@@ -17,7 +17,6 @@ export class TabComponent {
   endCursorPosX = 0;
   endCursorPosY = 0;
   mouseDown = false;
-  mouseMoveFailure = false;
 
   constructor(
     private readonly hashy: HashyService,
@@ -33,8 +32,6 @@ export class TabComponent {
         this.endCursorPosX = event.pageX;
         this.endCursorPosY = event.pageY;
       }
-    } else {
-      this.mouseMoveFailure = true;
     }
   }
 
@@ -46,12 +43,6 @@ export class TabComponent {
   }
 
   onMouseUp(event: MouseEvent) {
-    if (this.mouseMoveFailure) {
-      this.mouseMoveFailure = false;
-      this.resetCursors();
-      return;
-    }
-
     const cursorMoved = Math.abs(event.pageX - this.startCursorPosX) > 5
       || Math.abs(event.pageY - this.startCursorPosY) > 5;
 
@@ -138,6 +129,11 @@ export class TabComponent {
     }
 
     this.dataService.cacheData();
+  }
+
+  @HostListener('document:mouseleave')
+  onWindowLeave() {
+    this.resetCursors();
   }
 
   private resetCursors() {
