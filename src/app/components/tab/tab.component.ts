@@ -12,13 +12,67 @@ export class TabComponent {
   @Input()
   tab?: Tab;
 
+  startCursorPosX = 0;
+  startCursorPosY = 0;
+  endCursorPosX = 0;
+  endCursorPosY = 0;
+  mouseDown = false;
+  mouseMoveFailure = false;
+
   constructor(
     private readonly hashy: HashyService,
     public readonly dataService: DataService) {
   }
 
-  newNote(event: MouseEvent) {
-    this.dataService.addNote(new Note(event.pageX, event.pageY))
+  private resetCursors() {
+    this.startCursorPosX = 0;
+    this.startCursorPosY = 0;
+    this.endCursorPosX = 0;
+    this.endCursorPosY = 0;
+    this.mouseDown = false;
+  }
+
+  onMouseDown(event: MouseEvent) {
+    if (!this.mouseDown) {
+      this.startCursorPosX = event.pageX;
+      this.startCursorPosY = event.pageY;
+      this.mouseDown = true;
+    } else {
+      this.mouseMoveFailure = true;
+    }
+  }
+
+  onMouseMove(event: MouseEvent) {
+    if (this.mouseDown) {
+      this.endCursorPosX = event.pageX;
+      this.endCursorPosY = event.pageY;
+    }
+  }
+
+  onMouseUp(event: MouseEvent) {
+    if (this.mouseMoveFailure) {
+      this.mouseMoveFailure = false;
+      this.resetCursors();
+      return;
+    }
+
+    const cursorMoved = Math.abs(event.pageX - this.startCursorPosX) > 5
+      || Math.abs(event.pageY - this.startCursorPosY) > 5;
+    this.resetCursors();
+
+    if (cursorMoved) {
+      this.dataService.editAllItems(item => {
+        if (item.posX > this.startCursorPosX && item.posX < event.pageX
+          && item.posY > this.startCursorPosY && item.posY < event.pageY) {
+          if (!item.selected) {
+            item.selected = true;
+            this.dataService.onSelectionChange(item);
+          }
+        }
+      })
+    } else if (event.button == 0) {
+      this.dataService.addNote(new Note(event.pageX, event.pageY))
+    }
   }
 
   dropFile(event: any) {

@@ -60,6 +60,30 @@ export class DataService {
       && left.posY === right.posY
   }
 
+  editAllItems(action: (item: Note | TaskList | Image) => void) {
+    let notes = this.notes$.getValue();
+    let taskLists = this.taskLists$.getValue();
+    let images = this.images$.getValue();
+
+    notes?.forEach(action);
+    taskLists?.forEach(action);
+    images?.forEach(action);
+
+    this.notes$.next(notes);
+    this.taskLists$.next(taskLists);
+    this.images$.next(images);
+  }
+
+  filterAllItems(action: (item: Note | TaskList | Image) => boolean) {
+    let notes = this.notes$.getValue()?.filter(action);
+    let taskLists = this.taskLists$.getValue()?.filter(action);
+    let images = this.images$.getValue()?.filter(action);
+
+    this.notes$.next(notes ?? []);
+    this.taskLists$.next(taskLists ?? []);
+    this.images$.next(images ?? []);
+  }
+
   cacheData() {
     this.cache.save(this.currentTabIndex, this.getAsJson(true));
   }
@@ -163,12 +187,7 @@ export class DataService {
   }
 
   deleteSelectedItems() {
-    let notes = this.notes$.getValue()?.filter(x => !x.selected);
-    let taskLists = this.taskLists$.getValue()?.filter(x => !x.selected);
-    let images = this.images$.getValue()?.filter(x => !x.selected);
-    this.notes$.next(notes ?? null);
-    this.taskLists$.next(taskLists ?? null);
-    this.images$.next(images ?? null);
+    this.filterAllItems(item => !item.selected)
     this.selectedItemsCount = 0;
     this.hashy.show('Selected items deleted', 3000, 'Undo', () => {
       this.fetchDataFromCache();

@@ -36,6 +36,7 @@ export class ImageComponent {
     this.image.selected = !this.image.selected;
     this.dataService.onSelectionChange(this.image);
   }
+  
   onMouseDown() {
     this.mouseDown = true;
   }

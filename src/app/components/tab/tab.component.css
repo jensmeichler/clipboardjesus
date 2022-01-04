@@ -123,3 +123,11 @@
   z-index: 101 !important;
   box-shadow: 0 0 20px var(--color-secondary) !important;
 }
+
+.selection-border {
+  position: absolute;
+  border: 2px dashed var(--color-secondary);
+  border-radius: 8px;
+  box-shadow: inset 0 0 16px black;
+  background: #00000022;
+}
