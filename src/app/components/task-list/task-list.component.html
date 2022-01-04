@@ -68,7 +68,8 @@
             </ng-container>
             <mat-checkbox (change)="markAsChecked(item)" [checked]="item.checked">
             </mat-checkbox>
-            <input (mousedown)="$event.stopPropagation()" [(ngModel)]="item.value" customAutofocus>
+            <input (keydown)="onKeyPressed($event, item)" (mousedown)="$event.stopPropagation()"
+                   [(ngModel)]="item.value" customAutofocus>
           </span>
           <button (click)="endEditItem(item)" class="item-button animated" mat-icon-button
                   style="margin-right: -8px">

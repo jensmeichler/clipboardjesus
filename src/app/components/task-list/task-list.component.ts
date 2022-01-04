@@ -20,6 +20,11 @@ export class TaskListComponent implements OnDestroy {
 
   itemToEdit?: TaskItem;
 
+  @ViewChild(MatMenuTrigger)
+  contextMenu!: MatMenuTrigger;
+  rightClickPosX = 0;
+  rightClickPosY = 0;
+
   constructor(
     private readonly dialog: MatDialog,
     public readonly dataService: DataService) {
@@ -104,6 +109,12 @@ export class TaskListComponent implements OnDestroy {
     this.dataService.cacheData();
   }
 
+  onKeyPressed(event: KeyboardEvent, item: TaskItem) {
+    if (event.key == 'Enter') {
+      this.endEditItem(item);
+    }
+  }
+
   deleteItem(item: TaskItem) {
     this.taskList.items = this.taskList.items.filter(x => x !== item);
 
@@ -128,11 +139,6 @@ export class TaskListComponent implements OnDestroy {
   moveToTab(index: number) {
     this.dataService.moveTaskListToTab(index, this.taskList);
   }
-
-  @ViewChild(MatMenuTrigger)
-  contextMenu!: MatMenuTrigger;
-  rightClickPosX = 0;
-  rightClickPosY = 0;
 
   showContextMenu(event: any) {
     event.preventDefault();
