@@ -52,11 +52,15 @@ export class NoteComponent implements OnDestroy {
     }
   }
 
-  onMouseUp(event: any) {
+  onMouseUp(event: MouseEvent) {
     switch (event.button) {
       case 0:
         if (this.movedPx < 5) {
-          this.copy();
+          if (event.ctrlKey || event.shiftKey) {
+            this.select();
+          } else {
+            this.copy();
+          }
         }
         break;
       case 1:

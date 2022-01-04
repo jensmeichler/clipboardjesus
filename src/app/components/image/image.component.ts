@@ -36,7 +36,7 @@ export class ImageComponent {
     this.image.selected = !this.image.selected;
     this.dataService.onSelectionChange(this.image);
   }
-  
+
   onMouseDown() {
     this.mouseDown = true;
   }
@@ -51,7 +51,11 @@ export class ImageComponent {
     switch (event.button) {
       case 0:
         if (this.movedPx < 5) {
-          this.copy();
+          if (event.ctrlKey || event.shiftKey) {
+            this.select();
+          } else {
+            this.copy();
+          }
         }
         break;
       case 1:
