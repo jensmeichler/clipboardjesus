@@ -15,12 +15,12 @@
   z-index: 99999;
   pointer-events: none;
 
-  animation-name: pulse;
+  animation-name: cursor-pulse;
   animation-duration: 2s;
   animation-iteration-count: infinite;
 }
 
-@keyframes pulse {
+@keyframes cursor-pulse {
   50% {
     box-shadow: 0 0 16px var(--color-secondary);
   }
