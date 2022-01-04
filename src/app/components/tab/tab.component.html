@@ -23,16 +23,16 @@
                  [style.zIndex]="taskList.posZ"
                  [taskList]="taskList"></task-list>
     </ng-container>
-    <ng-container *ngFor="let image of dataService.images$ | async">
-      <image cdkDrag class="draggable-note" [class.draggable-note-selected]="image.selected"
-             (cdkDragEnded)="saveItemPosition($event, image)"
-             (mousedown)="$event.stopPropagation()"
-             [style.top.px]="image.posY - 49"
-             [style.left.px]="image.posX"
-             [style.zIndex]="image.posZ"
-             [image]="image"></image>
-    </ng-container>
   </div>
+  <ng-container *ngFor="let image of dataService.images$ | async">
+    <image cdkDrag class="draggable-note" [class.draggable-note-selected]="image.selected"
+           (cdkDragEnded)="saveItemPosition($event, image)"
+           (mousedown)="$event.stopPropagation()"
+           [style.top.px]="image.posY - 49"
+           [style.left.px]="image.posX"
+           [style.zIndex]="image.posZ"
+           [image]="image"></image>
+  </ng-container>
 
   <ng-container *ngIf="mouseDown">
     <!--bottom right-->
