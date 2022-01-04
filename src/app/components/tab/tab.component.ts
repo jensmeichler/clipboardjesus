@@ -64,9 +64,9 @@ export class TabComponent {
     if (cursorMoved) {
       this.dataService.editAllItems(item => {
         const itemInRangeX = item.posX >= this.startCursorPosX && item.posX <= event.pageX
-          || item.posX < this.startCursorPosX && item.posX > event.pageX;
+          || item.posX <= this.startCursorPosX && item.posX >= event.pageX;
         const itemInRangeY = item.posY >= this.startCursorPosY && item.posY <= event.pageY
-          || item.posY < this.startCursorPosY && item.posY > event.pageY;
+          || item.posY <= this.startCursorPosY && item.posY >= event.pageY;
 
         if (itemInRangeX && itemInRangeY) {
           if (!item.selected) {
