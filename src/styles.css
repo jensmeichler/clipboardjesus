@@ -34,6 +34,7 @@ html, body {
   --border-radius: 12px;
 
   color-scheme: dark;
+  overflow: hidden;
 
   margin: 0;
   height: 100%;

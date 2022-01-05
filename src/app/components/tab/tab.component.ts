@@ -43,8 +43,8 @@ export class TabComponent {
   }
 
   onMouseUp(event: MouseEvent) {
-    const cursorMoved = Math.abs(event.pageX - this.startCursorPosX) > 5
-      || Math.abs(event.pageY - this.startCursorPosY) > 5;
+    const cursorMoved = this.mouseDown && (Math.abs(event.pageX - this.startCursorPosX) > 5
+      || Math.abs(event.pageY - this.startCursorPosY) > 5);
 
     if (cursorMoved) {
       this.dataService.editAllItems(item => {
