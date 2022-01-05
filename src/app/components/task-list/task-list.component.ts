@@ -109,9 +109,18 @@ export class TaskListComponent implements OnDestroy {
     this.dataService.cacheData();
   }
 
+  toggleSubTask(item: TaskItem) {
+    item.isSubTask = !item.isSubTask;
+    this.dataService.cacheData();
+  }
+
   onKeyPressed(event: KeyboardEvent, item: TaskItem) {
     if (event.key == 'Enter') {
       this.endEditItem(item);
+    } else if (event.key == 'Tab') {
+      this.toggleSubTask(item);
+      event.stopPropagation();
+      event.preventDefault();
     }
   }
 

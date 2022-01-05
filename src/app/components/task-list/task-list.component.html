@@ -15,14 +15,14 @@
         <span cdkDrag class="flex-container" style="margin: 0; gap: 20px;">
           <span>
             <ng-container *ngIf="item.isSubTask">
-              <button (click)="item.isSubTask = false" class="item-button" mat-icon-button
+              <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
                       matTooltip="Move to left"
                       matTooltipPosition="left" style="opacity: 0.1; margin-left: -6px">
                 <mat-icon>remove</mat-icon>
               </button>
             </ng-container>
             <ng-container *ngIf="!item.isSubTask">
-              <button (click)="item.isSubTask = true" class="item-button" mat-icon-button
+              <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
                       matTooltip="Move to right"
                       matTooltipPosition="left" style="opacity: 0.1; margin-left: -34px">
                 <mat-icon>arrow_right</mat-icon>
@@ -53,14 +53,14 @@
         <span class="flex-container" style="margin: 0">
           <span style="display: contents">
             <ng-container *ngIf="item.isSubTask">
-              <button (click)="item.isSubTask = false" class="item-button" mat-icon-button
+              <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
                       matTooltip="Move to left"
                       matTooltipPosition="left" style="opacity: 0.1; margin-left: -6px">
                 <mat-icon>remove</mat-icon>
               </button>
             </ng-container>
             <ng-container *ngIf="!item.isSubTask">
-              <button (click)="item.isSubTask = true" class="item-button" mat-icon-button
+              <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
                       matTooltip="Move to right"
                       matTooltipPosition="left" style="opacity: 0.1; margin-left: -34px">
                 <mat-icon>arrow_right</mat-icon>
