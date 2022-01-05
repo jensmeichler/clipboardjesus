@@ -28,6 +28,7 @@ export class StringParserService {
   }
 
   private static getAsHref(link: string): string {
-    return '<a href="' + link + '" target="_blank">' + link + '</a>';
+    const linkRef = link.startsWith('http') ? link : 'https://' + link;
+    return '<a href="' + linkRef + '" target="_blank">' + link + '</a>';
   }
 }
