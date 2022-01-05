@@ -5,7 +5,6 @@
       cdkDragRootElement=".cdk-overlay-pane" class="flex-container"
       mat-dialog-title>
     <span class="flex-container">
-      <mat-icon mat-dialog-close style="transform: translateX(-5px)">close</mat-icon>
       <span>Edit tab</span>
     </span>
     <a>
@@ -79,6 +78,7 @@
   </div>
 
   <div class="dialog-button-group">
+    <button mat-button mat-dialog-close>Cancel</button>
     <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
   </div>
 </div>

@@ -7,7 +7,6 @@
       cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane">
     <span class="flex-container">
-      <mat-icon mat-dialog-close style="transform: translateX(-5px)">close</mat-icon>
       <span>Edit task list</span>
     </span>
     <a *ngIf="data.foregroundColor && data.backgroundColor">
@@ -60,6 +59,7 @@
   </div>
 
   <div class="dialog-button-group">
+    <button mat-button mat-dialog-close>Cancel</button>
     <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
   </div>
 </div>
