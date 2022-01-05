@@ -28,6 +28,6 @@ export class StringParserService {
   }
 
   private static getAsHref(link: string): string {
-    return '<a href="' + link + '">' + link + '</a>';
+    return '<a href="' + link + '" target="_blank">' + link + '</a>';
   }
 }
