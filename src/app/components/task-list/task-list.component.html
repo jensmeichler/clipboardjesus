@@ -29,7 +29,7 @@
               </button>
             </ng-container>
             <mat-checkbox (change)="dataService.cacheData()" [(ngModel)]="item.checked">
-              {{item.value}}
+              <div [innerHTML]="stringParser.convert(item.value)"></div>
             </mat-checkbox>
             <button (click)="addItemAfter(item)" class="item-button" mat-icon-button
                     matTooltip="Add task"

@@ -5,6 +5,7 @@ import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
 import {TaskItem, TaskList} from "../../models";
 import {DataService} from "../../services/data.service";
+import {StringParserService} from "../../services/string-parser.service";
 import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
 
 @Component({
@@ -27,7 +28,9 @@ export class TaskListComponent implements OnDestroy {
 
   constructor(
     private readonly dialog: MatDialog,
-    public readonly dataService: DataService) {
+    public readonly dataService: DataService,
+    public readonly stringParser: StringParserService
+  ) {
   }
 
   ngOnDestroy() {
