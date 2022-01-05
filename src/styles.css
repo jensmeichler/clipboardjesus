@@ -3,15 +3,10 @@
 }
 
 .cursor {
-  background: black;
-  box-shadow: 0 0 0 var(--color-secondary);
-  border: 2px solid var(--color-secondary);
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
+  filter: drop-shadow(0 0 0 var(--color-secondary));
   position: absolute;
-  top: -7px;
-  left: -7px;
+  top: -1px;
+  left: -1px;
   z-index: 99999;
   pointer-events: none;
 
@@ -22,7 +17,7 @@
 
 @keyframes cursor-pulse {
   50% {
-    box-shadow: 0 0 16px var(--color-secondary);
+    filter: drop-shadow(0 0 16px var(--color-secondary));
   }
 }
 
