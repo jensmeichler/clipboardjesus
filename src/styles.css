@@ -50,6 +50,11 @@ html, body {
   }
 }
 
+.dialog-button-group {
+  display: flex;
+  justify-content: flex-end;
+}
+
 .mat-card {
   background: var(--color-note);
   border-radius: var(--border-radius) !important;

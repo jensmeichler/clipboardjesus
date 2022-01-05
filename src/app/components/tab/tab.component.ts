@@ -42,7 +42,7 @@ export class TabComponent {
     }
   }
 
-  onMouseUp(event: MouseEvent) {
+  async onMouseUp(event: MouseEvent) {
     const cursorMoved = this.mouseDown && (Math.abs(event.pageX - this.startCursorPosX) > 5
       || Math.abs(event.pageY - this.startCursorPosY) > 5);
 
@@ -64,7 +64,12 @@ export class TabComponent {
       if (this.dataService.selectedItemsCount) {
         this.dataService.clearSelection();
       } else {
-        this.dataService.addNote(new Note(event.pageX, event.pageY))
+        const clipboardText = await navigator.clipboard.readText();
+        if (!clipboardText) {
+          this.hashy.show('Your clipboard is empty', 3000);
+        } else {
+          this.dataService.addNote(new Note(event.pageX, event.pageY, clipboardText))
+        }
       }
     }
 
@@ -72,11 +77,11 @@ export class TabComponent {
   }
 
   dropFile(event: any) {
-    let posX = event.pageX;
-    let posY = event.pageY;
-    let data = event.dataTransfer.items[0] as DataTransferItem;
+    const posX = event.pageX;
+    const posY = event.pageY;
+    const data = event.dataTransfer.items[0] as DataTransferItem;
     if (data.kind === 'file') {
-      let file = data.getAsFile()!;
+      const file = data.getAsFile()!;
       if (file.name.endsWith('notes.json')) {
         file.text().then(text => {
           this.dataService.setFromJson(JSON.parse(text));
@@ -89,13 +94,14 @@ export class TabComponent {
         this.hashy.show('Type ' + file.type.toUpperCase() + ' is not supported', 4000, 'Ok');
       }
     } else if (data.kind === 'string') {
-      let draggedUrl = event.dataTransfer.getData('text/uri-list');
+      const draggedUrl = event.dataTransfer.getData('text/uri-list');
       if (draggedUrl) {
-        let newImage = new Image(posX, posY, draggedUrl);
+        const newImage = new Image(posX, posY, draggedUrl);
         this.dataService.addImage(newImage);
       } else {
-        let draggedText = event.dataTransfer.getData('text');
-        this.dataService.addNote(new Note(posX, posY, draggedText));
+        const draggedText = event.dataTransfer.getData('text');
+        const newNote = new Note(posX, posY, draggedText);
+        this.dataService.addNote(newNote);
       }
     }
   }

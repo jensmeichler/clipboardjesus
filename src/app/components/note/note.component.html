@@ -11,7 +11,7 @@
   <mat-card-title *ngIf="note.header" class="flex-container">
     {{note.header}}
   </mat-card-title>
-  <mat-card-content>{{note.content}}</mat-card-content>
+  <mat-card-content [innerHTML]="parsedContent"></mat-card-content>
   <mat-card-actions align="end">
     <button mat-icon-button (mousedown)="rippleDisabled=true"
             (mouseup)="edit(); $event.stopPropagation(); rippleDisabled=false">

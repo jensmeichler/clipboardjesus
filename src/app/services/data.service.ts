@@ -211,13 +211,7 @@ export class DataService {
     }
   }
 
-  async addNote(note: Note) {
-    note.content ??= await navigator.clipboard.readText();
-    if (!note.content) {
-      this.hashy.show('Your clipboard is empty', 3000);
-      return;
-    }
-
+  addNote(note: Note) {
     this.defineIndex(note);
     let currentNotes = this.notes$.getValue() ?? [];
     currentNotes?.push(note);

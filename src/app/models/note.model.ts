@@ -1,3 +1,5 @@
+import {colorRegex} from "../const/regexes";
+
 export class Note {
   content?;
   header?: string;
@@ -15,5 +17,9 @@ export class Note {
     this.posZ = posZ;
     this.header = header;
     this.content = content;
+
+    if (content && colorRegex.test(content)) {
+      this.backgroundColor = content;
+    }
   }
 }

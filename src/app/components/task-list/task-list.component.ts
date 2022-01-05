@@ -1,11 +1,11 @@
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {Component, Input, OnDestroy, ViewChild} from '@angular/core';
+import {MatDialog} from "@angular/material/dialog";
+import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
 import {TaskItem, TaskList} from "../../models";
-import {MatDialog} from "@angular/material/dialog";
-import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
-import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {DataService} from "../../services/data.service";
-import {MatMenuTrigger} from "@angular/material/menu";
+import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
 
 @Component({
   selector: 'task-list',
@@ -78,11 +78,15 @@ export class TaskListComponent implements OnDestroy {
   }
 
   edit() {
+    let taskList = JSON.parse(JSON.stringify(this.taskList));
     this.dialogSubscription = this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: this.taskList,
-    }).afterClosed().subscribe(() => {
-      this.dataService.cacheData();
+      data: taskList,
+    }).afterClosed().subscribe((editedTaskList) => {
+      if (editedTaskList) {
+        this.taskList = editedTaskList;
+        this.dataService.cacheData();
+      }
     });
   }
 

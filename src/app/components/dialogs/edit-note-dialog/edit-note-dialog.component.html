@@ -43,4 +43,8 @@
       <textarea matInput [(ngModel)]="data.content" style="height: 200px"></textarea>
     </mat-form-field>
   </div>
+
+  <div class="dialog-button-group">
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+  </div>
 </div>
