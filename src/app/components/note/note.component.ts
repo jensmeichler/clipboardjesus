@@ -38,7 +38,6 @@ export class NoteComponent implements OnDestroy, OnInit {
 
   ngOnInit() {
     this.parsedContent = this.stringParser.convert(this.note.content);
-    console.log(this.parsedContent)
   }
 
   ngOnDestroy() {

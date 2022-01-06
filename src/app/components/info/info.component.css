@@ -1,0 +1,8 @@
+.cursor-position {
+  position: fixed;
+  left: 0;
+  color: white;
+  z-index: 99999;
+  opacity: .6;
+  transition: bottom ease-in-out 0.16s;
+}
