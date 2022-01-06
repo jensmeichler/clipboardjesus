@@ -71,6 +71,7 @@
 }
 
 .startup-logo {
+  cursor: pointer;
   font-size: 10rem;
   position: fixed;
   top: 0;

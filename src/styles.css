@@ -1,15 +1,12 @@
-* {
-  cursor: none !important;
-}
-
 .cursor {
   display: none;
-  filter: drop-shadow(0 0 0 var(--color-secondary));
   position: absolute;
-  top: -1px;
-  left: -1px;
+  top: 0;
+  left: 0;
   z-index: 99999;
   pointer-events: none;
+
+  filter: blur(30px);
 
   animation-name: cursor-pulse;
   animation-duration: 2s;
@@ -18,12 +15,12 @@
 
 @keyframes cursor-pulse {
   50% {
-    filter: drop-shadow(0 0 16px var(--color-secondary));
+    filter: blur(10px);
   }
 }
 
 html, body {
-  --color-background: #131313;
+  --color-background: rgba(19, 19, 19, 0);
   --color-note: #212121;
   --color-primary: #7b1ea2;
   --color-secondary: #69f0ae;
