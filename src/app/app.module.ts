@@ -29,7 +29,6 @@ import {EditTabDialogComponent} from './components/dialogs/edit-tab-dialog/edit-
 import {EditTaskListDialogComponent} from './components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component';
 import {SaveAsDialogComponent} from './components/dialogs/save-as-dialog/save-as-dialog.component';
 import {ImageComponent} from './components/image/image.component';
-import {InfoComponent} from './components/info/info.component';
 import {NoteComponent} from './components/note/note.component';
 import {TabComponent} from './components/tab/tab.component';
 import {TaskListComponent} from './components/task-list/task-list.component';
@@ -53,7 +52,6 @@ import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
     DeleteDialogComponent,
     CustomAutofocusDirective,
     CustomCursorDirective,
-    InfoComponent,
   ],
   imports: [
     BrowserModule,

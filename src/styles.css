@@ -5,8 +5,16 @@
   left: 1px;
   z-index: 99999;
   pointer-events: none;
-
   filter: blur(30px);
+}
+
+.cursor-position {
+  position: fixed;
+  left: 10px;
+  color: white;
+  z-index: 99999;
+  opacity: .6;
+  transition: bottom ease-in-out 0.16s;
 }
 
 @keyframes cursor-pulse {
