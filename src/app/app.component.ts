@@ -64,8 +64,7 @@ export class AppComponent {
           }
           break;
         default:
-          console.log(event.key)
-          break;
+          return;
       }
       this.dataService.cacheData();
     }
