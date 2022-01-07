@@ -6,9 +6,7 @@
   <h1 mat-dialog-title class="flex-container"
       cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane">
-    <span class="flex-container">
-      <span>Edit task list</span>
-    </span>
+    <span>Edit task list</span>
     <a *ngIf="data.foregroundColor && data.backgroundColor">
       <input [(ngModel)]="data.foregroundColor" style="margin-right: 5px" type="color"
              matTooltipPosition="above" matTooltip="Edit text color">
