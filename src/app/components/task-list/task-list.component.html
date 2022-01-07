@@ -167,22 +167,13 @@
 </mat-menu>
 
 <mat-menu #items="matMenu">
-  <ng-container *ngFor="let otherNote of dataService.notes$.getValue()">
-    <button mat-menu-item (click)="copyColorFrom(otherNote)"
-            [style.color]="otherNote.foregroundColor"
-            [style.background]="otherNote.backgroundColorGradient
-                ? 'linear-gradient(to bottom, ' + otherNote.backgroundColor + ', ' + otherNote.backgroundColorGradient
-                : otherNote.backgroundColor">
-      {{ otherNote.header ? otherNote.header : 'Note ' + otherNote.posZ }}
-    </button>
-  </ng-container>
-  <ng-container *ngFor="let taskList of dataService.taskLists$.getValue()">
-    <button mat-menu-item *ngIf="taskList !== taskList" (click)="copyColorFrom(taskList)"
-            [style.color]="taskList.foregroundColor"
-            [style.background]="taskList.backgroundColorGradient
-                ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
-                : taskList.backgroundColor">
-      {{ taskList.header ? taskList.header : 'Tasks ' + taskList.posZ }}
+  <ng-container *ngFor="let item of dataService.getColorizedObjects(taskList)">
+    <button mat-menu-item *ngIf="taskList !== item" (click)="copyColorFrom(item)"
+            [style.color]="item.foregroundColor"
+            [style.background]="item.backgroundColorGradient
+                ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
+                : item.backgroundColor">
+      {{ item.header ? item.header : 'Item ' + item.posZ }}
     </button>
   </ng-container>
 </mat-menu>

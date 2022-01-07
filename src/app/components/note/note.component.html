@@ -100,7 +100,7 @@
 </mat-menu>
 
 <mat-menu #items="matMenu">
-  <ng-container *ngFor="let item of dataService.colorizedObjects">
+  <ng-container *ngFor="let item of dataService.getColorizedObjects(note)">
     <button mat-menu-item *ngIf="note !== item" (click)="copyColorFrom(item)"
             [style.color]="item.foregroundColor"
             [style.background]="item.backgroundColorGradient

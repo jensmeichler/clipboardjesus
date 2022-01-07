@@ -11,14 +11,14 @@ import {HashyService} from "./hashy.service";
   providedIn: 'root'
 })
 export class DataService {
+  private colorizedObjects: (Note | TaskList)[] = [];
+
   currentTabIndex = 0;
   tabs: Tab[] = [];
 
   notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
   taskLists$: BehaviorSubject<TaskList[] | null> = new BehaviorSubject<TaskList[] | null>(null);
   images$: BehaviorSubject<Image[] | null> = new BehaviorSubject<Image[] | null>(null);
-
-  colorizedObjects: (Note | TaskList)[] = [];
 
   itemsCount = 0;
   selectedItemsCount = 0;
@@ -41,6 +41,10 @@ export class DataService {
     if (!this.tabs.length) {
       this.addTab();
     }
+  }
+
+  getColorizedObjects(excludedItem: Note | TaskList): (Note | TaskList)[] {
+    return this.colorizedObjects.filter(item => !DataService.compareColors(excludedItem, item));
   }
 
   private static compareNote(left: Note, right: Note): boolean {
@@ -495,7 +499,6 @@ export class DataService {
     if (images) {
       result = result.concat(images);
     }
-
     return result;
   }
 }
