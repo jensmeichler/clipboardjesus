@@ -8,6 +8,7 @@ export class CustomCursorDirective {
   position?: HTMLElement;
   moving = false;
   timer?: number;
+  text?: string;
 
   constructor() {
     this.cursor = document.getElementById('cursor')!;
@@ -47,9 +48,9 @@ export class CustomCursorDirective {
           const splitted = x.style.transform.split('(')[1].split(', ');
           const translateX = CustomCursorDirective.convertPxToInt(splitted[0]);
           const translateY = CustomCursorDirective.convertPxToInt(splitted[1]);
-          this.position!.innerText = x.tagName + ': { X: ' + (translateX + posX) + ' | Y: ' + (translateY + posY) + ' }';
+          this.setText(x.tagName + ': { X: ' + (translateX + posX) + ' | Y: ' + (translateY + posY) + ' }');
         } else {
-          this.position!.innerText = x.tagName + ': { X: ' + posX + ' | Y: ' + posY + ' }';
+          this.setText(x.tagName + ': { X: ' + posX + ' | Y: ' + posY + ' }');
         }
       }
     });
@@ -63,6 +64,13 @@ export class CustomCursorDirective {
   onWindowLeave() {
     this.position!.style.bottom = '-20px';
     this.cursor.style.display = 'none';
+  }
+
+  private setText(value: string) {
+    if (value != this.text) {
+      this.text = value;
+      this.position!.innerText = value;
+    }
   }
 
   private static convertPxToInt(value: string): number {
