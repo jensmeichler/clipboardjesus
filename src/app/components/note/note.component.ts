@@ -60,6 +60,10 @@ export class NoteComponent implements OnDestroy, OnInit {
   }
 
   onMouseUp(event: MouseEvent) {
+    if (!this.mouseDown) {
+      return;
+    }
+
     switch (event.button) {
       case 0:
         if (this.movedPx < 5) {
@@ -71,7 +75,7 @@ export class NoteComponent implements OnDestroy, OnInit {
         }
         break;
       case 1:
-        this.delete();
+        this.delete(event);
         break;
       case 2:
         break;
@@ -82,28 +86,36 @@ export class NoteComponent implements OnDestroy, OnInit {
   }
 
   copy() {
-    if (this.note.content) {
+    if (this.note.content && this.movedPx < 5) {
       this.clipboard.copy(this.note.content);
       this.hashy.show('Copied to clipboard', 600);
     }
   }
 
-  edit() {
-    let note = {...this.note};
-    this.dialogSubscription = this.dialog.open(EditNoteDialogComponent, {
-      width: 'var(--width-edit-dialog)',
-      data: note,
-      disableClose: true,
-    }).afterClosed().subscribe((editedNote) => {
-      if (editedNote) {
-        this.dataService.deleteNote(this.note);
-        this.dataService.addNote(editedNote);
-      }
-    });
+  edit(event: any) {
+    if (this.rippleDisabled && this.movedPx < 5) {
+      let note = {...this.note};
+      this.dialogSubscription = this.dialog.open(EditNoteDialogComponent, {
+        width: 'var(--width-edit-dialog)',
+        data: note,
+        disableClose: true,
+      }).afterClosed().subscribe((editedNote) => {
+        if (editedNote) {
+          this.dataService.deleteNote(this.note);
+          this.dataService.addNote(editedNote);
+        }
+      });
+      this.rippleDisabled = false;
+      event.stopPropagation()
+    }
   }
 
-  delete() {
-    this.dataService.deleteNote(this.note);
+  delete(event: any, force?: boolean) {
+    if (this.movedPx < 5 && (force || this.rippleDisabled)) {
+      this.dataService.deleteNote(this.note);
+      this.rippleDisabled = false;
+      event.stopPropagation();
+    }
   }
 
   moveToTab(index: number) {
@@ -122,10 +134,13 @@ export class NoteComponent implements OnDestroy, OnInit {
   rightClickPosY = 0;
 
   showContextMenu(event: any) {
-    event.preventDefault();
-    this.rightClickPosX = event.clientX;
-    this.rightClickPosY = event.clientY;
-    this.contextMenu.openMenu();
-    event.stopPropagation();
+    if (this.rippleDisabled) {
+      event.preventDefault();
+      this.rightClickPosX = event.clientX;
+      this.rightClickPosY = event.clientY;
+      this.contextMenu.openMenu();
+      event.stopPropagation();
+      this.rippleDisabled = false;
+    }
   }
 }

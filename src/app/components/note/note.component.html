@@ -14,15 +14,15 @@
   <mat-card-content [innerHTML]="parsedContent"></mat-card-content>
   <mat-card-actions align="end">
     <button mat-icon-button (mousedown)="rippleDisabled=true"
-            (mouseup)="edit(); $event.stopPropagation(); rippleDisabled=false">
+            (mouseup)="edit($event)">
       <mat-icon>edit</mat-icon>
     </button>
     <button mat-icon-button (mousedown)="rippleDisabled=true"
-            (mouseup)="delete(); $event.stopPropagation(); rippleDisabled=false">
+            (mouseup)="delete($event)">
       <mat-icon>delete</mat-icon>
     </button>
     <button mat-icon-button (mousedown)="rippleDisabled=true"
-            (mouseup)="showContextMenu($event); rippleDisabled=false">
+            (mouseup)="showContextMenu($event)">
       <mat-icon>more_vert</mat-icon>
     </button>
   </mat-card-actions>
@@ -75,11 +75,11 @@
       <mat-icon>{{note.selected ? 'close' : 'check'}}</mat-icon>
       {{note.selected ? 'Remove selection' : 'Select'}}
     </button>
-    <button mat-menu-item (click)="edit()">
+    <button mat-menu-item (click)="edit($event)">
       <mat-icon>edit</mat-icon>
       Edit
     </button>
-    <button mat-menu-item (click)="delete()">
+    <button mat-menu-item (click)="delete($event, true)">
       <mat-icon>delete</mat-icon>
       Delete
     </button>
