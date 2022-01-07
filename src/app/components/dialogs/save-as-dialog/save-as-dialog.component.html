@@ -1,7 +1,7 @@
 <div class="flex-container">
   <mat-form-field appearance="fill" color="accent">
     <mat-label>Filename</mat-label>
-    <input [(ngModel)]="filename" cdkFocusInitial matInput>
+    <input [(ngModel)]="filename" (keydown.enter)="submit()" cdkFocusInitial matInput>
   </mat-form-field>
-  <button [mat-dialog-close]="filename" mat-button style="height: 52px; border-radius: 4px 0 !important;">Ok</button>
+  <button (click)="submit()" mat-button style="height: 52px; border-radius: 4px 0 !important;">Ok</button>
 </div>

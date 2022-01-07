@@ -2,7 +2,6 @@ import {Component, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {Tab} from "../../../models";
 import {DataService} from "../../../services/data.service";
-import {HashyService} from "../../../services/hashy.service";
 
 @Component({
   selector: 'app-edit-tab-dialog',
@@ -15,8 +14,7 @@ export class EditTabDialogComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Tab,
-    public readonly dataService: DataService,
-    private readonly hashy: HashyService
+    public readonly dataService: DataService
   ) {
     this.notesCount = dataService.notes$.getValue()?.length?.toString() ?? '0';
     this.taskListsCount = dataService.taskLists$.getValue()?.length?.toString() ?? '0';
@@ -29,38 +27,14 @@ export class EditTabDialogComponent {
 
   deleteNotes() {
     this.dataService.notes$.next([]);
-    const oldNotesCount = this.notesCount;
-    this.notesCount = '0';
-    this.hashy.show('All notes deleted', 5000, 'Undo', () => {
-      this.dataService.fetchDataFromCache();
-    }, () => {
-      this.dataService.cacheData();
-      this.notesCount = oldNotesCount;
-    });
   }
 
   deleteTaskLists() {
     this.dataService.taskLists$.next([]);
-    const oldTaskListsCount = this.taskListsCount;
-    this.taskListsCount = '0';
-    this.hashy.show('All task lists deleted', 5000, 'Undo', () => {
-      this.dataService.fetchDataFromCache();
-    }, () => {
-      this.dataService.cacheData();
-      this.taskListsCount = oldTaskListsCount;
-    });
   }
 
   deleteImages() {
     this.dataService.images$.next([]);
-    const oldImagesCount = this.imagesCount;
-    this.imagesCount = '0';
-    this.hashy.show('All images deleted', 5000, 'Undo', () => {
-      this.dataService.fetchDataFromCache();
-    }, () => {
-      this.dataService.cacheData();
-      this.imagesCount = oldImagesCount;
-    });
   }
 
   moveToRight() {

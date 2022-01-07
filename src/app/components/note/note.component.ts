@@ -93,6 +93,7 @@ export class NoteComponent implements OnDestroy, OnInit {
     this.dialogSubscription = this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: note,
+      disableClose: true,
     }).afterClosed().subscribe((editedNote) => {
       if (editedNote) {
         this.dataService.deleteNote(this.note);

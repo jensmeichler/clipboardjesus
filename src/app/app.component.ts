@@ -87,14 +87,15 @@ export class AppComponent {
       this.dialogSubscription.unsubscribe();
     }
 
-    let newNote = new Note(this.newNotePositionX, this.newNotePositionY, '');
     const dialogRef = this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: newNote,
+      data: new Note(this.newNotePositionX, this.newNotePositionY, ''),
     });
 
-    this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
-      this.dataService.addNote(newNote);
+    this.dialogSubscription = dialogRef.afterClosed().subscribe((note) => {
+      if (note) {
+        this.dataService.addNote(note);
+      }
     });
   }
 
@@ -103,14 +104,15 @@ export class AppComponent {
       this.dialogSubscription.unsubscribe();
     }
 
-    let newTaskList = new TaskList(this.newNotePositionX, this.newNotePositionY);
     const dialogRef = this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: newTaskList,
+      data: new TaskList(this.newNotePositionX, this.newNotePositionY),
     });
 
-    this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
-      this.dataService.addTaskList(newTaskList);
+    this.dialogSubscription = dialogRef.afterClosed().subscribe((taskList) => {
+      if (taskList) {
+        this.dataService.addTaskList(taskList);
+      }
     });
   }
 
@@ -122,10 +124,15 @@ export class AppComponent {
     const dialogRef = this.dialog.open(EditTabDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: this.dataService.tabs[this.dataService.currentTabIndex],
+      disableClose: true,
     });
 
-    this.dialogSubscription = dialogRef.afterClosed().subscribe(() => {
-      this.dataService.cacheData();
+    this.dialogSubscription = dialogRef.afterClosed().subscribe((tab) => {
+      if (tab) {
+        this.dataService.cacheData();
+      } else {
+        this.dataService.fetchDataFromCache();
+      }
     });
   }
 

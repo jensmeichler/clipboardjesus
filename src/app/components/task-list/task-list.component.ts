@@ -85,6 +85,7 @@ export class TaskListComponent implements OnDestroy {
     this.dialogSubscription = this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: taskList,
+      disableClose: true,
     }).afterClosed().subscribe((editedTaskList) => {
       if (editedTaskList) {
         this.dataService.deleteTaskList(this.taskList);

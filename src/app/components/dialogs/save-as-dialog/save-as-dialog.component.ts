@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'save-as-dialog',
@@ -7,6 +8,9 @@ import {Component} from '@angular/core';
 export class SaveAsDialogComponent {
   filename: string = '';
 
-  constructor() {
+  constructor(private readonly dialogRef: MatDialogRef<SaveAsDialogComponent>) {}
+
+  submit() {
+    this.dialogRef.close(this.filename);
   }
 }
