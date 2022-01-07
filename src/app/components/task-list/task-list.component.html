@@ -128,10 +128,16 @@
         Move
       </button>
     </ng-container>
-    <ng-container *ngIf="dataService.getColorizedObjects(taskList).length">
+    <ng-container *ngIf="dataService.getColorizedObjects(taskList).length > 1">
       <button mat-menu-item [matMenuTriggerFor]="items">
         <mat-icon>colorize</mat-icon>
         Copy color from
+      </button>
+    </ng-container>
+    <ng-container *ngIf="dataService.getColorizedObjects(taskList).length == 1">
+      <button mat-menu-item (click)="copyColorFrom(dataService.getColorizedObjects(taskList)[0])">
+        <mat-icon>colorize</mat-icon>
+        Copy other color
       </button>
     </ng-container>
     <button (click)="addItem()" mat-menu-item>
