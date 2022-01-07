@@ -110,7 +110,7 @@ export class NoteComponent implements OnDestroy, OnInit {
     }
   }
 
-  delete(event: any, force?: boolean) {
+  delete(event: MouseEvent, force?: boolean) {
     if (this.movedPx < 5 && (force || this.rippleDisabled)) {
       this.dataService.deleteNote(this.note);
       this.rippleDisabled = false;

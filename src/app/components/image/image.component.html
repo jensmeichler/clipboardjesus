@@ -1,5 +1,5 @@
 <mat-card (click)="$event.stopPropagation()"
-          (contextmenu)="showContextMenu($event)"
+          (contextmenu)="showContextMenu($event, true)"
           (dblclick)="open()"
           (mousedown)="onMouseDown()"
           (mousemove)="onMouseMove()"
@@ -14,7 +14,7 @@
        class="animated" height="140" style="border-radius: 8px">
   <div class="img-button-group">
     <button (mousedown)="rippleDisabled=true"
-            (mouseup)="delete(); $event.stopPropagation(); rippleDisabled=false"
+            (mouseup)="delete($event)"
             mat-icon-button>
       <mat-icon>delete</mat-icon>
     </button>
@@ -66,7 +66,7 @@
     <mat-icon>{{image.selected ? 'close' : 'check'}}</mat-icon>
     {{image.selected ? 'Remove selection' : 'Select'}}
   </button>
-  <button (click)="delete()" mat-menu-item>
+  <button (click)="delete($event, true)" mat-menu-item>
     <mat-icon>delete</mat-icon>
     Delete
   </button>

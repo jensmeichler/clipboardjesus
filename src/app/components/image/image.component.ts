@@ -48,6 +48,10 @@ export class ImageComponent {
   }
 
   onMouseUp(event: any) {
+    if (!this.mouseDown) {
+      return;
+    }
+
     switch (event.button) {
       case 0:
         if (this.movedPx < 5) {
@@ -59,7 +63,7 @@ export class ImageComponent {
         }
         break;
       case 1:
-        this.delete();
+        this.delete(event);
         break;
       case 2:
         break;
@@ -78,8 +82,12 @@ export class ImageComponent {
     this.hashy.show('Copied link to clipboard', 600);
   }
 
-  delete() {
-    this.dataService.deleteImage(this.image);
+  delete(event: MouseEvent, force?: boolean) {
+    if (this.movedPx < 5 && (force || this.rippleDisabled)) {
+      this.dataService.deleteImage(this.image);
+      this.rippleDisabled = false;
+      event.stopPropagation();
+    }
   }
 
   moveToTab(index: number) {
@@ -91,11 +99,14 @@ export class ImageComponent {
   rightClickPosX = 0;
   rightClickPosY = 0;
 
-  showContextMenu(event: any) {
-    event.preventDefault();
-    this.rightClickPosX = event.clientX;
-    this.rightClickPosY = event.clientY;
-    this.contextMenu.openMenu();
-    event.stopPropagation();
+  showContextMenu(event: any, force?: boolean) {
+    if (force || this.rippleDisabled) {
+      event.preventDefault();
+      this.rightClickPosX = event.clientX;
+      this.rightClickPosY = event.clientY;
+      this.contextMenu.openMenu();
+      event.stopPropagation();
+      this.rippleDisabled = false;
+    }
   }
 }
