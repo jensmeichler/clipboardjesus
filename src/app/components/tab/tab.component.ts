@@ -1,4 +1,4 @@
-import {Component, HostListener, Input} from '@angular/core';
+import {Component, ElementRef, HostListener, Input} from '@angular/core';
 import {Image, Note, Tab} from "../../models";
 import {DataService} from "../../services/data.service";
 import {HashyService} from "../../services/hashy.service";
@@ -20,8 +20,12 @@ export class TabComponent {
 
   constructor(
     private readonly hashy: HashyService,
+    private readonly elementRef: ElementRef,
     public readonly dataService: DataService) {
+    this.mouseMoveEvent = this.onMouseMove.bind(this);
   }
+
+  mouseMoveEvent: any;
 
   onMouseDown(event: MouseEvent) {
     if (!this.mouseDown) {
@@ -33,18 +37,20 @@ export class TabComponent {
         this.endCursorPosY = event.pageY;
       }
     }
+
+    this.elementRef.nativeElement.addEventListener('mousemove', this.mouseMoveEvent)
   }
 
   onMouseMove(event: MouseEvent) {
-    if (this.mouseDown) {
-      this.endCursorPosX = event.pageX;
-      this.endCursorPosY = event.pageY;
-    }
+    this.endCursorPosX = event.pageX;
+    this.endCursorPosY = event.pageY;
   }
 
   async onMouseUp(event: MouseEvent) {
     const cursorMoved = this.mouseDown && (Math.abs(event.pageX - this.startCursorPosX) > 5
       || Math.abs(event.pageY - this.startCursorPosY) > 5);
+
+    this.elementRef.nativeElement.removeEventListener('mousemove', this.mouseMoveEvent)
 
     if (cursorMoved) {
       this.dataService.editAllItems(item => {

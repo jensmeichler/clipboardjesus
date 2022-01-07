@@ -1,6 +1,5 @@
 <div *ngIf="tab" class="clipboard" customDragDrop
      (mousedown)="onMouseDown($event)"
-     (mousemove)="onMouseMove($event)"
      (mouseup)="onMouseUp($event)"
      (drop)="dropFile($event)"
      [style.background]="'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + tab.color + ', #131313)'">
