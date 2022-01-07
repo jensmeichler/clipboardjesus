@@ -41,7 +41,7 @@ export class AppComponent {
       switch (event.key) {
         case 'Delete':
           this.deleteSelectedItems();
-          break;
+          return;
         case 'ArrowUp':
           this.dataService.editAllSelectedItems(x => x.posY--);
           break;
