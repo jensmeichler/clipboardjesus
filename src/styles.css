@@ -10,7 +10,7 @@
 
 .cursor-position {
   position: fixed;
-  left: 10px;
+  left: var(--margin-edge);
   color: white;
   z-index: 99999;
   opacity: .6;
@@ -49,6 +49,10 @@ html, body {
   html, body {
     --width-edit-dialog: 100vw;
   }
+}
+
+.mat-tab-body.mat-tab-body-active {
+  overflow: overlay !important;
 }
 
 .dialog-button-group {
