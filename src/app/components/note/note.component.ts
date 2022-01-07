@@ -75,7 +75,7 @@ export class NoteComponent implements OnDestroy, OnInit {
         }
         break;
       case 1:
-        this.delete(event);
+        this.delete(event, true);
         break;
       case 2:
         break;
