@@ -36,9 +36,9 @@ export class TabComponent {
         this.endCursorPosX = event.pageX;
         this.endCursorPosY = event.pageY;
       }
-    }
 
-    this.elementRef.nativeElement.addEventListener('mousemove', this.mouseMoveEvent)
+      this.elementRef.nativeElement.addEventListener('mousemove', this.mouseMoveEvent)
+    }
   }
 
   onMouseMove(event: MouseEvent) {
