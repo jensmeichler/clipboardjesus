@@ -126,6 +126,7 @@ export class NoteComponent implements OnDestroy, OnInit {
     this.note.backgroundColor = item.backgroundColor;
     this.note.backgroundColorGradient = item.backgroundColorGradient;
     this.note.foregroundColor = item.foregroundColor;
+    this.dataService.cacheData();
   }
 
   @ViewChild(MatMenuTrigger)
@@ -133,8 +134,8 @@ export class NoteComponent implements OnDestroy, OnInit {
   rightClickPosX = 0;
   rightClickPosY = 0;
 
-  showContextMenu(event: any) {
-    if (this.rippleDisabled) {
+  showContextMenu(event: any, force?: boolean) {
+    if (force || this.rippleDisabled) {
       event.preventDefault();
       this.rightClickPosX = event.clientX;
       this.rightClickPosY = event.clientY;

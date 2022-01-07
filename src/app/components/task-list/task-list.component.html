@@ -128,7 +128,7 @@
         Move
       </button>
     </ng-container>
-    <ng-container *ngIf="dataService.itemsCount > 1">
+    <ng-container *ngIf="dataService.getColorizedObjects(taskList).length">
       <button mat-menu-item [matMenuTriggerFor]="items">
         <mat-icon>colorize</mat-icon>
         Copy color from

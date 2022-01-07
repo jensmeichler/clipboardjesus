@@ -3,7 +3,7 @@
           (mousedown)="onMouseDown()"
           (mousemove)="onMouseMove()"
           (mouseup)="onMouseUp($event)"
-          (contextmenu)="showContextMenu($event)"
+          (contextmenu)="showContextMenu($event, true)"
           [style.color]="note.foregroundColor"
           [style.background]="note.backgroundColorGradient
             ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
@@ -61,7 +61,7 @@
         Move
       </button>
     </ng-container>
-    <ng-container *ngIf="dataService.itemsCount > 1">
+    <ng-container *ngIf="dataService.getColorizedObjects(note).length">
       <button mat-menu-item [matMenuTriggerFor]="items">
         <mat-icon>colorize</mat-icon>
         Copy color from

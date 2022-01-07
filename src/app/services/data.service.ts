@@ -436,6 +436,7 @@ export class DataService {
   }
 
   setColorizedObjects() {
+    this.colorizedObjects = [];
     const notes = this.notes$.getValue();
     const taskLists = this.taskLists$.getValue();
     notes?.forEach(note => {
@@ -451,9 +452,13 @@ export class DataService {
   }
 
   private static compareColors(left: Note | TaskList, right: Note | TaskList): boolean {
-    return left.backgroundColor == right.backgroundColor
-      && left.backgroundColorGradient == right.backgroundColorGradient
-      && left.foregroundColor == right.foregroundColor
+    if (left && right){
+      return left.backgroundColor == right.backgroundColor
+        && left.backgroundColorGradient == right.backgroundColorGradient
+        && left.foregroundColor == right.foregroundColor
+    } else {
+      return false;
+    }
   }
 
   private defineIndex(item: Note | TaskList | Image) {
