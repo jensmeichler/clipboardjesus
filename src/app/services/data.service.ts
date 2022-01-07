@@ -63,8 +63,12 @@ export class DataService {
   }
 
   removeAllSelections() {
-    this.editAllItems(item => item.selected = false);
+    this.editAllItems(item => item.selected = undefined);
     this.selectedItemsCount = 0;
+  }
+
+  editAllSelectedItems(action: (item: Note | TaskList | Image) => void) {
+    this.editAllItems(x => x.selected ? action(x) : {})
   }
 
   editAllItems(action: (item: Note | TaskList | Image) => void) {
@@ -291,13 +295,11 @@ export class DataService {
       ? this.tabs[this.currentTabIndex].color
       : undefined;
     if (!ignoreSelection && this.selectedItemsCount) {
-      const selectedItemsTab = {
+      return {
         notes: this.notes$.getValue()?.filter(x => x.selected),
         taskLists: this.taskLists$.getValue()?.filter(x => x.selected),
         images: this.images$.getValue()?.filter(x => x.selected),
       } as Tab;
-      this.removeAllSelections();
-      return selectedItemsTab;
     }
     return {
       label, color,
@@ -357,9 +359,7 @@ export class DataService {
     filename ??= moment(new Date()).format('YYYY-MM-DD-HH-mm') + '.notes.json';
     let json = this.getAsJson();
 
-    json.notes.forEach(x => x.selected = undefined);
-    json.taskLists.forEach(x => x.selected = undefined);
-    json.images.forEach(x => x.selected = undefined);
+    this.removeAllSelections();
 
     let a = document.createElement('a');
     let file = new Blob([JSON.stringify(json)], {type: 'text/plain'});

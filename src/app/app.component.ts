@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, HostListener, ViewChild} from '@angular/core';
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
@@ -19,6 +19,7 @@ import {HashyService} from "./services/hashy.service";
 })
 export class AppComponent {
   dialogSubscription?: Subscription;
+
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
   rightClickPosX = 0;
@@ -32,6 +33,33 @@ export class AppComponent {
     public readonly dataService: DataService,
     public readonly hashy: HashyService
   ) {
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  onKeyPressed(event: KeyboardEvent) {
+    if (this.dataService.selectedItemsCount) {
+      switch (event.key) {
+        case 'Delete':
+          this.deleteSelectedItems();
+          break;
+        case 'ArrowUp':
+          this.dataService.editAllSelectedItems(x => x.posY--);
+          break;
+        case 'ArrowDown':
+          this.dataService.editAllSelectedItems(x => x.posY++);
+          break;
+        case 'ArrowLeft':
+          this.dataService.editAllSelectedItems(x => x.posX--);
+          break;
+        case 'ArrowRight':
+          this.dataService.editAllSelectedItems(x => x.posX++);
+          break;
+        default:
+          console.log(event.key)
+          break;
+      }
+      this.dataService.cacheData();
+    }
   }
 
   save() {
@@ -99,6 +127,7 @@ export class AppComponent {
       this.dataService.fetchDataFromCache();
     }, () => {
       this.dataService.cacheData();
+      this.dataService.removeAllSelections();
     });
   }
 
