@@ -71,7 +71,7 @@ export class TabComponent {
           }
         }
       })
-    } else if (event.button == 0) {
+    } else if (this.mouseDown && event.button == 0) {
       if (this.dataService.selectedItemsCount) {
         this.dataService.clearSelection();
       } else {
