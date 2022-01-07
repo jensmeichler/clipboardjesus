@@ -54,6 +54,15 @@ export class AppComponent {
         case 'ArrowRight':
           this.dataService.editAllSelectedItems(x => x.posX++);
           break;
+        case 'Escape':
+          this.dataService.removeAllSelections();
+          break;
+        case 'a':
+          if (event.ctrlKey) {
+            this.dataService.selectAll();
+            event.preventDefault();
+          }
+          break;
         default:
           console.log(event.key)
           break;

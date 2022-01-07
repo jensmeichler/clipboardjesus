@@ -62,6 +62,11 @@ export class DataService {
       && left.posY === right.posY
   }
 
+  selectAll() {
+    this.editAllItems(item => item.selected = true);
+    this.selectedItemsCount = this.itemsCount;
+  }
+
   removeAllSelections() {
     this.editAllItems(item => item.selected = undefined);
     this.selectedItemsCount = 0;
