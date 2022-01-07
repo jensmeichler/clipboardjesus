@@ -18,6 +18,8 @@ export class DataService {
   taskLists$: BehaviorSubject<TaskList[] | null> = new BehaviorSubject<TaskList[] | null>(null);
   images$: BehaviorSubject<Image[] | null> = new BehaviorSubject<Image[] | null>(null);
 
+  colorizedObjects: (Note | TaskList)[] = [];
+
   itemsCount = 0;
   selectedItemsCount = 0;
 
@@ -91,6 +93,7 @@ export class DataService {
 
   cacheData() {
     this.cache.save(this.currentTabIndex, this.getAsJson(true));
+    this.setColorizedObjects();
   }
 
   fetchDataFromCache(tabId?: number) {
@@ -421,6 +424,27 @@ export class DataService {
     otherTab.images.push(image);
     this.deleteImage(image);
     this.cache.save(index, otherTab);
+  }
+
+  setColorizedObjects() {
+    const notes = this.notes$.getValue();
+    const taskLists = this.taskLists$.getValue();
+    notes?.forEach(note => {
+      if (!this.colorizedObjects.some(other => DataService.compareColors(note, other))) {
+        this.colorizedObjects.push(note);
+      }
+    })
+    taskLists?.forEach(taskList => {
+      if (!this.colorizedObjects.some(other => DataService.compareColors(taskList, other))) {
+        this.colorizedObjects.push(taskList);
+      }
+    })
+  }
+
+  private static compareColors(left: Note | TaskList, right: Note | TaskList): boolean {
+    return left.backgroundColor == right.backgroundColor
+      && left.backgroundColorGradient == right.backgroundColorGradient
+      && left.foregroundColor == right.foregroundColor
   }
 
   private defineIndex(item: Note | TaskList | Image) {

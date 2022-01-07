@@ -3,7 +3,7 @@ import {Component, Input, OnDestroy, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
-import {TaskItem, TaskList} from "../../models";
+import {Note, TaskItem, TaskList} from "../../models";
 import {DataService} from "../../services/data.service";
 import {StringParserService} from "../../services/string-parser.service";
 import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
@@ -154,6 +154,12 @@ export class TaskListComponent implements OnDestroy {
 
   moveToTab(index: number) {
     this.dataService.moveTaskListToTab(index, this.taskList);
+  }
+
+  copyColorFrom(item: Note | TaskList) {
+    this.taskList.backgroundColor = item.backgroundColor;
+    this.taskList.backgroundColorGradient = item.backgroundColorGradient;
+    this.taskList.foregroundColor = item.foregroundColor;
   }
 
   showContextMenu(event: any) {

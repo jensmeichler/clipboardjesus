@@ -128,6 +128,12 @@
         Move
       </button>
     </ng-container>
+    <ng-container *ngIf="dataService.itemsCount > 1">
+      <button mat-menu-item [matMenuTriggerFor]="items">
+        <mat-icon>colorize</mat-icon>
+        Copy color from
+      </button>
+    </ng-container>
     <button (click)="addItem()" mat-menu-item>
       <mat-icon>add</mat-icon>
       Add item
@@ -158,4 +164,25 @@
       </button>
     </ng-container>
   </div>
+</mat-menu>
+
+<mat-menu #items="matMenu">
+  <ng-container *ngFor="let otherNote of dataService.notes$.getValue()">
+    <button mat-menu-item (click)="copyColorFrom(otherNote)"
+            [style.color]="otherNote.foregroundColor"
+            [style.background]="otherNote.backgroundColorGradient
+                ? 'linear-gradient(to bottom, ' + otherNote.backgroundColor + ', ' + otherNote.backgroundColorGradient
+                : otherNote.backgroundColor">
+      {{ otherNote.header ? otherNote.header : 'Note ' + otherNote.posZ }}
+    </button>
+  </ng-container>
+  <ng-container *ngFor="let taskList of dataService.taskLists$.getValue()">
+    <button mat-menu-item *ngIf="taskList !== taskList" (click)="copyColorFrom(taskList)"
+            [style.color]="taskList.foregroundColor"
+            [style.background]="taskList.backgroundColorGradient
+                ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
+                : taskList.backgroundColor">
+      {{ taskList.header ? taskList.header : 'Tasks ' + taskList.posZ }}
+    </button>
+  </ng-container>
 </mat-menu>

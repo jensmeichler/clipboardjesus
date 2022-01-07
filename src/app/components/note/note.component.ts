@@ -3,7 +3,7 @@ import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
-import {Note} from "../../models";
+import {Note, TaskList} from "../../models";
 import {DataService} from "../../services/data.service";
 import {HashyService} from "../../services/hashy.service";
 import {StringParserService} from "../../services/string-parser.service";
@@ -107,6 +107,12 @@ export class NoteComponent implements OnDestroy, OnInit {
 
   moveToTab(index: number) {
     this.dataService.moveNoteToTab(index, this.note);
+  }
+
+  copyColorFrom(item: Note | TaskList) {
+    this.note.backgroundColor = item.backgroundColor;
+    this.note.backgroundColorGradient = item.backgroundColorGradient;
+    this.note.foregroundColor = item.foregroundColor;
   }
 
   @ViewChild(MatMenuTrigger)

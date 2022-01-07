@@ -61,6 +61,12 @@
         Move
       </button>
     </ng-container>
+    <ng-container *ngIf="dataService.itemsCount > 1">
+      <button mat-menu-item [matMenuTriggerFor]="items">
+        <mat-icon>colorize</mat-icon>
+        Copy color from
+      </button>
+    </ng-container>
     <button mat-menu-item (click)="copy()">
       <mat-icon>content_copy</mat-icon>
       Copy
@@ -91,4 +97,16 @@
       </button>
     </ng-container>
   </div>
+</mat-menu>
+
+<mat-menu #items="matMenu">
+  <ng-container *ngFor="let item of dataService.colorizedObjects">
+    <button mat-menu-item *ngIf="note !== item" (click)="copyColorFrom(item)"
+            [style.color]="item.foregroundColor"
+            [style.background]="item.backgroundColorGradient
+                ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
+                : item.backgroundColor">
+      {{ item.header ? item.header : 'Item ' + item.posZ }}
+    </button>
+  </ng-container>
 </mat-menu>
