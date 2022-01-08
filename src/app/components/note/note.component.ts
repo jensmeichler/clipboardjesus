@@ -137,7 +137,6 @@ export class NoteComponent implements OnDestroy, OnInit {
   }
 
   showContextMenu(event: MouseEvent) {
-    console.log(this.rippleDisabled)
     if (this.canInteract) {
       event.preventDefault();
       this.rightClickPosX = event.clientX;
