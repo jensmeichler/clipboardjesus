@@ -55,7 +55,6 @@ export class TaskListComponent implements OnDestroy {
       case 2:
         break;
     }
-    event.stopPropagation();
   }
 
   addItem() {
