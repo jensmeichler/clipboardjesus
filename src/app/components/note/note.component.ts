@@ -69,27 +69,27 @@ export class NoteComponent implements OnDestroy, OnInit {
   }
 
   onMouseUp(event: MouseEvent) {
-    if (!this.mouseDown || !this.canInteract) {
-      return;
+    if (this.mouseDown && this.canInteract) {
+      switch (event.button) {
+        case 0:
+          if (event.ctrlKey || event.shiftKey) {
+            this.select();
+          } else {
+            this.copy();
+          }
+          break;
+        case 1:
+          this.delete(event);
+          break;
+        case 2:
+          break;
+      }
+
+      event.stopPropagation();
     }
 
-    switch (event.button) {
-      case 0:
-        if (event.ctrlKey || event.shiftKey) {
-          this.select();
-        } else {
-          this.copy();
-        }
-        break;
-      case 1:
-        this.delete(event);
-        break;
-      case 2:
-        break;
-    }
     this.mouseDown = false;
     this.movedPx = 0;
-    event.stopPropagation();
   }
 
   copy() {
@@ -137,6 +137,7 @@ export class NoteComponent implements OnDestroy, OnInit {
   }
 
   showContextMenu(event: MouseEvent) {
+    console.log(this.rippleDisabled)
     if (this.canInteract) {
       event.preventDefault();
       this.rightClickPosX = event.clientX;
