@@ -27,6 +27,11 @@ export class NoteComponent implements OnDestroy, OnInit {
   mouseDown = false;
   movedPx = 0;
 
+  @ViewChild(MatMenuTrigger)
+  contextMenu!: MatMenuTrigger;
+  rightClickPosX = 0;
+  rightClickPosY = 0;
+
   constructor(
     private readonly clipboard: Clipboard,
     private readonly hashy: HashyService,
@@ -34,6 +39,10 @@ export class NoteComponent implements OnDestroy, OnInit {
     private readonly stringParser: StringParserService,
     public readonly dataService: DataService
   ) {
+  }
+
+  get canInteract() {
+    return this.movedPx < 5;
   }
 
   ngOnInit() {
@@ -60,22 +69,20 @@ export class NoteComponent implements OnDestroy, OnInit {
   }
 
   onMouseUp(event: MouseEvent) {
-    if (!this.mouseDown) {
+    if (!this.mouseDown || !this.canInteract) {
       return;
     }
 
     switch (event.button) {
       case 0:
-        if (this.movedPx < 5) {
-          if (event.ctrlKey || event.shiftKey) {
-            this.select();
-          } else {
-            this.copy();
-          }
+        if (event.ctrlKey || event.shiftKey) {
+          this.select();
+        } else {
+          this.copy();
         }
         break;
       case 1:
-        this.delete(event, true);
+        this.delete(event);
         break;
       case 2:
         break;
@@ -86,14 +93,14 @@ export class NoteComponent implements OnDestroy, OnInit {
   }
 
   copy() {
-    if (this.note.content && this.movedPx < 5) {
+    if (this.note.content && !this.rippleDisabled && this.canInteract) {
       this.clipboard.copy(this.note.content);
       this.hashy.show('Copied to clipboard', 600);
     }
   }
 
-  edit(event: any) {
-    if (this.rippleDisabled && this.movedPx < 5) {
+  edit(event: MouseEvent) {
+    if (this.canInteract) {
       let note = {...this.note};
       this.dialogSubscription = this.dialog.open(EditNoteDialogComponent, {
         width: 'var(--width-edit-dialog)',
@@ -110,8 +117,8 @@ export class NoteComponent implements OnDestroy, OnInit {
     }
   }
 
-  delete(event: MouseEvent, force?: boolean) {
-    if (this.movedPx < 5 && (force || this.rippleDisabled)) {
+  delete(event: MouseEvent) {
+    if (this.canInteract) {
       this.dataService.deleteNote(this.note);
       this.rippleDisabled = false;
       event.stopPropagation();
@@ -129,13 +136,8 @@ export class NoteComponent implements OnDestroy, OnInit {
     this.dataService.cacheData();
   }
 
-  @ViewChild(MatMenuTrigger)
-  contextMenu!: MatMenuTrigger;
-  rightClickPosX = 0;
-  rightClickPosY = 0;
-
-  showContextMenu(event: any, force?: boolean) {
-    if (force || this.rippleDisabled) {
+  showContextMenu(event: MouseEvent) {
+    if (this.canInteract) {
       event.preventDefault();
       this.rightClickPosX = event.clientX;
       this.rightClickPosY = event.clientY;
