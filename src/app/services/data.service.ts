@@ -127,8 +127,11 @@ export class DataService {
     }
   }
 
-  addTab() {
-    const newTab = {
+  addTab(tab?: Tab) {
+    if (tab) {
+      tab.index = this.tabs.length;
+    }
+    const newTab = tab ?? {
       index: this.tabs.length,
       color: '#131313',
       notes: [],

@@ -11,6 +11,8 @@ import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-d
 import {Note, TaskList} from './models';
 import {DataService} from "./services/data.service";
 import {HashyService} from "./services/hashy.service";
+import {ActivatedRoute} from "@angular/router";
+import {Clipboard} from "@angular/cdk/clipboard";
 
 @Component({
   selector: 'app-root',
@@ -30,9 +32,19 @@ export class AppComponent {
   constructor(
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
+    private readonly clipboard: Clipboard,
     public readonly dataService: DataService,
-    public readonly hashy: HashyService
+    public readonly hashy: HashyService,
+    readonly route: ActivatedRoute,
   ) {
+    route.queryParams.subscribe(params => {
+      if (params.params) {
+        const tab = JSON.parse(params.params);
+        if (typeof tab != 'string') {
+          this.dataService.addTab(tab);
+        }
+      }
+    });
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -68,6 +80,14 @@ export class AppComponent {
       }
       this.dataService.cacheData();
     }
+  }
+
+  shareTab() {
+    let params = JSON.stringify(this.dataService.getAsJson(true));
+    params = encodeURIComponent(params);
+    const url = 'http://localhost:4200/?params=' + params;
+    this.clipboard.copy(url);
+    this.hashy.show('Copied url to clipboard', 3000, 'Ok');
   }
 
   save() {
