@@ -36,34 +36,39 @@
         <mat-icon>delete</mat-icon>
         Delete {{dataService.selectedItemsCount}} items
       </button>
-      <mat-divider></mat-divider>
-    </ng-container>
-    <button (click)="openNewNoteDialog()" mat-menu-item>
-      <mat-icon>note</mat-icon>
-      Create note
-    </button>
-    <button (click)="openNewTaskListDialog()" mat-menu-item>
-      <mat-icon>list</mat-icon>
-      Create task list
-    </button>
-    <button (click)="openEditTabDialog()" mat-menu-item>
-      <mat-icon>format_paint</mat-icon>
-      Edit tab
-    </button>
-    <button (click)="clearAll()" mat-menu-item>
-      <mat-icon>delete_outline</mat-icon>
-      Clear tab
-    </button>
-    <ng-container *ngIf="dataService.tabs.length > 1">
-      <button (click)="dataService.removeTab()" mat-menu-item>
-        <mat-icon>delete</mat-icon>
-        Delete tab
+      <button (click)="saveTabOrSelection()" mat-menu-item>
+        <mat-icon>save</mat-icon>
+        Save {{dataService.selectedItemsCount}} items
       </button>
     </ng-container>
-    <button (click)="clearAllForever()" mat-menu-item>
-      <mat-icon>delete_forever</mat-icon>
-      Delete all tabs
-    </button>
+    <ng-container *ngIf="!dataService.selectedItemsCount">
+      <button (click)="openNewNoteDialog()" mat-menu-item>
+        <mat-icon>note</mat-icon>
+        Create note
+      </button>
+      <button (click)="openNewTaskListDialog()" mat-menu-item>
+        <mat-icon>list</mat-icon>
+        Create task list
+      </button>
+      <button (click)="saveTabOrSelection()" mat-menu-item>
+        <mat-icon>save</mat-icon>
+        Save tab
+      </button>
+      <button (click)="openEditTabDialog()" mat-menu-item>
+        <mat-icon>format_paint</mat-icon>
+        Edit tab
+      </button>
+      <ng-container *ngIf="dataService.tabs.length > 1">
+        <button (click)="dataService.removeTab()" mat-menu-item>
+          <mat-icon>delete</mat-icon>
+          Delete tab
+        </button>
+      </ng-container>
+      <button (click)="clearAllForever()" mat-menu-item>
+        <mat-icon>delete_forever</mat-icon>
+        Delete all tabs
+      </button>
+    </ng-container>
   </mat-menu>
 
   <div class="fab-container">
@@ -74,14 +79,9 @@
       <mat-icon>save_as</mat-icon>
     </button>
     <button (click)="save(); $event.stopPropagation()" [disabled]="!dataService.itemsCount"
-            [matTooltip]="dataService.selectedItemsCount ? 'Save ' + dataService.selectedItemsCount + ' items' : 'Save current tab'"
-            color="primary"
-            mat-fab
-            matTooltipPosition="left">
-      <mat-icon [matBadge]="dataService.selectedItemsCount ? dataService.selectedItemsCount : ''"
-                matBadgeColor="accent" matBadgeOverlap="false" matBadgeSize="large">
-        save
-      </mat-icon>
+            [matTooltip]="dataService.selectedItemsCount ? 'Save ' + dataService.selectedItemsCount + ' items' : ''"
+            color="primary" mat-fab matTooltipPosition="left">
+      <mat-icon>save</mat-icon>
     </button>
   </div>
   <button (click)="showContextMenu($event, true); $event.stopPropagation()"

@@ -1,32 +1,30 @@
 import {Injectable} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import * as moment from "moment";
 import {BehaviorSubject} from "rxjs";
 import {SaveAsDialogComponent} from "../components/dialogs/save-as-dialog/save-as-dialog.component";
 import {Image, IndexItem, Note, Tab, TaskList} from "../models";
 import {CacheService} from "./cache.service";
 import {HashyService} from "./hashy.service";
+import {FileService} from "./file.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  private colorizedObjects: (Note | TaskList)[] = [];
-
   currentTabIndex = 0;
   tabs: Tab[] = [];
-
   notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
   taskLists$: BehaviorSubject<TaskList[] | null> = new BehaviorSubject<TaskList[] | null>(null);
   images$: BehaviorSubject<Image[] | null> = new BehaviorSubject<Image[] | null>(null);
-
   itemsCount = 0;
   selectedItemsCount = 0;
+  private colorizedObjects: (Note | TaskList)[] = [];
 
   constructor(
     private readonly dialog: MatDialog,
     private readonly hashy: HashyService,
-    private readonly cache: CacheService
+    private readonly cache: CacheService,
+    private readonly fileService: FileService
   ) {
     for (let i = 0; i < 20; i++) {
       const tab = this.cache.fetch(i);
@@ -41,10 +39,6 @@ export class DataService {
     if (!this.tabs.length) {
       this.addTab();
     }
-  }
-
-  getColorizedObjects(excludedItem: Note | TaskList): (Note | TaskList)[] {
-    return this.colorizedObjects.filter(item => !DataService.compareColors(excludedItem, item));
   }
 
   private static compareNote(left: Note, right: Note): boolean {
@@ -64,6 +58,20 @@ export class DataService {
     return left.source === right.source
       && left.posX === right.posX
       && left.posY === right.posY
+  }
+
+  private static compareColors(left: Note | TaskList, right: Note | TaskList): boolean {
+    if (left && right) {
+      return left.backgroundColor == right.backgroundColor
+        && left.backgroundColorGradient == right.backgroundColorGradient
+        && left.foregroundColor == right.foregroundColor
+    } else {
+      return false;
+    }
+  }
+
+  getColorizedObjects(excludedItem: Note | TaskList): (Note | TaskList)[] {
+    return this.colorizedObjects.filter(item => !DataService.compareColors(excludedItem, item));
   }
 
   selectAll() {
@@ -364,24 +372,7 @@ export class DataService {
     this.cacheData();
   }
 
-  save(filename?: string) {
-    filename ??= moment(new Date()).format('YYYY-MM-DD-HH-mm') + '.notes.json';
-    let json = this.getAsJson();
-
-    this.removeAllSelections();
-
-    let a = document.createElement('a');
-    let file = new Blob([JSON.stringify(json)], {type: 'text/plain'});
-    a.href = URL.createObjectURL(file);
-    a.download = filename;
-    a.click();
-
-    this.hashy.show('Saved as ' + filename, 3000, 'Ok');
-
-    this.cacheData();
-  }
-
-  saveAs() {
+  saveAllAs() {
     this.dialog.open(SaveAsDialogComponent, {
       position: {
         bottom: '90px',
@@ -389,9 +380,23 @@ export class DataService {
       }
     }).afterClosed().subscribe(filename => {
       if (filename) {
-        this.save(filename.endsWith('.notes.json') ? filename : filename + '.notes.json');
+        this.saveAll(filename);
       }
     });
+  }
+
+  saveAll(filename?: string) {
+    const json = this.cache.getJsonFromAll();
+    const savedAs = this.fileService.save(JSON.stringify(json), 'boards.json', filename);
+    this.hashy.show('Saved all tabs as ' + savedAs, 3000, 'Ok');
+  }
+
+  saveTabOrSelection(filename?: string) {
+    const json = this.getAsJson();
+    this.removeAllSelections();
+    const savedAs = this.fileService.save(JSON.stringify(json), 'notes.json', filename);
+    this.hashy.show('Saved as ' + savedAs, 3000, 'Ok');
+    this.cacheData();
   }
 
   bringToFront(item: { posZ?: number }) {
@@ -449,16 +454,6 @@ export class DataService {
         this.colorizedObjects.push(taskList);
       }
     })
-  }
-
-  private static compareColors(left: Note | TaskList, right: Note | TaskList): boolean {
-    if (left && right){
-      return left.backgroundColor == right.backgroundColor
-        && left.backgroundColorGradient == right.backgroundColorGradient
-        && left.foregroundColor == right.foregroundColor
-    } else {
-      return false;
-    }
   }
 
   private defineIndex(item: Note | TaskList | Image) {

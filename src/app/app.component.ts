@@ -71,11 +71,15 @@ export class AppComponent {
   }
 
   save() {
-    this.dataService.save();
+    this.dataService.saveAll();
   }
 
   saveAs() {
-    this.dataService.saveAs();
+    this.dataService.saveAllAs();
+  }
+
+  saveTabOrSelection() {
+    this.dataService.saveTabOrSelection();
   }
 
   deleteSelectedItems() {
