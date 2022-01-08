@@ -64,7 +64,7 @@
     <ng-container *ngIf="dataService.getColorizedObjects(note).length > 1">
       <button [matMenuTriggerFor]="items" mat-menu-item>
         <mat-icon>colorize</mat-icon>
-        Copy color from
+        Copy other color
       </button>
     </ng-container>
     <ng-container *ngIf="dataService.getColorizedObjects(note).length == 1">
@@ -112,7 +112,12 @@
                 : item.backgroundColor"
             [style.color]="item.foregroundColor"
             mat-menu-item>
-      {{ item.header ? item.header : 'Item ' + item.posZ }}
+      <ng-container *ngIf="!item.backgroundColorGradient">
+        {{item.backgroundColor}}
+      </ng-container>
+      <ng-container *ngIf="item.backgroundColorGradient">
+        {{ item.backgroundColor + ' → ' + item.backgroundColorGradient }}
+      </ng-container>
     </button>
   </ng-container>
 </mat-menu>

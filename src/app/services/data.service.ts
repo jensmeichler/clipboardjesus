@@ -13,11 +13,14 @@ import {FileService} from "./file.service";
 export class DataService {
   currentTabIndex = 0;
   tabs: Tab[] = [];
+
   notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
   taskLists$: BehaviorSubject<TaskList[] | null> = new BehaviorSubject<TaskList[] | null>(null);
   images$: BehaviorSubject<Image[] | null> = new BehaviorSubject<Image[] | null>(null);
+
   itemsCount = 0;
   selectedItemsCount = 0;
+
   private colorizedObjects: (Note | TaskList)[] = [];
 
   constructor(
