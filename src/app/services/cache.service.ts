@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {Tab} from "../models";
-import {Tabs} from "../models/tabs.model";
 
 @Injectable({
   providedIn: 'root'
@@ -33,17 +32,17 @@ export class CacheService {
     localStorage.removeItem(key);
   }
 
-  getJsonFromAll(): string {
-    let tabs: Tabs = {tabs: []} as Tabs;
+  getJsonFromAll(): Tab[] {
+    let tabs: Tab[] = [];
 
     for (let i = 0; i < 20; i++) {
       const tab = this.fetch(i);
       if (tab) {
         tab.index = i;
-        tabs.tabs.push(tab);
+        tabs.push(tab);
       }
     }
 
-    return JSON.stringify(tabs);
+    return tabs;
   }
 }

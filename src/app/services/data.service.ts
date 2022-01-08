@@ -123,7 +123,7 @@ export class DataService {
     }
     let tab = this.cache.fetch(this.currentTabIndex);
     if (tab) {
-      this.setFromJson(tab);
+      this.setFromTabJson(tab);
     }
   }
 
@@ -326,7 +326,20 @@ export class DataService {
     } as Tab;
   }
 
-  setFromJson(tab: Tab) {
+  setFromTabsJson(tabs: Tab[]) {
+    this.clearCache();
+
+    let i = 0;
+    tabs.forEach(tab => {
+      this.currentTabIndex = i++;
+      this.setFromTabJson(tab);
+      this.clearAllData();
+    });
+
+    this.setSelectedTab(0);
+  }
+
+  setFromTabJson(tab: Tab) {
     let currentNotes: Note[] = this.notes$.getValue() ?? [];
     let currentTaskLists: TaskList[] = this.taskLists$.getValue() ?? [];
     let currentImages: Image[] = this.images$.getValue() ?? [];
@@ -364,6 +377,14 @@ export class DataService {
     });
 
     tab.index = this.currentTabIndex;
+    const currentTab = this.tabs[this.currentTabIndex];
+    if (!tab.label) {
+      tab.label = currentTab.label;
+    }
+    if (!tab.color || tab.color == '#131313') {
+      tab.color = currentTab.color;
+    }
+
     this.tabs[this.currentTabIndex] = tab;
     this.notes$.next(currentNotes);
     this.taskLists$.next(currentTaskLists);

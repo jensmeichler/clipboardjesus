@@ -2,6 +2,8 @@ import {Component, ElementRef, HostListener, Input} from '@angular/core';
 import {Image, Note, Tab} from "../../models";
 import {DataService} from "../../services/data.service";
 import {HashyService} from "../../services/hashy.service";
+import {MatBottomSheet} from "@angular/material/bottom-sheet";
+import {ImportDialogComponent} from "../dialogs/import-dialog/import-dialog.component";
 
 @Component({
   selector: 'clipboard-tab',
@@ -17,15 +19,15 @@ export class TabComponent {
   endCursorPosX = 0;
   endCursorPosY = 0;
   mouseDown = false;
+  mouseMoveEvent: any;
 
   constructor(
     private readonly hashy: HashyService,
     private readonly elementRef: ElementRef,
+    private readonly bottomSheet: MatBottomSheet,
     public readonly dataService: DataService) {
     this.mouseMoveEvent = this.onMouseMove.bind(this);
   }
-
-  mouseMoveEvent: any;
 
   onMouseDown(event: MouseEvent) {
     if (!this.mouseDown) {
@@ -95,7 +97,17 @@ export class TabComponent {
       const file = data.getAsFile()!;
       if (file.name.endsWith('notes.json')) {
         file.text().then(text => {
-          this.dataService.setFromJson(JSON.parse(text));
+          const tab = JSON.parse(text) as Tab;
+          this.dataService.setFromTabJson(tab);
+        })
+      } else if (file.name.endsWith('boards.json')) {
+        file.text().then(text => {
+          if (this.dataService.itemsCount) {
+            this.bottomSheet.open(ImportDialogComponent, {data: text});
+          } else {
+            const tabs = JSON.parse(text) as Tab[];
+            this.dataService.setFromTabsJson(tabs);
+          }
         })
       } else if (file.type.startsWith('text') || file.type.startsWith('application')) {
         file.text().then(text => {

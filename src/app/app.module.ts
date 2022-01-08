@@ -35,6 +35,8 @@ import {TaskListComponent} from './components/task-list/task-list.component';
 import {CustomAutofocusDirective} from './directives/custom-autofocus.directive';
 import {CustomCursorDirective} from './directives/custom-cursor.directive';
 import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
+import {FileSaverModule} from "ngx-filesaver";
+import { ImportDialogComponent } from './components/dialogs/import-dialog/import-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
     DeleteDialogComponent,
     CustomAutofocusDirective,
     CustomCursorDirective,
+    ImportDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -77,7 +80,8 @@ import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
       enabled: environment.production,
       registrationStrategy: 'registerWhenStable:30000'
     }),
-    MatTabsModule
+    MatTabsModule,
+    FileSaverModule
   ],
   providers: [],
   bootstrap: [AppComponent],
