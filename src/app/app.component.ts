@@ -11,7 +11,7 @@ import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-d
 import {Note, TaskList} from './models';
 import {DataService} from "./services/data.service";
 import {HashyService} from "./services/hashy.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Clipboard} from "@angular/cdk/clipboard";
 
 @Component({
@@ -36,6 +36,7 @@ export class AppComponent {
     public readonly dataService: DataService,
     public readonly hashy: HashyService,
     readonly route: ActivatedRoute,
+    readonly router: Router,
   ) {
     route.queryParams.subscribe(params => {
       if (params.params) {
@@ -43,6 +44,11 @@ export class AppComponent {
         if (typeof tab != 'string') {
           this.dataService.addTab(tab);
         }
+
+        this.router.navigate(
+          ['.'],
+          {relativeTo: this.route}
+        );
       }
     });
   }
