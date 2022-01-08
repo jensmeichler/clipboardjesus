@@ -160,6 +160,7 @@ export class TaskListComponent implements OnDestroy {
     this.taskList.backgroundColor = item.backgroundColor;
     this.taskList.backgroundColorGradient = item.backgroundColorGradient;
     this.taskList.foregroundColor = item.foregroundColor;
+    this.dataService.cacheData();
   }
 
   showContextMenu(event: any) {
