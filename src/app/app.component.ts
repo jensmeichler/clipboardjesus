@@ -85,7 +85,7 @@ export class AppComponent {
   shareTab() {
     let params = JSON.stringify(this.dataService.getAsJson(true));
     params = encodeURIComponent(params);
-    const url = 'http://localhost:4200/?params=' + params;
+    const url = 'https://jensmeichler.github.io/clipboard/?params=' + params;
     this.clipboard.copy(url);
     this.hashy.show('Copied url to clipboard', 3000, 'Ok');
   }
