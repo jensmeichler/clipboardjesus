@@ -1,4 +1,4 @@
-import {Component, HostListener, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
@@ -13,14 +13,16 @@ import {DataService} from "./services/data.service";
 import {HashyService} from "./services/hashy.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Clipboard} from "@angular/cdk/clipboard";
+import {CacheService} from "./services/cache.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   dialogSubscription?: Subscription;
+  queryParamsSubscription?: Subscription;
 
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
@@ -35,14 +37,24 @@ export class AppComponent {
     private readonly clipboard: Clipboard,
     public readonly dataService: DataService,
     public readonly hashy: HashyService,
-    readonly route: ActivatedRoute,
-    readonly router: Router,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly cache: CacheService
   ) {
-    route.queryParams.subscribe(params => {
+  }
+
+  ngOnInit(): void {
+    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       if (params.params) {
         const tab = JSON.parse(params.params);
         if (typeof tab != 'string') {
-          this.dataService.addTab(tab);
+          if (this.dataService.tabs.length == 1
+            && this.dataService.itemsCount == 0) {
+            this.cache.save(0, tab);
+            this.dataService.setSelectedTab(0);
+          } else {
+            this.dataService.addTab(tab);
+          }
         }
 
         this.router.navigate(
@@ -51,6 +63,11 @@ export class AppComponent {
         );
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.dialogSubscription?.unsubscribe();
+    this.queryParamsSubscription?.unsubscribe();
   }
 
   @HostListener('document:keydown', ['$event'])
