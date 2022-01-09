@@ -109,16 +109,24 @@ export class AppComponent implements OnInit, OnDestroy {
           break;
       }
     }
-    if ((event.ctrlKey || event.metaKey) && event.key == 'v') {
-      this.dataService.importItemsFromClipboard();
-    } else if (((event.ctrlKey || event.metaKey) && event.key == 'y')
-      || (event.metaKey && event.shiftKey && event.key == 'z')) {
-      this.dataService.redo();
-    } else if ((event.ctrlKey || event.metaKey) && event.key == 'z') {
-      this.dataService.undo();
-    } else if ((event.ctrlKey || event.metaKey) && event.key == 'a') {
-      this.dataService.selectAll();
-      event.preventDefault();
+    if (event.ctrlKey || event.metaKey) {
+      if (event.key == 'v') {
+        this.dataService.importItemsFromClipboard();
+      } else if (event.key == 'y' || (event.shiftKey && event.key == 'z')) {
+        this.dataService.redo();
+      } else if (event.key == 'z') {
+        this.dataService.undo();
+      } else if (event.key == 'a') {
+        this.dataService.selectAll();
+        event.preventDefault();
+      } else if (event.key == 's') {
+        if (event.shiftKey) {
+          this.saveAs();
+        } else {
+          this.save();
+        }
+        event.preventDefault();
+      }
     }
   }
 
