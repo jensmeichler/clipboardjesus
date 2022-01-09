@@ -97,25 +97,14 @@ export class AppComponent implements OnInit, OnDestroy {
         case 'Escape':
           this.dataService.removeAllSelections();
           break;
-        case 'a':
-          if (event.ctrlKey || event.metaKey) {
-            this.dataService.selectAll();
-            event.preventDefault();
-          }
-          break;
         case 'c':
           if (event.ctrlKey || event.metaKey) {
-            const selectedItems = this.dataService.getSelectedItems();
-            this.clipboard.copy(JSON.stringify(selectedItems));
-            this.dataService.removeAllSelections();
+            this.copySelectedItems();
           }
           break;
         case 'x':
           if (event.ctrlKey || event.metaKey) {
-            const selectedItems = this.dataService.getSelectedItems();
-            this.clipboard.copy(JSON.stringify(selectedItems));
-            this.dataService.deleteSelectedItems();
-            this.dataService.removeAllSelections();
+            this.cutSelectedItems();
           }
           break;
       }
@@ -127,7 +116,23 @@ export class AppComponent implements OnInit, OnDestroy {
       this.dataService.redo();
     } else if ((event.ctrlKey || event.metaKey) && event.key == 'z') {
       this.dataService.undo();
+    } else if ((event.ctrlKey || event.metaKey) && event.key == 'a') {
+      this.dataService.selectAll();
+      event.preventDefault();
     }
+  }
+
+  copySelectedItems() {
+    const selectedItems = this.dataService.getSelectedItems();
+    this.clipboard.copy(JSON.stringify(selectedItems));
+    this.dataService.removeAllSelections();
+  }
+
+  cutSelectedItems() {
+    const selectedItems = this.dataService.getSelectedItems();
+    this.clipboard.copy(JSON.stringify(selectedItems));
+    this.dataService.deleteSelectedItems();
+    this.dataService.removeAllSelections();
   }
 
   shareTab() {

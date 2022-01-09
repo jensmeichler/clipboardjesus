@@ -9,7 +9,6 @@ export class RedoService {
   private possibleRedos: Tab[][] = [];
 
   constructor() {
-    console.log('test')
     for (let i = 0; i < 20; i++) {
       this.possibleUndos.push([]);
       this.possibleRedos.push([]);

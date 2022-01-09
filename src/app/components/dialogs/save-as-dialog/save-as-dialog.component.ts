@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
@@ -8,9 +8,15 @@ import {MatDialogRef} from "@angular/material/dialog";
 export class SaveAsDialogComponent {
   filename: string = '';
 
-  constructor(private readonly dialogRef: MatDialogRef<SaveAsDialogComponent>) {}
+  constructor(private readonly dialogRef: MatDialogRef<SaveAsDialogComponent>) {
+  }
 
   submit() {
     this.dialogRef.close(this.filename);
+  }
+
+  @HostListener('keydown', ['$event'])
+  onKeyPressed(event: KeyboardEvent) {
+    event.stopPropagation();
   }
 }

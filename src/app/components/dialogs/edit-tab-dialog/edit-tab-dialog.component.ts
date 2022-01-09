@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, HostListener, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {Tab} from "../../../models";
 import {DataService} from "../../../services/data.service";
@@ -11,6 +11,9 @@ export class EditTabDialogComponent {
   notesCount: string;
   taskListsCount: string;
   imagesCount: string;
+  purple = '#7b1ea2';
+  green = '#69f0ae';
+  reset = '#131313';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Tab,
@@ -20,10 +23,6 @@ export class EditTabDialogComponent {
     this.taskListsCount = dataService.taskLists$.getValue()?.length?.toString() ?? '0';
     this.imagesCount = dataService.images$.getValue()?.length?.toString() ?? '0';
   }
-
-  purple = '#7b1ea2';
-  green = '#69f0ae';
-  reset = '#131313';
 
   deleteNotes() {
     this.dataService.notes$.next([]);
@@ -43,6 +42,11 @@ export class EditTabDialogComponent {
 
   moveToLeft() {
     this.reArrangeTab(this.dataService.currentTabIndex - 1);
+  }
+
+  @HostListener('keydown', ['$event'])
+  onKeyPressed(event: KeyboardEvent) {
+    event.stopPropagation();
   }
 
   private reArrangeTab(targetIndex: number) {
