@@ -165,9 +165,10 @@ export class TaskListComponent implements OnDestroy {
 
   showContextMenu(event: any) {
     event.preventDefault();
+    event.stopPropagation();
+    
     this.rightClickPosX = event.clientX;
     this.rightClickPosY = event.clientY;
     this.contextMenu.openMenu();
-    event.stopPropagation();
   }
 }
