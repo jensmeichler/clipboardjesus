@@ -230,14 +230,18 @@ export class DataService {
     this.cacheData();
   }
 
-  deleteSelectedItems() {
+  deleteSelectedItems(hideHashy?: boolean) {
     this.filterAllItems(item => !item.selected)
     this.selectedItemsCount = 0;
-    this.hashy.show('Selected items deleted', 3000, 'Undo', () => {
-      this.fetchDataFromCache();
-    }, () => {
+    if (hideHashy) {
       this.cacheData();
-    })
+    } else {
+      this.hashy.show('Selected items deleted', 3000, 'Undo', () => {
+        this.fetchDataFromCache();
+      }, () => {
+        this.cacheData();
+      });
+    }
   }
 
   clearCache() {
@@ -333,6 +337,7 @@ export class DataService {
       taskLists: this.taskLists$.getValue()?.filter(x => x.selected),
       images: this.images$.getValue()?.filter(x => x.selected),
     } as Tab;
+    tab = JSON.parse(JSON.stringify(tab));
     tab.notes.forEach(note => note.selected = false);
     tab.taskLists.forEach(taskList => taskList.selected = false);
     tab.images.forEach(image => image.selected = false);

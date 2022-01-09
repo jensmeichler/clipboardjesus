@@ -106,7 +106,16 @@ export class AppComponent implements OnInit, OnDestroy {
         case 'c':
           if (event.ctrlKey || event.metaKey) {
             const selectedItems = this.dataService.getSelectedItems();
-            this.clipboard.copy(JSON.stringify(selectedItems))
+            this.clipboard.copy(JSON.stringify(selectedItems));
+            this.dataService.removeAllSelections();
+          }
+          break;
+        case 'x':
+          if (event.ctrlKey || event.metaKey) {
+            const selectedItems = this.dataService.getSelectedItems();
+            this.clipboard.copy(JSON.stringify(selectedItems));
+            this.dataService.deleteSelectedItems(true);
+            this.dataService.removeAllSelections();
           }
           break;
       }
