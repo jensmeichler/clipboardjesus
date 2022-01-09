@@ -73,6 +73,18 @@ export class DataService {
     }
   }
 
+  undo() {
+    if (this.cache.undo(this.currentTabIndex)) {
+      this.setSelectedTab(this.currentTabIndex);
+    }
+  }
+
+  redo() {
+    if (this.cache.redo(this.currentTabIndex)) {
+      this.setSelectedTab(this.currentTabIndex);
+    }
+  }
+
   getColorizedObjects(excludedItem: Note | TaskList): (Note | TaskList)[] {
     return this.colorizedObjects.filter(item => !DataService.compareColors(excludedItem, item));
   }
@@ -230,18 +242,10 @@ export class DataService {
     this.cacheData();
   }
 
-  deleteSelectedItems(hideHashy?: boolean) {
+  deleteSelectedItems() {
     this.filterAllItems(item => !item.selected)
     this.selectedItemsCount = 0;
-    if (hideHashy) {
-      this.cacheData();
-    } else {
-      this.hashy.show('Selected items deleted', 3000, 'Undo', () => {
-        this.fetchDataFromCache();
-      }, () => {
-        this.cacheData();
-      });
-    }
+    this.cacheData();
   }
 
   clearCache() {
@@ -292,7 +296,7 @@ export class DataService {
     this.cacheData();
   }
 
-  deleteNote(note: Note) {
+  deleteNote(note: Note, skipIndexing?: boolean) {
     this.itemsCount--;
     if (note.selected) {
       this.selectedItemsCount--;
@@ -302,10 +306,12 @@ export class DataService {
     let filteredNotes = notes!.filter(x => x !== note);
     this.notes$.next(filteredNotes!);
 
-    this.reArrangeIndices();
+    if (!skipIndexing) {
+      this.reArrangeIndices();
+    }
   }
 
-  deleteTaskList(taskList: TaskList) {
+  deleteTaskList(taskList: TaskList, skipIndexing?: boolean) {
     this.itemsCount--;
     if (taskList.selected) {
       this.selectedItemsCount--;
@@ -315,7 +321,9 @@ export class DataService {
     let filteredTaskLists = taskLists!.filter(x => x !== taskList);
     this.taskLists$.next(filteredTaskLists!);
 
-    this.reArrangeIndices();
+    if (!skipIndexing) {
+      this.reArrangeIndices();
+    }
   }
 
   deleteImage(image: Image) {
@@ -425,8 +433,6 @@ export class DataService {
     this.notes$.next(currentNotes);
     this.taskLists$.next(currentTaskLists);
     this.images$.next(currentImages);
-
-    this.cacheData();
   }
 
   saveAllAs() {

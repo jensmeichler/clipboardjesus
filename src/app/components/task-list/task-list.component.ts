@@ -87,7 +87,7 @@ export class TaskListComponent implements OnDestroy {
       disableClose: true,
     }).afterClosed().subscribe((editedTaskList) => {
       if (editedTaskList) {
-        this.dataService.deleteTaskList(this.taskList);
+        this.dataService.deleteTaskList(this.taskList, true);
         this.dataService.addTaskList(editedTaskList);
       }
     });

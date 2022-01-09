@@ -114,7 +114,7 @@ export class AppComponent implements OnInit, OnDestroy {
           if (event.ctrlKey || event.metaKey) {
             const selectedItems = this.dataService.getSelectedItems();
             this.clipboard.copy(JSON.stringify(selectedItems));
-            this.dataService.deleteSelectedItems(true);
+            this.dataService.deleteSelectedItems();
             this.dataService.removeAllSelections();
           }
           break;
@@ -122,6 +122,11 @@ export class AppComponent implements OnInit, OnDestroy {
     }
     if ((event.ctrlKey || event.metaKey) && event.key == 'v') {
       this.dataService.importItemsFromClipboard();
+    } else if (((event.ctrlKey || event.metaKey) && event.key == 'y')
+      || (event.metaKey && event.shiftKey && event.key == 'z')) {
+      this.dataService.redo();
+    } else if ((event.ctrlKey || event.metaKey) && event.key == 'z') {
+      this.dataService.undo();
     }
   }
 
@@ -205,12 +210,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   clearAll() {
     this.dataService.clearAllData();
-    this.hashy.show('All notes deleted', 5000, 'Undo', () => {
-      this.dataService.fetchDataFromCache();
-    }, () => {
-      this.dataService.cacheData();
-      this.dataService.removeAllSelections();
-    });
+    this.dataService.cacheData();
+    this.dataService.removeAllSelections();
   }
 
   clearAllForever() {

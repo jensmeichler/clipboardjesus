@@ -1,13 +1,26 @@
 import {Injectable} from '@angular/core';
 import {Tab} from "../models";
+import {RedoService} from "./redo.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CacheService {
-  save(index: number, tab: Tab) {
-    const tabCopy = JSON.parse(JSON.stringify(tab)) as Tab;
+  constructor(private readonly redoService: RedoService) {
+  }
 
+  undo(index: number): boolean {
+    return this.redoService.undo(index);
+  }
+
+  redo(index: number): boolean {
+    return this.redoService.redo(index);
+  }
+
+  save(index: number, tab: Tab) {
+    this.redoService.do(index);
+
+    const tabCopy = JSON.parse(JSON.stringify(tab)) as Tab;
     tabCopy.notes?.forEach(x => x.selected = false);
     tabCopy.taskLists?.forEach(x => x.selected = false);
     tabCopy.images?.forEach(x => x.selected = false);
@@ -28,7 +41,10 @@ export class CacheService {
   }
 
   remove(index: number) {
+    this.redoService.remove(index);
+
     const key = "clipboard_data_" + index;
+
     localStorage.removeItem(key);
   }
 

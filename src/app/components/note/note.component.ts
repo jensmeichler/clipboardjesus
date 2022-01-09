@@ -108,7 +108,7 @@ export class NoteComponent implements OnDestroy, OnInit {
         disableClose: true,
       }).afterClosed().subscribe((editedNote) => {
         if (editedNote) {
-          this.dataService.deleteNote(this.note);
+          this.dataService.deleteNote(this.note, true);
           this.dataService.addNote(editedNote);
         }
       });
