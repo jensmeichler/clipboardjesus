@@ -6,6 +6,9 @@ import {RedoService} from "./redo.service";
   providedIn: 'root'
 })
 export class CacheService {
+  redoPossible = this.redoService.redoPossible;
+  undoPossible = this.redoService.undoPossible;
+
   constructor(private readonly redoService: RedoService) {
   }
 

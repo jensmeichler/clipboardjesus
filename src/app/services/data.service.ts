@@ -21,6 +21,9 @@ export class DataService {
   itemsCount = 0;
   selectedItemsCount = 0;
 
+  redoPossible = this.cache.redoPossible;
+  undoPossible = this.cache.undoPossible;
+
   private colorizedObjects: (Note | TaskList)[] = [];
 
   constructor(

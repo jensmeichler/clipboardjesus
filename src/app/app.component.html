@@ -58,6 +58,18 @@
         <mat-icon>list</mat-icon>
         Create task list
       </button>
+      <ng-container *ngIf="dataService.undoPossible | async">
+        <button (click)="dataService.undo()" mat-menu-item>
+          <mat-icon>undo</mat-icon>
+          Undo last action
+        </button>
+      </ng-container>
+      <ng-container *ngIf="dataService.redoPossible | async">
+        <button (click)="dataService.redo()" mat-menu-item>
+          <mat-icon>redo</mat-icon>
+          Redo last action
+        </button>
+      </ng-container>
       <button (click)="saveTabOrSelection()" mat-menu-item>
         <mat-icon>save</mat-icon>
         Save tab

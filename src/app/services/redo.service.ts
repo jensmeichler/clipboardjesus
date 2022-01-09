@@ -1,12 +1,16 @@
 import {Injectable} from '@angular/core';
 import {Tab} from "../models";
+import {BehaviorSubject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RedoService {
-  private possibleUndos: Tab[][] = [];
-  private possibleRedos: Tab[][] = [];
+  possibleUndos: Tab[][] = [];
+  possibleRedos: Tab[][] = [];
+
+  undoPossible = new BehaviorSubject<boolean>(false);
+  redoPossible = new BehaviorSubject<boolean>(false);
 
   constructor() {
     for (let i = 0; i < 20; i++) {
@@ -16,19 +20,16 @@ export class RedoService {
   }
 
   do(index: number) {
-    this.log('do:before');
-
     const key = "clipboard_data_" + index;
     const tab = JSON.parse(localStorage.getItem(key)!);
     this.possibleUndos[index].push(tab);
     this.possibleRedos[index] = [];
 
-    this.log('do:after');
+    this.updateRedoPossible(index);
   }
 
   undo(index: number): boolean {
-    this.log('undo:before');
-
+    let success = false;
     if (this.possibleUndos[index].length) {
       const key = "clipboard_data_" + index;
 
@@ -39,16 +40,15 @@ export class RedoService {
       const content = JSON.stringify(undo);
       localStorage.setItem(key, content);
 
-      this.log('undo:after');
-
-      return true;
+      success = true;
     }
-    return false;
+
+    this.updateRedoPossible(index);
+    return success;
   }
 
   redo(index: number): boolean {
-    this.log('redo:before');
-
+    let success = false;
     if (this.possibleRedos[index].length) {
       const key = "clipboard_data_" + index;
 
@@ -60,11 +60,11 @@ export class RedoService {
       const content = JSON.stringify(redo);
       localStorage.setItem(key, content);
 
-      this.log('redo:after');
-
-      return true;
+      success = true;
     }
-    return false;
+
+    this.updateRedoPossible(index);
+    return success;
   }
 
   remove(index: number) {
@@ -72,13 +72,16 @@ export class RedoService {
     this.possibleRedos[index] = [];
   }
 
-  private log(method: string) {
-    console.log(method, 'undos: ' +
-      this.possibleUndos[0].length + '-' +
-      this.possibleUndos[1].length + '-' +
-      this.possibleUndos[2].length + ' | redos: ' +
-      this.possibleRedos[0].length + '-' +
-      this.possibleRedos[1].length + '-' +
-      this.possibleRedos[2].length);
+  private updateRedoPossible(index: number) {
+    if (!this.possibleUndos[index].length && this.undoPossible.getValue()) {
+      this.undoPossible.next(false);
+    } else if (this.possibleUndos[index].length && !this.undoPossible.getValue()) {
+      this.undoPossible.next(true);
+    }
+    if (!this.possibleRedos[index].length && this.redoPossible.getValue()) {
+      this.redoPossible.next(false);
+    } else if (this.possibleRedos[index].length && !this.redoPossible.getValue()) {
+      this.redoPossible.next(true);
+    }
   }
 }
