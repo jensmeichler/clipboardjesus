@@ -37,7 +37,7 @@ export class DataService {
       }
     }
 
-    this.fetchDataFromCache(0);
+    this.fetchDataFromCache(0, true);
 
     if (!this.tabs.length) {
       this.addTab();
@@ -75,13 +75,13 @@ export class DataService {
 
   undo() {
     if (this.cache.undo(this.currentTabIndex)) {
-      this.setSelectedTab(this.currentTabIndex);
+      this.setSelectedTab(this.currentTabIndex, true);
     }
   }
 
   redo() {
     if (this.cache.redo(this.currentTabIndex)) {
-      this.setSelectedTab(this.currentTabIndex);
+      this.setSelectedTab(this.currentTabIndex, true);
     }
   }
 
@@ -132,13 +132,13 @@ export class DataService {
     this.setColorizedObjects();
   }
 
-  fetchDataFromCache(tabId?: number) {
+  fetchDataFromCache(tabId?: number, skipCache?: boolean) {
     if (tabId != undefined) {
       this.currentTabIndex = tabId;
     }
     let tab = this.cache.fetch(this.currentTabIndex);
     if (tab) {
-      this.setFromTabJson(tab);
+      this.setFromTabJson(tab, skipCache);
     }
   }
 
@@ -155,26 +155,28 @@ export class DataService {
     } as Tab;
     this.tabs.push(newTab);
     this.cache.save(newTab.index, newTab);
-    this.setSelectedTab(newTab.index);
+    this.setSelectedTab(newTab.index, true);
   }
 
   async importItemsFromClipboard(): Promise<boolean> {
     const clipboardText = await navigator.clipboard.readText();
-    let tab: Tab;
-    try {
-      tab = JSON.parse(clipboardText) as Tab;
-    } catch {
+    if (!clipboardText) {
       return false;
     }
 
-    if (tab.notes.length) {
-      tab.notes.forEach(note => this.addNote(note));
-    }
-    if (tab.taskLists.length) {
-      tab.taskLists.forEach(taskList => this.addTaskList(taskList));
-    }
-    if (tab.images.length) {
-      tab.images.forEach(image => this.addImage(image));
+    try {
+      let tab = JSON.parse(clipboardText) as Tab;
+      if (tab.notes.length) {
+        tab.notes.forEach(note => this.addNote(note));
+      }
+      if (tab.taskLists.length) {
+        tab.taskLists.forEach(taskList => this.addTaskList(taskList));
+      }
+      if (tab.images.length) {
+        tab.images.forEach(image => this.addImage(image));
+      }
+    } catch {
+      this.addNote(new Note(10, 61, clipboardText));
     }
 
     this.cacheData();
@@ -202,7 +204,7 @@ export class DataService {
 
     let isRightTab = index > (this.tabs.length - 1);
     this.clearAllData();
-    this.fetchDataFromCache(isRightTab ? index - 1 : index);
+    this.fetchDataFromCache(isRightTab ? index - 1 : index, true);
   }
 
   reArrangeTab(sourceIndex: number, targetIndex: number) {
@@ -228,10 +230,10 @@ export class DataService {
     })
   }
 
-  setSelectedTab(index: number) {
+  setSelectedTab(index: number, skipCache?: boolean) {
     this.currentTabIndex = index;
     this.clearAllData();
-    this.fetchDataFromCache(index);
+    this.fetchDataFromCache(index, skipCache);
   };
 
   clearAllData() {
@@ -389,7 +391,7 @@ export class DataService {
     this.setSelectedTab(0);
   }
 
-  setFromTabJson(tab: Tab) {
+  setFromTabJson(tab: Tab, skipCache?: boolean) {
     let currentNotes: Note[] = this.notes$.getValue() ?? [];
     let currentTaskLists: TaskList[] = this.taskLists$.getValue() ?? [];
     let currentImages: Image[] = this.images$.getValue() ?? [];
@@ -439,7 +441,9 @@ export class DataService {
       this.notes$.next(currentNotes);
       this.taskLists$.next(currentTaskLists);
       this.images$.next(currentImages);
-      this.cacheData();
+      if (!skipCache) {
+        this.cacheData();
+      }
     } else {
       this.addTab(tab);
     }
