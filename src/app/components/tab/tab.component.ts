@@ -55,7 +55,7 @@ export class TabComponent {
     this.elementRef.nativeElement.removeEventListener('mousemove', this.mouseMoveEvent)
 
     if (cursorMoved) {
-      const invertSelection = event.ctrlKey || event.shiftKey;
+      const invertSelection = event.ctrlKey || event.metaKey || event.shiftKey;
 
       this.dataService.editAllItems(item => {
         const itemInRangeX = item.posX >= this.startCursorPosX && item.posX <= event.pageX

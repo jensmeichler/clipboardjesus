@@ -75,33 +75,44 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.dataService.selectedItemsCount) {
       switch (event.key) {
         case 'Delete':
+        case 'Backspace':
           this.deleteSelectedItems();
           return;
         case 'ArrowUp':
           this.dataService.editAllSelectedItems(x => x.posY--);
+          this.dataService.cacheData();
           break;
         case 'ArrowDown':
           this.dataService.editAllSelectedItems(x => x.posY++);
+          this.dataService.cacheData();
           break;
         case 'ArrowLeft':
           this.dataService.editAllSelectedItems(x => x.posX--);
+          this.dataService.cacheData();
           break;
         case 'ArrowRight':
           this.dataService.editAllSelectedItems(x => x.posX++);
+          this.dataService.cacheData();
           break;
         case 'Escape':
           this.dataService.removeAllSelections();
           break;
         case 'a':
-          if (event.ctrlKey) {
+          if (event.ctrlKey || event.metaKey) {
             this.dataService.selectAll();
             event.preventDefault();
           }
           break;
-        default:
-          return;
+        case 'c':
+          if (event.ctrlKey || event.metaKey) {
+            const selectedItems = this.dataService.getSelectedItems();
+            this.clipboard.copy(JSON.stringify(selectedItems))
+          }
+          break;
       }
-      this.dataService.cacheData();
+    }
+    if ((event.ctrlKey || event.metaKey) && event.key == 'v') {
+      this.dataService.importItemsFromClipboard();
     }
   }
 

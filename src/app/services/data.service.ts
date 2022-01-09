@@ -146,6 +146,23 @@ export class DataService {
     this.setSelectedTab(newTab.index);
   }
 
+  async importItemsFromClipboard() {
+    const clipboardText = await navigator.clipboard.readText();
+    const tab = JSON.parse(clipboardText) as Tab;
+
+    if (tab.notes.length) {
+      tab.notes.forEach(note => this.addNote(note));
+    }
+    if (tab.taskLists.length) {
+      tab.taskLists.forEach(taskList => this.addTaskList(taskList));
+    }
+    if (tab.images.length) {
+      tab.images.forEach(image => this.addImage(image));
+    }
+
+    this.cacheData();
+  }
+
   removeTab() {
     let index = this.currentTabIndex;
     this.cache.remove(index);
@@ -310,6 +327,18 @@ export class DataService {
     this.reArrangeIndices();
   }
 
+  getSelectedItems(): Tab {
+    let tab = {
+      notes: this.notes$.getValue()?.filter(x => x.selected),
+      taskLists: this.taskLists$.getValue()?.filter(x => x.selected),
+      images: this.images$.getValue()?.filter(x => x.selected),
+    } as Tab;
+    tab.notes.forEach(note => note.selected = false);
+    tab.taskLists.forEach(taskList => taskList.selected = false);
+    tab.images.forEach(image => image.selected = false);
+    return tab;
+  }
+
   getAsJson(ignoreSelection?: boolean): Tab {
     const label = this.tabs[this.currentTabIndex].label
       ? this.tabs[this.currentTabIndex].label
@@ -318,11 +347,7 @@ export class DataService {
       ? this.tabs[this.currentTabIndex].color
       : undefined;
     if (!ignoreSelection && this.selectedItemsCount) {
-      return {
-        notes: this.notes$.getValue()?.filter(x => x.selected),
-        taskLists: this.taskLists$.getValue()?.filter(x => x.selected),
-        images: this.images$.getValue()?.filter(x => x.selected),
-      } as Tab;
+      return this.getSelectedItems();
     }
     return {
       label, color,

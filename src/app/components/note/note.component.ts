@@ -72,7 +72,7 @@ export class NoteComponent implements OnDestroy, OnInit {
     if (this.mouseDown && this.canInteract) {
       switch (event.button) {
         case 0:
-          if (event.ctrlKey || event.shiftKey) {
+          if (event.ctrlKey || event.metaKey || event.shiftKey) {
             this.select();
           } else {
             this.copy();

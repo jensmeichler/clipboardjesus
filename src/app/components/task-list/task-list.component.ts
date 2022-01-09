@@ -45,7 +45,7 @@ export class TaskListComponent implements OnDestroy {
   click(event: any) {
     switch (event.button) {
       case 0:
-        if (event.ctrlKey || event.shiftKey) {
+        if (event.ctrlKey || event.metaKey || event.shiftKey) {
           this.select();
         }
         break;
