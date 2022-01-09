@@ -158,9 +158,14 @@ export class DataService {
     this.setSelectedTab(newTab.index);
   }
 
-  async importItemsFromClipboard() {
+  async importItemsFromClipboard(): Promise<boolean> {
     const clipboardText = await navigator.clipboard.readText();
-    const tab = JSON.parse(clipboardText) as Tab;
+    let tab: Tab;
+    try {
+      tab = JSON.parse(clipboardText) as Tab;
+    } catch {
+      return false;
+    }
 
     if (tab.notes.length) {
       tab.notes.forEach(note => this.addNote(note));
@@ -173,6 +178,7 @@ export class DataService {
     }
 
     this.cacheData();
+    return true;
   }
 
   removeTab() {
@@ -422,17 +428,21 @@ export class DataService {
 
     tab.index = this.currentTabIndex;
     const currentTab = this.tabs[this.currentTabIndex];
-    if (!tab.label) {
-      tab.label = currentTab.label;
+    if (currentTab) {
+      if (!tab.label) {
+        tab.label = currentTab.label;
+      }
+      if (!tab.color || tab.color == '#131313') {
+        tab.color = currentTab.color;
+      }
+      this.tabs[this.currentTabIndex] = tab;
+      this.notes$.next(currentNotes);
+      this.taskLists$.next(currentTaskLists);
+      this.images$.next(currentImages);
+      this.cacheData();
+    } else {
+      this.addTab(tab);
     }
-    if (!tab.color || tab.color == '#131313') {
-      tab.color = currentTab.color;
-    }
-
-    this.tabs[this.currentTabIndex] = tab;
-    this.notes$.next(currentNotes);
-    this.taskLists$.next(currentTaskLists);
-    this.images$.next(currentImages);
   }
 
   saveAllAs() {
