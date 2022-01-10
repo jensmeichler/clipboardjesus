@@ -55,6 +55,10 @@ html, body {
   overflow: overlay !important;
 }
 
+.mat-chip.mat-standard-chip {
+  background-color: #00000047;
+}
+
 .dialog-button-group {
   display: flex;
   justify-content: flex-end;
