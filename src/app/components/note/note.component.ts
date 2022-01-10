@@ -58,8 +58,10 @@ export class NoteComponent implements OnDestroy, OnInit {
     this.dataService.onSelectionChange(this.note);
   }
 
-  onMouseDown() {
-    this.mouseDown = true;
+  onMouseDown(event: MouseEvent) {
+    if (event.button == 0) {
+      this.mouseDown = true;
+    }
   }
 
   onMouseMove() {
@@ -72,7 +74,7 @@ export class NoteComponent implements OnDestroy, OnInit {
     if (this.mouseDown && this.canInteract) {
       switch (event.button) {
         case 0:
-          if (event.ctrlKey || event.shiftKey) {
+          if (event.ctrlKey || event.metaKey || event.shiftKey) {
             this.select();
           } else {
             this.copy();
@@ -108,7 +110,7 @@ export class NoteComponent implements OnDestroy, OnInit {
         disableClose: true,
       }).afterClosed().subscribe((editedNote) => {
         if (editedNote) {
-          this.dataService.deleteNote(this.note);
+          this.dataService.deleteNote(this.note, true);
           this.dataService.addNote(editedNote);
         }
       });
@@ -139,11 +141,12 @@ export class NoteComponent implements OnDestroy, OnInit {
   showContextMenu(event: MouseEvent) {
     if (this.canInteract) {
       event.preventDefault();
+      event.stopPropagation();
+
       this.rightClickPosX = event.clientX;
       this.rightClickPosY = event.clientY;
       this.contextMenu.openMenu();
-      event.stopPropagation();
-      this.rippleDisabled = false;
     }
+    this.rippleDisabled = false;
   }
 }

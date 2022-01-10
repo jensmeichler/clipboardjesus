@@ -36,7 +36,8 @@ import {CustomAutofocusDirective} from './directives/custom-autofocus.directive'
 import {CustomCursorDirective} from './directives/custom-cursor.directive';
 import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
 import {FileSaverModule} from "ngx-filesaver";
-import { ImportDialogComponent } from './components/dialogs/import-dialog/import-dialog.component';
+import {ImportDialogComponent} from './components/dialogs/import-dialog/import-dialog.component';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { ImportDialogComponent } from './components/dialogs/import-dialog/import
       registrationStrategy: 'registerWhenStable:30000'
     }),
     MatTabsModule,
-    FileSaverModule
+    FileSaverModule,
+    RouterModule.forRoot([])
   ],
   providers: [],
   bootstrap: [AppComponent],

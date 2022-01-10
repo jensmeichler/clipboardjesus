@@ -1,5 +1,5 @@
 <mat-card (click)="$event.stopPropagation()" (contextmenu)="showContextMenu($event)"
-          (mousedown)="onMouseDown()"
+          (mousedown)="onMouseDown($event)"
           (mousemove)="onMouseMove()"
           (mouseup)="onMouseUp($event)"
           [matRippleDisabled]="rippleDisabled"
@@ -64,7 +64,7 @@
     <ng-container *ngIf="dataService.getColorizedObjects(note).length > 1">
       <button [matMenuTriggerFor]="items" mat-menu-item>
         <mat-icon>colorize</mat-icon>
-        Copy color from
+        Copy other color
       </button>
     </ng-container>
     <ng-container *ngIf="dataService.getColorizedObjects(note).length == 1">
@@ -75,7 +75,7 @@
     </ng-container>
     <button (click)="copy()" mat-menu-item>
       <mat-icon>content_copy</mat-icon>
-      Copy
+      Copy value
     </button>
     <button (click)="select()" mat-menu-item>
       <mat-icon>{{note.selected ? 'close' : 'check'}}</mat-icon>
@@ -112,7 +112,13 @@
                 : item.backgroundColor"
             [style.color]="item.foregroundColor"
             mat-menu-item>
-      {{ item.header ? item.header : 'Item ' + item.posZ }}
+      <mat-icon>color_lens</mat-icon>
+      <ng-container *ngIf="!item.backgroundColorGradient">
+        {{item.backgroundColor}}
+      </ng-container>
+      <ng-container *ngIf="item.backgroundColorGradient">
+        {{ item.backgroundColor + ' → ' + item.backgroundColorGradient }}
+      </ng-container>
     </button>
   </ng-container>
 </mat-menu>

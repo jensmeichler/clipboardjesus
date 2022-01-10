@@ -55,7 +55,7 @@ export class TabComponent {
     this.elementRef.nativeElement.removeEventListener('mousemove', this.mouseMoveEvent)
 
     if (cursorMoved) {
-      const invertSelection = event.ctrlKey || event.shiftKey;
+      const invertSelection = event.ctrlKey || event.metaKey || event.shiftKey;
 
       this.dataService.editAllItems(item => {
         const itemInRangeX = item.posX >= this.startCursorPosX && item.posX <= event.pageX
@@ -99,6 +99,7 @@ export class TabComponent {
         file.text().then(text => {
           const tab = JSON.parse(text) as Tab;
           this.dataService.setFromTabJson(tab);
+          this.dataService.cacheData();
         })
       } else if (file.name.endsWith('boards.json')) {
         file.text().then(text => {
@@ -107,6 +108,7 @@ export class TabComponent {
           } else {
             const tabs = JSON.parse(text) as Tab[];
             this.dataService.setFromTabsJson(tabs);
+            this.dataService.cacheData();
           }
         })
       } else if (file.type.startsWith('text') || file.type.startsWith('application')) {

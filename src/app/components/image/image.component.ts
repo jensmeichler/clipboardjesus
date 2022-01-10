@@ -22,6 +22,11 @@ export class ImageComponent {
   mouseDown = false;
   movedPx = 0;
 
+  @ViewChild(MatMenuTrigger)
+  contextMenu!: MatMenuTrigger;
+  rightClickPosX = 0;
+  rightClickPosY = 0;
+
   constructor(
     private readonly hashy: HashyService,
     private readonly clipboard: Clipboard,
@@ -55,7 +60,7 @@ export class ImageComponent {
     switch (event.button) {
       case 0:
         if (this.movedPx < 5) {
-          if (event.ctrlKey || event.shiftKey) {
+          if (event.ctrlKey || event.metaKey || event.shiftKey) {
             this.select();
           } else {
             this.copy();
@@ -93,11 +98,6 @@ export class ImageComponent {
   moveToTab(index: number) {
     this.dataService.moveImageToTab(index, this.image);
   }
-
-  @ViewChild(MatMenuTrigger)
-  contextMenu!: MatMenuTrigger;
-  rightClickPosX = 0;
-  rightClickPosY = 0;
 
   showContextMenu(event: any, force?: boolean) {
     if (force || this.rippleDisabled) {

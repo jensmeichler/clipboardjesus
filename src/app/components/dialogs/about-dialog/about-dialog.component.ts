@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 
 @Component({
   selector: 'app-about-dialog',
@@ -6,4 +6,8 @@ import {Component} from '@angular/core';
   styleUrls: ['./about-dialog.component.css']
 })
 export class AboutDialogComponent {
+  @HostListener('keydown', ['$event'])
+  onKeyPressed(event: KeyboardEvent) {
+    event.stopPropagation();
+  }
 }

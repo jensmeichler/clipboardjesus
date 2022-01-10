@@ -1,5 +1,5 @@
 <div customCursor>
-  <mat-tab-group (selectedIndexChange)="dataService.setSelectedTab($event)"
+  <mat-tab-group (selectedIndexChange)="dataService.setSelectedTab($event, true)"
                  [(selectedIndex)]="dataService.currentTabIndex"
                  animationDuration="0">
     <mat-tab *ngFor="let tab of dataService.tabs">
@@ -32,6 +32,14 @@
   </div>
   <mat-menu #contextMenu="matMenu">
     <ng-container *ngIf="dataService.selectedItemsCount">
+      <button (click)="copySelectedItems()" mat-menu-item>
+        <mat-icon>content_copy</mat-icon>
+        Copy {{dataService.selectedItemsCount}} items
+      </button>
+      <button (click)="cutSelectedItems()" mat-menu-item>
+        <mat-icon>content_cut</mat-icon>
+        Cut {{dataService.selectedItemsCount}} items
+      </button>
       <button (click)="deleteSelectedItems()" mat-menu-item>
         <mat-icon>delete</mat-icon>
         Delete {{dataService.selectedItemsCount}} items
@@ -50,9 +58,25 @@
         <mat-icon>list</mat-icon>
         Create task list
       </button>
+      <ng-container *ngIf="dataService.undoPossible | async">
+        <button (click)="dataService.undo()" mat-menu-item>
+          <mat-icon>undo</mat-icon>
+          Undo last action
+        </button>
+      </ng-container>
+      <ng-container *ngIf="dataService.redoPossible | async">
+        <button (click)="dataService.redo()" mat-menu-item>
+          <mat-icon>redo</mat-icon>
+          Redo last action
+        </button>
+      </ng-container>
       <button (click)="saveTabOrSelection()" mat-menu-item>
         <mat-icon>save</mat-icon>
         Save tab
+      </button>
+      <button (click)="shareTab()" mat-menu-item>
+        <mat-icon>share</mat-icon>
+        Share tab
       </button>
       <button (click)="openEditTabDialog()" mat-menu-item>
         <mat-icon>format_paint</mat-icon>

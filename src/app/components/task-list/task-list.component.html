@@ -129,13 +129,13 @@
       </button>
     </ng-container>
     <ng-container *ngIf="dataService.getColorizedObjects(taskList).length > 1">
-      <button mat-menu-item [matMenuTriggerFor]="items">
+      <button [matMenuTriggerFor]="items" mat-menu-item>
         <mat-icon>colorize</mat-icon>
         Copy color from
       </button>
     </ng-container>
     <ng-container *ngIf="dataService.getColorizedObjects(taskList).length == 1">
-      <button mat-menu-item (click)="copyColorFrom(dataService.getColorizedObjects(taskList)[0])">
+      <button (click)="copyColorFrom(dataService.getColorizedObjects(taskList)[0])" mat-menu-item>
         <mat-icon>colorize</mat-icon>
         Copy other color
       </button>
@@ -174,12 +174,18 @@
 
 <mat-menu #items="matMenu">
   <ng-container *ngFor="let item of dataService.getColorizedObjects(taskList)">
-    <button mat-menu-item *ngIf="taskList !== item" (click)="copyColorFrom(item)"
-            [style.color]="item.foregroundColor"
-            [style.background]="item.backgroundColorGradient
+    <button (click)="copyColorFrom(item)" *ngIf="taskList !== item" [style.background]="item.backgroundColorGradient
                 ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
-                : item.backgroundColor">
-      {{ item.header ? item.header : 'Item ' + item.posZ }}
+                : item.backgroundColor"
+            [style.color]="item.foregroundColor"
+            mat-menu-item>
+      <mat-icon>color_lens</mat-icon>
+      <ng-container *ngIf="!item.backgroundColorGradient">
+        {{item.backgroundColor}}
+      </ng-container>
+      <ng-container *ngIf="item.backgroundColorGradient">
+        {{ item.backgroundColor + ' → ' + item.backgroundColorGradient }}
+      </ng-container>
     </button>
   </ng-container>
 </mat-menu>

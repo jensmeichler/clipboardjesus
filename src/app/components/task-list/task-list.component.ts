@@ -45,7 +45,7 @@ export class TaskListComponent implements OnDestroy {
   click(event: any) {
     switch (event.button) {
       case 0:
-        if (event.ctrlKey || event.shiftKey) {
+        if (event.ctrlKey || event.metaKey || event.shiftKey) {
           this.select();
         }
         break;
@@ -87,7 +87,7 @@ export class TaskListComponent implements OnDestroy {
       disableClose: true,
     }).afterClosed().subscribe((editedTaskList) => {
       if (editedTaskList) {
-        this.dataService.deleteTaskList(this.taskList);
+        this.dataService.deleteTaskList(this.taskList, true);
         this.dataService.addTaskList(editedTaskList);
       }
     });
@@ -165,9 +165,10 @@ export class TaskListComponent implements OnDestroy {
 
   showContextMenu(event: any) {
     event.preventDefault();
+    event.stopPropagation();
+    
     this.rightClickPosX = event.clientX;
     this.rightClickPosY = event.clientY;
     this.contextMenu.openMenu();
-    event.stopPropagation();
   }
 }

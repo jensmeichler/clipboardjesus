@@ -1,4 +1,4 @@
-import {Component, HostListener, ViewChild} from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
@@ -11,14 +11,18 @@ import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-d
 import {Note, TaskList} from './models';
 import {DataService} from "./services/data.service";
 import {HashyService} from "./services/hashy.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Clipboard} from "@angular/cdk/clipboard";
+import {CacheService} from "./services/cache.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   dialogSubscription?: Subscription;
+  queryParamsSubscription?: Subscription;
 
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
@@ -30,9 +34,40 @@ export class AppComponent {
   constructor(
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
+    private readonly clipboard: Clipboard,
     public readonly dataService: DataService,
-    public readonly hashy: HashyService
+    public readonly hashy: HashyService,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly cache: CacheService
   ) {
+  }
+
+  ngOnInit(): void {
+    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
+      if (params.params) {
+        const tab = JSON.parse(params.params);
+        if (typeof tab != 'string') {
+          if (this.dataService.tabs.length == 1
+            && this.dataService.itemsCount == 0) {
+            this.cache.save(0, tab);
+            this.dataService.setSelectedTab(0);
+          } else {
+            this.dataService.addTab(tab);
+          }
+        }
+
+        this.router.navigate(
+          ['.'],
+          {relativeTo: this.route}
+        );
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.dialogSubscription?.unsubscribe();
+    this.queryParamsSubscription?.unsubscribe();
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -40,34 +75,80 @@ export class AppComponent {
     if (this.dataService.selectedItemsCount) {
       switch (event.key) {
         case 'Delete':
+        case 'Backspace':
           this.deleteSelectedItems();
           return;
         case 'ArrowUp':
           this.dataService.editAllSelectedItems(x => x.posY--);
+          this.dataService.cacheData();
           break;
         case 'ArrowDown':
           this.dataService.editAllSelectedItems(x => x.posY++);
+          this.dataService.cacheData();
           break;
         case 'ArrowLeft':
           this.dataService.editAllSelectedItems(x => x.posX--);
+          this.dataService.cacheData();
           break;
         case 'ArrowRight':
           this.dataService.editAllSelectedItems(x => x.posX++);
+          this.dataService.cacheData();
           break;
         case 'Escape':
           this.dataService.removeAllSelections();
           break;
-        case 'a':
-          if (event.ctrlKey) {
-            this.dataService.selectAll();
-            event.preventDefault();
+        case 'c':
+          if (event.ctrlKey || event.metaKey) {
+            this.copySelectedItems();
           }
           break;
-        default:
-          return;
+        case 'x':
+          if (event.ctrlKey || event.metaKey) {
+            this.cutSelectedItems();
+          }
+          break;
       }
-      this.dataService.cacheData();
     }
+    if (event.ctrlKey || event.metaKey) {
+      if (event.key == 'v') {
+        this.dataService.importItemsFromClipboard();
+      } else if (event.key == 'y' || (event.shiftKey && event.key == 'z')) {
+        this.dataService.redo();
+      } else if (event.key == 'z') {
+        this.dataService.undo();
+      } else if (event.key == 'a') {
+        this.dataService.selectAll();
+        event.preventDefault();
+      } else if (event.key == 's') {
+        if (event.shiftKey) {
+          this.saveAs();
+        } else {
+          this.save();
+        }
+        event.preventDefault();
+      }
+    }
+  }
+
+  copySelectedItems() {
+    const selectedItems = this.dataService.getSelectedItems();
+    this.clipboard.copy(JSON.stringify(selectedItems));
+    this.dataService.removeAllSelections();
+  }
+
+  cutSelectedItems() {
+    const selectedItems = this.dataService.getSelectedItems();
+    this.clipboard.copy(JSON.stringify(selectedItems));
+    this.dataService.deleteSelectedItems();
+    this.dataService.removeAllSelections();
+  }
+
+  shareTab() {
+    let params = JSON.stringify(this.dataService.getAsJson(true));
+    params = encodeURIComponent(params);
+    const url = 'https://jensmeichler.github.io/clipboard/?params=' + params;
+    this.clipboard.copy(url);
+    this.hashy.show('Copied url to clipboard', 3000, 'Ok');
   }
 
   save() {
@@ -142,12 +223,8 @@ export class AppComponent {
 
   clearAll() {
     this.dataService.clearAllData();
-    this.hashy.show('All notes deleted', 5000, 'Undo', () => {
-      this.dataService.fetchDataFromCache();
-    }, () => {
-      this.dataService.cacheData();
-      this.dataService.removeAllSelections();
-    });
+    this.dataService.cacheData();
+    this.dataService.removeAllSelections();
   }
 
   clearAllForever() {

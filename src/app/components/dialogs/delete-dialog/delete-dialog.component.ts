@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {MatBottomSheetRef} from "@angular/material/bottom-sheet";
 import {DataService} from "../../../services/data.service";
 
@@ -20,5 +20,10 @@ export class DeleteDialogComponent {
 
   cancel() {
     this.bottomSheetRef.dismiss();
+  }
+
+  @HostListener('keydown', ['$event'])
+  onKeyPressed(event: KeyboardEvent) {
+    event.stopPropagation();
   }
 }

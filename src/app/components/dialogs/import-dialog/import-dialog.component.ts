@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, HostListener, Inject} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef} from "@angular/material/bottom-sheet";
 import {DataService} from "../../../services/data.service";
 import {Tab} from "../../../models";
@@ -23,5 +23,10 @@ export class ImportDialogComponent {
 
   cancel() {
     this.bottomSheetRef.dismiss();
+  }
+
+  @HostListener('keydown', ['$event'])
+  onKeyPressed(event: KeyboardEvent) {
+    event.stopPropagation();
   }
 }

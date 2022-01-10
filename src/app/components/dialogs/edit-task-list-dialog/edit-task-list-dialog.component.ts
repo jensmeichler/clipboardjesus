@@ -1,7 +1,7 @@
-import {Component, Inject} from '@angular/core';
+import {Component, HostListener, Inject} from '@angular/core';
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {TaskList, TaskItem} from "../../../models";
+import {TaskItem, TaskList} from "../../../models";
 
 @Component({
   selector: 'app-edit-task-list-dialog',
@@ -29,5 +29,10 @@ export class EditTaskListDialogComponent {
     if (index >= 0) {
       this.data.items.splice(index, 1);
     }
+  }
+
+  @HostListener('keydown', ['$event'])
+  onKeyPressed(event: KeyboardEvent) {
+    event.stopPropagation();
   }
 }
