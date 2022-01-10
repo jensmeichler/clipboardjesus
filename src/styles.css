@@ -57,6 +57,7 @@ html, body {
 
 .mat-chip.mat-standard-chip {
   background-color: #00000047;
+  border-radius: var(--border-radius);
 }
 
 .dialog-button-group {
