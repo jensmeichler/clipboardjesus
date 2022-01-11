@@ -161,6 +161,20 @@ export class DataService {
     this.setSelectedTab(newTab.index, true);
   }
 
+  async canImportItemsFromClipboard(): Promise<boolean> {
+    const clipboardText = await navigator.clipboard.readText();
+    if (!clipboardText) {
+      return false;
+    }
+
+    try {
+      let tab = JSON.parse(clipboardText) as Tab;
+      return !!(tab.notes.length || tab.taskLists.length || tab.images.length);
+    } catch {
+      return false;
+    }
+  }
+
   async importItemsFromClipboard(): Promise<boolean> {
     const clipboardText = await navigator.clipboard.readText();
     if (!clipboardText) {

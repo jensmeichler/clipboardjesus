@@ -31,6 +31,8 @@ export class AppComponent implements OnInit, OnDestroy {
   newNotePositionX = 0;
   newNotePositionY = 0;
 
+  canPasteItems = false;
+
   constructor(
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
@@ -235,10 +237,13 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dialog.open(AboutDialogComponent);
   }
 
-  showContextMenu(event: any, ignoreMousePosition?: boolean) {
+  async showContextMenu(event: any, ignoreMousePosition?: boolean) {
     event.preventDefault();
     this.rightClickPosX = event.clientX;
     this.rightClickPosY = event.clientY;
+
+    this.canPasteItems = await this.dataService.canImportItemsFromClipboard();
+
     this.contextMenu.openMenu();
 
     this.newNotePositionX = ignoreMousePosition ? 10 : this.rightClickPosX;
