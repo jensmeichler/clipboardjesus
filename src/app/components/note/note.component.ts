@@ -59,7 +59,7 @@ export class NoteComponent implements OnDestroy, OnInit {
   }
 
   onMouseDown(event: MouseEvent) {
-    if (event.button == 0) {
+    if (event.button != 2) {
       this.mouseDown = true;
     }
   }
