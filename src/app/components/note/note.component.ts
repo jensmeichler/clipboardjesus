@@ -143,6 +143,8 @@ export class NoteComponent implements OnDestroy, OnInit {
       event.preventDefault();
       event.stopPropagation();
 
+      this.dataService.removeAllSelections();
+
       this.rightClickPosX = event.clientX;
       this.rightClickPosY = event.clientY;
       this.contextMenu.openMenu();
