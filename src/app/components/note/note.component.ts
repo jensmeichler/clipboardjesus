@@ -125,8 +125,16 @@ export class NoteComponent implements OnDestroy, OnInit {
   delete(event: MouseEvent) {
     if (this.canInteract) {
       this.dataService.deleteNote(this.note);
+      event.stopPropagation();
+    }
+  }
+
+  toggleCodeView(event: MouseEvent) {
+    if (this.canInteract) {
+      this.note.code = this.note.code ? undefined : true;
       this.rippleDisabled = false;
       event.stopPropagation();
+      console.log('testfgxd')
     }
   }
 
