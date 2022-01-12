@@ -223,12 +223,6 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  clearAll() {
-    this.dataService.clearAllData();
-    this.dataService.cacheData();
-    this.dataService.removeAllSelections();
-  }
-
   clearAllForever() {
     this.bottomSheet.open(DeleteDialogComponent);
   }
