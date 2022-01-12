@@ -51,6 +51,14 @@ html, body {
   }
 }
 
+.mat-card-content {
+  white-space: nowrap !important;
+}
+
+markdown > p:last-child {
+  margin: 0;
+}
+
 .mat-tab-body.mat-tab-body-active {
   overflow: overlay !important;
 }
