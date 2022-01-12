@@ -1,5 +1,5 @@
 import {Clipboard} from "@angular/cdk/clipboard";
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
@@ -32,12 +32,15 @@ export class NoteComponent implements OnDestroy, OnInit {
   rightClickPosX = 0;
   rightClickPosY = 0;
 
+  @ViewChild('code')
+  codeElement?: ElementRef;
+
   constructor(
     private readonly clipboard: Clipboard,
     private readonly hashy: HashyService,
     private readonly dialog: MatDialog,
     private readonly stringParser: StringParserService,
-    public readonly dataService: DataService
+    public readonly dataService: DataService,
   ) {
   }
 

@@ -1,7 +1,9 @@
+import {Clipboard} from "@angular/cdk/clipboard";
 import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {AboutDialogComponent} from "./components/dialogs/about-dialog/about-dialog.component";
 import {DeleteDialogComponent} from "./components/dialogs/delete-dialog/delete-dialog.component";
@@ -9,11 +11,9 @@ import {EditNoteDialogComponent} from "./components/dialogs/edit-note-dialog/edi
 import {EditTabDialogComponent} from "./components/dialogs/edit-tab-dialog/edit-tab-dialog.component";
 import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
 import {Note, TaskList} from './models';
+import {CacheService} from "./services/cache.service";
 import {DataService} from "./services/data.service";
 import {HashyService} from "./services/hashy.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {Clipboard} from "@angular/cdk/clipboard";
-import {CacheService} from "./services/cache.service";
 
 @Component({
   selector: 'app-root',

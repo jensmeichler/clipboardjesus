@@ -11,8 +11,21 @@
   <mat-card-title *ngIf="note.header" class="flex-container">
     {{note.header}}
   </mat-card-title>
-  <mat-card-content [innerHTML]="parsedContent"></mat-card-content>
+  <mat-card-content *ngIf="!note.code" [innerHTML]="parsedContent"></mat-card-content>
+  <mat-card-content *ngIf="note.code">
+    <pre>
+      <code style="padding: 0; margin: -22px 0" #code [highlight]="parsedContent"></code>
+    </pre>
+  </mat-card-content>
   <mat-card-actions align="end">
+    <button *ngIf="!note.code" (click)="note.code = true" (mousedown)="rippleDisabled=true"
+            mat-icon-button>
+      <mat-icon>code</mat-icon>
+    </button>
+    <button *ngIf="note.code" (click)="note.code = undefined" (mousedown)="rippleDisabled=true"
+            mat-icon-button>
+      <mat-icon>code_off</mat-icon>
+    </button>
     <button (click)="edit($event)" (mousedown)="rippleDisabled=true"
             mat-icon-button>
       <mat-icon>edit</mat-icon>
@@ -73,6 +86,16 @@
         Copy other color
       </button>
     </ng-container>
+    <button *ngIf="!note.code" (click)="note.code = true" (mousedown)="rippleDisabled=true"
+            mat-menu-item>
+      <mat-icon>code</mat-icon>
+      Enable code highlighting
+    </button>
+    <button *ngIf="note.code" (click)="note.code = undefined" (mousedown)="rippleDisabled=true"
+            mat-menu-item>
+      <mat-icon>code_off</mat-icon>
+      Disable code highlighting
+    </button>
     <button (click)="copy()" mat-menu-item>
       <mat-icon>content_copy</mat-icon>
       Copy value

@@ -20,6 +20,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ServiceWorkerModule} from '@angular/service-worker';
+import {HIGHLIGHT_OPTIONS, HighlightModule} from "ngx-highlightjs";
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {AboutDialogComponent} from './components/dialogs/about-dialog/about-dialog.component';
@@ -83,9 +84,16 @@ import {RouterModule} from "@angular/router";
     }),
     MatTabsModule,
     FileSaverModule,
-    RouterModule.forRoot([])
+    RouterModule.forRoot([]),
+    HighlightModule
   ],
-  providers: [],
+  providers: [{
+    provide: HIGHLIGHT_OPTIONS,
+    useValue: {
+      fullLibraryLoader: () => import('highlight.js'),
+      themePath: 'assets/styles/highlight.css'
+    }
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {
