@@ -1,12 +1,11 @@
 import {Clipboard} from "@angular/cdk/clipboard";
-import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
 import {Note, TaskList} from "../../models";
 import {DataService} from "../../services/data.service";
 import {HashyService} from "../../services/hashy.service";
-import {StringParserService} from "../../services/string-parser.service";
 import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dialog.component";
 
 @Component({
@@ -14,10 +13,9 @@ import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dia
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.css']
 })
-export class NoteComponent implements OnDestroy, OnInit {
+export class NoteComponent implements OnDestroy {
   @Input()
   note: Note = {} as Note;
-  parsedContent = '';
 
   dialogSubscription?: Subscription;
 
@@ -39,17 +37,12 @@ export class NoteComponent implements OnDestroy, OnInit {
     private readonly clipboard: Clipboard,
     private readonly hashy: HashyService,
     private readonly dialog: MatDialog,
-    private readonly stringParser: StringParserService,
     public readonly dataService: DataService,
   ) {
   }
 
   get canInteract() {
     return this.movedPx < 5;
-  }
-
-  ngOnInit() {
-    this.parsedContent = this.stringParser.convert(this.note.content);
   }
 
   ngOnDestroy() {

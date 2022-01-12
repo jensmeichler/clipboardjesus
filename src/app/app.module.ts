@@ -21,6 +21,7 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {HIGHLIGHT_OPTIONS, HighlightModule} from "ngx-highlightjs";
+import {MarkdownModule} from "ngx-markdown";
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {AboutDialogComponent} from './components/dialogs/about-dialog/about-dialog.component';
@@ -58,35 +59,36 @@ import {RouterModule} from "@angular/router";
     CustomCursorDirective,
     ImportDialogComponent,
   ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    MatListModule,
-    MatCardModule,
-    DragDropModule,
-    MatRippleModule,
-    MatSnackBarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatDialogModule,
-    MatBottomSheetModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatChipsModule,
-    MatCheckboxModule,
-    MatTooltipModule,
-    MatBadgeModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production,
-      registrationStrategy: 'registerWhenStable:30000'
-    }),
-    MatTabsModule,
-    FileSaverModule,
-    RouterModule.forRoot([]),
-    HighlightModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        MatListModule,
+        MatCardModule,
+        DragDropModule,
+        MatRippleModule,
+        MatSnackBarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatDialogModule,
+        MatBottomSheetModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatChipsModule,
+        MatCheckboxModule,
+        MatTooltipModule,
+        MatBadgeModule,
+        ServiceWorkerModule.register('ngsw-worker.js', {
+            enabled: environment.production,
+            registrationStrategy: 'registerWhenStable:30000'
+        }),
+        MatTabsModule,
+        FileSaverModule,
+        RouterModule.forRoot([]),
+        HighlightModule,
+        MarkdownModule.forRoot()
+    ],
   providers: [{
     provide: HIGHLIGHT_OPTIONS,
     useValue: {
