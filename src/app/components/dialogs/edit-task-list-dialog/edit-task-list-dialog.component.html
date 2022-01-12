@@ -57,7 +57,7 @@
   </div>
 
   <div class="dialog-button-group">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button (click)="submit()" cdkFocusInitial>Ok</button>
   </div>
 </div>

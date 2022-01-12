@@ -13,6 +13,17 @@ export class DeleteDialogComponent {
     private readonly dataService: DataService) {
   }
 
+  @HostListener('keydown', ['$event'])
+  onKeyPressed(event: KeyboardEvent) {
+    if (event.key == 'Enter') {
+      this.deleteAll();
+    } else if (event.key == 'Escape') {
+      this.cancel();
+    }
+
+    event.stopPropagation();
+  }
+
   deleteAll() {
     this.dataService.clearCache();
     this.bottomSheetRef.dismiss();
@@ -20,10 +31,5 @@ export class DeleteDialogComponent {
 
   cancel() {
     this.bottomSheetRef.dismiss();
-  }
-
-  @HostListener('keydown', ['$event'])
-  onKeyPressed(event: KeyboardEvent) {
-    event.stopPropagation();
   }
 }

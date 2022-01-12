@@ -15,6 +15,17 @@ export class ImportDialogComponent {
     private readonly dataService: DataService) {
   }
 
+  @HostListener('keydown', ['$event'])
+  onKeyPressed(event: KeyboardEvent) {
+    if (event.key == 'Enter') {
+      this.import();
+    } else if (event.key == 'Escape') {
+      this.cancel();
+    }
+
+    event.stopPropagation();
+  }
+
   import() {
     const tabs = JSON.parse(this.data) as Tab[];
     this.dataService.setFromTabsJson(tabs);
@@ -23,10 +34,5 @@ export class ImportDialogComponent {
 
   cancel() {
     this.bottomSheetRef.dismiss();
-  }
-
-  @HostListener('keydown', ['$event'])
-  onKeyPressed(event: KeyboardEvent) {
-    event.stopPropagation();
   }
 }
