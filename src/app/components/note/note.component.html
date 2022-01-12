@@ -18,12 +18,12 @@
     </pre>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button (click)="toggleCodeView($event)" (mousedown)="rippleDisabled=true"
+    <button (click)="toggleCodeView($event, true)" (mousedown)="rippleDisabled=true"
             mat-icon-button>
       <mat-icon *ngIf="!note.code">code</mat-icon>
       <mat-icon *ngIf="note.code" >code_off</mat-icon>
     </button>
-    <button (click)="edit($event)" (mousedown)="rippleDisabled=true"
+    <button (click)="edit($event, true)" (mousedown)="rippleDisabled=true"
             mat-icon-button>
       <mat-icon>edit</mat-icon>
     </button>

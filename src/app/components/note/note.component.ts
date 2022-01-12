@@ -104,7 +104,7 @@ export class NoteComponent implements OnDestroy, OnInit {
     }
   }
 
-  edit(event: MouseEvent) {
+  edit(event: MouseEvent, stopPropagation?: boolean) {
     if (this.canInteract) {
       let note = {...this.note};
       this.dialogSubscription = this.dialog.open(EditNoteDialogComponent, {
@@ -118,7 +118,9 @@ export class NoteComponent implements OnDestroy, OnInit {
         }
       });
       this.rippleDisabled = false;
-      event.stopPropagation()
+      if (stopPropagation) {
+        event.stopPropagation();
+      }
     }
   }
 
@@ -129,12 +131,13 @@ export class NoteComponent implements OnDestroy, OnInit {
     }
   }
 
-  toggleCodeView(event: MouseEvent) {
+  toggleCodeView(event: MouseEvent, stopPropagation?: boolean) {
     if (this.canInteract) {
       this.note.code = this.note.code ? undefined : true;
       this.rippleDisabled = false;
-      event.stopPropagation();
-      console.log('testfgxd')
+      if (stopPropagation) {
+        event.stopPropagation();
+      }
     }
   }
 
