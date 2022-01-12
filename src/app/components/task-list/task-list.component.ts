@@ -126,9 +126,9 @@ export class TaskListComponent implements OnDestroy {
       this.endEditItem(item);
     } else if (event.key == 'Tab') {
       this.toggleSubTask(item);
-      event.stopPropagation();
       event.preventDefault();
     }
+    event.stopPropagation();
   }
 
   deleteItem(item: TaskItem) {
