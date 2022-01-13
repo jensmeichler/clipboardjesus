@@ -47,6 +47,7 @@ export function markedOptionsFactory(): MarkedOptions {
   renderer.link = (href: string | null, title: string | null, text: string) => {
     return '<a title="' + title + '" href="' + href + '" target="_blank">' + text + '</a>';
   };
+  renderer.options.breaks = true;
 
   return {renderer};
 }
