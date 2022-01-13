@@ -48,6 +48,12 @@ export function markedOptionsFactory(): MarkedOptions {
     return '<a title="' + title + '" href="' + href + '" target="_blank">' + text + '</a>';
   };
   renderer.options.breaks = true;
+  renderer.text = (text: string) => {
+    while (text.match(/^(&nbsp;)*?\s+/)) {
+      text = text.replace(' ', '&nbsp;');
+    }
+    return text;
+  }
 
   return {renderer};
 }
