@@ -24,7 +24,8 @@
 }
 
 html, body {
-  --color-background: rgba(19, 19, 19, 0);
+  --color-background: #131313;
+  --color-transparency-light: #FFFFFF19;
   --color-note: #212121;
   --color-primary: #7b1ea2;
   --color-secondary: #69f0ae;
@@ -143,6 +144,10 @@ h1.flex-container,
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.ok-button {
+  background-color: var(--color-transparency-light)
 }
 
 save-as-dialog .mat-form-field-underline {
