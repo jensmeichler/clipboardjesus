@@ -41,6 +41,7 @@ export class DataService {
     }
 
     this.fetchDataFromCache(0, true);
+    this.setColorizedObjects();
 
     if (!this.tabs.length) {
       this.addTab();
