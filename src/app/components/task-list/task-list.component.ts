@@ -122,7 +122,7 @@ export class TaskListComponent implements OnDestroy {
   }
 
   onKeyPressed(event: KeyboardEvent, item: TaskItem) {
-    if (event.key == 'Enter') {
+    if (event.key == 'Enter' || event.key == 'Escape') {
       this.endEditItem(item);
     } else if (event.key == 'Tab') {
       this.toggleSubTask(item);
