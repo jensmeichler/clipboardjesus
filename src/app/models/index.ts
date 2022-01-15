@@ -3,4 +3,4 @@ export * from './task-list.model';
 export * from './task-item.model';
 export * from './image.model';
 export * from './tab.model';
-export * from './index-item.model';
+export * from './draggable-note.model';

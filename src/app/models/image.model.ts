@@ -1,4 +1,6 @@
-export class Image {
+import {DraggableNote} from "./draggable-note.model";
+
+export class Image implements DraggableNote {
   source: string;
   posX: number;
   posY: number;

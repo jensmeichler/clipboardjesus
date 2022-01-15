@@ -1,6 +1,7 @@
 import {colorRegex} from "../const/regexes";
+import {DraggableNote} from "./draggable-note.model";
 
-export class Note {
+export class Note implements DraggableNote {
   content?;
   header?: string;
   foregroundColor: string = '#ffffff';

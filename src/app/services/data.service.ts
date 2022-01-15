@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {BehaviorSubject} from "rxjs";
 import {SaveAsDialogComponent} from "../components/dialogs/save-as-dialog/save-as-dialog.component";
-import {Image, IndexItem, Note, Tab, TaskList} from "../models";
+import {DraggableNote, Image, Note, Tab, TaskList} from "../models";
 import {CacheService} from "./cache.service";
 import {HashyService} from "./hashy.service";
 import {FileService} from "./file.service";
@@ -484,17 +484,17 @@ export class DataService {
     this.reArrangeIndices();
   }
 
-  bringForward(item: IndexItem) {
+  bringForward(item: DraggableNote) {
     item.posZ! += 1.5;
     this.reArrangeIndices();
   }
 
-  sendBackward(item: IndexItem) {
+  sendBackward(item: DraggableNote) {
     item.posZ! -= 1.5;
     this.reArrangeIndices();
   }
 
-  flipToBack(item: IndexItem) {
+  flipToBack(item: DraggableNote) {
     item.posZ = 0;
     this.reArrangeIndices();
   }
@@ -564,11 +564,11 @@ export class DataService {
       : 1
   }
 
-  private getIndexItems(): IndexItem[] {
-    let notes = this.notes$.getValue() as IndexItem[];
-    let taskLists = this.taskLists$.getValue() as IndexItem[];
-    let images = this.images$.getValue() as IndexItem[];
-    let result: IndexItem[] = [];
+  private getIndexItems(): DraggableNote[] {
+    let notes = this.notes$.getValue() as DraggableNote[];
+    let taskLists = this.taskLists$.getValue() as DraggableNote[];
+    let images = this.images$.getValue() as DraggableNote[];
+    let result: DraggableNote[] = [];
 
     if (notes) {
       result = result.concat(notes);

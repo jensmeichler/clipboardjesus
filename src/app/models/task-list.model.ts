@@ -1,6 +1,7 @@
 import {TaskItem} from "./task-item.model";
+import {DraggableNote} from "./draggable-note.model";
 
-export class TaskList {
+export class TaskList implements DraggableNote {
   items: TaskItem[] = [];
   header?: string;
   foregroundColor: string = '#ffffff';
