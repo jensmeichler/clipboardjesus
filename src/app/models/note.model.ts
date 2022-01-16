@@ -11,6 +11,7 @@ export class Note implements DraggableNote {
   posY: number;
   posZ?: number;
   selected?: boolean;
+  code?: boolean;
 
   constructor(posX: number, posY: number, content?: string, header?: string, posZ?: number) {
     this.posX = posX;

@@ -19,7 +19,11 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RouterModule} from "@angular/router";
 import {ServiceWorkerModule} from '@angular/service-worker';
+import {FileSaverModule} from "ngx-filesaver";
+import {HIGHLIGHT_OPTIONS, HighlightModule} from "ngx-highlightjs";
+import {MarkdownModule, MarkedOptions, MarkedRenderer} from "ngx-markdown";
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {AboutDialogComponent} from './components/dialogs/about-dialog/about-dialog.component';
@@ -27,6 +31,7 @@ import {DeleteDialogComponent} from './components/dialogs/delete-dialog/delete-d
 import {EditNoteDialogComponent} from './components/dialogs/edit-note-dialog/edit-note-dialog.component';
 import {EditTabDialogComponent} from './components/dialogs/edit-tab-dialog/edit-tab-dialog.component';
 import {EditTaskListDialogComponent} from './components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component';
+import {ImportDialogComponent} from './components/dialogs/import-dialog/import-dialog.component';
 import {SaveAsDialogComponent} from './components/dialogs/save-as-dialog/save-as-dialog.component';
 import {ImageComponent} from './components/image/image.component';
 import {NoteComponent} from './components/note/note.component';
@@ -35,9 +40,23 @@ import {TaskListComponent} from './components/task-list/task-list.component';
 import {CustomAutofocusDirective} from './directives/custom-autofocus.directive';
 import {CustomCursorDirective} from './directives/custom-cursor.directive';
 import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
-import {FileSaverModule} from "ngx-filesaver";
-import {ImportDialogComponent} from './components/dialogs/import-dialog/import-dialog.component';
-import {RouterModule} from "@angular/router";
+
+export function markedOptionsFactory(): MarkedOptions {
+  const renderer = new MarkedRenderer();
+
+  renderer.link = (href: string | null, title: string | null, text: string) => {
+    return '<a title="' + title + '" href="' + href + '" target="_blank">' + text + '</a>';
+  };
+  renderer.options.breaks = true;
+  renderer.text = (text: string) => {
+    while (text.match(/^(&nbsp;)*?\s+/)) {
+      text = text.replace(' ', '&nbsp;');
+    }
+    return text;
+  }
+
+  return {renderer};
+}
 
 @NgModule({
   declarations: [
@@ -83,9 +102,22 @@ import {RouterModule} from "@angular/router";
     }),
     MatTabsModule,
     FileSaverModule,
-    RouterModule.forRoot([])
+    RouterModule.forRoot([]),
+    HighlightModule,
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useFactory: markedOptionsFactory,
+      }
+    })
   ],
-  providers: [],
+  providers: [{
+    provide: HIGHLIGHT_OPTIONS,
+    useValue: {
+      fullLibraryLoader: () => import('highlight.js'),
+      themePath: 'assets/styles/highlight.css'
+    }
+  }],
   bootstrap: [AppComponent],
 })
 export class AppModule {

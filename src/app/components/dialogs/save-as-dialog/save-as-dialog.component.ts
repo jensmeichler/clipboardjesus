@@ -11,12 +11,22 @@ export class SaveAsDialogComponent {
   constructor(private readonly dialogRef: MatDialogRef<SaveAsDialogComponent>) {
   }
 
-  submit() {
+  save() {
     this.dialogRef.close(this.filename);
+  }
+
+  cancel() {
+    this.dialogRef.close();
   }
 
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent) {
+    if (event.key == 'Enter') {
+      this.save()
+    } else if (event.key == 'Escape') {
+      this.cancel();
+    }
+
     event.stopPropagation();
   }
 }

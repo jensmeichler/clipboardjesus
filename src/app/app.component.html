@@ -50,6 +50,13 @@
       </button>
     </ng-container>
     <ng-container *ngIf="!dataService.selectedItemsCount">
+      <ng-container *ngIf="canPasteItems">
+        <button (click)="dataService.importItemsFromClipboard()" mat-menu-item>
+          <mat-icon>content_paste_go</mat-icon>
+          Paste items
+        </button>
+        <mat-divider></mat-divider>
+      </ng-container>
       <button (click)="openNewNoteDialog()" mat-menu-item>
         <mat-icon>note</mat-icon>
         Create note

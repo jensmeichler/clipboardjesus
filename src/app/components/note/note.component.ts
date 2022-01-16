@@ -1,12 +1,11 @@
 import {Clipboard} from "@angular/cdk/clipboard";
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
 import {Note, TaskList} from "../../models";
 import {DataService} from "../../services/data.service";
 import {HashyService} from "../../services/hashy.service";
-import {StringParserService} from "../../services/string-parser.service";
 import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dialog.component";
 
 @Component({
@@ -14,10 +13,9 @@ import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dia
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.css']
 })
-export class NoteComponent implements OnDestroy, OnInit {
+export class NoteComponent implements OnDestroy {
   @Input()
   note: Note = {} as Note;
-  parsedContent = '';
 
   dialogSubscription?: Subscription;
 
@@ -32,21 +30,19 @@ export class NoteComponent implements OnDestroy, OnInit {
   rightClickPosX = 0;
   rightClickPosY = 0;
 
+  @ViewChild('code')
+  codeElement?: ElementRef;
+
   constructor(
     private readonly clipboard: Clipboard,
     private readonly hashy: HashyService,
     private readonly dialog: MatDialog,
-    private readonly stringParser: StringParserService,
-    public readonly dataService: DataService
+    public readonly dataService: DataService,
   ) {
   }
 
   get canInteract() {
     return this.movedPx < 5;
-  }
-
-  ngOnInit() {
-    this.parsedContent = this.stringParser.convert(this.note.content);
   }
 
   ngOnDestroy() {
@@ -59,7 +55,7 @@ export class NoteComponent implements OnDestroy, OnInit {
   }
 
   onMouseDown(event: MouseEvent) {
-    if (event.button == 0) {
+    if (event.button != 2) {
       this.mouseDown = true;
     }
   }
@@ -101,7 +97,7 @@ export class NoteComponent implements OnDestroy, OnInit {
     }
   }
 
-  edit(event: MouseEvent) {
+  edit(event: MouseEvent, stopPropagation?: boolean) {
     if (this.canInteract) {
       let note = {...this.note};
       this.dialogSubscription = this.dialog.open(EditNoteDialogComponent, {
@@ -115,15 +111,26 @@ export class NoteComponent implements OnDestroy, OnInit {
         }
       });
       this.rippleDisabled = false;
-      event.stopPropagation()
+      if (stopPropagation) {
+        event.stopPropagation();
+      }
     }
   }
 
   delete(event: MouseEvent) {
     if (this.canInteract) {
       this.dataService.deleteNote(this.note);
-      this.rippleDisabled = false;
       event.stopPropagation();
+    }
+  }
+
+  toggleCodeView(event: MouseEvent, stopPropagation?: boolean) {
+    if (this.canInteract) {
+      this.note.code = this.note.code ? undefined : true;
+      this.rippleDisabled = false;
+      if (stopPropagation) {
+        event.stopPropagation();
+      }
     }
   }
 
@@ -142,6 +149,8 @@ export class NoteComponent implements OnDestroy, OnInit {
     if (this.canInteract) {
       event.preventDefault();
       event.stopPropagation();
+
+      this.dataService.removeAllSelections();
 
       this.rightClickPosX = event.clientX;
       this.rightClickPosY = event.clientY;

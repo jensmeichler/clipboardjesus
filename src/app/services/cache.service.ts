@@ -24,9 +24,10 @@ export class CacheService {
     this.redoService.do(index);
 
     const tabCopy = JSON.parse(JSON.stringify(tab)) as Tab;
-    tabCopy.notes?.forEach(x => x.selected = false);
-    tabCopy.taskLists?.forEach(x => x.selected = false);
-    tabCopy.images?.forEach(x => x.selected = false);
+
+    tabCopy.notes?.forEach(x => x.selected = undefined);
+    tabCopy.taskLists?.forEach(x => x.selected = undefined);
+    tabCopy.images?.forEach(x => x.selected = undefined);
 
     const key = "clipboard_data_" + index;
     const content = JSON.stringify(tabCopy);

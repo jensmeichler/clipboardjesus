@@ -1,6 +1,6 @@
 import {Component, HostListener, Inject} from '@angular/core';
 import {MatChipInputEvent} from "@angular/material/chips";
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TaskItem, TaskList} from "../../../models";
 
 @Component({
@@ -9,6 +9,7 @@ import {TaskItem, TaskList} from "../../../models";
 })
 export class EditTaskListDialogComponent {
   constructor(
+    public dialogRef: MatDialogRef<EditTaskListDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: TaskList,
   ) {
   }
@@ -33,6 +34,20 @@ export class EditTaskListDialogComponent {
 
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent) {
+    if ((event.ctrlKey || event.metaKey) && event.key == 'Enter') {
+      this.submit();
+    } else if (event.key == 'Escape') {
+      this.cancel();
+    }
+
     event.stopPropagation();
+  }
+
+  submit() {
+    this.dialogRef.close(this.data);
+  }
+
+  cancel() {
+    this.dialogRef.close();
   }
 }

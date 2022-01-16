@@ -122,13 +122,13 @@ export class TaskListComponent implements OnDestroy {
   }
 
   onKeyPressed(event: KeyboardEvent, item: TaskItem) {
-    if (event.key == 'Enter') {
+    if (event.key == 'Enter' || event.key == 'Escape') {
       this.endEditItem(item);
     } else if (event.key == 'Tab') {
       this.toggleSubTask(item);
-      event.stopPropagation();
       event.preventDefault();
     }
+    event.stopPropagation();
   }
 
   deleteItem(item: TaskItem) {
@@ -166,7 +166,9 @@ export class TaskListComponent implements OnDestroy {
   showContextMenu(event: any) {
     event.preventDefault();
     event.stopPropagation();
-    
+
+    this.dataService.removeAllSelections();
+
     this.rightClickPosX = event.clientX;
     this.rightClickPosY = event.clientY;
     this.contextMenu.openMenu();

@@ -25,8 +25,14 @@ export class ImportDialogComponent {
     this.bottomSheetRef.dismiss();
   }
 
-  @HostListener('keydown', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent) {
+    if (event.key == 'Enter') {
+      this.import();
+    } else if (event.key == 'Escape') {
+      this.cancel();
+    }
+
     event.stopPropagation();
   }
 }

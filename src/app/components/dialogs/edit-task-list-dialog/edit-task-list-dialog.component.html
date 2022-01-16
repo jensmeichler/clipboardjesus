@@ -47,7 +47,7 @@
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
-        <input
+        <input cdkFocusInitial
           placeholder="New item..."
           [matChipInputFor]="chipList"
           (matChipInputTokenEnd)="addItem($event)">
@@ -57,7 +57,7 @@
   </div>
 
   <div class="dialog-button-group">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button (click)="submit()" class="ok-button">Ok</button>
   </div>
 </div>

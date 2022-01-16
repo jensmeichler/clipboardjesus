@@ -102,10 +102,14 @@ export class ImageComponent {
   showContextMenu(event: any, force?: boolean) {
     if (force || this.rippleDisabled) {
       event.preventDefault();
+      event.stopPropagation();
+
+      this.dataService.removeAllSelections();
+
       this.rightClickPosX = event.clientX;
       this.rightClickPosY = event.clientY;
       this.contextMenu.openMenu();
-      event.stopPropagation();
+
       this.rippleDisabled = false;
     }
   }

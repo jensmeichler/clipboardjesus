@@ -24,7 +24,8 @@
 }
 
 html, body {
-  --color-background: rgba(19, 19, 19, 0);
+  --color-background: #131313;
+  --color-transparency-light: #FFFFFF19;
   --color-note: #212121;
   --color-primary: #7b1ea2;
   --color-secondary: #69f0ae;
@@ -51,8 +52,21 @@ html, body {
   }
 }
 
+.mat-card-content {
+  white-space: nowrap !important;
+}
+
+markdown > p:last-child {
+  margin: 0;
+}
+
 .mat-tab-body.mat-tab-body-active {
   overflow: overlay !important;
+}
+
+.mat-chip.mat-standard-chip {
+  background-color: #00000047;
+  border-radius: var(--border-radius);
 }
 
 .mat-menu-submenu-icon {
@@ -130,6 +144,10 @@ h1.flex-container,
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.ok-button {
+  background-color: var(--color-transparency-light)
 }
 
 save-as-dialog .mat-form-field-underline {

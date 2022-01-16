@@ -103,7 +103,7 @@ export class TabComponent {
         })
       } else if (file.name.endsWith('boards.json')) {
         file.text().then(text => {
-          if (this.dataService.itemsCount) {
+          if (this.dataService.itemsCount || this.dataService.tabs.length > 1) {
             this.bottomSheet.open(ImportDialogComponent, {data: text});
           } else {
             const tabs = JSON.parse(text) as Tab[];
