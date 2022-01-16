@@ -4,6 +4,8 @@
           (mousedown)="onMouseDown()"
           (mousemove)="onMouseMove()"
           (mouseup)="onMouseUp($event)"
+          [class.docked-left]="image.posX == 0"
+          [class.docked-top]="image.posY == 49"
           [matRippleDisabled]="rippleDisabled"
           class="flex-container" matRipple
           style="padding: 5px 5px 0 5px; min-height: 32px">

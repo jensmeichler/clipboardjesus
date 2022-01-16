@@ -2,12 +2,13 @@
           (mousedown)="onMouseDown($event)"
           (mousemove)="onMouseMove()"
           (mouseup)="onMouseUp($event)"
+          [class.docked-left]="note.posX == 0"
+          [class.docked-top]="note.posY == 49"
           [matRippleDisabled]="rippleDisabled"
           [style.background]="note.backgroundColorGradient
             ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
             : note.backgroundColor"
-          [style.color]="note.foregroundColor"
-          matRipple>
+          [style.color]="note.foregroundColor" matRipple>
   <mat-card-title *ngIf="note.header" class="flex-container">
     {{note.header}}
   </mat-card-title>
@@ -17,14 +18,14 @@
   </mat-card-content>
   <mat-card-content *ngIf="note.code">
     <pre *ngIf="note.content">
-      <code style="padding: 0; margin: -22px 0 -42px 0" #code [highlight]="note.content"></code>
+      <code #code [highlight]="note.content" style="padding: 0; margin: -22px 0 -42px 0"></code>
     </pre>
   </mat-card-content>
   <mat-card-actions align="end">
     <button (click)="toggleCodeView($event, true)" (mousedown)="rippleDisabled=true"
             mat-icon-button>
       <mat-icon *ngIf="!note.code">code</mat-icon>
-      <mat-icon *ngIf="note.code" >code_off</mat-icon>
+      <mat-icon *ngIf="note.code">code_off</mat-icon>
     </button>
     <button (click)="edit($event, true)" (mousedown)="rippleDisabled=true"
             mat-icon-button>

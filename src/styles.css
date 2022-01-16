@@ -195,6 +195,20 @@ a[href] {
   font-size: larger;
 }
 
+.docked-top {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+.docked-left {
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.docked-top-left {
+  border-radius: 0 0 var(--border-radius) 0 !important;
+}
+
 @keyframes default-animation {
   0% {
     opacity: 0;

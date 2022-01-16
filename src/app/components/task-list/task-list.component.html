@@ -2,6 +2,8 @@
           (click)="$event.stopPropagation()"
           (contextmenu)="showContextMenu($event)"
           (mouseup)="click($event)"
+          [class.docked-left]="taskList.posX == 0"
+          [class.docked-top]="taskList.posY == 49"
           [style.background]="taskList.backgroundColorGradient
             ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
             : taskList.backgroundColor"
