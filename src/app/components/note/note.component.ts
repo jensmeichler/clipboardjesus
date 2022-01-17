@@ -1,8 +1,9 @@
 import {Clipboard} from "@angular/cdk/clipboard";
-import {Component, ElementRef, Input, OnDestroy, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
+import {htmlRegex} from "../../const/regexes";
 import {Note, TaskList} from "../../models";
 import {DataService} from "../../services/data.service";
 import {HashyService} from "../../services/hashy.service";
@@ -13,7 +14,7 @@ import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dia
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.css']
 })
-export class NoteComponent implements OnDestroy {
+export class NoteComponent implements OnInit, OnDestroy {
   @Input()
   note: Note = {} as Note;
 
@@ -43,6 +44,14 @@ export class NoteComponent implements OnDestroy {
 
   get canInteract() {
     return this.movedPx < 5;
+  }
+
+  ngOnInit() {
+    if (this.note.code != false && this.note.content) {
+      if (htmlRegex.test(this.note.content)) {
+        this.note.code = true;
+      }
+    }
   }
 
   ngOnDestroy() {
@@ -126,7 +135,7 @@ export class NoteComponent implements OnDestroy {
 
   toggleCodeView(event: MouseEvent, stopPropagation?: boolean) {
     if (this.canInteract) {
-      this.note.code = this.note.code ? undefined : true;
+      this.note.code = !this.note.code;
       this.rippleDisabled = false;
       if (stopPropagation) {
         event.stopPropagation();
