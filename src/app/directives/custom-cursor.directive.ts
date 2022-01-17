@@ -42,15 +42,16 @@ export class CustomCursorDirective {
         isDraggableNote = true;
         const posX = CustomCursorDirective.convertPxToInt(x.style.left);
         const posY = CustomCursorDirective.convertPxToInt(x.style.top);
+        const posZ = CustomCursorDirective.convertPxToInt(x.style.zIndex);
 
         this.position!.style.bottom = '0';
         if (x.style.transform) {
           const splitted = x.style.transform.split('(')[1].split(', ');
           const translateX = CustomCursorDirective.convertPxToInt(splitted[0]);
           const translateY = CustomCursorDirective.convertPxToInt(splitted[1]);
-          this.setText(x.tagName + ': { X: ' + (translateX + posX) + ' | Y: ' + (translateY + posY) + ' }');
+          this.setText(x.tagName + ': { X: ' + (translateX + posX) + ' | Y: ' + (translateY + posY) + ' | Z: ' + posZ + ' }');
         } else {
-          this.setText(x.tagName + ': { X: ' + posX + ' | Y: ' + posY + ' }');
+          this.setText(x.tagName + ': { X: ' + posX + ' | Y: ' + posY + ' | Z: ' + posZ + ' }');
         }
       }
     });
