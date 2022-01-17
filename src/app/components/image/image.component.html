@@ -16,11 +16,6 @@
        class="animated" height="140" style="border-radius: 8px">
   <div class="img-button-group">
     <button (mousedown)="rippleDisabled=true"
-            (mouseup)="delete($event)"
-            mat-icon-button>
-      <mat-icon>delete</mat-icon>
-    </button>
-    <button (mousedown)="rippleDisabled=true"
             (mouseup)="showContextMenu($event); rippleDisabled=false"
             mat-icon-button>
       <mat-icon>more_vert</mat-icon>
@@ -34,44 +29,48 @@
      style="visibility: hidden; position: fixed">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <button (click)="dataService.bringToFront(this.image)" mat-menu-item>
-    <mat-icon>flip_to_front</mat-icon>
-    Bring to front
-  </button>
-  <button (click)="dataService.bringForward(this.image)" mat-menu-item>
-    <mat-icon>add_circle_outline</mat-icon>
-    Bring forward
-  </button>
-  <button (click)="dataService.sendBackward(this.image)" mat-menu-item>
-    <mat-icon>remove_circle_outline</mat-icon>
-    Send backward
-  </button>
-  <button (click)="dataService.flipToBack(this.image)" mat-menu-item>
-    <mat-icon>flip_to_back</mat-icon>
-    Send to back
-  </button>
-  <ng-container *ngIf="dataService.tabs.length > 1">
-    <button [matMenuTriggerFor]="tabs" mat-menu-item>
-      <mat-icon>drive_file_move</mat-icon>
-      Move
+  <ng-container *ngIf="!(dataService.selectedItemsCount > 1)">
+    <button (click)="dataService.bringToFront(this.image)" mat-menu-item>
+      <mat-icon>flip_to_front</mat-icon>
+      Bring to front
+    </button>
+    <button (click)="dataService.bringForward(this.image)" mat-menu-item>
+      <mat-icon>add_circle_outline</mat-icon>
+      Bring forward
+    </button>
+    <button (click)="dataService.sendBackward(this.image)" mat-menu-item>
+      <mat-icon>remove_circle_outline</mat-icon>
+      Send backward
+    </button>
+    <button (click)="dataService.flipToBack(this.image)" mat-menu-item>
+      <mat-icon>flip_to_back</mat-icon>
+      Send to back
+    </button>
+    <ng-container *ngIf="dataService.tabs.length > 1">
+      <button [matMenuTriggerFor]="tabs" mat-menu-item>
+        <mat-icon>drive_file_move</mat-icon>
+        Move
+      </button>
+    </ng-container>
+    <button (click)="open()" mat-menu-item>
+      <mat-icon>open_in_new</mat-icon>
+      Open link
+    </button>
+    <button (click)="copy()" mat-menu-item>
+      <mat-icon>content_copy</mat-icon>
+      Copy link
     </button>
   </ng-container>
-  <button (click)="open()" mat-menu-item>
-    <mat-icon>open_in_new</mat-icon>
-    Open link
-  </button>
-  <button (click)="copy()" mat-menu-item>
-    <mat-icon>content_copy</mat-icon>
-    Copy link
-  </button>
   <button (click)="select()" mat-menu-item>
     <mat-icon>{{image.selected ? 'close' : 'check'}}</mat-icon>
     {{image.selected ? 'Remove selection' : 'Select'}}
   </button>
-  <button (click)="delete($event, true)" mat-menu-item>
-    <mat-icon>delete</mat-icon>
-    Delete
-  </button>
+  <ng-container *ngIf="!(dataService.selectedItemsCount > 1)">
+    <button (click)="delete($event, true)" mat-menu-item>
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+  </ng-container>
 </mat-menu>
 
 <mat-menu #tabs="matMenu">
