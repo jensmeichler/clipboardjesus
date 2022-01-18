@@ -55,7 +55,9 @@ export class TabComponent {
     this.elementRef.nativeElement.removeEventListener('mousemove', this.mouseMoveEvent)
 
     if (cursorMoved) {
-      const invertSelection = event.ctrlKey || event.metaKey || event.shiftKey;
+      if (!(event.ctrlKey || event.metaKey || event.shiftKey)) {
+        this.dataService.removeAllSelections();
+      }
 
       this.dataService.editAllItems(item => {
         const itemInRangeX = item.posX >= this.startCursorPosX && item.posX <= event.pageX
@@ -66,9 +68,6 @@ export class TabComponent {
         if (itemInRangeX && itemInRangeY) {
           if (!item.selected) {
             item.selected = true;
-            this.dataService.onSelectionChange(item);
-          } else if (invertSelection) {
-            item.selected = !item.selected;
             this.dataService.onSelectionChange(item);
           }
         }
