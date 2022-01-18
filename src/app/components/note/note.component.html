@@ -6,7 +6,7 @@
           [class.docked-top]="note.posY == 49"
           [matRippleDisabled]="rippleDisabled"
           [style.background]="note.backgroundColorGradient
-            ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
+            ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient + ')'
             : note.backgroundColor"
           [style.color]="note.foregroundColor" matRipple>
   <mat-card-title *ngIf="note.header" class="flex-container">
