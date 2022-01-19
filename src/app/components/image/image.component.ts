@@ -18,7 +18,6 @@ export class ImageComponent {
 
   rippleDisabled = false;
 
-  // Hack for suppress copy after dragging note
   mouseDown = false;
   movedPx = 0;
 
@@ -33,6 +32,10 @@ export class ImageComponent {
     public readonly dataService: DataService) {
   }
 
+  get canInteract() {
+    return this.movedPx < 5;
+  }
+
   onImageLoaded() {
     this.imageLoaded = true
   }
@@ -42,41 +45,43 @@ export class ImageComponent {
     this.dataService.onSelectionChange(this.image);
   }
 
-  onMouseDown() {
-    this.mouseDown = true;
+  onMouseDown(event: MouseEvent) {
+    if (event.button != 2) {
+      this.mouseDown = true;
+    }
   }
 
   onMouseMove() {
     if (this.mouseDown) {
       this.movedPx++;
-      console.log('moved')
+    } else {
+      this.movedPx = 0;
     }
   }
 
   onMouseUp(event: any) {
-    if (!this.mouseDown) {
-      return;
+    if (this.mouseDown && this.canInteract) {
+      switch (event.button) {
+        case 0:
+          if (this.movedPx < 5) {
+            if (event.ctrlKey || event.metaKey || event.shiftKey) {
+              this.select();
+            } else {
+              this.copy();
+            }
+          }
+          break;
+        case 1:
+          this.delete(event, true);
+          break;
+        case 2:
+          break;
+      }
+
+      event.stopPropagation();
     }
 
-    switch (event.button) {
-      case 0:
-        if (this.movedPx < 5) {
-          if (event.ctrlKey || event.metaKey || event.shiftKey) {
-            this.select();
-          } else {
-            this.copy();
-          }
-        }
-        break;
-      case 1:
-        this.delete(event, true);
-        break;
-      case 2:
-        break;
-    }
     this.mouseDown = false;
-    this.movedPx = 0;
-    event.stopPropagation();
   }
 
   open() {
@@ -100,17 +105,17 @@ export class ImageComponent {
     this.dataService.moveImageToTab(index, this.image);
   }
 
-  showContextMenu(event: any, force?: boolean) {
-    if (force || this.rippleDisabled) {
+  showContextMenu(event: any) {
+    if (this.canInteract) {
       event.preventDefault();
       event.stopPropagation();
 
       this.rightClickPosX = event.clientX;
       this.rightClickPosY = event.clientY;
       this.contextMenu.openMenu();
-
-      this.rippleDisabled = false;
-      this.mouseDown = false;
     }
+
+    this.rippleDisabled = false;
+    this.mouseDown = false;
   }
 }

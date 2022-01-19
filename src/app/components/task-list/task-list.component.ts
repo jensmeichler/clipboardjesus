@@ -19,6 +19,9 @@ export class TaskListComponent implements OnDestroy {
 
   dialogSubscription?: Subscription;
 
+  mouseDown = false;
+  movedPx = 0;
+
   itemToEdit?: TaskItem;
 
   @ViewChild(MatMenuTrigger)
@@ -33,6 +36,10 @@ export class TaskListComponent implements OnDestroy {
   ) {
   }
 
+  get canInteract() {
+    return this.movedPx < 5;
+  }
+
   ngOnDestroy() {
     this.dialogSubscription?.unsubscribe();
   }
@@ -42,63 +49,93 @@ export class TaskListComponent implements OnDestroy {
     this.dataService.onSelectionChange(this.taskList);
   }
 
-  click(event: any) {
-    switch (event.button) {
-      case 0:
-        if (event.ctrlKey || event.metaKey || event.shiftKey) {
-          this.select();
-        }
-        break;
-      case 1:
-        this.delete();
-        break;
-      case 2:
-        break;
+  onMouseDown(event: MouseEvent) {
+    if (event.button != 2) {
+      this.mouseDown = true;
     }
   }
 
-  addItem() {
-    let newItem = new TaskItem('');
-    this.taskList.items.push(newItem);
-    this.itemToEdit = newItem;
+  onMouseMove() {
+    if (this.mouseDown) {
+      this.movedPx++;
+    } else {
+      this.movedPx = 0;
+    }
+  }
 
-    this.dataService.cacheData();
+  onMouseUp(event: MouseEvent) {
+    if (this.mouseDown && this.canInteract) {
+      switch (event.button) {
+        case 0:
+          if (event.ctrlKey || event.metaKey || event.shiftKey) {
+            this.select();
+          }
+          break;
+        case 1:
+          this.delete();
+          break;
+        case 2:
+          break;
+      }
+
+      event.stopPropagation();
+    }
+
+    this.mouseDown = false;
+  }
+
+  addItem() {
+    if (this.canInteract) {
+      let newItem = new TaskItem('');
+      this.taskList.items.push(newItem);
+      this.itemToEdit = newItem;
+
+      this.dataService.cacheData();
+    }
   }
 
   addItemAfter(parent: TaskItem) {
-    let newItem = new TaskItem('');
-    newItem.isSubTask = parent.isSubTask;
+    if (this.canInteract) {
+      let newItem = new TaskItem('');
+      newItem.isSubTask = parent.isSubTask;
 
-    transferArrayItem(
-      [newItem],
-      this.taskList.items,
-      0,
-      this.taskList.items.indexOf(parent) + 1,
-    );
+      transferArrayItem(
+        [newItem],
+        this.taskList.items,
+        0,
+        this.taskList.items.indexOf(parent) + 1,
+      );
 
-    this.itemToEdit = newItem;
+      this.itemToEdit = newItem;
+    }
   }
 
   edit() {
-    let taskList = JSON.parse(JSON.stringify(this.taskList));
-    this.dialogSubscription = this.dialog.open(EditTaskListDialogComponent, {
-      width: 'var(--width-edit-dialog)',
-      data: taskList,
-      disableClose: true,
-    }).afterClosed().subscribe((editedTaskList) => {
-      if (editedTaskList) {
-        this.dataService.deleteTaskList(this.taskList, true);
-        this.dataService.addTaskList(editedTaskList);
-      }
-    });
+    if (this.canInteract) {
+      let taskList = JSON.parse(JSON.stringify(this.taskList));
+      this.dialogSubscription = this.dialog.open(EditTaskListDialogComponent, {
+        width: 'var(--width-edit-dialog)',
+        data: taskList,
+        disableClose: true,
+      }).afterClosed().subscribe((editedTaskList) => {
+        if (editedTaskList) {
+          this.dataService.deleteTaskList(this.taskList, true);
+          this.dataService.addTaskList(editedTaskList);
+        }
+      });
+    }
   }
 
   delete() {
-    this.dataService.deleteTaskList(this.taskList);
+    if (this.canInteract) {
+      this.dataService.deleteTaskList(this.taskList);
+    }
   }
 
   startEditItem(item: TaskItem) {
-    this.itemToEdit = item;
+    if (this.canInteract) {
+      this.itemToEdit = item;
+    }
   }
 
   endEditItem(item: TaskItem) {
@@ -117,8 +154,10 @@ export class TaskListComponent implements OnDestroy {
   }
 
   toggleSubTask(item: TaskItem) {
-    item.isSubTask = !item.isSubTask;
-    this.dataService.cacheData();
+    if (this.canInteract) {
+      item.isSubTask = !item.isSubTask;
+      this.dataService.cacheData();
+    }
   }
 
   onKeyPressed(event: KeyboardEvent, item: TaskItem) {
@@ -132,9 +171,10 @@ export class TaskListComponent implements OnDestroy {
   }
 
   deleteItem(item: TaskItem) {
-    this.taskList.items = this.taskList.items.filter(x => x !== item);
-
-    this.dataService.cacheData();
+    if (this.canInteract) {
+      this.taskList.items = this.taskList.items.filter(x => x !== item);
+      this.dataService.cacheData();
+    }
   }
 
   dropItem(event: CdkDragDrop<TaskItem[]>) {
@@ -163,12 +203,15 @@ export class TaskListComponent implements OnDestroy {
     this.dataService.cacheData();
   }
 
-  showContextMenu(event: any) {
-    event.preventDefault();
-    event.stopPropagation();
+  showContextMenu(event: MouseEvent) {
+    if (this.canInteract) {
+      event.preventDefault();
+      event.stopPropagation();
 
-    this.rightClickPosX = event.clientX;
-    this.rightClickPosY = event.clientY;
-    this.contextMenu.openMenu();
+      this.rightClickPosX = event.clientX;
+      this.rightClickPosY = event.clientY;
+      this.contextMenu.openMenu();
+    }
+    this.mouseDown = false;
   }
 }

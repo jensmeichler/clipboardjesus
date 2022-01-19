@@ -22,7 +22,6 @@ export class NoteComponent implements OnInit, OnDestroy {
 
   rippleDisabled = false;
 
-  // Hack for suppress copy after dragging note
   mouseDown = false;
   movedPx = 0;
 
@@ -72,6 +71,8 @@ export class NoteComponent implements OnInit, OnDestroy {
   onMouseMove() {
     if (this.mouseDown) {
       this.movedPx++;
+    } else {
+      this.movedPx = 0;
     }
   }
 
@@ -96,7 +97,6 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
 
     this.mouseDown = false;
-    this.movedPx = 0;
   }
 
   copy() {

@@ -1,7 +1,7 @@
-<mat-card (auxclick)="$event.stopPropagation()"
-          (click)="$event.stopPropagation()"
-          (contextmenu)="showContextMenu($event)"
-          (mouseup)="click($event)"
+<mat-card (click)="$event.stopPropagation()" (contextmenu)="showContextMenu($event)"
+          (mousedown)="onMouseDown($event)"
+          (mousemove)="onMouseMove()"
+          (mouseup)="onMouseUp($event)"
           [class.docked-left]="taskList.posX == 0"
           [class.docked-top]="taskList.posY == 49"
           [style.background]="taskList.backgroundColorGradient
