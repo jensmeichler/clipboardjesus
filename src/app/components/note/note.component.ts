@@ -164,5 +164,6 @@ export class NoteComponent implements OnInit, OnDestroy {
       this.contextMenu.openMenu();
     }
     this.rippleDisabled = false;
+    this.mouseDown = false;
   }
 }

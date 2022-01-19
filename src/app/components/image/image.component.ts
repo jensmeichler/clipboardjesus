@@ -49,6 +49,7 @@ export class ImageComponent {
   onMouseMove() {
     if (this.mouseDown) {
       this.movedPx++;
+      console.log('moved')
     }
   }
 
@@ -109,6 +110,7 @@ export class ImageComponent {
       this.contextMenu.openMenu();
 
       this.rippleDisabled = false;
+      this.mouseDown = false;
     }
   }
 }
