@@ -79,11 +79,11 @@ export class AppComponent implements OnInit, OnDestroy {
       event.preventDefault();
       event.stopPropagation();
       return;
-    } else if (event.key == 'PageUp') {
+    } else if (event.key == 'PageUp' || (event.key == 'ArrowLeft' && (event.ctrlKey || event.shiftKey || event.metaKey))) {
       this.dataService.selectNextTab(true);
       event.preventDefault();
       event.stopPropagation();
-    } else if (event.key == 'PageDown') {
+    } else if (event.key == 'PageDown' || (event.key == 'ArrowRight' && (event.ctrlKey || event.shiftKey || event.metaKey))) {
       this.dataService.selectNextTab(false);
       event.preventDefault();
       event.stopPropagation();
