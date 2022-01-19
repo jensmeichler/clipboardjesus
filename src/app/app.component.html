@@ -121,9 +121,9 @@
   </button>
 
   <a (click)="showAboutDialog()" class="startup-logo" target="_blank">
-    <span style="margin-right: 12px">Clip</span>
-    <img alt="#" height="120" src="favicon.ico" style="transform: translateY(-4px)">
-    <span style="margin-left: 12px">board</span>
+    <span cdkDrag (cdkDragEnded)="replaceLogo($event)" style="margin-right: 12px">Clip</span>
+    <img  cdkDrag (cdkDragEnded)="replaceLogo($event)" alt="#" height="120" src="favicon.ico" style="transform: translateY(-4px)">
+    <span cdkDrag (cdkDragEnded)="replaceLogo($event)" style="margin-left: 12px">board</span>
   </a>
 
   <img [class.show-hashy-bg]="hashy.showHashy | async" alt="hashy"

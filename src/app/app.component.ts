@@ -33,6 +33,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   canPasteItems = false;
 
+  logoReplacedEasterEggCount = 0;
+
   constructor(
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
@@ -250,6 +252,71 @@ export class AppComponent implements OnInit, OnDestroy {
 
   showAboutDialog() {
     this.dialog.open(AboutDialogComponent);
+  }
+
+  replaceLogo(event: any) {
+    let question = 'Hmmpf...';
+    let answer: string | undefined = 'Okay.. sorry';
+    switch (this.logoReplacedEasterEggCount) {
+      case 0:
+        question = 'Hey... Stop that..';
+        answer = 'Ups';
+        break;
+      case 1:
+        question = 'Are you okay?';
+        answer = "I'm fine";
+        break;
+      case 2:
+        question = 'What are you doing?!';
+        answer = 'Just kidding';
+        break;
+      case 3:
+        question = 'Why?';
+        answer = "Uhm..";
+        break;
+      case 4:
+        question = 'Stop that!';
+        answer = 'Kk..';
+        break;
+      case 5:
+        question = 'Stop that!! Now!';
+        answer = 'Okaaaay!';
+        break;
+      case 6:
+        question = 'Are you kidding me?!';
+        answer = 'Maybe';
+        break;
+      case 7:
+        question = 'What is your f***ing problem?!';
+        answer = "Ok.. I'll stop";
+        break;
+      case 8:
+        question = 'You need help!';
+        answer = '...';
+        break;
+      case 9:
+        question = '...';
+        answer = undefined;
+        break;
+      case 10:
+        question = 'Congratulations.. you won the idiot award';
+        answer = undefined;
+        const idiotAward: Note = {
+          posX: 0,
+          posY: 160,
+          posZ: 100,
+          backgroundColor: '#FFDA0054',
+          foregroundColor: '#FEE858',
+          header: 'Idiot award',
+          content: '( ︶︿︶)_🖕'
+        }
+        this.dataService.addNote(idiotAward);
+        break;
+    }
+    this.hashy.show(question, 5000, answer, undefined, () => {
+      this.logoReplacedEasterEggCount++;
+      event.source._dragRef.reset();
+    })
   }
 
   async showContextMenu(event: any, ignoreMousePosition?: boolean) {
