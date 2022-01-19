@@ -4,8 +4,8 @@ import {BehaviorSubject} from "rxjs";
 import {SaveAsDialogComponent} from "../components/dialogs/save-as-dialog/save-as-dialog.component";
 import {DraggableNote, Image, Note, Tab, TaskList} from "../models";
 import {CacheService} from "./cache.service";
-import {HashyService} from "./hashy.service";
 import {FileService} from "./file.service";
+import {HashyService} from "./hashy.service";
 
 @Injectable({
   providedIn: 'root'
@@ -465,6 +465,8 @@ export class DataService {
     } else {
       this.addTab(tab);
     }
+
+    this.reArrangeIndices();
   }
 
   saveAllAs() {
@@ -551,6 +553,79 @@ export class DataService {
     })
   }
 
+  selectNextItem(revert: boolean) {
+    let notes = this.notes$.getValue();
+    let taskLists = this.taskLists$.getValue();
+    let images = this.images$.getValue();
+
+    if (this.selectedItemsCount == 0) {
+      if (notes?.length) {
+        this.selectFirst(notes);
+      } else if (taskLists?.length) {
+        this.selectFirst(taskLists);
+      } else if (images?.length) {
+        this.selectFirst(images);
+      }
+    } else if (this.selectedItemsCount == 1) {
+      const selectedNotes = notes?.filter(x => x.selected);
+      const selectedTaskLists = taskLists?.filter(x => x.selected);
+      const selectedImages = images?.filter(x => x.selected);
+
+      let currentIndex: number | undefined;
+      if (selectedNotes?.length) {
+        currentIndex = selectedNotes[0].posZ!;
+        selectedNotes[0].selected = false;
+        this.onSelectionChange(selectedNotes[0]);
+      } else if (selectedTaskLists?.length) {
+        currentIndex = selectedTaskLists[0].posZ!;
+        selectedTaskLists[0].selected = false;
+        this.onSelectionChange(selectedTaskLists[0]);
+      } else if (selectedImages?.length) {
+        currentIndex = selectedImages[0].posZ!;
+        selectedImages[0].selected = false;
+        this.onSelectionChange(selectedImages[0]);
+      }
+
+      if (currentIndex == undefined) {
+        return;
+      } else {
+        currentIndex = revert ? currentIndex - 1 : currentIndex + 1;
+      }
+
+      const possibleNextSelectedNotes = notes?.filter(x => x.posZ == currentIndex);
+      const possibleNextSelectedTaskLists = taskLists?.filter(x => x.posZ == currentIndex);
+      const possibleNextSelectedImages = images?.filter(x => x.posZ == currentIndex);
+
+      if (possibleNextSelectedNotes?.length) {
+        this.selectFirst(possibleNextSelectedNotes);
+        return;
+      } else if (possibleNextSelectedTaskLists?.length) {
+        this.selectFirst(possibleNextSelectedTaskLists);
+        return;
+      } else if (possibleNextSelectedImages?.length) {
+        this.selectFirst(possibleNextSelectedImages);
+        return;
+      }
+    }
+  }
+
+  private selectFirst(list: DraggableNote[]) {
+    if (list.length == 1) {
+      list[0].selected = true;
+      this.onSelectionChange(list[0]);
+      return;
+    }
+    const minIndex = list.reduce((index, draggable) => Math.min(index, draggable.posZ ?? Number.MAX_VALUE), Number.MAX_VALUE);
+    const firstItems = list.filter(x => x.posZ == minIndex);
+    if (firstItems.length) {
+      firstItems[0].selected = true;
+      this.onSelectionChange(firstItems[0]);
+    } else {
+      list[0].selected = true;
+      this.onSelectionChange(list[0]);
+    }
+  }
+
   private defineIndex(item: Note | TaskList | Image) {
     if (item.posZ == undefined) {
       item.posZ = this.getNextIndex();
@@ -559,8 +634,7 @@ export class DataService {
 
   private reArrangeIndices() {
     let indexItems = this.getIndexItems()
-      .filter(x => x.posZ != undefined)
-      .sort((a, b) => a.posZ! - b.posZ!);
+      .sort((a, b) => (a.posZ ?? 0) - (b.posZ ?? 0));
     let i = 1;
     indexItems.forEach(item => {
       item.posZ = i++;

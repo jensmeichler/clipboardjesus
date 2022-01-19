@@ -73,7 +73,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('document:keydown', ['$event'])
-  onKeyPressed(event: KeyboardEvent) {
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key == 'Tab') {
+      this.dataService.selectNextItem(event.shiftKey);
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+
     if (this.dataService.selectedItemsCount) {
       switch (event.key) {
         case 'Delete':
@@ -83,32 +90,32 @@ export class AppComponent implements OnInit, OnDestroy {
         case 'ArrowUp':
           this.dataService.editAllSelectedItems(x => x.posY--);
           this.dataService.cacheData();
-          break;
+          return;
         case 'ArrowDown':
           this.dataService.editAllSelectedItems(x => x.posY++);
           this.dataService.cacheData();
-          break;
+          return;
         case 'ArrowLeft':
           this.dataService.editAllSelectedItems(x => x.posX--);
           this.dataService.cacheData();
-          break;
+          return;
         case 'ArrowRight':
           this.dataService.editAllSelectedItems(x => x.posX++);
           this.dataService.cacheData();
-          break;
+          return;
         case 'Escape':
           this.dataService.removeAllSelections();
-          break;
+          return;
         case 'c':
           if (event.ctrlKey || event.metaKey) {
             this.copySelectedItems();
           }
-          break;
+          return;
         case 'x':
           if (event.ctrlKey || event.metaKey) {
             this.cutSelectedItems();
           }
-          break;
+          return;
       }
     }
     if (event.ctrlKey || event.metaKey) {
