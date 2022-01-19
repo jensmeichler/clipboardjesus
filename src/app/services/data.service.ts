@@ -553,6 +553,12 @@ export class DataService {
     })
   }
 
+  selectNextTab(revert: boolean) {
+    if (!((this.currentTabIndex == 0 && revert) || (this.currentTabIndex == (this.tabs.length - 1) && !revert))) {
+      this.setSelectedTab(revert ? this.currentTabIndex - 1 : this.currentTabIndex + 1);
+    }
+  }
+
   selectNextItem(revert: boolean) {
     let notes = this.notes$.getValue();
     let taskLists = this.taskLists$.getValue();

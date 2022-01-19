@@ -79,6 +79,20 @@ export class AppComponent implements OnInit, OnDestroy {
       event.preventDefault();
       event.stopPropagation();
       return;
+    } else if (event.key == 'PageUp') {
+      this.dataService.selectNextTab(true);
+      event.preventDefault();
+      event.stopPropagation();
+    } else if (event.key == 'PageDown') {
+      this.dataService.selectNextTab(false);
+      event.preventDefault();
+      event.stopPropagation();
+    } else if (event.ctrlKey || event.metaKey || event.altKey) {
+      if (event.key == 't' || event.key == 'n') {
+        this.dataService.addTab();
+      } else if (event.key == 'w') {
+        this.dataService.removeTab();
+      }
     }
 
     if (this.dataService.selectedItemsCount) {
