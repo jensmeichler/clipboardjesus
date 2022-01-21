@@ -110,7 +110,9 @@
 }
 
 .draggable-note {
-  transition: box-shadow ease-in-out 0.3s;
+  position: absolute;
+  animation: default-animation 0.1s;
+  transition: box-shadow ease-in-out 0.18s;
   box-shadow: var(--shadow-light);
   border-radius: var(--border-radius);
 }
