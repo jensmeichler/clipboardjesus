@@ -1,7 +1,7 @@
 import {Component, HostListener, Inject} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef} from "@angular/material/bottom-sheet";
-import {DataService} from "../../../services/data.service";
 import {Tab} from "../../../models";
+import {DataService} from "../../../services/data.service";
 
 @Component({
   selector: 'app-import-dialog',
@@ -16,8 +16,10 @@ export class ImportDialogComponent {
   }
 
   import() {
-    const tabs = JSON.parse(this.data) as Tab[];
-    this.dataService.setFromTabsJson(tabs);
+    this.dataService.clearCache();
+    this.dataService.tabs = JSON.parse(this.data) as Tab[];
+    this.dataService.selectedTabIndex = 0;
+    this.dataService.cacheAllData();
     this.bottomSheetRef.dismiss();
   }
 

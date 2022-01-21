@@ -2,8 +2,8 @@ import {Clipboard} from "@angular/cdk/clipboard";
 import {Component, Input, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Image} from "../../models";
-import {HashyService} from "../../services/hashy.service";
 import {DataService} from "../../services/data.service";
+import {HashyService} from "../../services/hashy.service";
 
 @Component({
   selector: 'image',
@@ -42,7 +42,6 @@ export class ImageComponent {
 
   select() {
     this.image.selected = !this.image.selected;
-    this.dataService.onSelectionChange(this.image);
   }
 
   onMouseDown(event: MouseEvent) {

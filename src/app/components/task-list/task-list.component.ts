@@ -46,7 +46,6 @@ export class TaskListComponent implements OnDestroy {
 
   select() {
     this.taskList.selected = !this.taskList.selected;
-    this.dataService.onSelectionChange(this.taskList);
   }
 
   onMouseDown(event: MouseEvent) {

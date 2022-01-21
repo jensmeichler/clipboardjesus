@@ -59,7 +59,6 @@ export class NoteComponent implements OnInit, OnDestroy {
 
   select() {
     this.note.selected = !this.note.selected;
-    this.dataService.onSelectionChange(this.note);
   }
 
   onMouseDown(event: MouseEvent) {

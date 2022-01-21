@@ -68,7 +68,6 @@ export class TabComponent {
         if (itemInRangeX && itemInRangeY) {
           if (!item.selected) {
             item.selected = true;
-            this.dataService.onSelectionChange(item);
           }
         }
       })
@@ -105,9 +104,8 @@ export class TabComponent {
           if (this.dataService.itemsCount || this.dataService.tabs.length > 1) {
             this.bottomSheet.open(ImportDialogComponent, {data: text});
           } else {
-            const tabs = JSON.parse(text) as Tab[];
-            this.dataService.setFromTabsJson(tabs);
-            this.dataService.cacheData();
+            this.dataService.tabs = JSON.parse(text) as Tab[];
+            this.dataService.cacheAllData();
           }
         })
       } else if (file.type.startsWith('text') || file.type.startsWith('application')) {

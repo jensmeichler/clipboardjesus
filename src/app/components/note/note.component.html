@@ -53,7 +53,7 @@
             ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
             : note.backgroundColor"
        [style.color]="note.foregroundColor">
-    <ng-container *ngIf="!(dataService.selectedItemsCount > 1)">
+    <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="dataService.bringToFront(this.note)" mat-menu-item>
         <mat-icon>flip_to_front</mat-icon>
         Bring to front
@@ -108,7 +108,7 @@
       <mat-icon>{{note.selected ? 'close' : 'check'}}</mat-icon>
       {{note.selected ? 'Remove selection' : 'Select'}}
     </button>
-    <ng-container *ngIf="!(dataService.selectedItemsCount > 1)">
+    <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="edit($event)" mat-menu-item>
         <mat-icon>edit</mat-icon>
         Edit
@@ -127,7 +127,7 @@
             : note.backgroundColor"
        [style.color]="note.foregroundColor">
     <ng-container *ngFor="let tab of dataService.tabs">
-      <button (click)="moveToTab(tab.index)" *ngIf="dataService.currentTabIndex != tab.index" mat-menu-item>
+      <button (click)="moveToTab(tab.index)" *ngIf="dataService.selectedTabIndex != tab.index" mat-menu-item>
         {{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}
       </button>
     </ng-container>

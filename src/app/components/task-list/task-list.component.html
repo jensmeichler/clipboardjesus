@@ -108,7 +108,7 @@
             ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
             : taskList.backgroundColor"
        [style.color]="taskList.foregroundColor">
-    <ng-container *ngIf="!(dataService.selectedItemsCount > 1)">
+    <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="dataService.bringToFront(this.taskList)" mat-menu-item>
         <mat-icon>flip_to_front</mat-icon>
         Bring to front
@@ -152,7 +152,7 @@
       <mat-icon>{{taskList.selected ? 'close' : 'check'}}</mat-icon>
       {{taskList.selected ? 'Remove selection' : 'Select'}}
     </button>
-    <ng-container *ngIf="!(dataService.selectedItemsCount > 1)">
+    <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="edit()" mat-menu-item>
         <mat-icon>edit</mat-icon>
         Edit
@@ -171,7 +171,7 @@
             : taskList.backgroundColor"
        [style.color]="taskList.foregroundColor">
     <ng-container *ngFor="let tab of dataService.tabs">
-      <button (click)="moveToTab(tab.index)" *ngIf="dataService.currentTabIndex != tab.index" mat-menu-item>
+      <button (click)="moveToTab(tab.index)" *ngIf="dataService.selectedTabIndex != tab.index" mat-menu-item>
         {{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}
       </button>
     </ng-container>

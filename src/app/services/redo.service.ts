@@ -21,26 +21,30 @@ export class RedoService {
 
   do(index: number) {
     const key = "clipboard_data_" + index;
-    const tab = JSON.parse(localStorage.getItem(key)!);
-    this.possibleUndos[index].push(tab);
-    this.possibleRedos[index] = [];
-
-    this.updateRedoPossible(index);
+    const content = localStorage.getItem(key);
+    if (content) {
+      const tab = JSON.parse(content);
+      this.possibleUndos[index].push(tab);
+      this.possibleRedos[index] = [];
+      this.updateRedoPossible(index);
+    }
   }
 
   undo(index: number): boolean {
     let success = false;
     if (this.possibleUndos[index].length) {
       const key = "clipboard_data_" + index;
+      const content = localStorage.getItem(key);
+      if (content) {
+        const undoneTab = JSON.parse(content);
+        this.possibleRedos[index].push(undoneTab);
 
-      const undoneTab = JSON.parse(localStorage.getItem(key)!);
-      this.possibleRedos[index].push(undoneTab);
+        const undo = this.possibleUndos[index].pop()!;
+        const undoContent = JSON.stringify(undo);
 
-      const undo = this.possibleUndos[index].pop()!;
-      const content = JSON.stringify(undo);
-      localStorage.setItem(key, content);
-
-      success = true;
+        localStorage.setItem(key, undoContent);
+        success = true;
+      }
     }
 
     this.updateRedoPossible(index);
@@ -51,16 +55,18 @@ export class RedoService {
     let success = false;
     if (this.possibleRedos[index].length) {
       const key = "clipboard_data_" + index;
+      const content = localStorage.getItem(key);
+      if (content) {
+        const redo = this.possibleRedos[index].pop()!;
 
-      const redo = this.possibleRedos[index].pop()!;
+        const redoneTab = JSON.parse(localStorage.getItem(key)!);
+        this.possibleUndos[index].push(redoneTab);
 
-      const redoneTab = JSON.parse(localStorage.getItem(key)!);
-      this.possibleUndos[index].push(redoneTab);
+        const redoContent = JSON.stringify(redo);
+        localStorage.setItem(key, redoContent);
 
-      const content = JSON.stringify(redo);
-      localStorage.setItem(key, content);
-
-      success = true;
+        success = true;
+      }
     }
 
     this.updateRedoPossible(index);

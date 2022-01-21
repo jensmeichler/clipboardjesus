@@ -66,11 +66,11 @@
     </div>
 
     <div class="flex-container" style="padding: 8px">
-      <button (click)="moveToLeft()" [disabled]="dataService.currentTabIndex < 1" mat-icon-button>
+      <button (click)="moveToLeft()" [disabled]="dataService.selectedTabIndex < 1" mat-icon-button>
         <mat-icon>chevron_left</mat-icon>
       </button>
-      Tab index: {{dataService.currentTabIndex}}
-      <button (click)="moveToRight()" [disabled]="dataService.currentTabIndex >= dataService.tabs.length - 1"
+      Tab index: {{dataService.selectedTabIndex}}
+      <button (click)="moveToRight()" [disabled]="dataService.selectedTabIndex >= dataService.tabs.length - 1"
               mat-icon-button>
         <mat-icon>chevron_right</mat-icon>
       </button>

@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {BehaviorSubject} from "rxjs";
 import {SaveAsDialogComponent} from "../components/dialogs/save-as-dialog/save-as-dialog.component";
 import {DraggableNote, Image, Note, Tab, TaskList} from "../models";
 import {CacheService} from "./cache.service";
@@ -11,20 +10,34 @@ import {HashyService} from "./hashy.service";
   providedIn: 'root'
 })
 export class DataService {
-  currentTabIndex = 0;
+  selectedTabIndex = 0;
   tabs: Tab[] = [];
 
-  notes$: BehaviorSubject<Note[] | null> = new BehaviorSubject<Note[] | null>(null);
-  taskLists$: BehaviorSubject<TaskList[] | null> = new BehaviorSubject<TaskList[] | null>(null);
-  images$: BehaviorSubject<Image[] | null> = new BehaviorSubject<Image[] | null>(null);
+  get itemsCount(): number {
+    return this.tab.notes.length + this.tab.taskLists.length + this.tab.images.length;
+  };
 
-  itemsCount = 0;
-  selectedItemsCount = 0;
+  get selectedItemsCount(): number {
+    return this.tab.notes.filter(x => x.selected).length
+      + this.tab.taskLists.filter(x => x.selected).length
+      + this.tab.images.filter(x => x.selected).length;
+  };
 
   redoPossible = this.cache.redoPossible;
   undoPossible = this.cache.undoPossible;
 
   private colorizedObjects: (Note | TaskList)[] = [];
+
+  get tab(): Tab {
+    return this.tabs[this.selectedTabIndex];
+  }
+
+  set tab(tab: Tab) {
+    if (!tab) {
+      debugger;
+    }
+    this.tabs[this.selectedTabIndex] = tab;
+  }
 
   constructor(
     private readonly dialog: MatDialog,
@@ -40,12 +53,12 @@ export class DataService {
       }
     }
 
-    this.fetchDataFromCache(0, true);
-    this.setColorizedObjects();
-
     if (!this.tabs.length) {
       this.addTab();
     }
+
+    this.selectedTabIndex = 0;
+    this.setColorizedObjects();
   }
 
   private static compareNote(left: Note, right: Note): boolean {
@@ -78,14 +91,14 @@ export class DataService {
   }
 
   undo() {
-    if (this.cache.undo(this.currentTabIndex)) {
-      this.setSelectedTab(this.currentTabIndex, true);
+    if (this.cache.undo(this.selectedTabIndex)) {
+      this.tab = this.cache.fetch(this.selectedTabIndex)!;
     }
   }
 
   redo() {
-    if (this.cache.redo(this.currentTabIndex)) {
-      this.setSelectedTab(this.currentTabIndex, true);
+    if (this.cache.redo(this.selectedTabIndex)) {
+      this.tab = this.cache.fetch(this.selectedTabIndex)!;
     }
   }
 
@@ -95,12 +108,10 @@ export class DataService {
 
   selectAll() {
     this.editAllItems(item => item.selected = true);
-    this.selectedItemsCount = this.itemsCount;
   }
 
   removeAllSelections() {
     this.editAllItems(item => item.selected = undefined);
-    this.selectedItemsCount = 0;
   }
 
   editAllSelectedItems(action: (item: Note | TaskList | Image) => void) {
@@ -108,58 +119,46 @@ export class DataService {
   }
 
   editAllItems(action: (item: Note | TaskList | Image) => void) {
-    let notes = this.notes$.getValue();
-    let taskLists = this.taskLists$.getValue();
-    let images = this.images$.getValue();
-
-    notes?.forEach(action);
-    taskLists?.forEach(action);
-    images?.forEach(action);
-
-    this.notes$.next(notes);
-    this.taskLists$.next(taskLists);
-    this.images$.next(images);
+    this.tab.notes.forEach(action);
+    this.tab.taskLists.forEach(action);
+    this.tab.images.forEach(action);
   }
 
   filterAllItems(action: (item: Note | TaskList | Image) => boolean) {
-    let notes = this.notes$.getValue()?.filter(action);
-    let taskLists = this.taskLists$.getValue()?.filter(action);
-    let images = this.images$.getValue()?.filter(action);
-
-    this.notes$.next(notes ?? []);
-    this.taskLists$.next(taskLists ?? []);
-    this.images$.next(images ?? []);
+    this.tab.notes = this.tab.notes.filter(action);
+    this.tab.taskLists = this.tab.taskLists.filter(action);
+    this.tab.images = this.tab.images.filter(action);
   }
 
   cacheData() {
-    this.cache.save(this.currentTabIndex, this.getAsJson(true));
+    this.cache.save(this.selectedTabIndex, this.getAsJson(true));
     this.setColorizedObjects();
   }
 
-  fetchDataFromCache(tabId?: number, skipCache?: boolean) {
-    if (tabId != undefined) {
-      this.currentTabIndex = tabId;
-    }
-    let tab = this.cache.fetch(this.currentTabIndex);
-    if (tab) {
-      this.setFromTabJson(tab, skipCache);
-    }
+  cacheAllData() {
+    const currentTabIndex = this.selectedTabIndex;
+    this.tabs.forEach(tab => {
+      this.selectedTabIndex = tab.index;
+      this.cache.save(this.selectedTabIndex, this.getAsJson(true));
+    })
+    this.selectedTabIndex = currentTabIndex;
+    this.setColorizedObjects();
   }
 
   addTab(tab?: Tab) {
     if (tab) {
       tab.index = this.tabs.length;
     }
-    const newTab = tab ?? {
+    const newTab: Tab = tab ?? {
       index: this.tabs.length,
       color: '#131313',
       notes: [],
       taskLists: [],
       images: []
-    } as Tab;
+    };
     this.tabs.push(newTab);
     this.cache.save(newTab.index, newTab);
-    this.setSelectedTab(newTab.index, true);
+    this.selectedTabIndex = newTab.index;
   }
 
   async canImportItemsFromClipboard(): Promise<boolean> {
@@ -202,7 +201,7 @@ export class DataService {
   }
 
   removeTab() {
-    let index = this.currentTabIndex;
+    let index = this.selectedTabIndex;
     this.cache.remove(index);
 
     let result = this.tabs.filter(tab => tab.index < index);
@@ -221,56 +220,35 @@ export class DataService {
     this.tabs = result;
 
     let isRightTab = index > (this.tabs.length - 1);
-    this.clearAllData();
-    this.fetchDataFromCache(isRightTab ? index - 1 : index, true);
+    this.selectedTabIndex = isRightTab ? index - 1 : index;
   }
 
   reArrangeTab(sourceIndex: number, targetIndex: number) {
-    let sourceTab = this.cache.fetch(sourceIndex);
-    let targetTab = this.cache.fetch(targetIndex);
+    let sourceTabCopy = JSON.parse(JSON.stringify(this.tabs[sourceIndex])) as Tab;
+    let targetTabCopy = JSON.parse(JSON.stringify(this.tabs[targetIndex])) as Tab;
 
     this.cache.remove(sourceIndex);
     this.cache.remove(targetIndex);
 
-    if (sourceTab) {
-      this.cache.save(targetIndex, sourceTab)
-    }
-    if (targetTab) {
-      this.cache.save(sourceIndex, targetTab)
-    }
+    sourceTabCopy.index = targetIndex;
+    targetTabCopy.index = sourceIndex;
 
-    this.tabs.forEach(tab => {
-      if (tab.index == sourceIndex) {
-        tab.index = targetIndex;
-      } else if (tab.index == targetIndex) {
-        tab.index = sourceIndex;
-      }
-    })
-  }
+    this.tabs[targetIndex] = sourceTabCopy;
+    this.tabs[sourceIndex] = targetTabCopy;
 
-  setSelectedTab(index: number, skipCache?: boolean) {
-    this.currentTabIndex = index;
-    this.clearAllData();
-    this.fetchDataFromCache(index, skipCache);
-  };
+    this.cache.save(targetIndex, sourceTabCopy)
+    this.cache.save(sourceIndex, targetTabCopy)
 
-  clearAllData() {
-    this.notes$.next([]);
-    this.taskLists$.next([]);
-    this.images$.next([]);
-    this.itemsCount = 0;
-    this.selectedItemsCount = 0;
+    this.selectedTabIndex = targetIndex;
   }
 
   clearSelection() {
     this.editAllItems(item => item.selected = false);
-    this.selectedItemsCount = 0;
     this.cacheData();
   }
 
   deleteSelectedItems() {
     this.filterAllItems(item => !item.selected)
-    this.selectedItemsCount = 0;
     this.cacheData();
   }
 
@@ -278,192 +256,94 @@ export class DataService {
     for (let i = 0; i < 20; i++) {
       this.cache.remove(i);
     }
-    this.currentTabIndex = 0;
+    this.selectedTabIndex = 0;
     this.tabs = [];
-    this.clearAllData();
     this.addTab();
-  }
-
-  onSelectionChange(item: { selected?: boolean }) {
-    if (item.selected) {
-      this.selectedItemsCount++;
-    } else {
-      this.selectedItemsCount--;
-    }
   }
 
   addNote(note: Note) {
     this.defineIndex(note);
-    let currentNotes = this.notes$.getValue() ?? [];
-    currentNotes?.push(note);
-    this.notes$.next(currentNotes);
-    this.itemsCount++;
+    this.tab.notes.push(note);
 
     this.cacheData();
   }
 
   addTaskList(taskList: TaskList) {
     this.defineIndex(taskList);
-    let currentTasks = this.taskLists$.getValue() ?? [];
-    currentTasks?.push(taskList);
-    this.taskLists$.next(currentTasks);
-    this.itemsCount++;
+    this.tab.taskLists.push(taskList);
 
     this.cacheData();
   }
 
   addImage(image: Image) {
     this.defineIndex(image);
-    let currentImages = this.images$.getValue() ?? [];
-    currentImages?.push(image);
-    this.images$.next(currentImages);
-    this.itemsCount++;
+    this.tab.images.push(image);
 
     this.cacheData();
   }
 
   deleteNote(note: Note, skipIndexing?: boolean) {
-    this.itemsCount--;
-    if (note.selected) {
-      this.selectedItemsCount--;
-    }
-
-    let notes = this.notes$.getValue();
-    let filteredNotes = notes!.filter(x => x !== note);
-    this.notes$.next(filteredNotes!);
-
+    this.tab.notes = this.tab.notes.filter(x => x !== note);
     if (!skipIndexing) {
       this.reArrangeIndices();
+      this.cacheData();
     }
   }
 
   deleteTaskList(taskList: TaskList, skipIndexing?: boolean) {
-    this.itemsCount--;
-    if (taskList.selected) {
-      this.selectedItemsCount--;
-    }
-
-    let taskLists = this.taskLists$.getValue();
-    let filteredTaskLists = taskLists!.filter(x => x !== taskList);
-    this.taskLists$.next(filteredTaskLists!);
-
+    this.tab.taskLists = this.tab.taskLists.filter(x => x !== taskList);
     if (!skipIndexing) {
       this.reArrangeIndices();
+      this.cacheData();
     }
   }
 
   deleteImage(image: Image) {
-    this.itemsCount--;
-    if (image.selected) {
-      this.selectedItemsCount--;
-    }
-
-    let images = this.images$.getValue();
-    let filteredImages = images!.filter(x => x !== image);
-    this.images$.next(filteredImages!);
-
+    this.tab.images = this.tab.images.filter(x => x !== image);
     this.reArrangeIndices();
+    this.cacheData();
   }
 
   getSelectedItems(): Tab {
-    let tab = {
-      notes: this.notes$.getValue()?.filter(x => x.selected),
-      taskLists: this.taskLists$.getValue()?.filter(x => x.selected),
-      images: this.images$.getValue()?.filter(x => x.selected),
-    } as Tab;
-    tab = JSON.parse(JSON.stringify(tab));
+    let tab = JSON.parse(JSON.stringify(this.tab)) as Tab;
+
+    tab.notes = tab.notes.filter(x => x.selected);
+    tab.taskLists = tab.taskLists.filter(x => x.selected);
+    tab.images = tab.images.filter(x => x.selected);
+
     tab.notes.forEach(note => note.selected = false);
     tab.taskLists.forEach(taskList => taskList.selected = false);
     tab.images.forEach(image => image.selected = false);
+
     return tab;
   }
 
   getAsJson(ignoreSelection?: boolean): Tab {
-    const label = this.tabs[this.currentTabIndex].label
-      ? this.tabs[this.currentTabIndex].label
-      : undefined;
-    const color = this.tabs[this.currentTabIndex].color
-      ? this.tabs[this.currentTabIndex].color
-      : undefined;
     if (!ignoreSelection && this.selectedItemsCount) {
       return this.getSelectedItems();
     }
-    return {
-      label, color,
-      notes: this.notes$.getValue(),
-      taskLists: this.taskLists$.getValue(),
-      images: this.images$.getValue()
-    } as Tab;
-  }
-
-  setFromTabsJson(tabs: Tab[]) {
-    this.clearCache();
-
-    let i = 0;
-    tabs.forEach(tab => {
-      this.currentTabIndex = i++;
-      this.setFromTabJson(tab);
-      this.clearAllData();
-    });
-
-    this.setSelectedTab(0);
+    return this.tab;
   }
 
   setFromTabJson(tab: Tab, skipCache?: boolean) {
-    let currentNotes: Note[] = this.notes$.getValue() ?? [];
-    let currentTaskLists: TaskList[] = this.taskLists$.getValue() ?? [];
-    let currentImages: Image[] = this.images$.getValue() ?? [];
-
-    let uploadedNotes = tab.notes;
-    let uploadedTaskLists = tab.taskLists;
-    let uploadedImages = tab.images;
-
-    uploadedNotes?.forEach((upload: Note) => {
-      if (!currentNotes.some(curr => DataService.compareNote(upload, curr))) {
-        currentNotes.push(upload);
-        this.itemsCount++;
-        if (upload.selected) {
-          this.onSelectionChange(upload);
-        }
+    tab.notes.forEach(note => {
+      if (!this.tab.notes.some(curr => DataService.compareNote(note, curr))) {
+        this.tab.notes.push(note);
       }
     });
-    uploadedTaskLists?.forEach((upload: TaskList) => {
-      if (!currentTaskLists.some(curr => DataService.compareTaskList(upload, curr))) {
-        currentTaskLists.push(upload);
-        this.itemsCount++;
-        if (upload.selected) {
-          this.onSelectionChange(upload);
-        }
+    tab.taskLists.forEach(taskList => {
+      if (!this.tab.taskLists.some(curr => DataService.compareTaskList(taskList, curr))) {
+        this.tab.taskLists.push(taskList);
       }
     });
-    uploadedImages?.forEach((upload: Image) => {
-      if (!currentImages.some(curr => DataService.compareImage(upload, curr))) {
-        currentImages.push(upload);
-        this.itemsCount++;
-        if (upload.selected) {
-          this.onSelectionChange(upload);
-        }
+    tab.images.forEach(image => {
+      if (!this.tab.images.some(curr => DataService.compareImage(image, curr))) {
+        this.tab.images.push(image);
       }
     });
 
-    tab.index = this.currentTabIndex;
-    const currentTab = this.tabs[this.currentTabIndex];
-    if (currentTab) {
-      if (!tab.label) {
-        tab.label = currentTab.label;
-      }
-      if (!tab.color || tab.color == '#131313') {
-        tab.color = currentTab.color;
-      }
-      this.tabs[this.currentTabIndex] = tab;
-      this.notes$.next(currentNotes);
-      this.taskLists$.next(currentTaskLists);
-      this.images$.next(currentImages);
-      if (!skipCache) {
-        this.cacheData();
-      }
-    } else {
-      this.addTab(tab);
+    if (!skipCache) {
+      this.cacheData();
     }
 
     this.reArrangeIndices();
@@ -521,6 +401,7 @@ export class DataService {
     otherTab.notes.push(note);
     this.deleteNote(note);
     this.cache.save(index, otherTab);
+    this.tabs[index] = otherTab;
   }
 
   moveTaskListToTab(index: number, taskList: TaskList) {
@@ -528,6 +409,7 @@ export class DataService {
     otherTab.taskLists.push(taskList);
     this.deleteTaskList(taskList);
     this.cache.save(index, otherTab);
+    this.tabs[index] = otherTab;
   }
 
   moveImageToTab(index: number, image: Image) {
@@ -535,18 +417,17 @@ export class DataService {
     otherTab.images.push(image);
     this.deleteImage(image);
     this.cache.save(index, otherTab);
+    this.tabs[index] = otherTab;
   }
 
   setColorizedObjects() {
     this.colorizedObjects = [];
-    const notes = this.notes$.getValue();
-    const taskLists = this.taskLists$.getValue();
-    notes?.forEach(note => {
+    this.tab.notes?.forEach(note => {
       if (!this.colorizedObjects.some(other => DataService.compareColors(note, other))) {
         this.colorizedObjects.push(note);
       }
     })
-    taskLists?.forEach(taskList => {
+    this.tab.taskLists?.forEach(taskList => {
       if (!this.colorizedObjects.some(other => DataService.compareColors(taskList, other))) {
         this.colorizedObjects.push(taskList);
       }
@@ -554,15 +435,15 @@ export class DataService {
   }
 
   selectNextTab(revert: boolean) {
-    if (!((this.currentTabIndex == 0 && revert) || (this.currentTabIndex == (this.tabs.length - 1) && !revert))) {
-      this.setSelectedTab(revert ? this.currentTabIndex - 1 : this.currentTabIndex + 1);
+    if (!((this.selectedTabIndex == 0 && revert) || (this.selectedTabIndex == (this.tabs.length - 1) && !revert))) {
+      this.selectedTabIndex = revert ? this.selectedTabIndex - 1 : this.selectedTabIndex + 1;
     }
   }
 
   selectNextItem(revert: boolean) {
-    let notes = this.notes$.getValue();
-    let taskLists = this.taskLists$.getValue();
-    let images = this.images$.getValue();
+    let notes = this.tab.notes;
+    let taskLists = this.tab.taskLists;
+    let images = this.tab.images;
 
     if (this.selectedItemsCount == 0) {
       if (notes?.length) {
@@ -581,15 +462,12 @@ export class DataService {
       if (selectedNotes?.length) {
         currentIndex = selectedNotes[0].posZ!;
         selectedNotes[0].selected = false;
-        this.onSelectionChange(selectedNotes[0]);
       } else if (selectedTaskLists?.length) {
         currentIndex = selectedTaskLists[0].posZ!;
         selectedTaskLists[0].selected = false;
-        this.onSelectionChange(selectedTaskLists[0]);
       } else if (selectedImages?.length) {
         currentIndex = selectedImages[0].posZ!;
         selectedImages[0].selected = false;
-        this.onSelectionChange(selectedImages[0]);
       }
 
       if (currentIndex == undefined) {
@@ -618,17 +496,14 @@ export class DataService {
   private selectFirst(list: DraggableNote[]) {
     if (list.length == 1) {
       list[0].selected = true;
-      this.onSelectionChange(list[0]);
       return;
     }
     const minIndex = list.reduce((index, draggable) => Math.min(index, draggable.posZ ?? Number.MAX_VALUE), Number.MAX_VALUE);
     const firstItems = list.filter(x => x.posZ == minIndex);
     if (firstItems.length) {
       firstItems[0].selected = true;
-      this.onSelectionChange(firstItems[0]);
     } else {
       list[0].selected = true;
-      this.onSelectionChange(list[0]);
     }
   }
 
@@ -645,8 +520,6 @@ export class DataService {
     indexItems.forEach(item => {
       item.posZ = i++;
     })
-
-    this.cacheData();
   }
 
   private getNextIndex(): number {
@@ -660,9 +533,9 @@ export class DataService {
   }
 
   private getIndexItems(): DraggableNote[] {
-    let notes = this.notes$.getValue() as DraggableNote[];
-    let taskLists = this.taskLists$.getValue() as DraggableNote[];
-    let images = this.images$.getValue() as DraggableNote[];
+    let notes = this.tab.notes;
+    let taskLists = this.tab.taskLists;
+    let images = this.tab.images;
     let result: DraggableNote[] = [];
 
     if (notes) {

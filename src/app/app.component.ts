@@ -21,7 +21,6 @@ import {HashyService} from "./services/hashy.service";
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-  dialogSubscription?: Subscription;
   queryParamsSubscription?: Subscription;
 
   @ViewChild(MatMenuTrigger)
@@ -55,7 +54,7 @@ export class AppComponent implements OnInit, OnDestroy {
           if (this.dataService.tabs.length == 1
             && this.dataService.itemsCount == 0) {
             this.cache.save(0, tab);
-            this.dataService.setSelectedTab(0);
+            this.dataService.selectedTabIndex = 0;
           } else {
             this.dataService.addTab(tab);
           }
@@ -70,7 +69,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.dialogSubscription?.unsubscribe();
     this.queryParamsSubscription?.unsubscribe();
   }
 
@@ -193,16 +191,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   openNewNoteDialog() {
-    if (this.dialogSubscription) {
-      this.dialogSubscription.unsubscribe();
-    }
-
-    const dialogRef = this.dialog.open(EditNoteDialogComponent, {
+    this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: new Note(this.newNotePositionX, this.newNotePositionY, ''),
-    });
-
-    this.dialogSubscription = dialogRef.afterClosed().subscribe((note) => {
+    }).afterClosed().subscribe((note) => {
       if (note) {
         this.dataService.addNote(note);
       }
@@ -210,16 +202,10 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   openNewTaskListDialog() {
-    if (this.dialogSubscription) {
-      this.dialogSubscription.unsubscribe();
-    }
-
-    const dialogRef = this.dialog.open(EditTaskListDialogComponent, {
+    this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: new TaskList(this.newNotePositionX, this.newNotePositionY),
-    });
-
-    this.dialogSubscription = dialogRef.afterClosed().subscribe((taskList) => {
+    }).afterClosed().subscribe((taskList) => {
       if (taskList) {
         this.dataService.addTaskList(taskList);
       }
@@ -227,21 +213,15 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   openEditTabDialog() {
-    if (this.dialogSubscription) {
-      this.dialogSubscription.unsubscribe();
-    }
-
-    const dialogRef = this.dialog.open(EditTabDialogComponent, {
+    this.dialog.open(EditTabDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: this.dataService.tabs[this.dataService.currentTabIndex],
+      data: this.dataService.tabs[this.dataService.selectedTabIndex],
       disableClose: true,
-    });
-
-    this.dialogSubscription = dialogRef.afterClosed().subscribe((tab) => {
+    }).afterClosed().subscribe((tab) => {
       if (tab) {
         this.dataService.cacheData();
       } else {
-        this.dataService.fetchDataFromCache();
+        this.dataService.tabs[this.dataService.selectedTabIndex] = this.cache.fetch(this.dataService.selectedTabIndex)!;
       }
     });
   }

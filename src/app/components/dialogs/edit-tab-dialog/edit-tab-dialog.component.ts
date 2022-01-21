@@ -20,29 +20,32 @@ export class EditTabDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: Tab,
     public readonly dataService: DataService
   ) {
-    this.notesCount = dataService.notes$.getValue()?.length?.toString() ?? '0';
-    this.taskListsCount = dataService.taskLists$.getValue()?.length?.toString() ?? '0';
-    this.imagesCount = dataService.images$.getValue()?.length?.toString() ?? '0';
+    this.notesCount = dataService.tab.notes.length.toString() ?? '0';
+    this.taskListsCount = dataService.tab.taskLists.length.toString() ?? '0';
+    this.imagesCount = dataService.tab.images.length.toString() ?? '0';
   }
 
   deleteNotes() {
-    this.dataService.notes$.next([]);
+    this.notesCount = '0';
+    this.dataService.tab.notes = []
   }
 
   deleteTaskLists() {
-    this.dataService.taskLists$.next([]);
+    this.taskListsCount = '0';
+    this.dataService.tab.taskLists = []
   }
 
   deleteImages() {
-    this.dataService.images$.next([]);
+    this.imagesCount = '0';
+    this.dataService.tab.images = []
   }
 
   moveToRight() {
-    this.reArrangeTab(this.dataService.currentTabIndex + 1);
+    this.reArrangeTab(this.dataService.selectedTabIndex + 1);
   }
 
   moveToLeft() {
-    this.reArrangeTab(this.dataService.currentTabIndex - 1);
+    this.reArrangeTab(this.dataService.selectedTabIndex - 1);
   }
 
   @HostListener('keydown', ['$event'])
@@ -65,9 +68,7 @@ export class EditTabDialogComponent {
   }
 
   private reArrangeTab(targetIndex: number) {
-    const sourceIndex = this.dataService.currentTabIndex;
+    const sourceIndex = this.dataService.selectedTabIndex;
     this.dataService.reArrangeTab(sourceIndex, targetIndex);
-    this.dataService.setSelectedTab(sourceIndex);
-    this.dataService.setSelectedTab(targetIndex);
   }
 }
