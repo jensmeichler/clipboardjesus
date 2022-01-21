@@ -1,5 +1,6 @@
 .clipboard {
-  height: calc(100vh - 49px);
+  border-top: 1px solid var(--color-transparency-light);
+  height: calc(100vh - 48px);
   user-select: none;
 }
 

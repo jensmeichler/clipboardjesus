@@ -11,7 +11,6 @@
           </ng-container>
         </ng-container>
       </ng-template>
-      <mat-divider style="position: fixed; top: 48px; left: 0; right: 0"></mat-divider>
       <clipboard-tab (contextmenu)="showContextMenu($event)" [tab]="tab"></clipboard-tab>
     </mat-tab>
     <mat-tab>
@@ -120,9 +119,10 @@
   </button>
 
   <a (click)="showAboutDialog()" class="startup-logo" target="_blank">
-    <span cdkDrag (cdkDragEnded)="replaceLogo($event)" style="margin-right: 12px">Clip</span>
-    <img  cdkDrag (cdkDragEnded)="replaceLogo($event)" alt="#" height="120" src="favicon.ico" style="transform: translateY(-4px)">
-    <span cdkDrag (cdkDragEnded)="replaceLogo($event)" style="margin-left: 12px">board</span>
+    <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-right: 12px">Clip</span>
+    <img (cdkDragEnded)="replaceLogo($event)" alt="#" cdkDrag height="120" src="favicon.ico"
+         style="transform: translateY(-4px)">
+    <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-left: 12px">board</span>
   </a>
 
   <img [class.show-hashy-bg]="hashy.showHashy | async" alt="hashy"
