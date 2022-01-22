@@ -8,9 +8,11 @@ import {BehaviorSubject} from "rxjs";
 export class RedoService {
   possibleUndos: Tab[][] = [];
   possibleRedos: Tab[][] = [];
+  possibleRestores: Tab[] = [];
 
   undoPossible = new BehaviorSubject<boolean>(false);
   redoPossible = new BehaviorSubject<boolean>(false);
+  restorePossible = new BehaviorSubject<boolean>(false);
 
   constructor() {
     for (let i = 0; i < 20; i++) {
@@ -73,7 +75,21 @@ export class RedoService {
     return success;
   }
 
+  recreate(): Tab | undefined {
+    const restoredTab = this.possibleRestores.pop();
+    if (!this.possibleRestores.length) {
+      this.restorePossible.next(false);
+    }
+    return restoredTab;
+  }
+
   remove(index: number) {
+    const key = "clipboard_data_" + index;
+    const content = localStorage.getItem(key);
+    if (content) {
+      this.possibleRestores.push(JSON.parse(content));
+      this.restorePossible.next(true);
+    }
     this.possibleUndos[index] = [];
     this.possibleRedos[index] = [];
   }

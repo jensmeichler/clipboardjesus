@@ -8,6 +8,7 @@ import {RedoService} from "./redo.service";
 export class CacheService {
   redoPossible = this.redoService.redoPossible;
   undoPossible = this.redoService.undoPossible;
+  restorePossible = this.redoService.restorePossible;
 
   constructor(private readonly redoService: RedoService) {
   }
@@ -18,6 +19,10 @@ export class CacheService {
 
   redo(index: number): boolean {
     return this.redoService.redo(index);
+  }
+
+  recreate(): Tab | undefined {
+    return this.redoService.recreate();
   }
 
   save(index: number, tab: Tab) {

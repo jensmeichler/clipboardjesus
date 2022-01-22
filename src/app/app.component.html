@@ -63,6 +63,9 @@
         <mat-icon>list</mat-icon>
         Create task list
       </button>
+      <mat-divider
+        *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
+      </mat-divider>
       <ng-container *ngIf="dataService.undoPossible | async">
         <button (click)="dataService.undo()" mat-menu-item>
           <mat-icon>undo</mat-icon>
@@ -75,6 +78,15 @@
           Redo last action
         </button>
       </ng-container>
+      <ng-container *ngIf="dataService.restorePossible | async">
+        <button (click)="dataService.restoreTab()" mat-menu-item>
+          <mat-icon>restore_page</mat-icon>
+          Restore closed tab
+        </button>
+      </ng-container>
+      <mat-divider
+        *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
+      </mat-divider>
       <button (click)="saveTabOrSelection()" mat-menu-item>
         <mat-icon>save</mat-icon>
         Save tab

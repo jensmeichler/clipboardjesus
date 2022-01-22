@@ -87,11 +87,49 @@ export class AppComponent implements OnInit, OnDestroy {
       this.dataService.selectNextTab(false);
       event.preventDefault();
       event.stopPropagation();
-    } else if (event.ctrlKey || event.metaKey || event.altKey) {
-      if (event.key == 't' || event.key == 'n') {
-        this.dataService.addTab();
-      } else if (event.key == 'w') {
-        this.dataService.removeTab();
+    }
+
+    if (event.ctrlKey || event.metaKey || event.altKey) {
+      switch (event.key) {
+        case 't':
+        case 'n':
+          if (event.shiftKey) {
+            this.dataService.restoreTab();
+          } else {
+            this.dataService.addTab();
+          }
+          return;
+        case 'T':
+          this.dataService.restoreTab();
+          return;
+        case 'w':
+          this.dataService.removeTab();
+          return;
+        case 'v':
+          this.dataService.importItemsFromClipboard();
+          return;
+        case 'z':
+          if (event.shiftKey) {
+            this.dataService.redo();
+          } else {
+            this.dataService.undo();
+          }
+          return;
+        case 'y':
+          this.dataService.redo();
+          return;
+        case 'a':
+          this.dataService.selectAll();
+          event.preventDefault();
+          return;
+        case 's':
+          if (event.shiftKey) {
+            this.saveAs();
+          } else {
+            this.save();
+          }
+          event.preventDefault();
+          return;
       }
     }
 
@@ -130,25 +168,6 @@ export class AppComponent implements OnInit, OnDestroy {
             this.cutSelectedItems();
           }
           return;
-      }
-    }
-    if (event.ctrlKey || event.metaKey) {
-      if (event.key == 'v') {
-        this.dataService.importItemsFromClipboard();
-      } else if (event.key == 'y' || (event.shiftKey && event.key == 'z')) {
-        this.dataService.redo();
-      } else if (event.key == 'z') {
-        this.dataService.undo();
-      } else if (event.key == 'a') {
-        this.dataService.selectAll();
-        event.preventDefault();
-      } else if (event.key == 's') {
-        if (event.shiftKey) {
-          this.saveAs();
-        } else {
-          this.save();
-        }
-        event.preventDefault();
       }
     }
   }

@@ -13,31 +13,11 @@ export class DataService {
   selectedTabIndex = 0;
   tabs: Tab[] = [];
 
-  get itemsCount(): number {
-    return this.tab.notes.length + this.tab.taskLists.length + this.tab.images.length;
-  };
-
-  get selectedItemsCount(): number {
-    return this.tab.notes.filter(x => x.selected).length
-      + this.tab.taskLists.filter(x => x.selected).length
-      + this.tab.images.filter(x => x.selected).length;
-  };
-
   redoPossible = this.cache.redoPossible;
   undoPossible = this.cache.undoPossible;
+  restorePossible = this.cache.restorePossible;
 
   private colorizedObjects: (Note | TaskList)[] = [];
-
-  get tab(): Tab {
-    return this.tabs[this.selectedTabIndex];
-  }
-
-  set tab(tab: Tab) {
-    if (!tab) {
-      debugger;
-    }
-    this.tabs[this.selectedTabIndex] = tab;
-  }
 
   constructor(
     private readonly dialog: MatDialog,
@@ -59,6 +39,27 @@ export class DataService {
 
     this.selectedTabIndex = 0;
     this.setColorizedObjects();
+  }
+
+  get itemsCount(): number {
+    return this.tab.notes.length + this.tab.taskLists.length + this.tab.images.length;
+  };
+
+  get selectedItemsCount(): number {
+    return this.tab.notes.filter(x => x.selected).length
+      + this.tab.taskLists.filter(x => x.selected).length
+      + this.tab.images.filter(x => x.selected).length;
+  };
+
+  get tab(): Tab {
+    return this.tabs[this.selectedTabIndex];
+  }
+
+  set tab(tab: Tab) {
+    if (!tab) {
+      debugger;
+    }
+    this.tabs[this.selectedTabIndex] = tab;
   }
 
   private static compareNote(left: Note, right: Note): boolean {
@@ -99,6 +100,13 @@ export class DataService {
   redo() {
     if (this.cache.redo(this.selectedTabIndex)) {
       this.tab = this.cache.fetch(this.selectedTabIndex)!;
+    }
+  }
+
+  restoreTab() {
+    const recreatedTab = this.cache.recreate();
+    if (recreatedTab) {
+      this.addTab(recreatedTab);
     }
   }
 
