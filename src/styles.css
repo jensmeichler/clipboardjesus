@@ -195,6 +195,10 @@ a[href] {
   font-size: larger;
 }
 
+.mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: currentColor;
+}
+
 .docked-top {
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
