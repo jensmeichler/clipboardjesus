@@ -130,7 +130,7 @@
     <mat-icon>menu_open</mat-icon>
   </button>
 
-  <a (click)="showAboutDialog()" class="startup-logo" target="_blank">
+  <a (click)="showAboutDialog()" class="startup-logo">
     <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-right: 12px">Clip</span>
     <img (cdkDragEnded)="replaceLogo($event)" alt="#" cdkDrag height="120"
          src="favicon.ico" style="transform: translateY(-4px)" width="120">
