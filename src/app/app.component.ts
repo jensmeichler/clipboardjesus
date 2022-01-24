@@ -188,7 +188,7 @@ export class AppComponent implements OnInit, OnDestroy {
   shareTab() {
     let params = JSON.stringify(this.dataService.getAsJson(true));
     params = encodeURIComponent(params);
-    const url = 'https://jensmeichler.github.io/clipboard/?params=' + params;
+    const url = 'https://www.clipboardjesus.com/?params=' + params;
     this.clipboard.copy(url);
     this.hashy.show('Copied url to clipboard', 3000, 'Ok');
   }
