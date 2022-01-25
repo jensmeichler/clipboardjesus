@@ -199,6 +199,10 @@ a[href] {
   background-color: currentColor;
 }
 
+.cdk-global-scrollblock {
+  overflow-y: inherit;
+}
+
 .docked-top {
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
