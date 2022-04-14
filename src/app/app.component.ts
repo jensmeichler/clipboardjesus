@@ -1,10 +1,9 @@
 import {Clipboard} from "@angular/cdk/clipboard";
-import {Component, HostListener, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Subscription} from "rxjs";
 import {AboutDialogComponent} from "./components/dialogs/about-dialog/about-dialog.component";
 import {DeleteDialogComponent} from "./components/dialogs/delete-dialog/delete-dialog.component";
 import {EditNoteDialogComponent} from "./components/dialogs/edit-note-dialog/edit-note-dialog.component";
@@ -20,9 +19,7 @@ import {HashyService} from "./services/hashy.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit, OnDestroy {
-  queryParamsSubscription?: Subscription;
-
+export class AppComponent implements OnInit {
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
   rightClickPosX = 0;
@@ -47,9 +44,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe(params => {
       if (params.params) {
-        const tab = JSON.parse(params.params);
+        const tab = JSON.parse(atob(params.params));
         if (typeof tab != 'string') {
           if (this.dataService.tabs.length == 1
             && this.dataService.itemsCount == 0) {
@@ -63,13 +60,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.router.navigate(
           ['.'],
           {relativeTo: this.route}
-        );
+        ).then(() => {
+          window.location.reload();
+        });
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.queryParamsSubscription?.unsubscribe();
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -187,7 +182,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   shareTab() {
     let params = JSON.stringify(this.dataService.getAsJson(true));
-    params = encodeURIComponent(params);
+    params = btoa(params);
     const url = 'https://www.clipboardjesus.com/?params=' + params;
     this.clipboard.copy(url);
     this.hashy.show('Copied url to clipboard', 3000, 'Ok');
