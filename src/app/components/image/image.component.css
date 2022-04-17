@@ -1,5 +1,8 @@
 .mat-icon-button mat-icon {
   transition: all ease-in-out 0.1s;
+  filter: drop-shadow(0 0 3px black)
+    drop-shadow(0 0 5px var(--color-background))
+    drop-shadow(0 0 5px var(--color-background));
 }
 
 :host:hover .img-button-group {
@@ -12,7 +15,6 @@
   position: absolute;
   bottom: 0;
   right: 0;
-  background: #212121;
   border-radius: 12px 0 0 0;
 }
 

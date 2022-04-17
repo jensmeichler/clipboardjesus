@@ -142,6 +142,10 @@ button.mat-menu-item > mat-icon.mat-icon {
   color: inherit;
 }
 
+mat-icon {
+  filter: drop-shadow(2px 2px 3px #000000B2);
+}
+
 mat-card-title.flex-container,
 h1.flex-container,
 .flex-container {
