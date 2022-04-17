@@ -1,5 +1,5 @@
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {Component, Input, OnDestroy, ViewChild} from '@angular/core';
+import {Component, HostListener, Input, OnDestroy, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
@@ -22,6 +22,11 @@ export class TaskListComponent implements OnDestroy {
   mouseDown = false;
   movedPx = 0;
 
+  showRadEffect = false;
+  radEffectWidth = 0;
+  mousePosX = 0;
+  mousePosY = 0;
+
   itemToEdit?: TaskItem;
 
   @ViewChild(MatMenuTrigger)
@@ -40,6 +45,17 @@ export class TaskListComponent implements OnDestroy {
     return this.movedPx < 5;
   }
 
+  @HostListener('mouseenter')
+  onMouseEnter() {
+    this.showRadEffect = true;
+    this.radEffectWidth = 0;
+  }
+
+  @HostListener('mouseleave')
+  onMouseLeave() {
+    this.showRadEffect = false;
+  }
+
   ngOnDestroy() {
     this.dialogSubscription?.unsubscribe();
   }
@@ -54,11 +70,19 @@ export class TaskListComponent implements OnDestroy {
     }
   }
 
-  onMouseMove() {
+  onMouseMove(event: MouseEvent) {
     if (this.mouseDown) {
       this.movedPx++;
     } else {
       this.movedPx = 0;
+
+      // Hack for rad effect
+      this.mousePosX = event.pageX - this.taskList.posX;
+      this.mousePosY = event.pageY - this.taskList.posY;
+    }
+
+    if (this.radEffectWidth < 80) {
+      this.radEffectWidth += (Math.abs(event.movementX) + Math.abs(event.movementY)) * 2;
     }
   }
 
