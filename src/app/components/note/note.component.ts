@@ -81,15 +81,16 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
   }
 
-  onMouseMove(event: any) {
+  onMouseMove(event: MouseEvent) {
     if (this.mouseDown) {
       this.movedPx++;
     } else {
       this.movedPx = 0;
-    }
 
-    this.mousePosX = event.layerX;
-    this.mousePosY = event.layerY;
+      // Hack for rad effect
+      this.mousePosX = event.pageX - this.note.posX;
+      this.mousePosY = event.pageY - this.note.posY;
+    }
 
     if (this.radEffectWidth < 80) {
       this.radEffectWidth += 8;
