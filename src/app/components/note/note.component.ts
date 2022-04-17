@@ -93,10 +93,8 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
 
     if (this.radEffectWidth < 80) {
-      this.radEffectWidth += 8;
+      this.radEffectWidth += (Math.abs(event.movementX) + Math.abs(event.movementY)) * 2;
     }
-
-    console.log(event)
   }
 
   onMouseUp(event: MouseEvent) {
