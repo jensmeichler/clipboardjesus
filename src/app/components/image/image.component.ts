@@ -1,5 +1,5 @@
 import {Clipboard} from "@angular/cdk/clipboard";
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, HostListener, Input, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Image} from "../../models";
 import {DataService} from "../../services/data.service";
@@ -17,6 +17,11 @@ export class ImageComponent {
   imageLoaded = false;
 
   rippleDisabled = false;
+
+  showRadEffect = false;
+  radEffectWidth = 0;
+  mousePosX = 0;
+  mousePosY = 0;
 
   mouseDown = false;
   movedPx = 0;
@@ -36,6 +41,17 @@ export class ImageComponent {
     return this.movedPx < 5;
   }
 
+  @HostListener('mouseenter')
+  onMouseEnter() {
+    this.showRadEffect = true;
+    this.radEffectWidth = 0;
+  }
+
+  @HostListener('mouseleave')
+  onMouseLeave() {
+    this.showRadEffect = false;
+  }
+
   onImageLoaded() {
     this.imageLoaded = true
   }
@@ -50,11 +66,19 @@ export class ImageComponent {
     }
   }
 
-  onMouseMove() {
+  onMouseMove(event: MouseEvent) {
     if (this.mouseDown) {
       this.movedPx++;
     } else {
       this.movedPx = 0;
+
+      // Hack for rad effect
+      this.mousePosX = event.pageX - this.image.posX;
+      this.mousePosY = event.pageY - this.image.posY;
+    }
+
+    if (this.radEffectWidth < 80) {
+      this.radEffectWidth += (Math.abs(event.movementX) + Math.abs(event.movementY)) * 2;
     }
   }
 
