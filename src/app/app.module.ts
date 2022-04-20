@@ -9,7 +9,7 @@ import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatRippleModule} from "@angular/material/core";
 import {MatDialogModule} from "@angular/material/dialog";
-import {MatFormFieldModule} from "@angular/material/form-field";
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from "@angular/material/form-field";
 import {MatIconModule} from "@angular/material/icon";
 import {MatInputModule} from "@angular/material/input";
 import {MatListModule} from "@angular/material/list";
@@ -111,13 +111,19 @@ export function markedOptionsFactory(): MarkedOptions {
       }
     })
   ],
-  providers: [{
-    provide: HIGHLIGHT_OPTIONS,
-    useValue: {
-      fullLibraryLoader: () => import('highlight.js'),
-      themePath: 'assets/styles/highlight.css'
+  providers: [
+    {
+      provide: HIGHLIGHT_OPTIONS,
+      useValue: {
+        fullLibraryLoader: () => import('highlight.js'),
+        themePath: 'assets/styles/highlight.css'
+      }
+    },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {appearance: 'fill'}
     }
-  }],
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

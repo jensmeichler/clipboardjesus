@@ -35,6 +35,9 @@ html, body {
   --margin-edge: 24px;
   --font-family: Roboto, "Helvetica Neue", sans-serif;
   --border-radius: 12px;
+  --drop-shadow-light: drop-shadow(2px 3px 6px #0000009D);
+  --drop-shadow-medium: drop-shadow(2px 2px 3px #000000B2);
+  --drop-shadow-strong: drop-shadow(2px 4px 3px black);
 
   color-scheme: dark;
   overflow: hidden;
@@ -58,6 +61,10 @@ html, body {
 
 .mat-card-content {
   white-space: nowrap !important;
+}
+
+markdown {
+  filter: var(--drop-shadow-light);
 }
 
 markdown > p:last-child {
@@ -102,6 +109,10 @@ markdown > p:last-child {
   border-radius: var(--border-radius) !important;
 }
 
+.mat-checkbox {
+  filter: var(--drop-shadow-medium)
+}
+
 .mat-checkbox-frame {
   border-color: currentColor;
   border-radius: 4px !important;
@@ -143,7 +154,12 @@ button.mat-menu-item > mat-icon.mat-icon {
 }
 
 mat-icon {
-  filter: drop-shadow(2px 2px 3px #000000B2);
+  filter: var(--drop-shadow-medium);
+}
+
+.mat-card-title {
+  filter: var(--drop-shadow-medium);
+  margin-bottom: 1rem;
 }
 
 mat-card-title.flex-container,
