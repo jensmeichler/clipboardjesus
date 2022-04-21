@@ -8,10 +8,8 @@
           [class.docked-top]="image.posY == 49"
           [matRippleDisabled]="rippleDisabled"
           class="flex-container" matRipple
-          [style.background-image]="showRadEffect
-            ? 'radial-gradient(circle at ' + mousePosX + 'px ' + mousePosY + 'px , '
-              + 'var(--color-primary) 0, transparent ' + radEffectWidth + 'px' + ', transparent)'
-            : 'none'"
+          [cursorBackground]="undefined"
+          [cursorBackgroundItem]="image"
           style="padding: 5px 5px 0 5px; min-height: 32px">
   <div *ngIf="!imageLoaded" class="image-link">
     {{image.source}}

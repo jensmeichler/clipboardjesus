@@ -5,15 +5,9 @@
           [class.docked-left]="taskList.posX == 0"
           [class.docked-top]="taskList.posY == 49"
           [style.background-color]="taskList.backgroundColor"
-          [style.background-image]="showRadEffect
-            ? (taskList.backgroundColorGradient ? 'linear-gradient(to bottom, transparent, ' + taskList.backgroundColorGradient + '), ' : '')
-              + 'radial-gradient(circle at ' + mousePosX + 'px ' + mousePosY + 'px , '
-              + (taskList.backgroundColorGradient ?? 'var(--color-primary)')
-              + ' 0, transparent ' + radEffectWidth + 'px' + ', transparent)'
-            : taskList.backgroundColorGradient
-              ? 'linear-gradient(to bottom, transparent, ' + taskList.backgroundColorGradient + ')'
-              : 'none'"
-          [style.color]="taskList.foregroundColor">
+          [style.color]="taskList.foregroundColor"
+          [cursorBackground]="taskList.backgroundColorGradient ?? undefined"
+          [cursorBackgroundItem]="taskList">
   <mat-card-title class="flex-container">
     {{taskList.header ?? 'Tasks'}}
   </mat-card-title>

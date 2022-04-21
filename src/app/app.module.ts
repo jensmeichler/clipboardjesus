@@ -40,6 +40,7 @@ import {TaskListComponent} from './components/task-list/task-list.component';
 import {CustomAutofocusDirective} from './directives/custom-autofocus.directive';
 import {CustomCursorDirective} from './directives/custom-cursor.directive';
 import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
+import {CursorBackgroundDirective} from './directives/cursor-background.directive';
 
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
@@ -75,6 +76,7 @@ export function markedOptionsFactory(): MarkedOptions {
     CustomAutofocusDirective,
     CustomCursorDirective,
     ImportDialogComponent,
+    CursorBackgroundDirective,
   ],
   imports: [
     BrowserModule,

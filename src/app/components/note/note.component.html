@@ -1,20 +1,14 @@
 <mat-card (click)="$event.stopPropagation()" (contextmenu)="showContextMenu($event)"
           (mousedown)="onMouseDown($event)"
-          (mousemove)="onMouseMove($event)"
+          (mousemove)="onMouseMove()"
           (mouseup)="onMouseUp($event)"
           [class.docked-left]="note.posX == 0"
           [class.docked-top]="note.posY == 49"
           [matRippleDisabled]="rippleDisabled"
           [style.background-color]="note.backgroundColor"
-          [style.background-image]="showRadEffect
-            ? (note.backgroundColorGradient ? 'linear-gradient(to bottom, transparent, ' + note.backgroundColorGradient + '), ' : '')
-              + 'radial-gradient(circle at ' + mousePosX + 'px ' + mousePosY + 'px , '
-              + (note.backgroundColorGradient ?? 'var(--color-primary)')
-              + ' 0, transparent ' + radEffectWidth + 'px' + ', transparent)'
-            : note.backgroundColorGradient
-              ? 'linear-gradient(to bottom, transparent, ' + note.backgroundColorGradient + ')'
-              : 'none'"
-          [style.color]="note.foregroundColor" matRipple>
+          [style.color]="note.foregroundColor" matRipple
+          [cursorBackground]="note.backgroundColorGradient ?? undefined"
+          [cursorBackgroundItem]="note">
   <mat-card-title *ngIf="note.header" class="flex-container">
     {{note.header}}
   </mat-card-title>

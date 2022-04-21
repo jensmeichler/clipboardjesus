@@ -1,5 +1,5 @@
 import {Clipboard} from "@angular/cdk/clipboard";
-import {Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Subscription} from "rxjs";
@@ -21,11 +21,6 @@ export class NoteComponent implements OnInit, OnDestroy {
   dialogSubscription?: Subscription;
 
   rippleDisabled = false;
-
-  showRadEffect = false;
-  radEffectWidth = 0;
-  mousePosX = 0;
-  mousePosY = 0;
 
   mouseDown = false;
   movedPx = 0;
@@ -50,17 +45,6 @@ export class NoteComponent implements OnInit, OnDestroy {
     return this.movedPx < 5;
   }
 
-  @HostListener('mouseenter')
-  onMouseEnter() {
-    this.showRadEffect = true;
-    this.radEffectWidth = 0;
-  }
-
-  @HostListener('mouseleave')
-  onMouseLeave() {
-    this.showRadEffect = false;
-  }
-
   ngOnInit() {
     if (this.note.code != false && this.note.content && htmlRegex.test(this.note.content)) {
       this.note.code = true;
@@ -81,19 +65,11 @@ export class NoteComponent implements OnInit, OnDestroy {
     }
   }
 
-  onMouseMove(event: MouseEvent) {
+  onMouseMove() {
     if (this.mouseDown) {
       this.movedPx++;
     } else {
       this.movedPx = 0;
-
-      // Hack for rad effect
-      this.mousePosX = event.pageX - this.note.posX;
-      this.mousePosY = event.pageY - this.note.posY;
-    }
-
-    if (this.radEffectWidth < 80) {
-      this.radEffectWidth += (Math.abs(event.movementX) + Math.abs(event.movementY)) * 2;
     }
   }
 
