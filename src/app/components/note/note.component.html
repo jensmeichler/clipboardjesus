@@ -17,7 +17,7 @@
     </markdown>
   </mat-card-content>
   <mat-card-content *ngIf="note.code">
-    <pre *ngIf="note.content">
+    <pre *ngIf="note.content" class="note-code-content">
       <code #code [highlight]="note.content" style="padding: 0; margin: -22px 0 -42px 0"></code>
     </pre>
   </mat-card-content>

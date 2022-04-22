@@ -18,24 +18,24 @@
   </h1>
   <div mat-dialog-content style="margin: 0; padding: 0">
     <div style="display: flex; gap: 20px">
-      <mat-form-field appearance="fill" [style.width]="'100%'" [style.minWidth]="'20px'">
+      <mat-form-field color="accent" [style.width]="'100%'" [style.minWidth]="'20px'">
         <mat-label>Position X</mat-label>
         <input matInput [(ngModel)]="data.posX" type="number">
       </mat-form-field>
-      <mat-form-field appearance="fill" [style.width]="'100%'" [style.minWidth]="'20px'">
+      <mat-form-field color="accent" [style.width]="'100%'" [style.minWidth]="'20px'">
         <mat-label>Position Y</mat-label>
         <input matInput [(ngModel)]="data.posY" type="number">
       </mat-form-field>
-      <mat-form-field appearance="fill" [style.width]="'100%'" [style.minWidth]="'20px'">
+      <mat-form-field color="accent" [style.width]="'100%'" [style.minWidth]="'20px'">
         <mat-label>Position Z</mat-label>
         <input matInput [(ngModel)]="data.posZ" type="number">
       </mat-form-field>
     </div>
-    <mat-form-field appearance="fill" [style.width]="'100%'">
+    <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>Header</mat-label>
       <input matInput [(ngModel)]="data.header">
     </mat-form-field>
-    <mat-form-field appearance="fill" [style.width]="'100%'">
+    <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>Content</mat-label>
       <textarea cdkFocusInitial matInput [(ngModel)]="data.content" style="height: 200px"></textarea>
     </mat-form-field>

@@ -1,8 +1,8 @@
-.mat-card-title {
-  margin-bottom: 1rem;
-}
-
 .mat-card-content {
   color: inherit;
   margin-bottom: 0;
+}
+
+.note-code-content {
+  filter: var(--drop-shadow-medium)
 }

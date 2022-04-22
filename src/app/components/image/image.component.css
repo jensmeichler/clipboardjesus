@@ -25,4 +25,5 @@
 .image-link {
   padding: 5px 10px 10px 10px;
   overflow-wrap: anywhere;
+  filter: var(--drop-shadow-strong);
 }
