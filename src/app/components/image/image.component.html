@@ -31,48 +31,53 @@
      style="visibility: hidden; position: fixed">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <ng-container *ngIf="!dataService.selectedItemsCount">
-    <button (click)="dataService.bringToFront(this.image)" mat-menu-item>
-      <mat-icon>flip_to_front</mat-icon>
-      Bring to front
-    </button>
-    <button (click)="dataService.bringForward(this.image)" mat-menu-item>
-      <mat-icon>add_circle_outline</mat-icon>
-      Bring forward
-    </button>
-    <button (click)="dataService.sendBackward(this.image)" mat-menu-item>
-      <mat-icon>remove_circle_outline</mat-icon>
-      Send backward
-    </button>
-    <button (click)="dataService.flipToBack(this.image)" mat-menu-item>
-      <mat-icon>flip_to_back</mat-icon>
-      Send to back
-    </button>
-    <ng-container *ngIf="dataService.tabs.length > 1">
-      <button [matMenuTriggerFor]="tabs" mat-menu-item>
-        <mat-icon>drive_file_move</mat-icon>
-        Move
+  <div
+    [cursorBackground]="undefined"
+    [cursorBackgroundItem]="image"
+    [x]="rightClickPosX" [y]="rightClickPosY">
+    <ng-container *ngIf="!dataService.selectedItemsCount">
+      <button (click)="dataService.bringToFront(this.image)" mat-menu-item>
+        <mat-icon>flip_to_front</mat-icon>
+        Bring to front
+      </button>
+      <button (click)="dataService.bringForward(this.image)" mat-menu-item>
+        <mat-icon>add_circle_outline</mat-icon>
+        Bring forward
+      </button>
+      <button (click)="dataService.sendBackward(this.image)" mat-menu-item>
+        <mat-icon>remove_circle_outline</mat-icon>
+        Send backward
+      </button>
+      <button (click)="dataService.flipToBack(this.image)" mat-menu-item>
+        <mat-icon>flip_to_back</mat-icon>
+        Send to back
+      </button>
+      <ng-container *ngIf="dataService.tabs.length > 1">
+        <button [matMenuTriggerFor]="tabs" mat-menu-item>
+          <mat-icon>drive_file_move</mat-icon>
+          Move
+        </button>
+      </ng-container>
+      <button (click)="open()" mat-menu-item>
+        <mat-icon>open_in_new</mat-icon>
+        Open link
+      </button>
+      <button (click)="copy()" mat-menu-item>
+        <mat-icon>content_copy</mat-icon>
+        Copy link
       </button>
     </ng-container>
-    <button (click)="open()" mat-menu-item>
-      <mat-icon>open_in_new</mat-icon>
-      Open link
+    <button (click)="select()" mat-menu-item>
+      <mat-icon>{{image.selected ? 'close' : 'check'}}</mat-icon>
+      {{image.selected ? 'Remove selection' : 'Select'}}
     </button>
-    <button (click)="copy()" mat-menu-item>
-      <mat-icon>content_copy</mat-icon>
-      Copy link
-    </button>
-  </ng-container>
-  <button (click)="select()" mat-menu-item>
-    <mat-icon>{{image.selected ? 'close' : 'check'}}</mat-icon>
-    {{image.selected ? 'Remove selection' : 'Select'}}
-  </button>
-  <ng-container *ngIf="!dataService.selectedItemsCount">
-    <button (click)="delete($event, true)" mat-menu-item>
-      <mat-icon>delete</mat-icon>
-      Delete
-    </button>
-  </ng-container>
+    <ng-container *ngIf="!dataService.selectedItemsCount">
+      <button (click)="delete($event, true)" mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        Delete
+      </button>
+    </ng-container>
+  </div>
 </mat-menu>
 
 <mat-menu #tabs="matMenu">

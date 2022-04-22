@@ -49,10 +49,10 @@
      style="visibility: hidden; position: fixed">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <div [style.background]="note.backgroundColorGradient
-            ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
-            : note.backgroundColor"
-       [style.color]="note.foregroundColor">
+  <div [style.color]="note.foregroundColor"
+       [style.background-color]="note.backgroundColor"
+       [cursorBackground]="note.backgroundColorGradient ?? undefined"
+       [x]="rightClickPosX" [y]="rightClickPosY">
     <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="dataService.bringToFront(this.note)" mat-menu-item>
         <mat-icon>flip_to_front</mat-icon>

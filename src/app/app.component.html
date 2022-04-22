@@ -29,6 +29,8 @@
        style="visibility: hidden; position: fixed">
   </div>
   <mat-menu #contextMenu="matMenu">
+    <div [cursorBackground]="undefined"
+         [x]="rightClickPosX" [y]="rightClickPosY">
     <ng-container *ngIf="dataService.selectedItemsCount">
       <button (click)="copySelectedItems()" mat-menu-item>
         <mat-icon>content_copy</mat-icon>
@@ -109,7 +111,7 @@
         <mat-icon>delete_forever</mat-icon>
         Delete all tabs
       </button>
-    </ng-container>
+    </ng-container></div>
   </mat-menu>
 
   <div class="fab-container">

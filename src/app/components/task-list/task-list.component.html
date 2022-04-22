@@ -104,10 +104,10 @@
      style="visibility: hidden; position: fixed">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <div [style.background]="taskList.backgroundColorGradient
-            ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
-            : taskList.backgroundColor"
-       [style.color]="taskList.foregroundColor">
+  <div [style.color]="taskList.foregroundColor"
+       [style.background-color]="taskList.backgroundColor"
+       [cursorBackground]="taskList.backgroundColorGradient ?? undefined"
+       [x]="rightClickPosX" [y]="rightClickPosY">
     <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="dataService.bringToFront(this.taskList)" mat-menu-item>
         <mat-icon>flip_to_front</mat-icon>

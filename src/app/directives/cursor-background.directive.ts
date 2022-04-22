@@ -11,6 +11,9 @@ export class CursorBackgroundDirective implements OnInit {
   @Input('cursorBackgroundItem')
   item?: DraggableNote;
 
+  @Input('x') x?: number;
+  @Input('y') y?: number;
+
   radEffectWidth = 0;
 
   constructor(private readonly element: ElementRef) {
@@ -21,13 +24,11 @@ export class CursorBackgroundDirective implements OnInit {
   }
 
   setBackground(absoluteMousePos: { x: number, y: number }): void {
-    if (this.item) {
-      this.element.nativeElement.style.backgroundImage =
-        (this.cursorBackground ? 'linear-gradient(to bottom, transparent, ' + this.cursorBackground + '), ' : '')
-        + 'radial-gradient(circle at ' + absoluteMousePos.x + 'px ' + absoluteMousePos.y + 'px , '
-        + (this.cursorBackground ?? 'var(--color-primary)')
-        + ' 0, transparent ' + this.radEffectWidth + 'px' + ', transparent)';
-    }
+    this.element.nativeElement.style.backgroundImage =
+      (this.cursorBackground ? 'linear-gradient(to bottom, transparent, ' + this.cursorBackground + '), ' : '')
+      + 'radial-gradient(circle at ' + absoluteMousePos.x + 'px ' + absoluteMousePos.y + 'px , '
+      + (this.cursorBackground ?? 'var(--color-primary)')
+      + ' 0, transparent ' + this.radEffectWidth + 'px' + ', transparent)';
   }
 
   @HostListener('mouseenter')
@@ -45,8 +46,8 @@ export class CursorBackgroundDirective implements OnInit {
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
     if (event.which !== 1) {
-      const x = event.pageX - (this.item?.posX ?? 0);
-      const y = event.pageY - (this.item?.posY ?? 0);
+      const x = event.pageX - (this.x ?? this.item?.posX ?? 0);
+      const y = event.pageY - (this.y ?? this.item?.posY ?? 0);
       this.setBackground({x, y});
     }
 
