@@ -140,11 +140,11 @@
   <mat-menu #settingsMenu="matMenu">
     <button *ngIf="settings.animationsDisabled" (click)="settings.animationsDisabled = false" mat-menu-item>
       <mat-icon>animation</mat-icon>
-      Enable animations
+      {{ 'COMMON.ENABLE_ANIMATIONS' | translate }}
     </button>
     <button *ngIf="!settings.animationsDisabled" (click)="settings.animationsDisabled = true" mat-menu-item>
       <mat-icon>motion_photos_off</mat-icon>
-      Disable animations
+      {{ 'COMMON.DISABLE_ANIMATIONS' | translate }}
     </button>
   </mat-menu>
 
