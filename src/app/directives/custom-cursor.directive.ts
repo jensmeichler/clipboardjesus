@@ -1,4 +1,5 @@
 import {Directive, HostListener} from '@angular/core';
+import {SettingsService} from "../services/settings.service";
 
 @Directive({
   selector: '[customCursor]'
@@ -10,12 +11,14 @@ export class CustomCursorDirective {
   timer?: number;
   text?: string;
 
-  constructor() {
+  constructor(private readonly settings: SettingsService) {
     this.cursor = document.getElementById('cursor')!;
   }
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: any) {
+    if (this.settings.animationsDisabled) return;
+
     if (!this.position) {
       this.position = document.getElementById('position')!;
     }
@@ -63,6 +66,8 @@ export class CustomCursorDirective {
 
   @HostListener('document:mouseleave')
   onWindowLeave() {
+    if (this.settings.animationsDisabled) return;
+
     this.position!.style.bottom = '-20px';
     this.cursor.style.display = 'none';
   }

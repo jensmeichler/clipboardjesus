@@ -1,5 +1,6 @@
 import {Directive, ElementRef, HostListener, Input, OnInit} from '@angular/core';
 import {DraggableNote} from "../models";
+import {SettingsService} from "../services/settings.service";
 
 @Directive({
   selector: '[cursorBackground]'
@@ -16,7 +17,10 @@ export class CursorBackgroundDirective implements OnInit {
 
   radEffectWidth = 0;
 
-  constructor(private readonly element: ElementRef) {
+  constructor(
+    private readonly element: ElementRef,
+    private readonly settings: SettingsService
+  ) {
   }
 
   ngOnInit(): void {
@@ -45,6 +49,8 @@ export class CursorBackgroundDirective implements OnInit {
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
+    if (this.settings.animationsDisabled) return;
+
     if (event.which !== 1) {
       const x = event.pageX - (this.x ?? this.item?.posX ?? 0);
       const y = event.pageY - (this.y ?? this.item?.posY ?? 0);
