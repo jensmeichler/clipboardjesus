@@ -93,7 +93,7 @@
         <mat-icon>save</mat-icon>
         {{ 'SAVE_TAB' | translate }}
       </button>
-      <button (click)="shareTab()" mat-menu-item matTooltip="Experimental!" matTooltipPosition="left">
+      <button (click)="shareTab()" mat-menu-item [matTooltip]="'EXPERIMENTAL' | translate" matTooltipPosition="left">
         <mat-icon>share</mat-icon>
         {{ 'SHARE_TAB' | translate }}
       </button>
