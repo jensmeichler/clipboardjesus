@@ -24,13 +24,13 @@
     </a>
   </h1>
   <div mat-dialog-content style="margin: 0; padding: 0">
-    <mat-form-field [style.width]="'100%'" appearance="fill">
+    <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>Header</mat-label>
       <input cdkFocusInitial [(ngModel)]="data.label" matInput>
     </mat-form-field>
 
     <div class="flex-container">
-      <mat-form-field [style.width]="'100%'" appearance="fill">
+      <mat-form-field color="accent" [style.width]="'100%'">
         <mat-label>Notes</mat-label>
         <input [value]="notesCount" disabled matInput type="number">
         <mat-icon matSuffix>note</mat-icon>
@@ -42,7 +42,7 @@
     </div>
 
     <div class="flex-container">
-      <mat-form-field [style.width]="'100%'" appearance="fill">
+      <mat-form-field color="accent" [style.width]="'100%'">
         <mat-label>Task lists</mat-label>
         <input [value]="taskListsCount" disabled matInput type="number">
         <mat-icon matSuffix>list</mat-icon>
@@ -54,7 +54,7 @@
     </div>
 
     <div class="flex-container">
-      <mat-form-field [style.width]="'100%'" appearance="fill">
+      <mat-form-field color="accent" [style.width]="'100%'">
         <mat-label>Images</mat-label>
         <input [value]="imagesCount" disabled matInput type="number">
         <mat-icon matSuffix>image</mat-icon>
