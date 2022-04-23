@@ -14,6 +14,8 @@ import {CacheService} from "./services/cache.service";
 import {DataService} from "./services/data.service";
 import {HashyService} from "./services/hashy.service";
 import {SettingsService} from "./services/settings.service";
+import {Observable} from "rxjs";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-root',
@@ -41,6 +43,7 @@ export class AppComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly cache: CacheService,
+    private readonly translate: TranslateService,
     public readonly settings: SettingsService
   ) {
   }
@@ -187,7 +190,12 @@ export class AppComponent implements OnInit {
     params = btoa(params);
     const url = 'https://www.clipboardjesus.com/?params=' + params;
     this.clipboard.copy(url);
-    this.hashy.show('Copied url to clipboard', 3000, 'Ok');
+    this.hashy.show('COPIED_URL_TO_CLIPBOARD', 3000, 'OK');
+  }
+
+  get saveButtonTooltip(): Observable<string> | undefined {
+    if (!this.dataService.selectedItemsCount) return;
+    return this.translate.get('SAVE_N_ITEMS', {n: this.dataService.selectedItemsCount});
   }
 
   save() {

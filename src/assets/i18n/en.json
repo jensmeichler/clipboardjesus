@@ -1,6 +1,12 @@
 {
-  "COMMON": {
-    "DISABLE_ANIMATIONS": "Disable animations",
-    "ENABLE_ANIMATIONS": "Enable animations"
-  }
+  "COPY_N_ITEMS": "Copy {{n}} items",
+  "CUT_N_ITEMS": "Cut {{n}} items",
+  "DELETE_N_ITEMS": "Delete {{n}} items",
+  "DISABLE_ANIMATIONS": "Disable animations",
+  "ENABLE_ANIMATIONS": "Enable animations",
+  "NEW_TAB": "New tab",
+  "PASTE_ITEMS": "Paste items",
+  "SAVE_N_ITEMS": "Save {{n}} items",
+  "COPIED_URL_TO_CLIPBOARD": "Copied url to clipboard",
+  "OK": "Ok"
 }
