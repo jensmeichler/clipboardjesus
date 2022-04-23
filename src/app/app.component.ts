@@ -13,6 +13,7 @@ import {Note, TaskList} from './models';
 import {CacheService} from "./services/cache.service";
 import {DataService} from "./services/data.service";
 import {HashyService} from "./services/hashy.service";
+import {SettingsService} from "./services/settings.service";
 
 @Component({
   selector: 'app-root',
@@ -39,7 +40,8 @@ export class AppComponent implements OnInit {
     public readonly hashy: HashyService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly cache: CacheService
+    private readonly cache: CacheService,
+    public readonly settings: SettingsService
   ) {
   }
 

@@ -114,6 +114,7 @@
     </ng-container></div>
   </mat-menu>
 
+  <!-- Bottom right buttons -->
   <div class="fab-container">
     <button (click)="saveAs(); $event.stopPropagation()" [disabled]="!dataService.itemsCount" class="save-as-button"
             color="accent"
@@ -131,6 +132,21 @@
           class="context-menu-button" mat-icon-button>
     <mat-icon>menu_open</mat-icon>
   </button>
+
+  <!-- Top right buttons -->
+  <button class="settings-button" mat-icon-button [matMenuTriggerFor]="settingsMenu">
+    <mat-icon>settings</mat-icon>
+  </button>
+  <mat-menu #settingsMenu="matMenu">
+    <button *ngIf="settings.animationsDisabled" (click)="settings.animationsDisabled = false" mat-menu-item>
+      <mat-icon>animation</mat-icon>
+      Enable animations
+    </button>
+    <button *ngIf="!settings.animationsDisabled" (click)="settings.animationsDisabled = true" mat-menu-item>
+      <mat-icon>motion_photos_off</mat-icon>
+      Disable animations
+    </button>
+  </mat-menu>
 
   <a (click)="showAboutDialog()" class="startup-logo">
     <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-right: 12px">Clip</span>
