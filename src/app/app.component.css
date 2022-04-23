@@ -26,6 +26,13 @@
   z-index: 103;
 }
 
+.settings-button {
+  position: fixed;
+  top: 3px;
+  right: 2px;
+  z-index: 103;
+}
+
 .tab-button {
   width: 20px;
   transform: scale(0.8);
@@ -75,7 +82,7 @@
   font-size: 10rem;
   position: fixed;
   top: 0;
-  right: 0;
+  right: 32px;
   display: flex;
   align-items: center;
   justify-content: center;

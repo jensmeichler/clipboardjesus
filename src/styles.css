@@ -131,7 +131,7 @@ markdown > p:last-child {
 }
 
 .mat-tab-header {
-  width: calc(100vw - 180px);
+  width: calc(100vw - 180px - 32px);
   border: none;
 }
 
