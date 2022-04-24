@@ -156,16 +156,16 @@
     </button>
   </mat-menu>
   <mat-menu #languageMenu="matMenu">
-    <button (click)="setLanguage('en')" mat-menu-item>
-      <mat-icon>flag</mat-icon>
+    <button class="flags-container" (click)="setLanguage('en')" mat-menu-item>
+      <div class="flag flag-en"></div>
       English
     </button>
-    <button (click)="setLanguage('de')" mat-menu-item>
-      <mat-icon>flag</mat-icon>
+    <button class="flags-container" (click)="setLanguage('de')" mat-menu-item>
+      <div class="flag flag-de"></div>
       Deutsch
     </button>
-    <button (click)="setLanguage('ua')" mat-menu-item>
-      <mat-icon>flag</mat-icon>
+    <button class="flags-container" (click)="setLanguage('ua')" mat-menu-item>
+      <div class="flag flag-ua"></div>
       Український
     </button>
   </mat-menu>

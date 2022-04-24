@@ -1,3 +1,28 @@
+.flags-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+}
+
+.flag {
+  width: 24px;
+  height: 18px;
+  border-radius: 2px;
+}
+
+.flag-en {
+  background: url("https://flagicons.lipis.dev/flags/4x3/gb.svg");
+}
+
+.flag-de {
+  background: url("https://flagicons.lipis.dev/flags/4x3/de.svg");
+}
+
+.flag-ua {
+  background: url("https://flagicons.lipis.dev/flags/4x3/ua.svg");
+}
+
 .save-as-button {
   position: absolute;
   margin: 8px;
