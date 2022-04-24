@@ -1,2 +1,92 @@
 {
+  "COMMON": {
+    "CANCEL": "Abbrechen",
+    "DELETE": "Löschen",
+    "FILENAME": "Dateiname",
+    "IMPORT": "Importieren",
+    "OK": "Ok"
+  },
+  "DIALOGS": {
+    "ABOUT": {
+      "DONATE_TO_THE_DEVELOPER": "Spende an den Entwickler",
+      "REPORT_BUG": "Fehler melden",
+      "VIEW_LAST_CHANGES": "Letzte Änderungen anzeigen"
+    },
+    "EDIT": {
+      "ADD_BACKGROUND_COLOR": "Hintergrundfarbe hinzufügen",
+      "ADD_GRADIENT": "Farbverlauf hinzufügen",
+      "CONTENT": "Inhalt",
+      "EDIT_BACKGROUND_COLOR": "Hintergrundfarbe bearbeiten",
+      "EDIT_GRADIENT_COLOR": "Verlaufsfarbe bearbeiten",
+      "EDIT_NOTE": "Notiz bearbeiten",
+      "EDIT_TAB": "Registerkarte bearbeiten",
+      "EDIT_TASK_LIST": "Aufgabenliste bearbeiten",
+      "EDIT_TEXT_COLOR": "Textfarbe bearbeiten",
+      "HEADER": "Kopfzeile",
+      "IMAGES": "Bilder",
+      "NEW_ITEM": "Neue Aufgabe...",
+      "NOTES": "Notizen",
+      "POSITION_X": "Position X",
+      "POSITION_Y": "Position Y",
+      "POSITION_Z": "Position Z",
+      "RESET_COLOR": "Farbe zurücksetzen",
+      "SET_COLOR_TO": "Farbe auf {{color}} setzen",
+      "TAB_INDEX_I": "Tab-Index: {{i}}",
+      "TASKS": "Aufgaben",
+      "TASKS_HINT": "Aufgaben können durch eine neue Zeile getrennt werden",
+      "TASK_LISTS": "Aufgabenlisten"
+    }
+  },
+  "DRAGGABLE": {
+    "BRING_FORWARD": "Eine Ebene nach vorne",
+    "BRING_TO_FRONT": "Nach vorne bringen",
+    "COPY_COLOR_FROM": "Farbe kopieren von",
+    "COPY_OTHER_COLOR": "Andere Farbe kopieren",
+    "DELETE": "Löschen",
+    "EDIT": "Bearbeiten",
+    "MOVE": "Verschieben",
+    "REMOVE_SELECTION": "Auswahl entfernen",
+    "SELECT": "Auswählen",
+    "SEND_BACKWARD": "Eine Ebene nach hinten",
+    "SEND_TO_BACK": "Nach hinten bringen"
+  },
+  "IMAGE": {
+    "COPY_LINK": "Link kopieren",
+    "OPEN_LINK": "Open link,"
+  },
+  "MAIN": {
+    "CLOSE_TAB": "Registerkarte schließen",
+    "COPIED_URL_TO_CLIPBOARD": "Url in die Zwischenablage kopiert",
+    "COPY_N_ITEMS": "{{n}} Elemente kopieren",
+    "CREATE_NOTE": "Notiz erstellen",
+    "CREATE_TASK_LIST": "Aufgabenliste erstellen",
+    "CUT_N_ITEMS": "{{n}} Elemente ausschneiden",
+    "DELETE_ALL_TABS": "Alle Registerkarten löschen",
+    "DELETE_N_ITEMS": "{{n}} Einträge löschen",
+    "DELETE_TAB": "Registerkarte löschen",
+    "DISABLE_ANIMATIONS": "Animationen deaktivieren",
+    "EDIT_TAB": "Registerkarte bearbeiten",
+    "ENABLE_ANIMATIONS": "Animationen einschalten",
+    "EXPERIMENTAL": "Experimentell!",
+    "NEW_TAB": "Neue Registerkarte",
+    "PASTE_ITEMS": "Elemente einfügen",
+    "REDO_LAST_ACTION": "Letzte Aktion wiederholen",
+    "RESTORE_CLOSED_TAB": "Geschlossene Registerkarte wiederherstellen",
+    "SAVE_AS": "Speichern unter",
+    "SAVE_N_ITEMS": "{{n}} Elemente speichern",
+    "SAVE_TAB": "Tab speichern",
+    "SHARE_TAB": "Tab teilen",
+    "SWITCH_LANGUAGE": "Sprache wechseln",
+    "UNDO_LAST_ACTION": "Letzte Aktion rückgängig machen"
+  },
+  "NOTE": {
+    "COPY_VALUE": "Wert kopieren",
+    "DISABLE_CODE_HIGHLIGHTING": "Codehervorhebung deaktivieren",
+    "ENABLE_CODE_HIGHLIGHTING": "Codehervorhebung einschalten"
+  },
+  "TASK_LIST": {
+    "ADD_TASK": "Aufgabe hinzufügen",
+    "MOVE_TO_LEFT": "Nach links verschieben",
+    "MOVE_TO_RIGHT": "Nach rechts verschieben"
+  }
 }
