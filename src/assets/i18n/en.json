@@ -12,6 +12,10 @@
     "REMOVE_SELECTION": "Remove selection",
     "SELECT": "Select"
   },
+  "IMAGE": {
+    "OPEN_LINK": "Open link,",
+    "COPY_LINK": "Copy link"
+  },
   "MAIN": {
     "COPIED_URL_TO_CLIPBOARD": "Copied url to clipboard",
     "COPY_N_ITEMS": "Copy {{n}} items",
