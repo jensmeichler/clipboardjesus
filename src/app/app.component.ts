@@ -191,7 +191,7 @@ export class AppComponent implements OnInit {
     params = btoa(params);
     const url = 'https://www.clipboardjesus.com/?params=' + params;
     this.clipboard.copy(url);
-    this.hashy.show('MAIN.COPIED_URL_TO_CLIPBOARD', 3000, 'MAIN.OK');
+    this.hashy.show('MAIN.COPIED_URL_TO_CLIPBOARD', 3000, 'COMMON.OK');
   }
 
   get saveButtonTooltip(): Observable<string> | undefined {

@@ -1,4 +1,42 @@
 {
+  "COMMON": {
+    "OK": "Ok",
+    "CANCEL": "Cancel",
+    "DELETE": "Delete",
+    "IMPORT": "Import",
+    "FILENAME": "Filename"
+  },
+  "DIALOGS": {
+    "ABOUT": {
+      "REPORT_BUG": "Report bug",
+      "VIEW_LAST_CHANGES": "View last changes",
+      "DONATE_TO_THE_DEVELOPER": "Donate to the developer"
+    },
+    "EDIT": {
+      "EDIT_NOTE": "Edit note",
+      "EDIT_TASK_LIST": "Edit task list",
+      "EDIT_TAB": "Edit tab",
+      "EDIT_TEXT_COLOR": "Edit text color",
+      "ADD_BACKGROUND_COLOR": "Add background color",
+      "EDIT_BACKGROUND_COLOR": "Edit background color",
+      "ADD_GRADIENT": "Add gradient",
+      "EDIT_GRADIENT_COLOR": "Edit gradient color",
+      "POSITION_X": "Position X",
+      "POSITION_Y": "Position Y",
+      "POSITION_Z": "Position Z",
+      "HEADER": "Header",
+      "CONTENT": "Content",
+      "TASKS": "Tasks",
+      "NOTES": "Notes",
+      "TASK_LISTS": "Task lists",
+      "IMAGES": "Images",
+      "TASKS_HINT": "Tasks can be separated by new line",
+      "SET_COLOR_TO": "Set color to {{color}}",
+      "TAB_INDEX_I": "Tab index: {{i}}",
+      "RESET_COLOR": "Reset color",
+      "NEW_ITEM": "New item..."
+    }
+  },
   "DRAGGABLE": {
     "BRING_TO_FRONT": "Bring to front",
     "BRING_FORWARD": "Bring forward",
@@ -31,7 +69,6 @@
     "ENABLE_ANIMATIONS": "Enable animations",
     "EXPERIMENTAL": "Experimental!",
     "NEW_TAB": "New tab",
-    "OK": "Ok",
     "PASTE_ITEMS": "Paste items",
     "REDO_LAST_ACTION": "Redo last action",
     "RESTORE_CLOSED_TAB": "Restore closed tab",

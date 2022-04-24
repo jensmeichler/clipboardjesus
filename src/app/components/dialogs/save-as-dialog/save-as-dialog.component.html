@@ -1,7 +1,9 @@
 <div class="flex-container">
   <mat-form-field color="accent">
-    <mat-label>Filename</mat-label>
+    <mat-label>{{ 'COMMON.FILENAME' | translate }}</mat-label>
     <input [(ngModel)]="filename" cdkFocusInitial matInput>
   </mat-form-field>
-  <button (click)="save()" mat-button style="height: 52px; border-radius: 4px 0 !important;">Ok</button>
+  <button (click)="save()" mat-button style="height: 52px; border-radius: 4px 0 !important;">
+    {{ 'COMMON.OK' | translate }}
+  </button>
 </div>
