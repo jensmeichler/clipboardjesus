@@ -17,6 +17,7 @@
     "COPY_LINK": "Copy link"
   },
   "MAIN": {
+    "CLOSE_TAB": "Close tab",
     "COPIED_URL_TO_CLIPBOARD": "Copied url to clipboard",
     "COPY_N_ITEMS": "Copy {{n}} items",
     "CREATE_NOTE": "Create note",

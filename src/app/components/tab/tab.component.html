@@ -2,7 +2,9 @@
      (mousedown)="onMouseDown($event)"
      (mouseup)="onMouseUp($event)"
      (drop)="dropFile($event)"
-     [style.background]="tab.color == '#131313' ? '#131313' : 'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + tab.color + ', #131313)'">
+     [style.background]="tab.color !== '#131313'
+       ? 'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + tab.color + ', #131313)'
+       : '#131313'">
   <ng-container *ngFor="let note of tab.notes">
     <note cdkDrag class="draggable-note" [class.draggable-note-selected]="note.selected"
           (cdkDragEnded)="saveItemPosition($event, note)"
