@@ -46,6 +46,7 @@ export class AppComponent implements OnInit {
     private readonly translate: TranslateService,
     public readonly settings: SettingsService
   ) {
+    this.translate.setDefaultLang(settings.language);
   }
 
   ngOnInit(): void {
@@ -190,12 +191,12 @@ export class AppComponent implements OnInit {
     params = btoa(params);
     const url = 'https://www.clipboardjesus.com/?params=' + params;
     this.clipboard.copy(url);
-    this.hashy.show('COPIED_URL_TO_CLIPBOARD', 3000, 'OK');
+    this.hashy.show('MAIN.COPIED_URL_TO_CLIPBOARD', 3000, 'MAIN.OK');
   }
 
   get saveButtonTooltip(): Observable<string> | undefined {
     if (!this.dataService.selectedItemsCount) return;
-    return this.translate.get('SAVE_N_ITEMS', {n: this.dataService.selectedItemsCount});
+    return this.translate.get('MAIN.SAVE_N_ITEMS', {n: this.dataService.selectedItemsCount});
   }
 
   save() {
@@ -256,6 +257,11 @@ export class AppComponent implements OnInit {
 
   showAboutDialog() {
     this.dialog.open(AboutDialogComponent);
+  }
+
+  setLanguage(language: string): void {
+    this.translate.setDefaultLang(language);
+    this.settings.language = language;
   }
 
   replaceLogo(event: any) {
