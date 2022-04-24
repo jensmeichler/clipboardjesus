@@ -41,5 +41,10 @@
     "ENABLE_CODE_HIGHLIGHTING": "Enable code highlighting",
     "DISABLE_CODE_HIGHLIGHTING": "Disable code highlighting",
     "COPY_VALUE": "Copy value"
+  },
+  "TASK_LIST": {
+    "MOVE_TO_LEFT": "Move to left",
+    "MOVE_TO_RIGHT": "Move to right",
+    "ADD_TASK": "Add task"
   }
 }

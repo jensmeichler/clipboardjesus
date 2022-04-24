@@ -2,14 +2,14 @@
           (mousedown)="onMouseDown($event)"
           (mousemove)="onMouseMove($event)"
           (mouseup)="onMouseUp($event)"
-          [class.docked-left]="taskList.posX == 0"
-          [class.docked-top]="taskList.posY == 49"
+          [class.docked-left]="taskList.posX === 0"
+          [class.docked-top]="taskList.posY === 49"
           [style.background-color]="taskList.backgroundColor"
           [style.color]="taskList.foregroundColor"
           [cursorBackground]="taskList.backgroundColorGradient ?? undefined"
           [cursorBackgroundItem]="taskList">
   <mat-card-title class="flex-container">
-    {{taskList.header ?? 'Tasks'}}
+    {{ taskList.header ?? 'Tasks' }}
   </mat-card-title>
   <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="taskList.items" cdkDropList>
     <ng-container *ngFor="let item of taskList.items">
@@ -18,14 +18,14 @@
           <span>
             <ng-container *ngIf="item.isSubTask">
               <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
-                      matTooltip="Move to left"
+                      [matTooltip]="'TASK_LIST.MOVE_TO_LEFT' | translate"
                       matTooltipPosition="left" style="opacity: 0.1; margin-left: -6px">
                 <mat-icon>remove</mat-icon>
               </button>
             </ng-container>
             <ng-container *ngIf="!item.isSubTask">
               <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
-                      matTooltip="Move to right"
+                      [matTooltip]="'TASK_LIST.MOVE_TO_RIGHT' | translate"
                       matTooltipPosition="left" style="opacity: 0.1; margin-left: -34px">
                 <mat-icon>arrow_right</mat-icon>
               </button>
@@ -34,7 +34,7 @@
               <div [innerHTML]="stringParser.convert(item.value)"></div>
             </mat-checkbox>
             <button (click)="addItemAfter(item)" class="item-button" mat-icon-button
-                    matTooltip="Add task"
+                    [matTooltip]="'TASK_LIST.ADD_TASK' | translate"
                     matTooltipPosition="right" style="opacity: 0.1">
               <mat-icon>add</mat-icon>
             </button>
@@ -56,14 +56,14 @@
           <span style="display: contents">
             <ng-container *ngIf="item.isSubTask">
               <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
-                      matTooltip="Move to left"
+                      [matTooltip]="'TASK_LIST.MOVE_TO_LEFT' | translate"
                       matTooltipPosition="left" style="opacity: 0.1; margin-left: -6px">
                 <mat-icon>remove</mat-icon>
               </button>
             </ng-container>
             <ng-container *ngIf="!item.isSubTask">
               <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
-                      matTooltip="Move to right"
+                      [matTooltip]="'TASK_LIST.MOVE_TO_RIGHT' | translate"
                       matTooltipPosition="left" style="opacity: 0.1; margin-left: -34px">
                 <mat-icon>arrow_right</mat-icon>
               </button>
@@ -111,55 +111,59 @@
     <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="dataService.bringToFront(this.taskList)" mat-menu-item>
         <mat-icon>flip_to_front</mat-icon>
-        Bring to front
+        {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
       </button>
       <button (click)="dataService.bringForward(this.taskList)" mat-menu-item>
         <mat-icon>add_circle_outline</mat-icon>
-        Bring forward
+        {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
       </button>
       <button (click)="dataService.sendBackward(this.taskList)" mat-menu-item>
         <mat-icon>remove_circle_outline</mat-icon>
-        Send backward
+        {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
       </button>
       <button (click)="dataService.flipToBack(this.taskList)" mat-menu-item>
         <mat-icon>flip_to_back</mat-icon>
-        Send to back
+        {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
       </button>
       <ng-container *ngIf="dataService.tabs.length > 1">
         <button [matMenuTriggerFor]="tabs" mat-menu-item>
           <mat-icon>drive_file_move</mat-icon>
-          Move
+          {{ 'DRAGGABLE.MOVE' | translate }}
         </button>
       </ng-container>
       <ng-container *ngIf="dataService.getColorizedObjects(taskList).length > 1">
         <button [matMenuTriggerFor]="items" mat-menu-item>
           <mat-icon>colorize</mat-icon>
-          Copy color from
+          {{ 'DRAGGABLE.COPY_COLOR_FROM' | translate }}
         </button>
       </ng-container>
       <ng-container *ngIf="dataService.getColorizedObjects(taskList).length == 1">
         <button (click)="copyColorFrom(dataService.getColorizedObjects(taskList)[0])" mat-menu-item>
           <mat-icon>colorize</mat-icon>
-          Copy other color
+          {{ 'DRAGGABLE.COPY_OTHER_COLOR' | translate }}
         </button>
       </ng-container>
       <button (click)="addItem()" mat-menu-item>
         <mat-icon>add</mat-icon>
-        Add item
+        {{ 'TASK_LIST.ADD_TASK' | translate }}
       </button>
     </ng-container>
-    <button (click)="select()" mat-menu-item>
-      <mat-icon>{{taskList.selected ? 'close' : 'check'}}</mat-icon>
-      {{taskList.selected ? 'Remove selection' : 'Select'}}
+    <button *ngIf="!taskList.selected" (click)="select()" mat-menu-item>
+      <mat-icon>check</mat-icon>
+      {{ 'DRAGGABLE.SELECT' | translate }}
+    </button>
+    <button *ngIf="taskList.selected" (click)="select()" mat-menu-item>
+      <mat-icon>close</mat-icon>
+      {{ 'DRAGGABLE.REMOVE_SELECTION' | translate }}
     </button>
     <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="edit()" mat-menu-item>
         <mat-icon>edit</mat-icon>
-        Edit
+        {{ 'DRAGGABLE.EDIT' | translate }}
       </button>
       <button (click)="delete()" mat-menu-item>
         <mat-icon>delete</mat-icon>
-        Delete
+        {{ 'DRAGGABLE.DELETE' | translate }}
       </button>
     </ng-container>
   </div>
