@@ -5,33 +5,35 @@
       cdkDragRootElement=".cdk-overlay-pane" class="flex-container"
       mat-dialog-title>
     <span class="flex-container">
-      <span>Edit tab</span>
+      <span>{{ 'DIALOGS.EDIT.EDIT_TAB' | translate }}</span>
     </span>
     <a>
-      <mat-icon (click)="data.color = green" [style.color]="green" class="color-button"
-                matTooltip="Set color to {{green}}" matTooltipPosition="above">color_lens
+      <mat-icon (click)="data.color = green" [style.color]="green" class="color-button" matTooltipPosition="above"
+                [matTooltip]="'DIALOGS.EDIT.SET_COLOR_TO' | translate : { color: green }">
+        color_lens
       </mat-icon>
-      <mat-icon (click)="data.color = purple" [style.color]="purple" class="color-button"
-                matTooltip="Set color to {{purple}}" matTooltipPosition="above">color_lens
+      <mat-icon (click)="data.color = purple" [style.color]="purple" class="color-button" matTooltipPosition="above"
+                [matTooltip]="'DIALOGS.EDIT.SET_COLOR_TO' | translate : { color: purple }">
+        color_lens
       </mat-icon>
-      <mat-icon (click)="data.color = reset" [style.color]="reset" class="color-button"
-                matTooltip="Reset color" matTooltipPosition="above">format_color_reset
+      <mat-icon (click)="data.color = reset" [style.color]="reset" class="color-button" matTooltipPosition="above"
+                [matTooltip]="'DIALOGS.EDIT.RESET_COLOR' | translate">
+        format_color_reset
       </mat-icon>
-      <input [(ngModel)]="data.color"
-             [matTooltip]="data.color != '#131313' ? 'Edit background color' : 'Add background color'"
-             matTooltipPosition="above" style="margin: 0 5px"
-             type="color">
+      <input [(ngModel)]="data.color" type="color"
+             [matTooltip]="(data.color !== '#131313' ? 'DIALOGS.EDIT.EDIT_BACKGROUND_COLOR' : 'DIALOGS.EDIT.ADD_BACKGROUND_COLOR') | translate"
+             matTooltipPosition="above" style="margin: 0 5px">
     </a>
   </h1>
   <div mat-dialog-content style="margin: 0; padding: 0">
     <mat-form-field color="accent" [style.width]="'100%'">
-      <mat-label>Header</mat-label>
+      <mat-label>{{ 'DIALOGS.EDIT.HEADER' | translate }}</mat-label>
       <input cdkFocusInitial [(ngModel)]="data.label" matInput>
     </mat-form-field>
 
     <div class="flex-container">
       <mat-form-field color="accent" [style.width]="'100%'">
-        <mat-label>Notes</mat-label>
+        <mat-label>{{ 'DIALOGS.EDIT.NOTES' | translate }}</mat-label>
         <input [value]="notesCount" disabled matInput type="number">
         <mat-icon matSuffix>note</mat-icon>
       </mat-form-field>
@@ -43,7 +45,7 @@
 
     <div class="flex-container">
       <mat-form-field color="accent" [style.width]="'100%'">
-        <mat-label>Task lists</mat-label>
+        <mat-label>{{ 'DIALOGS.EDIT.TASK_LISTS' | translate }}</mat-label>
         <input [value]="taskListsCount" disabled matInput type="number">
         <mat-icon matSuffix>list</mat-icon>
       </mat-form-field>
@@ -55,7 +57,7 @@
 
     <div class="flex-container">
       <mat-form-field color="accent" [style.width]="'100%'">
-        <mat-label>Images</mat-label>
+        <mat-label>{{ 'DIALOGS.EDIT.IMAGES' | translate }}</mat-label>
         <input [value]="imagesCount" disabled matInput type="number">
         <mat-icon matSuffix>image</mat-icon>
       </mat-form-field>
@@ -69,7 +71,7 @@
       <button (click)="moveToLeft()" [disabled]="dataService.selectedTabIndex < 1" mat-icon-button>
         <mat-icon>chevron_left</mat-icon>
       </button>
-      Tab index: {{dataService.selectedTabIndex}}
+      {{ 'DIALOGS.EDIT.TAB_INDEX_I' | translate : { i: dataService.selectedTabIndex } }}
       <button (click)="moveToRight()" [disabled]="dataService.selectedTabIndex >= dataService.tabs.length - 1"
               mat-icon-button>
         <mat-icon>chevron_right</mat-icon>
@@ -78,7 +80,7 @@
   </div>
 
   <div class="dialog-button-group">
-    <button mat-button (click)="cancel()">Cancel</button>
-    <button mat-button (click)="submit()" class="ok-button">Ok</button>
+    <button mat-button (click)="cancel()">{{ 'COMMON.CANCEL' | translate }}</button>
+    <button mat-button (click)="submit()" class="ok-button">{{ 'COMMON.OK' | translate }}</button>
   </div>
 </div>

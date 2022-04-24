@@ -1,0 +1,92 @@
+{
+  "COMMON": {
+    "CANCEL": "Скасувати",
+    "DELETE": "Видалити",
+    "FILENAME": "Ім'я файлу",
+    "IMPORT": "Імпорт",
+    "OK": "добре"
+  },
+  "DIALOGS": {
+    "ABOUT": {
+      "DONATE_TO_THE_DEVELOPER": "Пожертвувати розробнику",
+      "REPORT_BUG": "Повідомити про помилку",
+      "VIEW_LAST_CHANGES": "Переглянути останні зміни"
+    },
+    "EDIT": {
+      "ADD_BACKGROUND_COLOR": "Додати колір фону",
+      "ADD_GRADIENT": "Додати градієнт",
+      "CONTENT": "Вміст",
+      "EDIT_BACKGROUND_COLOR": "Редагувати колір фону",
+      "EDIT_GRADIENT_COLOR": "Редагувати колір градієнта",
+      "EDIT_NOTE": "Редагувати примітку",
+      "EDIT_TAB": "Вкладка редагування",
+      "EDIT_TASK_LIST": "Редагувати список завдань",
+      "EDIT_TEXT_COLOR": "Редагувати колір тексту",
+      "HEADER": "Заголовок",
+      "IMAGES": "Зображення",
+      "NEW_ITEM": "Новий елемент...",
+      "NOTES": "Примітки",
+      "POSITION_X": "Позиція X",
+      "POSITION_Y": "Позиція Y",
+      "POSITION_Z": "Позиція Z",
+      "RESET_COLOR": "Скинути колір",
+      "SET_COLOR_TO": "Встановити колір на {{color}}",
+      "TAB_INDEX_I": "Індекс вкладки: {{i}}",
+      "TASKS": "Завдання",
+      "TASKS_HINT": "Завдання можна розділити новим рядком",
+      "TASK_LISTS": "Списки завдань"
+    }
+  },
+  "DRAGGABLE": {
+    "BRING_FORWARD": "Пересунути",
+    "BRING_TO_FRONT": "Вивести на передній план",
+    "COPY_COLOR_FROM": "Копіювати колір з",
+    "COPY_OTHER_COLOR": "Копіювати інший колір",
+    "DELETE": "Видалити",
+    "EDIT": "Редагувати",
+    "MOVE": "Рухатися",
+    "REMOVE_SELECTION": "Видалити виділення",
+    "SELECT": "Вибрати",
+    "SEND_BACKWARD": "Надіслати назад",
+    "SEND_TO_BACK": "Надіслати назад"
+  },
+  "IMAGE": {
+    "COPY_LINK": "Копіювати посилання",
+    "OPEN_LINK": "Відкрити посилання"
+  },
+  "MAIN": {
+    "CLOSE_TAB": "Закрити вкладку",
+    "COPIED_URL_TO_CLIPBOARD": "URL-адресу скопійовано в буфер обміну",
+    "COPY_N_ITEMS": "Копіювати {{n}} елементів",
+    "CREATE_NOTE": "Створити нотатку",
+    "CREATE_TASK_LIST": "Створити список завдань",
+    "CUT_N_ITEMS": "Вирізати {{n}} елементів",
+    "DELETE_ALL_TABS": "Видалити всі вкладки",
+    "DELETE_N_ITEMS": "Видалити {{n}} елементів",
+    "DELETE_TAB": "Видалити вкладку",
+    "DISABLE_ANIMATIONS": "Вимкнути анімацію",
+    "EDIT_TAB": "Вкладка редагування",
+    "ENABLE_ANIMATIONS": "Увімкнути анімацію",
+    "EXPERIMENTAL": "Експериментальний!",
+    "NEW_TAB": "Нова вкладка",
+    "PASTE_ITEMS": "Вставити елементи",
+    "REDO_LAST_ACTION": "Повторити останню дію",
+    "RESTORE_CLOSED_TAB": "Відновити закриту вкладку",
+    "SAVE_AS": "Зберегти як",
+    "SAVE_N_ITEMS": "Зберегти {{n}} елементів",
+    "SAVE_TAB": "Вкладка Зберегти",
+    "SHARE_TAB": "Вкладка Поділитися",
+    "SWITCH_LANGUAGE": "Змінити мову",
+    "UNDO_LAST_ACTION": "Скасувати останню дію"
+  },
+  "NOTE": {
+    "COPY_VALUE": "Копіювати значення",
+    "DISABLE_CODE_HIGHLIGHTING": "Вимкнути підсвічування коду",
+    "ENABLE_CODE_HIGHLIGHTING": "Увімкнути підсвічування коду"
+  },
+  "TASK_LIST": {
+    "ADD_TASK": "Додати завдання",
+    "MOVE_TO_LEFT": "Перемістити ліворуч",
+    "MOVE_TO_RIGHT": "Перемістити вправо"
+  }
+}

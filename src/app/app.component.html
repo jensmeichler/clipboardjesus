@@ -3,11 +3,15 @@
                  animationDuration="0">
     <mat-tab *ngFor="let tab of dataService.tabs">
       <ng-template mat-tab-label>
-        <div style="margin-left: 8px; margin-right: 4px">{{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}</div>
+        <div style="margin-left: 8px; margin-right: 4px">{{ tab.label ? tab.label : '#Board ' + (tab.index + 1) }}</div>
         <ng-container *ngIf="dataService.selectedTabIndex == tab.index">
-          <mat-icon (click)="openEditTabDialog()" class="tab-button" matTooltip="Edit tab">edit</mat-icon>
+          <mat-icon (click)="openEditTabDialog()" class="tab-button" [matTooltip]="'MAIN.EDIT_TAB' | translate">
+            edit
+          </mat-icon>
           <ng-container *ngIf="dataService.tabs.length > 1">
-            <mat-icon (click)="dataService.removeTab()" class="tab-button" matTooltip="Close tab">close</mat-icon>
+            <mat-icon (click)="dataService.removeTab()" class="tab-button" [matTooltip]="'MAIN.CLOSE_TAB' | translate">
+              close
+            </mat-icon>
           </ng-container>
         </ng-container>
       </ng-template>
@@ -17,7 +21,7 @@
       <ng-template mat-tab-label>
         <div (click)="dataService.addTab(); $event.stopPropagation()"
              style="padding: 24px; margin: -24px">
-          <mat-icon matTooltip="New tab" style="transform: translateY(2px)">add</mat-icon>
+          <mat-icon [matTooltip]="'MAIN.NEW_TAB' | translate" style="transform: translateY(2px)">add</mat-icon>
         </div>
       </ng-template>
     </mat-tab>
@@ -31,99 +35,99 @@
   <mat-menu #contextMenu="matMenu">
     <div [cursorBackground]="undefined"
          [x]="rightClickPosX" [y]="rightClickPosY">
-    <ng-container *ngIf="dataService.selectedItemsCount">
-      <button (click)="copySelectedItems()" mat-menu-item>
-        <mat-icon>content_copy</mat-icon>
-        Copy {{dataService.selectedItemsCount}} items
-      </button>
-      <button (click)="cutSelectedItems()" mat-menu-item>
-        <mat-icon>content_cut</mat-icon>
-        Cut {{dataService.selectedItemsCount}} items
-      </button>
-      <button (click)="deleteSelectedItems()" mat-menu-item>
-        <mat-icon>delete</mat-icon>
-        Delete {{dataService.selectedItemsCount}} items
-      </button>
-      <button (click)="saveTabOrSelection()" mat-menu-item>
-        <mat-icon>save</mat-icon>
-        Save {{dataService.selectedItemsCount}} items
-      </button>
-    </ng-container>
-    <ng-container *ngIf="!dataService.selectedItemsCount">
-      <ng-container *ngIf="canPasteItems">
-        <button (click)="dataService.importItemsFromClipboard()" mat-menu-item>
-          <mat-icon>content_paste_go</mat-icon>
-          Paste items
+      <ng-container *ngIf="dataService.selectedItemsCount as n">
+        <button (click)="copySelectedItems()" mat-menu-item>
+          <mat-icon>content_copy</mat-icon>
+          {{ 'MAIN.COPY_N_ITEMS' | translate : {n} }}
         </button>
-        <mat-divider></mat-divider>
-      </ng-container>
-      <button (click)="openNewNoteDialog()" mat-menu-item>
-        <mat-icon>note</mat-icon>
-        Create note
-      </button>
-      <button (click)="openNewTaskListDialog()" mat-menu-item>
-        <mat-icon>list</mat-icon>
-        Create task list
-      </button>
-      <mat-divider
-        *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
-      </mat-divider>
-      <ng-container *ngIf="dataService.undoPossible | async">
-        <button (click)="dataService.undo()" mat-menu-item>
-          <mat-icon>undo</mat-icon>
-          Undo last action
+        <button (click)="cutSelectedItems()" mat-menu-item>
+          <mat-icon>content_cut</mat-icon>
+          {{ 'MAIN.CUT_N_ITEMS' | translate : {n} }}
         </button>
-      </ng-container>
-      <ng-container *ngIf="dataService.redoPossible | async">
-        <button (click)="dataService.redo()" mat-menu-item>
-          <mat-icon>redo</mat-icon>
-          Redo last action
-        </button>
-      </ng-container>
-      <ng-container *ngIf="dataService.restorePossible | async">
-        <button (click)="dataService.restoreTab()" mat-menu-item>
-          <mat-icon>restore_page</mat-icon>
-          Restore closed tab
-        </button>
-      </ng-container>
-      <mat-divider
-        *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
-      </mat-divider>
-      <button (click)="saveTabOrSelection()" mat-menu-item>
-        <mat-icon>save</mat-icon>
-        Save tab
-      </button>
-      <button (click)="shareTab()" mat-menu-item matTooltip="Experimental!" matTooltipPosition="left">
-        <mat-icon>share</mat-icon>
-        Share tab
-      </button>
-      <button (click)="openEditTabDialog()" mat-menu-item>
-        <mat-icon>format_paint</mat-icon>
-        Edit tab
-      </button>
-      <ng-container *ngIf="dataService.tabs.length > 1">
-        <button (click)="dataService.removeTab()" mat-menu-item>
+        <button (click)="deleteSelectedItems()" mat-menu-item>
           <mat-icon>delete</mat-icon>
-          Delete tab
+          {{ 'MAIN.DELETE_N_ITEMS' | translate : {n} }}
+        </button>
+        <button (click)="saveTabOrSelection()" mat-menu-item>
+          <mat-icon>save</mat-icon>
+          {{ 'MAIN.SAVE_N_ITEMS' | translate : {n} }}
         </button>
       </ng-container>
-      <button (click)="clearAllForever()" mat-menu-item>
-        <mat-icon>delete_forever</mat-icon>
-        Delete all tabs
-      </button>
-    </ng-container></div>
+      <ng-container *ngIf="!dataService.selectedItemsCount">
+        <ng-container *ngIf="canPasteItems">
+          <button (click)="dataService.importItemsFromClipboard()" mat-menu-item>
+            <mat-icon>content_paste_go</mat-icon>
+            {{ 'MAIN.PASTE_ITEMS' | translate }}
+          </button>
+          <mat-divider></mat-divider>
+        </ng-container>
+        <button (click)="openNewNoteDialog()" mat-menu-item>
+          <mat-icon>note</mat-icon>
+          {{ 'MAIN.CREATE_NOTE' | translate }}
+        </button>
+        <button (click)="openNewTaskListDialog()" mat-menu-item>
+          <mat-icon>list</mat-icon>
+          {{ 'MAIN.CREATE_TASK_LIST' | translate }}
+        </button>
+        <mat-divider
+          *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
+        </mat-divider>
+        <ng-container *ngIf="dataService.undoPossible | async">
+          <button (click)="dataService.undo()" mat-menu-item>
+            <mat-icon>undo</mat-icon>
+            {{ 'MAIN.UNDO_LAST_ACTION' | translate }}
+          </button>
+        </ng-container>
+        <ng-container *ngIf="dataService.redoPossible | async">
+          <button (click)="dataService.redo()" mat-menu-item>
+            <mat-icon>redo</mat-icon>
+            {{ 'MAIN.REDO_LAST_ACTION' | translate }}
+          </button>
+        </ng-container>
+        <ng-container *ngIf="dataService.restorePossible | async">
+          <button (click)="dataService.restoreTab()" mat-menu-item>
+            <mat-icon>restore_page</mat-icon>
+            {{ 'MAIN.RESTORE_CLOSED_TAB' | translate }}
+          </button>
+        </ng-container>
+        <mat-divider
+          *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
+        </mat-divider>
+        <button (click)="saveTabOrSelection()" mat-menu-item>
+          <mat-icon>save</mat-icon>
+          {{ 'MAIN.SAVE_TAB' | translate }}
+        </button>
+        <button (click)="shareTab()" mat-menu-item [matTooltip]="'MAIN.EXPERIMENTAL' | translate" matTooltipPosition="left">
+          <mat-icon>share</mat-icon>
+          {{ 'MAIN.SHARE_TAB' | translate }}
+        </button>
+        <button (click)="openEditTabDialog()" mat-menu-item>
+          <mat-icon>format_paint</mat-icon>
+          {{ 'MAIN.EDIT_TAB' | translate }}
+        </button>
+        <ng-container *ngIf="dataService.tabs.length > 1">
+          <button (click)="dataService.removeTab()" mat-menu-item>
+            <mat-icon>delete</mat-icon>
+            {{ 'MAIN.DELETE_TAB' | translate }}
+          </button>
+        </ng-container>
+        <button (click)="clearAllForever()" mat-menu-item>
+          <mat-icon>delete_forever</mat-icon>
+          {{ 'MAIN.DELETE_ALL_TABS' | translate }}
+        </button>
+      </ng-container>
+    </div>
   </mat-menu>
 
   <!-- Bottom right buttons -->
   <div class="fab-container">
     <button (click)="saveAs(); $event.stopPropagation()" [disabled]="!dataService.itemsCount" class="save-as-button"
-            color="accent"
-            mat-mini-fab matTooltip="Save as"
-            matTooltipPosition="left">
+            mat-mini-fab [matTooltip]="'MAIN.SAVE_AS' | translate"
+            matTooltipPosition="left" color="accent">
       <mat-icon>save_as</mat-icon>
     </button>
     <button (click)="save(); $event.stopPropagation()" [disabled]="!dataService.itemsCount"
-            [matTooltip]="dataService.selectedItemsCount ? 'Save ' + dataService.selectedItemsCount + ' items' : ''"
+            [matTooltip]="(saveButtonTooltip | async) ?? ''"
             color="primary" mat-fab matTooltipPosition="left">
       <mat-icon>save</mat-icon>
     </button>
@@ -138,13 +142,31 @@
     <mat-icon>settings</mat-icon>
   </button>
   <mat-menu #settingsMenu="matMenu">
+    <button [matMenuTriggerFor]="languageMenu" mat-menu-item>
+      <mat-icon>translate</mat-icon>
+      {{ 'MAIN.SWITCH_LANGUAGE' | translate }}
+    </button>
     <button *ngIf="settings.animationsDisabled" (click)="settings.animationsDisabled = false" mat-menu-item>
       <mat-icon>animation</mat-icon>
-      Enable animations
+      {{ 'MAIN.ENABLE_ANIMATIONS' | translate }}
     </button>
     <button *ngIf="!settings.animationsDisabled" (click)="settings.animationsDisabled = true" mat-menu-item>
       <mat-icon>motion_photos_off</mat-icon>
-      Disable animations
+      {{ 'MAIN.DISABLE_ANIMATIONS' | translate }}
+    </button>
+  </mat-menu>
+  <mat-menu #languageMenu="matMenu">
+    <button (click)="setLanguage('en')" mat-menu-item>
+      <mat-icon>flag</mat-icon>
+      English
+    </button>
+    <button (click)="setLanguage('de')" mat-menu-item>
+      <mat-icon>flag</mat-icon>
+      Deutsch
+    </button>
+    <button (click)="setLanguage('ua')" mat-menu-item>
+      <mat-icon>flag</mat-icon>
+      Український
     </button>
   </mat-menu>
 

@@ -41,12 +41,16 @@ import {CustomAutofocusDirective} from './directives/custom-autofocus.directive'
 import {CustomCursorDirective} from './directives/custom-cursor.directive';
 import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
 import {CursorBackgroundDirective} from './directives/cursor-background.directive';
+import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {HttpClientModule} from '@angular/common/http';
+import {HttpClient} from "@angular/common/http";
 
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
 
   renderer.link = (href: string | null, title: string | null, text: string) => {
-    return '<a title="' + title + '" href="' + href + '" target="_blank">' + text + '</a>';
+    return `<a title="${title}" href="${href}" target="_blank">${text}</a>`;
   };
   renderer.options.breaks = true;
   renderer.text = (text: string) => {
@@ -57,6 +61,10 @@ export function markedOptionsFactory(): MarkedOptions {
   }
 
   return {renderer};
+}
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
@@ -110,6 +118,14 @@ export function markedOptionsFactory(): MarkedOptions {
       markedOptions: {
         provide: MarkedOptions,
         useFactory: markedOptionsFactory,
+      }
+    }),
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient]
       }
     })
   ],

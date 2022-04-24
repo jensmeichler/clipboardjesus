@@ -1,8 +1,12 @@
 <h2>Are you sure you want to delete everything permanently?</h2>
 <p>Those changes cannot be undone.</p>
 <div class="button-group">
-  <button (click)="cancel()" mat-button style="margin-right: 16px">Cancel</button>
-  <button (click)="deleteAll()" color="warn" mat-raised-button>Delete</button>
+  <button (click)="cancel()" mat-button style="margin-right: 16px">
+    {{ 'COMMON.CANCEL' | translate }}
+  </button>
+  <button (click)="deleteAll()" color="warn" mat-raised-button>
+    {{ 'COMMON.DELETE' | translate }}
+  </button>
 </div>
 <div class="hashy-icon-wrapper">
   <img alt="hashy" class="hashy-icon" src="assets/hashy.svg">

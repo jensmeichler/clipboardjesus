@@ -5,11 +5,12 @@ import { Injectable } from '@angular/core';
 })
 export class SettingsService {
   storageKeys = {
-    animationsDisabled: 'animations_disabled'
+    animationsDisabled: 'animations_disabled',
+    language: 'language'
   };
 
   private _animationsDisabled: boolean;
-  get animationsDisabled() { return this._animationsDisabled };
+  get animationsDisabled() { return this._animationsDisabled; }
   set animationsDisabled(value: boolean) {
     this._animationsDisabled = value;
     if (value) {
@@ -21,7 +22,19 @@ export class SettingsService {
     }
   }
 
+  private _language: string;
+  get language() { return this._language; }
+  set language(value: string) {
+    this._language = value;
+    if (value === 'en') {
+      localStorage.removeItem(this.storageKeys.language);
+    } else {
+      localStorage.setItem(this.storageKeys.language, value);
+    }
+  }
+
   constructor() {
     this._animationsDisabled = localStorage.getItem(this.storageKeys.animationsDisabled) === 'True';
+    this._language = localStorage.getItem(this.storageKeys.language) ?? 'en';
   }
 }

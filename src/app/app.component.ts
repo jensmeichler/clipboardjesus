@@ -14,6 +14,8 @@ import {CacheService} from "./services/cache.service";
 import {DataService} from "./services/data.service";
 import {HashyService} from "./services/hashy.service";
 import {SettingsService} from "./services/settings.service";
+import {Observable} from "rxjs";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-root',
@@ -41,8 +43,10 @@ export class AppComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly cache: CacheService,
+    private readonly translate: TranslateService,
     public readonly settings: SettingsService
   ) {
+    this.translate.setDefaultLang(settings.language);
   }
 
   ngOnInit(): void {
@@ -187,7 +191,12 @@ export class AppComponent implements OnInit {
     params = btoa(params);
     const url = 'https://www.clipboardjesus.com/?params=' + params;
     this.clipboard.copy(url);
-    this.hashy.show('Copied url to clipboard', 3000, 'Ok');
+    this.hashy.show('MAIN.COPIED_URL_TO_CLIPBOARD', 3000, 'COMMON.OK');
+  }
+
+  get saveButtonTooltip(): Observable<string> | undefined {
+    if (!this.dataService.selectedItemsCount) return;
+    return this.translate.get('MAIN.SAVE_N_ITEMS', {n: this.dataService.selectedItemsCount});
   }
 
   save() {
@@ -248,6 +257,11 @@ export class AppComponent implements OnInit {
 
   showAboutDialog() {
     this.dialog.open(AboutDialogComponent);
+  }
+
+  setLanguage(language: string): void {
+    this.translate.setDefaultLang(language);
+    this.settings.language = language;
   }
 
   replaceLogo(event: any) {
