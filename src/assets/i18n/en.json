@@ -1,58 +1,58 @@
 {
   "COMMON": {
-    "OK": "Ok",
     "CANCEL": "Cancel",
     "DELETE": "Delete",
+    "FILENAME": "Filename",
     "IMPORT": "Import",
-    "FILENAME": "Filename"
+    "OK": "Ok"
   },
   "DIALOGS": {
     "ABOUT": {
+      "DONATE_TO_THE_DEVELOPER": "Donate to the developer",
       "REPORT_BUG": "Report bug",
-      "VIEW_LAST_CHANGES": "View last changes",
-      "DONATE_TO_THE_DEVELOPER": "Donate to the developer"
+      "VIEW_LAST_CHANGES": "View last changes"
     },
     "EDIT": {
-      "EDIT_NOTE": "Edit note",
-      "EDIT_TASK_LIST": "Edit task list",
-      "EDIT_TAB": "Edit tab",
-      "EDIT_TEXT_COLOR": "Edit text color",
       "ADD_BACKGROUND_COLOR": "Add background color",
-      "EDIT_BACKGROUND_COLOR": "Edit background color",
       "ADD_GRADIENT": "Add gradient",
+      "CONTENT": "Content",
+      "EDIT_BACKGROUND_COLOR": "Edit background color",
       "EDIT_GRADIENT_COLOR": "Edit gradient color",
+      "EDIT_NOTE": "Edit note",
+      "EDIT_TAB": "Edit tab",
+      "EDIT_TASK_LIST": "Edit task list",
+      "EDIT_TEXT_COLOR": "Edit text color",
+      "HEADER": "Header",
+      "IMAGES": "Images",
+      "NEW_ITEM": "New item...",
+      "NOTES": "Notes",
       "POSITION_X": "Position X",
       "POSITION_Y": "Position Y",
       "POSITION_Z": "Position Z",
-      "HEADER": "Header",
-      "CONTENT": "Content",
-      "TASKS": "Tasks",
-      "NOTES": "Notes",
-      "TASK_LISTS": "Task lists",
-      "IMAGES": "Images",
-      "TASKS_HINT": "Tasks can be separated by new line",
+      "RESET_COLOR": "Reset color",
       "SET_COLOR_TO": "Set color to {{color}}",
       "TAB_INDEX_I": "Tab index: {{i}}",
-      "RESET_COLOR": "Reset color",
-      "NEW_ITEM": "New item..."
+      "TASKS": "Tasks",
+      "TASKS_HINT": "Tasks can be separated by new line",
+      "TASK_LISTS": "Task lists"
     }
   },
   "DRAGGABLE": {
-    "BRING_TO_FRONT": "Bring to front",
     "BRING_FORWARD": "Bring forward",
-    "SEND_BACKWARD": "Send backward",
-    "SEND_TO_BACK": "Send to back",
-    "MOVE": "Move",
+    "BRING_TO_FRONT": "Bring to front",
     "COPY_COLOR_FROM": "Copy color from",
     "COPY_OTHER_COLOR": "Copy other color",
     "DELETE": "Delete",
     "EDIT": "Edit",
+    "MOVE": "Move",
     "REMOVE_SELECTION": "Remove selection",
-    "SELECT": "Select"
+    "SELECT": "Select",
+    "SEND_BACKWARD": "Send backward",
+    "SEND_TO_BACK": "Send to back"
   },
   "IMAGE": {
-    "OPEN_LINK": "Open link,",
-    "COPY_LINK": "Copy link"
+    "COPY_LINK": "Copy link",
+    "OPEN_LINK": "Open link,"
   },
   "MAIN": {
     "CLOSE_TAB": "Close tab",
@@ -80,13 +80,13 @@
     "UNDO_LAST_ACTION": "Undo last action"
   },
   "NOTE": {
-    "ENABLE_CODE_HIGHLIGHTING": "Enable code highlighting",
+    "COPY_VALUE": "Copy value",
     "DISABLE_CODE_HIGHLIGHTING": "Disable code highlighting",
-    "COPY_VALUE": "Copy value"
+    "ENABLE_CODE_HIGHLIGHTING": "Enable code highlighting"
   },
   "TASK_LIST": {
+    "ADD_TASK": "Add task",
     "MOVE_TO_LEFT": "Move to left",
-    "MOVE_TO_RIGHT": "Move to right",
-    "ADD_TASK": "Add task"
+    "MOVE_TO_RIGHT": "Move to right"
   }
 }
