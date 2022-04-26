@@ -26,6 +26,8 @@
 html, body {
   --color-background: #131313;
   --color-transparency-light: #FFFFFF19;
+  --color-transparency-medium: #FFFFFF4D;
+  --color-transparency-strong: #FFFFFF90;
   --color-note: #212121;
   --color-primary: #7b1ea2;
   --color-secondary: #69f0ae;
@@ -245,4 +247,20 @@ a[href] {
   50% {
     transform: scale(1.1);
   }
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-corner,
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-transparency-medium);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-transparency-strong);
 }
