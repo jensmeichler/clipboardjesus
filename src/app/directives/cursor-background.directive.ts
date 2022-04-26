@@ -1,13 +1,18 @@
-import {Directive, ElementRef, HostListener, Input, OnInit} from '@angular/core';
+import {Directive, ElementRef, HostListener, Input} from '@angular/core';
 import {DraggableNote} from "../models";
 import {SettingsService} from "../services/settings.service";
 
 @Directive({
   selector: '[cursorBackground]'
 })
-export class CursorBackgroundDirective implements OnInit {
+export class CursorBackgroundDirective {
+  private _cursorBackground?: string;
+
   @Input('cursorBackground')
-  cursorBackground?: string;
+  set cursorBackground(value: string | undefined) {
+    this._cursorBackground = value;
+    this.onMouseLeave();
+  }
 
   @Input('cursorBackgroundItem')
   item?: DraggableNote;
@@ -23,15 +28,11 @@ export class CursorBackgroundDirective implements OnInit {
   ) {
   }
 
-  ngOnInit(): void {
-    this.onMouseLeave();
-  }
-
   setBackground(absoluteMousePos: { x: number, y: number }): void {
     this.element.nativeElement.style.backgroundImage =
-      (this.cursorBackground ? 'linear-gradient(to bottom, transparent, ' + this.cursorBackground + '), ' : '')
+      (this._cursorBackground ? 'linear-gradient(to bottom, transparent, ' + this._cursorBackground + '), ' : '')
       + 'radial-gradient(circle at ' + absoluteMousePos.x + 'px ' + absoluteMousePos.y + 'px , '
-      + (this.cursorBackground ?? 'var(--color-primary)')
+      + (this._cursorBackground ?? 'var(--color-primary)')
       + ' 0, transparent ' + this.radEffectWidth + 'px' + ', transparent)';
   }
 
@@ -42,8 +43,8 @@ export class CursorBackgroundDirective implements OnInit {
 
   @HostListener('mouseleave')
   onMouseLeave() {
-    this.element.nativeElement.style.backgroundImage = this.cursorBackground
-      ? 'linear-gradient(to bottom, transparent, ' + this.cursorBackground + ')'
+    this.element.nativeElement.style.backgroundImage = this._cursorBackground
+      ? 'linear-gradient(to bottom, transparent, ' + this._cursorBackground + ')'
       : 'none';
   }
 
