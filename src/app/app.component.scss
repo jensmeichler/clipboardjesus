@@ -171,10 +171,10 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-transparency-medium);
+    background: var(--color-transparency-light);
     border-radius: 3px;
     &:hover {
-      background: var(--color-transparency-strong);
+      background: var(--color-transparency-medium);
     }
   }
 }
