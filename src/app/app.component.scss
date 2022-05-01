@@ -159,10 +159,6 @@
 
 :host ::ng-deep {
   ::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
-  &:hover ::-webkit-scrollbar {
     width: 12px;
     height: 12px;
   }
