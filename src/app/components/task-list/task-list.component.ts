@@ -11,7 +11,7 @@ import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit
 @Component({
   selector: 'task-list',
   templateUrl: './task-list.component.html',
-  styleUrls: ['./task-list.component.css']
+  styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent implements OnDestroy {
   @Input()

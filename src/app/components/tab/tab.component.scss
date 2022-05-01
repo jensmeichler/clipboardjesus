@@ -1,37 +1,61 @@
+.draggable-note {
+  position: absolute;
+  animation: default-animation 0.1s;
+  transition: box-shadow ease-in-out 0.18s;
+  box-shadow: var(--shadow-light);
+  border-radius: var(--border-radius);
+  &:hover {
+    z-index: 102 !important;
+    box-shadow: var(--shadow-strong);
+  }
+  &.draggable-note-selected {
+    z-index: 101 !important;
+    box-shadow: 0 0 20px var(--color-secondary) !important;
+  }
+}
+
+.selection-border {
+  position: absolute;
+  border: 2px dashed var(--color-secondary);
+  border-radius: 8px;
+  box-shadow: inset 0 0 16px black;
+  background: #00000022;
+  pointer-events: none;
+}
+
 .clipboard {
   height: calc(100vh - 48px);
   user-select: none;
-}
-
-.clipboard-hover {
-  height: calc(100vh - 56px);
-  border: 3px solid;
-  box-shadow: inset 0 0 14px var(--color-primary), inset 0 0 16px var(--color-secondary);
-  animation-name: rainbow;
-  animation-duration: 1s;
-  animation-iteration-count: infinite;
-  border-image: conic-gradient(
-    var(--color-primary),
-    var(--color-primary),
-    var(--color-secondary),
-    var(--color-secondary),
-    var(--color-primary),
-    var(--color-primary),
-    var(--color-secondary),
-    var(--color-secondary),
-    var(--color-primary),
-    var(--color-primary),
-    var(--color-secondary),
-    var(--color-secondary),
-    var(--color-primary),
-    var(--color-primary),
-    var(--color-secondary),
-    var(--color-secondary),
-    var(--color-primary),
-    var(--color-primary),
-    var(--color-secondary),
-    var(--color-secondary),
-    var(--color-primary)) 1;
+  &.clipboard-hover {
+    height: calc(100vh - 56px);
+    border: 3px solid;
+    box-shadow: inset 0 0 14px var(--color-primary), inset 0 0 16px var(--color-secondary);
+    animation-name: rainbow;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    border-image: conic-gradient(
+        var(--color-primary),
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-secondary),
+        var(--color-primary),
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-secondary),
+        var(--color-primary),
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-secondary),
+        var(--color-primary),
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-secondary),
+        var(--color-primary),
+        var(--color-primary),
+        var(--color-secondary),
+        var(--color-secondary),
+        var(--color-primary)) 1;
+  }
 }
 
 @keyframes rainbow {
@@ -107,31 +131,4 @@
       var(--color-secondary),
       var(--color-secondary)) 1;
   }
-}
-
-.draggable-note {
-  position: absolute;
-  animation: default-animation 0.1s;
-  transition: box-shadow ease-in-out 0.18s;
-  box-shadow: var(--shadow-light);
-  border-radius: var(--border-radius);
-}
-
-.draggable-note:hover {
-  z-index: 102 !important;
-  box-shadow: var(--shadow-strong);
-}
-
-.draggable-note-selected {
-  z-index: 101 !important;
-  box-shadow: 0 0 20px var(--color-secondary) !important;
-}
-
-.selection-border {
-  position: absolute;
-  border: 2px dashed var(--color-secondary);
-  border-radius: 8px;
-  box-shadow: inset 0 0 16px black;
-  background: #00000022;
-  pointer-events: none;
 }

@@ -1,0 +1,15 @@
+:host::ng-deep {
+  --save-as-dialog-height: 52px;
+
+  .mat-form-field-underline {
+    transform: translateY(19px);
+  }
+  .mat-form-field-wrapper {
+    height: var(--save-as-dialog-height);
+    padding-bottom: 0;
+  }
+  button {
+    height: var(--save-as-dialog-height);
+    border-radius: 4px 0 !important;
+  }
+}

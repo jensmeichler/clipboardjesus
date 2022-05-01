@@ -12,7 +12,7 @@ import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dia
 @Component({
   selector: 'note',
   templateUrl: './note.component.html',
-  styleUrls: ['./note.component.css']
+  styleUrls: ['./note.component.scss']
 })
 export class NoteComponent implements OnInit, OnDestroy {
   @Input()

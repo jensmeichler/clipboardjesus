@@ -8,7 +8,7 @@ import {ImportDialogComponent} from "../dialogs/import-dialog/import-dialog.comp
 @Component({
   selector: 'clipboard-tab',
   templateUrl: './tab.component.html',
-  styleUrls: ['./tab.component.css']
+  styleUrls: ['./tab.component.scss']
 })
 export class TabComponent {
   @Input()

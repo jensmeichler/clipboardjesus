@@ -67,10 +67,9 @@ html, body {
 
 markdown {
   filter: var(--drop-shadow-light);
-}
-
-markdown > p:last-child {
-  margin: 0;
+  &>p:last-child {
+    margin: 0;
+  }
 }
 
 .mat-tab-body.mat-tab-body-active {
@@ -147,10 +146,7 @@ div.mat-menu-content:not(:empty) {
   padding-bottom: 0;
 }
 
-button.mat-menu-item {
-  color: inherit;
-}
-
+button.mat-menu-item,
 button.mat-menu-item > mat-icon.mat-icon {
   color: inherit;
 }
@@ -176,14 +172,6 @@ h1.flex-container,
   background-color: var(--color-transparency-light)
 }
 
-save-as-dialog .mat-form-field-underline {
-  transform: translateY(19px);
-}
-
-save-as-dialog .mat-form-field-wrapper {
-  padding-bottom: 0;
-}
-
 .color-button {
   filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white) drop-shadow(-1px 1px 0 white) drop-shadow(1px -1px 0 white);
   transform: translateY(4px);
@@ -196,11 +184,10 @@ save-as-dialog .mat-form-field-wrapper {
 
 .mat-icon-button {
   transition: all ease-in-out 0.2s;
-}
-
-.mat-icon-button:hover {
-  transform: scale(1.3);
-  opacity: 1;
+  &:hover {
+    transform: scale(1.3);
+    opacity: 1;
+  }
 }
 
 .animated {
@@ -215,10 +202,9 @@ a[href] {
   background: var(--color-secondary);
   border: 4px solid #00000028;
   border-radius: 14px !important;
-}
-
-.mat-snack-bar-container .mat-simple-snackbar {
-  font-size: larger;
+  .mat-simple-snackbar {
+    font-size: larger;
+  }
 }
 
 .mat-checkbox-checked.mat-accent .mat-checkbox-background {
@@ -233,14 +219,9 @@ a[href] {
   border-top-left-radius: 0 !important;
   border-top-right-radius: 0 !important;
 }
-
 .docked-left {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
-}
-
-.docked-top-left {
-  border-radius: 0 0 var(--border-radius) 0 !important;
 }
 
 @keyframes default-animation {
