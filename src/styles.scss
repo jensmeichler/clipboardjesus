@@ -14,7 +14,7 @@
   color: white;
   z-index: 99999;
   opacity: .6;
-  transition: bottom ease-in-out 0.16s;
+  transition: bottom ease-in-out .16s;
 }
 
 @keyframes cursor-pulse {
@@ -179,7 +179,7 @@ h1.flex-container,
 }
 
 .mat-icon-button {
-  transition: all ease-in-out 0.2s;
+  transition: all ease-in-out .2s;
   &:hover {
     transform: scale(1.3);
     opacity: 1;
@@ -187,7 +187,7 @@ h1.flex-container,
 }
 
 .animated {
-  animation: default-animation 0.3s;
+  animation: default-animation .3s;
 }
 
 a[href] {

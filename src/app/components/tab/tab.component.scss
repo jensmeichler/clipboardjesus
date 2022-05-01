@@ -1,7 +1,7 @@
 .draggable-note {
   position: absolute;
-  animation: default-animation 0.1s;
-  transition: box-shadow ease-in-out 0.18s;
+  animation: default-animation .1s;
+  transition: box-shadow ease-in-out .18s;
   box-shadow: var(--shadow-light);
   border-radius: var(--border-radius);
   &:hover {

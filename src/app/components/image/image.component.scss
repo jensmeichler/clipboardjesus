@@ -1,5 +1,5 @@
 .mat-icon-button mat-icon {
-  transition: all ease-in-out 0.1s;
+  transition: all ease-in-out .1s;
   filter: drop-shadow(0 0 3px black)
     drop-shadow(0 0 5px var(--color-background))
     drop-shadow(0 0 5px var(--color-background));
@@ -10,7 +10,7 @@
 }
 
 .img-button-group {
-  transition: transform ease-in-out 0.18s;
+  transition: transform ease-in-out .18s;
   transform: translateX(40px);
   position: absolute;
   bottom: 0;

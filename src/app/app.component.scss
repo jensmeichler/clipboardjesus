@@ -22,7 +22,7 @@
 .save-as-button {
   position: absolute;
   margin: 8px;
-  transition: all cubic-bezier(0.5, -0.3, 0, 1.2) 0.3s;
+  transition: all cubic-bezier(.5, -.3, 0, 1.2) .3s;
   transition-delay: 1s;
   opacity: 0;
 }
@@ -55,8 +55,8 @@
 
 .tab-button {
   width: 20px;
-  transform: scale(0.8);
-  animation: grow 0.6s;
+  transform: scale(.8);
+  animation: grow .6s;
   &:first-child {
     margin-left: 8px;
   }
@@ -75,12 +75,12 @@
   bottom: 42px;
   left: 22px;
   z-index: 1000;
-  transition: all cubic-bezier(0.8, -0.5, 0.8, 1) 0.5s;
+  transition: all cubic-bezier(.8, -.5, .8, 1) .5s;
   transform: translateY(60px) scale(0);
 }
 
 .show-hashy {
-  transition: all cubic-bezier(0.5, -0.3, 0, 2) 0.3s;
+  transition: all cubic-bezier(.5, -.3, 0, 2) .3s;
   transform: translateY(0) scale(1);
 }
 
@@ -90,10 +90,10 @@
 }
 
 .show-hashy-bg {
-  transition: all cubic-bezier(0.5, -0.3, 0, 2) 0.3s;
+  transition: all cubic-bezier(.5, -.3, 0, 2) .3s;
   transform: translateY(0) scale(1);
   opacity: 1;
-  transition-delay: 0.1s;
+  transition-delay: .1s;
 }
 
 .startup-logo {
@@ -106,8 +106,8 @@
   align-items: center;
   justify-content: center;
   color: #7b1ea2;
-  animation: fade-out cubic-bezier(0.5, -0.3, 0, 2) 6s;
-  transform: scale(0.2) translate(10em, -1.1em);
+  animation: fade-out cubic-bezier(.5, -.3, 0, 2) 6s;
+  transform: scale(.2) translate(10em, -1.1em);
   width: auto;
   filter: drop-shadow(0 0 16px black);
   z-index: 103;
@@ -126,14 +126,14 @@
     top: 36vh;
     right: auto;
     color: #4b4b4b;
-    transform: scale(0.7);
+    transform: scale(.7);
   }
   50% {
     width: 100%;
     top: 36vh;
     right: auto;
     color: #4b4b4b;
-    transform: scale(0.7);
+    transform: scale(.7);
     opacity: 1;
   }
   89% {
@@ -149,7 +149,7 @@
     top: 0;
     right: 0;
     color: var(--color-primary);
-    transform: scale(0.2) translate(10em, -1.7em);
+    transform: scale(.2) translate(10em, -1.7em);
     opacity: 0;
   }
   100% {

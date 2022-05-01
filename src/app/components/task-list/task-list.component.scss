@@ -3,7 +3,7 @@
 }
 
 .item-button {
-  opacity: 0.3;
+  opacity: .3;
   &:hover {
     opacity: 1;
   }
@@ -20,7 +20,7 @@ input {
   outline: none;
   font-size: 14px;
   width: 100%;
-  animation: input-animation 0.2s;
+  animation: input-animation .2s;
 }
 
 @keyframes input-animation {
