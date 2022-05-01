@@ -2,6 +2,13 @@
   color: inherit;
 }
 
+.item-button {
+  opacity: 0.3;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 input {
   font-family: var(--font-family);
   background: #ffffff30;
