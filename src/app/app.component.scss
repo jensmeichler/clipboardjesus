@@ -8,13 +8,13 @@
     height: 18px;
     border-radius: 2px;
     &.flag-en {
-      background: url("https://flagicons.lipis.dev/flags/4x3/gb.svg");
+      background: url("./../assets/flags/en.svg");
     }
     &.flag-de {
-      background: url("https://flagicons.lipis.dev/flags/4x3/de.svg");
+      background: url("./../assets/flags/de.svg");
     }
     &.flag-ua {
-      background: url("https://flagicons.lipis.dev/flags/4x3/ua.svg");
+      background: url("./../assets/flags/ua.svg");
     }
   }
 }
