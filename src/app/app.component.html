@@ -1,6 +1,5 @@
 <div customCursor>
-  <mat-tab-group [(selectedIndex)]="dataService.selectedTabIndex"
-                 animationDuration="0">
+  <mat-tab-group [(selectedIndex)]="dataService.selectedTabIndex" animationDuration="0">
     <mat-tab *ngFor="let tab of dataService.tabs">
       <ng-template mat-tab-label>
         <div style="margin-left: 8px; margin-right: 4px">{{ tab.label ? tab.label : '#Board ' + (tab.index + 1) }}</div>
