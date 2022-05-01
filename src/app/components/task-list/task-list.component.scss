@@ -32,3 +32,13 @@ input {
     transform: scale(1.1);
   }
 }
+
+@keyframes input-animation {
+  0% {
+    background: transparent;
+    transform: translateX(-3px);
+  }
+  10% {
+    transform: translateX(-2px);
+  }
+}
