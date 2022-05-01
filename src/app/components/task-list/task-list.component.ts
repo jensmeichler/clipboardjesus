@@ -169,13 +169,6 @@ export class TaskListComponent implements OnDestroy {
     this.dataService.cacheData();
   }
 
-  markAsChecked(item: TaskItem) {
-    item.checked = !item.checked;
-    let index = this.taskList.items.indexOf(item);
-    this.taskList.items[index] = item;
-    this.dataService.cacheData();
-  }
-
   toggleSubTask(item: TaskItem) {
     if (this.canInteract) {
       item.isSubTask = !item.isSubTask;
