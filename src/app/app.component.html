@@ -153,6 +153,22 @@
       <mat-icon>motion_photos_off</mat-icon>
       {{ 'MAIN.DISABLE_ANIMATIONS' | translate }}
     </button>
+    <a href="https://github.com/jensmeichler/clipboardjesus/issues" mat-menu-item target="_blank">
+      <mat-icon>bug_report</mat-icon>
+      {{ 'DIALOGS.ABOUT.REPORT_BUG' | translate }}
+    </a>
+    <a href="https://github.com/jensmeichler/clipboardjesus/commits" mat-menu-item target="_blank">
+      <mat-icon>published_with_changes</mat-icon>
+      {{ 'DIALOGS.ABOUT.VIEW_LAST_CHANGES' | translate }}
+    </a>
+    <a href="https://www.buymeacoffee.com/jensmeichler" mat-menu-item target="_blank">
+      <mat-icon class="heart">favorite</mat-icon>
+      {{ 'DIALOGS.ABOUT.DONATE_TO_THE_DEVELOPER' | translate }}
+    </a>
+    <button (click)="showAboutDialog()" mat-menu-item>
+      <mat-icon>info</mat-icon>
+      {{ 'MAIN.ABOUT_CLIPBOARD' | translate }}
+    </button>
   </mat-menu>
   <mat-menu #languageMenu="matMenu">
     <button class="flags-container" (click)="setLanguage('en')" mat-menu-item>

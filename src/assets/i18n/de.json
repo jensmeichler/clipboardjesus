@@ -4,10 +4,14 @@
     "DELETE": "Löschen",
     "FILENAME": "Dateiname",
     "IMPORT": "Importieren",
+    "MORE": "Mehr",
     "OK": "Ok"
   },
   "DIALOGS": {
     "ABOUT": {
+      "ABOUT": "Informationen über",
+      "ABOUT_CLIPBOARD": "Verwalten Sie Ihre Zwischenablage wie ein Profi mit Clip#board.<br>Clip#board ist ein großartiges Werkzeug, um Notizen aus Ihrer Zwischenablage zu erstellen oder Ihre Aufgaben zu organisieren.",
+      "ABOUT_DEVELOPER": "Clip#board wurde von einem einzelnen Entwickler geschrieben, der sich gerade so die Domainkosten für dieses Projekt leisten kann \uD83D\uDE25<br>Bitte unterstützt mich, damit ich mir die Domainkosten weiterhin leisten kann ❤",
       "DONATE_TO_THE_DEVELOPER": "Spende an den Entwickler",
       "REPORT_BUG": "Fehler melden",
       "VIEW_LAST_CHANGES": "Letzte Änderungen anzeigen"
@@ -76,6 +80,7 @@
     "SAVE_N_ITEMS": "{{n}} Elemente speichern",
     "SAVE_TAB": "Tab speichern",
     "SHARE_TAB": "Tab teilen",
+    "ABOUT_CLIPBOARD": "Über Clip#board",
     "SWITCH_LANGUAGE": "Sprache wechseln",
     "UNDO_LAST_ACTION": "Letzte Aktion rückgängig machen"
   },

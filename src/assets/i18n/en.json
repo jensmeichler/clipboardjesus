@@ -4,10 +4,14 @@
     "DELETE": "Delete",
     "FILENAME": "Filename",
     "IMPORT": "Import",
+    "MORE": "More",
     "OK": "Ok"
   },
   "DIALOGS": {
     "ABOUT": {
+      "ABOUT": "About",
+      "ABOUT_CLIPBOARD": "Manage your clipboard like a pro with Clip#board.<br>Clip#board is an awesome tool to create notes from your clipboard or to organize your tasks.",
+      "ABOUT_DEVELOPER": "Clip#board was written by a single developer that can barely afford the domain costs for this project \uD83D\uDE25<br>Please support me so I can continue to afford the domain costs ❤",
       "DONATE_TO_THE_DEVELOPER": "Donate to the developer",
       "REPORT_BUG": "Report bug",
       "VIEW_LAST_CHANGES": "View last changes"
@@ -76,6 +80,7 @@
     "SAVE_N_ITEMS": "Save {{n}} items",
     "SAVE_TAB": "Save tab",
     "SHARE_TAB": "Share tab",
+    "ABOUT_CLIPBOARD": "About Clip#board",
     "SWITCH_LANGUAGE": "Switch language",
     "UNDO_LAST_ACTION": "Undo last action"
   },
