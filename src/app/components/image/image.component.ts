@@ -11,8 +11,7 @@ import {HashyService} from "../../services/hashy.service";
   styleUrls: ['./image.component.scss']
 })
 export class ImageComponent {
-  @Input()
-  image: Image = {} as Image;
+  @Input() image: Image = {} as Image;
 
   imageLoaded = false;
 

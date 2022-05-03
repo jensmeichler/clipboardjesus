@@ -5,6 +5,7 @@ import {DraggableNote, Image, Note, Tab, TaskList} from "../models";
 import {CacheService} from "./cache.service";
 import {FileService} from "./file.service";
 import {HashyService} from "./hashy.service";
+import {NoteList} from "../models/note-list.model";
 
 @Injectable({
   providedIn: 'root'
@@ -32,10 +33,7 @@ export class DataService {
         this.tabs.push(tab);
       }
     }
-
-    if (!this.tabs.length) {
-      this.addTab();
-    }
+    if (!this.tabs.length) this.addTab();
 
     this.selectedTabIndex = 0;
     this.setColorizedObjects();
@@ -43,22 +41,20 @@ export class DataService {
 
   get itemsCount(): number {
     return this.tab.notes.length + this.tab.taskLists.length + this.tab.images.length;
-  };
+  }
 
   get selectedItemsCount(): number {
     return this.tab.notes.filter(x => x.selected).length
       + this.tab.taskLists.filter(x => x.selected).length
       + this.tab.images.filter(x => x.selected).length;
-  };
+  }
 
   get tab(): Tab {
     return this.tabs[this.selectedTabIndex];
   }
 
   set tab(tab: Tab) {
-    if (!tab) {
-      debugger;
-    }
+    if (!tab) debugger;
     this.tabs[this.selectedTabIndex] = tab;
   }
 
@@ -82,13 +78,10 @@ export class DataService {
   }
 
   private static compareColors(left: Note | TaskList, right: Note | TaskList): boolean {
-    if (left && right) {
-      return left.backgroundColor == right.backgroundColor
-        && left.backgroundColorGradient == right.backgroundColorGradient
-        && left.foregroundColor == right.foregroundColor
-    } else {
-      return false;
-    }
+    if (!left || !right) return false;
+    return left.backgroundColor === right.backgroundColor
+      && left.backgroundColorGradient === right.backgroundColorGradient
+      && left.foregroundColor === right.foregroundColor
   }
 
   undo() {
@@ -105,9 +98,7 @@ export class DataService {
 
   restoreTab() {
     const recreatedTab = this.cache.recreate();
-    if (recreatedTab) {
-      this.addTab(recreatedTab);
-    }
+    if (recreatedTab) this.addTab(recreatedTab);
   }
 
   getColorizedObjects(excludedItem: Note | TaskList): (Note | TaskList)[] {
@@ -122,17 +113,17 @@ export class DataService {
     this.editAllItems(item => item.selected = undefined);
   }
 
-  editAllSelectedItems(action: (item: Note | TaskList | Image) => void) {
+  editAllSelectedItems(action: (item: DraggableNote) => void) {
     this.editAllItems(x => x.selected ? action(x) : {})
   }
 
-  editAllItems(action: (item: Note | TaskList | Image) => void) {
+  editAllItems(action: (item: DraggableNote) => void) {
     this.tab.notes.forEach(action);
     this.tab.taskLists.forEach(action);
     this.tab.images.forEach(action);
   }
 
-  filterAllItems(action: (item: Note | TaskList | Image) => boolean) {
+  filterAllItems(action: (item: DraggableNote) => boolean) {
     this.tab.notes = this.tab.notes.filter(action);
     this.tab.taskLists = this.tab.taskLists.filter(action);
     this.tab.images = this.tab.images.filter(action);
@@ -154,13 +145,12 @@ export class DataService {
   }
 
   addTab(tab?: Tab) {
-    if (tab) {
-      tab.index = this.tabs.length;
-    }
+    if (tab) tab.index = this.tabs.length;
     const newTab: Tab = tab ?? {
       index: this.tabs.length,
       color: '#131313',
       notes: [],
+      noteLists: [],
       taskLists: [],
       images: []
     };
@@ -185,21 +175,13 @@ export class DataService {
 
   async importItemsFromClipboard(): Promise<boolean> {
     const clipboardText = await navigator.clipboard.readText();
-    if (!clipboardText) {
-      return false;
-    }
+    if (!clipboardText) return false;
 
     try {
       let tab = JSON.parse(clipboardText) as Tab;
-      if (tab.notes.length) {
-        tab.notes.forEach(note => this.addNote(note));
-      }
-      if (tab.taskLists.length) {
-        tab.taskLists.forEach(taskList => this.addTaskList(taskList));
-      }
-      if (tab.images.length) {
-        tab.images.forEach(image => this.addImage(image));
-      }
+      if (tab.notes.length) tab.notes.forEach(note => this.addNote(note));
+      if (tab.taskLists.length) tab.taskLists.forEach(taskList => this.addTaskList(taskList));
+      if (tab.images.length) tab.images.forEach(image => this.addImage(image));
     } catch {
       this.addNote(new Note(10, 61, clipboardText));
     }
@@ -272,21 +254,24 @@ export class DataService {
   addNote(note: Note) {
     this.defineIndex(note);
     this.tab.notes.push(note);
+    this.cacheData();
+  }
 
+  addNoteList(noteList: NoteList) {
+    this.defineIndex(noteList);
+    this.tab.noteLists.push(noteList);
     this.cacheData();
   }
 
   addTaskList(taskList: TaskList) {
     this.defineIndex(taskList);
     this.tab.taskLists.push(taskList);
-
     this.cacheData();
   }
 
   addImage(image: Image) {
     this.defineIndex(image);
     this.tab.images.push(image);
-
     this.cacheData();
   }
 
@@ -327,10 +312,8 @@ export class DataService {
   }
 
   getAsJson(ignoreSelection?: boolean): Tab {
-    if (!ignoreSelection && this.selectedItemsCount) {
-      return this.getSelectedItems();
-    }
-    return this.tab;
+    if (ignoreSelection || !this.selectedItemsCount) return this.tab;
+    return this.getSelectedItems();
   }
 
   setFromTabJson(tab: Tab, skipCache?: boolean) {
@@ -350,10 +333,7 @@ export class DataService {
       }
     });
 
-    if (!skipCache) {
-      this.cacheData();
-    }
-
+    if (!skipCache) this.cacheData();
     this.reArrangeIndices();
   }
 
@@ -364,9 +344,7 @@ export class DataService {
         right: 'var(--margin-edge)'
       }
     }).afterClosed().subscribe(filename => {
-      if (filename) {
-        this.saveAll(filename);
-      }
+      if (filename) this.saveAll(filename);
     });
   }
 
@@ -384,7 +362,7 @@ export class DataService {
     this.cacheData();
   }
 
-  bringToFront(item: { posZ?: number }) {
+  bringToFront(item: DraggableNote) {
     item.posZ = this.getNextIndex();
     this.reArrangeIndices();
   }
@@ -478,11 +456,9 @@ export class DataService {
         selectedImages[0].selected = false;
       }
 
-      if (currentIndex == undefined) {
-        return;
-      } else {
-        currentIndex = revert ? currentIndex - 1 : currentIndex + 1;
-      }
+      if (currentIndex == undefined) return;
+
+      currentIndex = revert ? currentIndex - 1 : currentIndex + 1;
 
       const possibleNextSelectedNotes = notes?.filter(x => x.posZ == currentIndex);
       const possibleNextSelectedTaskLists = taskLists?.filter(x => x.posZ == currentIndex);
@@ -490,13 +466,10 @@ export class DataService {
 
       if (possibleNextSelectedNotes?.length) {
         this.selectFirst(possibleNextSelectedNotes);
-        return;
       } else if (possibleNextSelectedTaskLists?.length) {
         this.selectFirst(possibleNextSelectedTaskLists);
-        return;
       } else if (possibleNextSelectedImages?.length) {
         this.selectFirst(possibleNextSelectedImages);
-        return;
       }
     }
   }
@@ -508,53 +481,38 @@ export class DataService {
     }
     const minIndex = list.reduce((index, draggable) => Math.min(index, draggable.posZ ?? Number.MAX_VALUE), Number.MAX_VALUE);
     const firstItems = list.filter(x => x.posZ == minIndex);
-    if (firstItems.length) {
-      firstItems[0].selected = true;
-    } else {
-      list[0].selected = true;
-    }
+    if (firstItems.length) firstItems[0].selected = true;
+    else list[0].selected = true;
   }
 
-  private defineIndex(item: Note | TaskList | Image) {
-    if (item.posZ == undefined) {
-      item.posZ = this.getNextIndex();
-    }
+  private defineIndex(item: DraggableNote) {
+    if (item.posZ === undefined) item.posZ = this.getNextIndex();
   }
 
   private reArrangeIndices() {
     let indexItems = this.getIndexItems()
       .sort((a, b) => (a.posZ ?? 0) - (b.posZ ?? 0));
     let i = 1;
-    indexItems.forEach(item => {
-      item.posZ = i++;
-    })
+    indexItems.forEach(item => item.posZ = i++);
   }
 
   private getNextIndex(): number {
     let highestItem = this.getIndexItems()
       ?.filter(n => n.posZ)
       ?.reduce((hn, n) => Math.max(hn, n.posZ!), 0);
-
-    return highestItem
-      ? highestItem + 1
-      : 1
+    return highestItem ? highestItem + 1 : 1
   }
 
   private getIndexItems(): DraggableNote[] {
     let notes = this.tab.notes;
     let taskLists = this.tab.taskLists;
     let images = this.tab.images;
-    let result: DraggableNote[] = [];
 
-    if (notes) {
-      result = result.concat(notes);
-    }
-    if (taskLists) {
-      result = result.concat(taskLists);
-    }
-    if (images) {
-      result = result.concat(images);
-    }
+    let result: DraggableNote[] = [];
+    if (notes) result = result.concat(notes);
+    if (taskLists) result = result.concat(taskLists);
+    if (images) result = result.concat(images);
+
     return result;
   }
 }

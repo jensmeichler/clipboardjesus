@@ -16,6 +16,8 @@ import {HashyService} from "./services/hashy.service";
 import {SettingsService} from "./services/settings.service";
 import {Observable} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
+import {NoteList} from "./models/note-list.model";
+import {EditNoteListDialogComponent} from "./components/dialogs/edit-note-list-dialog/edit-note-list-dialog.component";
 
 @Component({
   selector: 'app-root',
@@ -222,6 +224,17 @@ export class AppComponent implements OnInit {
     }).afterClosed().subscribe((note) => {
       if (note) {
         this.dataService.addNote(note);
+      }
+    });
+  }
+
+  openNewNoteListDialog() {
+    this.dialog.open(EditNoteListDialogComponent, {
+      width: 'var(--width-edit-dialog)',
+      data: new NoteList(this.newNotePositionX, this.newNotePositionY),
+    }).afterClosed().subscribe((noteList) => {
+      if (noteList) {
+        this.dataService.addNoteList(noteList);
       }
     });
   }

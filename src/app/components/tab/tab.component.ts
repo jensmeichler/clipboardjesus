@@ -11,8 +11,7 @@ import {ImportDialogComponent} from "../dialogs/import-dialog/import-dialog.comp
   styleUrls: ['./tab.component.scss']
 })
 export class TabComponent {
-  @Input()
-  tab?: Tab;
+  @Input() tab?: Tab;
 
   startCursorPosX = 0;
   startCursorPosY = 0;

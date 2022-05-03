@@ -45,6 +45,8 @@ import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClientModule} from '@angular/common/http';
 import {HttpClient} from "@angular/common/http";
+import { NoteListComponent } from './components/note-list/note-list.component';
+import { EditNoteListDialogComponent } from './components/dialogs/edit-note-list-dialog/edit-note-list-dialog.component';
 
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
@@ -85,6 +87,8 @@ export function createTranslateLoader(http: HttpClient) {
     CustomCursorDirective,
     ImportDialogComponent,
     HighlightColorDirective,
+    NoteListComponent,
+    EditNoteListDialogComponent,
   ],
   imports: [
     BrowserModule,

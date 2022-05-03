@@ -64,6 +64,10 @@
           <mat-icon>note</mat-icon>
           {{ 'MAIN.CREATE_NOTE' | translate }}
         </button>
+        <button (click)="openNewNoteListDialog()" mat-menu-item>
+          <mat-icon>sticky_note_2</mat-icon>
+          {{ 'MAIN.CREATE_NOTE_LIST' | translate }}
+        </button>
         <button (click)="openNewTaskListDialog()" mat-menu-item>
           <mat-icon>list</mat-icon>
           {{ 'MAIN.CREATE_TASK_LIST' | translate }}

@@ -1,8 +1,7 @@
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {Component, HostListener, Input, OnDestroy, ViewChild} from '@angular/core';
+import {Component, HostListener, Input, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {Subscription} from "rxjs";
 import {Note, TaskItem, TaskList} from "../../models";
 import {DataService} from "../../services/data.service";
 import {StringParserService} from "../../services/string-parser.service";
@@ -13,11 +12,8 @@ import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss']
 })
-export class TaskListComponent implements OnDestroy {
-  @Input()
-  taskList: TaskList = {} as TaskList;
-
-  dialogSubscription?: Subscription;
+export class TaskListComponent {
+  @Input() taskList: TaskList = {} as TaskList;
 
   mouseDown = false;
   movedPx = 0;
@@ -54,10 +50,6 @@ export class TaskListComponent implements OnDestroy {
   @HostListener('mouseleave')
   onMouseLeave() {
     this.showRadEffect = false;
-  }
-
-  ngOnDestroy() {
-    this.dialogSubscription?.unsubscribe();
   }
 
   select() {
@@ -136,7 +128,7 @@ export class TaskListComponent implements OnDestroy {
   edit() {
     if (this.canInteract) {
       let taskList = JSON.parse(JSON.stringify(this.taskList));
-      this.dialogSubscription = this.dialog.open(EditTaskListDialogComponent, {
+      this.dialog.open(EditTaskListDialogComponent, {
         width: 'var(--width-edit-dialog)',
         data: taskList,
         disableClose: true,

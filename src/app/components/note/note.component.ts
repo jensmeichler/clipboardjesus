@@ -1,8 +1,7 @@
 import {Clipboard} from "@angular/cdk/clipboard";
-import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {Subscription} from "rxjs";
 import {htmlRegex} from "../../const/regexes";
 import {Note, TaskList} from "../../models";
 import {DataService} from "../../services/data.service";
@@ -14,11 +13,8 @@ import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dia
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.scss']
 })
-export class NoteComponent implements OnInit, OnDestroy {
-  @Input()
-  note: Note = {} as Note;
-
-  dialogSubscription?: Subscription;
+export class NoteComponent implements OnInit {
+  @Input() note: Note = {} as Note;
 
   rippleDisabled = false;
 
@@ -49,10 +45,6 @@ export class NoteComponent implements OnInit, OnDestroy {
     if (this.note.code != false && this.note.content && htmlRegex.test(this.note.content)) {
       this.note.code = true;
     }
-  }
-
-  ngOnDestroy() {
-    this.dialogSubscription?.unsubscribe();
   }
 
   select() {
@@ -106,7 +98,7 @@ export class NoteComponent implements OnInit, OnDestroy {
   edit(event: MouseEvent, stopPropagation?: boolean) {
     if (this.canInteract) {
       let note = {...this.note};
-      this.dialogSubscription = this.dialog.open(EditNoteDialogComponent, {
+      this.dialog.open(EditNoteDialogComponent, {
         width: 'var(--width-edit-dialog)',
         data: note,
         disableClose: true,
