@@ -32,7 +32,7 @@
        style="visibility: hidden; position: fixed">
   </div>
   <mat-menu #contextMenu="matMenu">
-    <div [cursorBackground]="undefined"
+    <div [highlightColor]="undefined"
          [x]="rightClickPosX" [y]="rightClickPosY">
       <ng-container *ngIf="dataService.selectedItemsCount as n">
         <button (click)="copySelectedItems()" mat-menu-item>

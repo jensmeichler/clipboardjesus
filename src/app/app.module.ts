@@ -40,7 +40,7 @@ import {TaskListComponent} from './components/task-list/task-list.component';
 import {CustomAutofocusDirective} from './directives/custom-autofocus.directive';
 import {CustomCursorDirective} from './directives/custom-cursor.directive';
 import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
-import {CursorBackgroundDirective} from './directives/cursor-background.directive';
+import {HighlightColorDirective} from './directives/highlight-color.directive';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClientModule} from '@angular/common/http';
@@ -84,7 +84,7 @@ export function createTranslateLoader(http: HttpClient) {
     CustomAutofocusDirective,
     CustomCursorDirective,
     ImportDialogComponent,
-    CursorBackgroundDirective,
+    HighlightColorDirective,
   ],
   imports: [
     BrowserModule,

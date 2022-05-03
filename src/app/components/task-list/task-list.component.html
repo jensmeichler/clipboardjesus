@@ -7,8 +7,8 @@
           [class.docked-top]="taskList.posY === 49"
           [style.background-color]="taskList.backgroundColor"
           [style.color]="taskList.foregroundColor"
-          [cursorBackground]="taskList.backgroundColorGradient ?? undefined"
-          [cursorBackgroundItem]="taskList">
+          [highlightColor]="taskList.backgroundColorGradient ?? undefined"
+          [highlightedItem]="taskList">
   <mat-card-title class="flex-container">
     {{ taskList.header ?? 'Tasks' }}
   </mat-card-title>
@@ -82,7 +82,7 @@
 <mat-menu #contextMenu="matMenu">
   <div [style.color]="taskList.foregroundColor"
        [style.background-color]="taskList.backgroundColor"
-       [cursorBackground]="taskList.backgroundColorGradient ?? undefined"
+       [highlightColor]="taskList.backgroundColorGradient ?? undefined"
        [x]="rightClickPosX" [y]="rightClickPosY">
     <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="dataService.bringToFront(this.taskList)" mat-menu-item>

@@ -8,8 +8,8 @@
           [class.docked-top]="image.posY === 49"
           [matRippleDisabled]="rippleDisabled"
           class="flex-container" matRipple
-          [cursorBackground]="undefined"
-          [cursorBackgroundItem]="image"
+          [highlightColor]="undefined"
+          [highlightedItem]="image"
           style="padding: 5px 5px 0 5px; min-height: 32px">
   <div *ngIf="!imageLoaded" class="image-link">
     {{ image.source }}
@@ -32,8 +32,8 @@
 </div>
 <mat-menu #contextMenu="matMenu">
   <div
-    [cursorBackground]="undefined"
-    [cursorBackgroundItem]="image"
+    [highlightColor]="undefined"
+    [highlightedItem]="image"
     [x]="rightClickPosX" [y]="rightClickPosY">
     <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="dataService.bringToFront(this.image)" mat-menu-item>

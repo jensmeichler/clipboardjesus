@@ -3,18 +3,18 @@ import {DraggableNote} from "../models";
 import {SettingsService} from "../services/settings.service";
 
 @Directive({
-  selector: '[cursorBackground]'
+  selector: '[highlightColor]'
 })
-export class CursorBackgroundDirective {
-  private _cursorBackground?: string;
+export class HighlightColorDirective {
+  private _highlightColor?: string;
 
-  @Input('cursorBackground')
-  set cursorBackground(value: string | undefined) {
-    this._cursorBackground = value;
+  @Input('highlightColor')
+  set highlightColor(value: string | undefined) {
+    this._highlightColor = value;
     this.onMouseLeave();
   }
 
-  @Input('cursorBackgroundItem')
+  @Input('highlightedItem')
   item?: DraggableNote;
 
   @Input('x') x?: number;
@@ -30,9 +30,9 @@ export class CursorBackgroundDirective {
 
   setBackground(absoluteMousePos: { x: number, y: number }): void {
     this.element.nativeElement.style.backgroundImage =
-      (this._cursorBackground ? 'linear-gradient(to bottom, transparent, ' + this._cursorBackground + '), ' : '')
+      (this._highlightColor ? 'linear-gradient(to bottom, transparent, ' + this._highlightColor + '), ' : '')
       + 'radial-gradient(circle at ' + absoluteMousePos.x + 'px ' + absoluteMousePos.y + 'px , '
-      + (this._cursorBackground ?? 'var(--color-primary)')
+      + (this._highlightColor ?? 'var(--color-primary)')
       + ' 0, transparent ' + this.radEffectWidth + 'px' + ', transparent)';
   }
 
@@ -43,8 +43,8 @@ export class CursorBackgroundDirective {
 
   @HostListener('mouseleave')
   onMouseLeave() {
-    this.element.nativeElement.style.backgroundImage = this._cursorBackground
-      ? 'linear-gradient(to bottom, transparent, ' + this._cursorBackground + ')'
+    this.element.nativeElement.style.backgroundImage = this._highlightColor
+      ? 'linear-gradient(to bottom, transparent, ' + this._highlightColor + ')'
       : 'none';
   }
 
