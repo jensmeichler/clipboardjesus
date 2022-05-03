@@ -198,7 +198,8 @@ export class AppComponent implements OnInit {
 
   get saveButtonTooltip(): Observable<string> | undefined {
     if (!this.dataService.selectedItemsCount) return;
-    return this.translate.get('MAIN.SAVE_N_ITEMS', {n: this.dataService.selectedItemsCount});
+    const n = this.dataService.selectedItemsCount;
+    return this.translate.get('MAIN.SAVE_N_ITEMS', {n});
   }
 
   save() {
@@ -222,9 +223,7 @@ export class AppComponent implements OnInit {
       width: 'var(--width-edit-dialog)',
       data: new Note(this.newNotePositionX, this.newNotePositionY, ''),
     }).afterClosed().subscribe((note) => {
-      if (note) {
-        this.dataService.addNote(note);
-      }
+      if (note) this.dataService.addNote(note);
     });
   }
 
@@ -233,9 +232,7 @@ export class AppComponent implements OnInit {
       width: 'var(--width-edit-dialog)',
       data: new NoteList(this.newNotePositionX, this.newNotePositionY),
     }).afterClosed().subscribe((noteList) => {
-      if (noteList) {
-        this.dataService.addNoteList(noteList);
-      }
+      if (noteList) this.dataService.addNoteList(noteList);
     });
   }
 
@@ -244,9 +241,7 @@ export class AppComponent implements OnInit {
       width: 'var(--width-edit-dialog)',
       data: new TaskList(this.newNotePositionX, this.newNotePositionY),
     }).afterClosed().subscribe((taskList) => {
-      if (taskList) {
-        this.dataService.addTaskList(taskList);
-      }
+      if (taskList) this.dataService.addTaskList(taskList);
     });
   }
 
