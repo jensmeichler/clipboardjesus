@@ -63,6 +63,7 @@
     "COPIED_URL_TO_CLIPBOARD": "Copied url to clipboard",
     "COPY_N_ITEMS": "Copy {{n}} items",
     "CREATE_NOTE": "Create note",
+    "CREATE_NOTE_LIST": "Create note list",
     "CREATE_TASK_LIST": "Create task list",
     "CUT_N_ITEMS": "Cut {{n}} items",
     "DELETE_ALL_TABS": "Delete all tabs",

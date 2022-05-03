@@ -63,6 +63,7 @@
     "COPIED_URL_TO_CLIPBOARD": "Url in die Zwischenablage kopiert",
     "COPY_N_ITEMS": "{{n}} Elemente kopieren",
     "CREATE_NOTE": "Notiz erstellen",
+    "CREATE_NOTE_LIST": "Notizenliste erstellen",
     "CREATE_TASK_LIST": "Aufgabenliste erstellen",
     "CUT_N_ITEMS": "{{n}} Elemente ausschneiden",
     "DELETE_ALL_TABS": "Alle Tabs löschen",

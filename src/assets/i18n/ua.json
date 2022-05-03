@@ -63,6 +63,7 @@
     "COPIED_URL_TO_CLIPBOARD": "URL-адресу скопійовано в буфер обміну",
     "COPY_N_ITEMS": "Копіювати {{n}} елементів",
     "CREATE_NOTE": "Створити нотатку",
+    "CREATE_NOTE_LIST": "Створити список нотатку",
     "CREATE_TASK_LIST": "Створити список завдань",
     "CUT_N_ITEMS": "Вирізати {{n}} елементів",
     "DELETE_ALL_TABS": "Видалити всі вкладки",
