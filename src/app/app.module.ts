@@ -26,27 +26,31 @@ import {HIGHLIGHT_OPTIONS, HighlightModule} from "ngx-highlightjs";
 import {MarkdownModule, MarkedOptions, MarkedRenderer} from "ngx-markdown";
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
-import {AboutDialogComponent} from './components/dialogs/about-dialog/about-dialog.component';
-import {DeleteDialogComponent} from './components/dialogs/delete-dialog/delete-dialog.component';
-import {EditNoteDialogComponent} from './components/dialogs/edit-note-dialog/edit-note-dialog.component';
-import {EditTabDialogComponent} from './components/dialogs/edit-tab-dialog/edit-tab-dialog.component';
-import {EditTaskListDialogComponent} from './components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component';
-import {ImportDialogComponent} from './components/dialogs/import-dialog/import-dialog.component';
-import {SaveAsDialogComponent} from './components/dialogs/save-as-dialog/save-as-dialog.component';
-import {ImageComponent} from './components/image/image.component';
-import {NoteComponent} from './components/note/note.component';
-import {TabComponent} from './components/tab/tab.component';
-import {TaskListComponent} from './components/task-list/task-list.component';
-import {CustomAutofocusDirective} from './directives/custom-autofocus.directive';
-import {CustomCursorDirective} from './directives/custom-cursor.directive';
-import {CustomDragDropDirective} from './directives/custom-drag-drop.directive';
-import {HighlightColorDirective} from './directives/highlight-color.directive';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {HttpClientModule} from '@angular/common/http';
 import {HttpClient} from "@angular/common/http";
-import { NoteListComponent } from './components/note-list/note-list.component';
-import { EditNoteListDialogComponent } from './components/dialogs/edit-note-list-dialog/edit-note-list-dialog.component';
+import {
+  AboutDialogComponent,
+  DeleteDialogComponent,
+  EditNoteDialogComponent,
+  EditTabDialogComponent,
+  EditTaskListDialogComponent,
+  ImportDialogComponent,
+  SaveAsDialogComponent,
+  ImageComponent,
+  NoteComponent,
+  TabComponent,
+  TaskListComponent,
+  NoteListComponent,
+  EditNoteListDialogComponent
+} from './components';
+import {
+  CustomAutofocusDirective,
+  CustomCursorDirective,
+  CustomDragDropDirective,
+  HighlightColorDirective
+} from './directives';
 
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();

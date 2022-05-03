@@ -4,9 +4,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {htmlRegex} from "../../const/regexes";
 import {Note, TaskList} from "../../models";
-import {DataService} from "../../services/data.service";
-import {HashyService} from "../../services/hashy.service";
-import {EditNoteDialogComponent} from "../dialogs/edit-note-dialog/edit-note-dialog.component";
+import {DataService, HashyService} from "../../services";
+import {EditNoteDialogComponent} from "../dialogs";
 
 @Component({
   selector: 'note',

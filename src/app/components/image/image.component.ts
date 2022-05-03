@@ -2,8 +2,7 @@ import {Clipboard} from "@angular/cdk/clipboard";
 import {Component, HostListener, Input, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Image} from "../../models";
-import {DataService} from "../../services/data.service";
-import {HashyService} from "../../services/hashy.service";
+import {DataService, HashyService} from "../../services";
 
 @Component({
   selector: 'image',

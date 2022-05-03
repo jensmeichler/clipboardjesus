@@ -3,9 +3,8 @@ import {Component, HostListener, Input, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Note, TaskItem, TaskList} from "../../models";
-import {DataService} from "../../services/data.service";
-import {StringParserService} from "../../services/string-parser.service";
-import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
+import {DataService, StringParserService} from "../../services";
+import {EditTaskListDialogComponent} from "../dialogs";
 
 @Component({
   selector: 'task-list',

@@ -1,9 +1,8 @@
 import {Component, ElementRef, HostListener, Input} from '@angular/core';
 import {Image, Note, Tab} from "../../models";
-import {DataService} from "../../services/data.service";
-import {HashyService} from "../../services/hashy.service";
+import {DataService, HashyService} from "../../services";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
-import {ImportDialogComponent} from "../dialogs/import-dialog/import-dialog.component";
+import {ImportDialogComponent} from "../dialogs";
 
 @Component({
   selector: 'clipboard-tab',

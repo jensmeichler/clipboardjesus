@@ -1,6 +1,6 @@
 import {Component, HostListener} from '@angular/core';
 import {MatBottomSheetRef} from "@angular/material/bottom-sheet";
-import {DataService} from "../../../services/data.service";
+import {DataService} from "../../../services";
 
 @Component({
   selector: 'app-delete-dialog',
