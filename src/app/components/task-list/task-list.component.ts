@@ -168,9 +168,20 @@ export class TaskListComponent {
   }
 
   onKeyPressed(event: KeyboardEvent, item: TaskItem) {
-    if (event.key == 'Enter' || event.key == 'Escape') {
-      this.endEditItem(item);
-    } else if (event.key == 'Tab') {
+    if (event.key === 'Enter') {
+      if (item.value) {
+        this.endEditItem(item);
+        this.addItemAfter(item);
+      } else {
+        this.deleteItem(item);
+      }
+    } else if (event.key === 'Escape') {
+      if (item.value) {
+        this.endEditItem(item);
+      } else {
+        this.deleteItem(item);
+      }
+    } else if (event.key === 'Tab') {
       this.toggleSubTask(item);
       event.preventDefault();
     }
