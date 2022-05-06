@@ -29,7 +29,7 @@ export class TabComponent {
 
   onMouseDown(event: MouseEvent) {
     if (!this.mouseDown) {
-      if (event.button == 0) {
+      if (event.button === 0) {
         this.mouseDown = true;
         this.startCursorPosX = event.pageX;
         this.startCursorPosY = event.pageY;
@@ -69,7 +69,7 @@ export class TabComponent {
           }
         }
       })
-    } else if (this.mouseDown && event.button == 0) {
+    } else if (this.mouseDown && event.button === 0) {
       if (this.dataService.selectedItemsCount) {
         this.dataService.clearSelection();
       } else {

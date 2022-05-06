@@ -34,9 +34,9 @@ export class EditTaskListDialogComponent {
 
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent) {
-    if ((event.ctrlKey || event.metaKey) && event.key == 'Enter') {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
       this.submit();
-    } else if (event.key == 'Escape') {
+    } else if (event.key === 'Escape') {
       this.cancel();
     }
 

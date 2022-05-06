@@ -1,11 +1,17 @@
 import {Injectable} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {SaveAsDialogComponent} from "../components/dialogs/save-as-dialog/save-as-dialog.component";
-import {DraggableNote, Image, Note, Tab, TaskList} from "../models";
+import {SaveAsDialogComponent} from "../components";
+import {
+  DraggableNote,
+  Image,
+  Note,
+  Tab,
+  TaskList,
+  NoteList
+} from "../models";
 import {CacheService} from "./cache.service";
 import {FileService} from "./file.service";
 import {HashyService} from "./hashy.service";
-import {NoteList} from "../models/note-list.model";
 
 @Injectable({
   providedIn: 'root'
@@ -421,7 +427,7 @@ export class DataService {
   }
 
   selectNextTab(revert: boolean) {
-    if (!((this.selectedTabIndex == 0 && revert) || (this.selectedTabIndex == (this.tabs.length - 1) && !revert))) {
+    if (!((this.selectedTabIndex === 0 && revert) || (this.selectedTabIndex === (this.tabs.length - 1) && !revert))) {
       this.selectedTabIndex = revert ? this.selectedTabIndex - 1 : this.selectedTabIndex + 1;
     }
   }
@@ -431,7 +437,7 @@ export class DataService {
     let taskLists = this.tab.taskLists;
     let images = this.tab.images;
 
-    if (this.selectedItemsCount == 0) {
+    if (this.selectedItemsCount === 0) {
       if (notes?.length) {
         this.selectFirst(notes);
       } else if (taskLists?.length) {
@@ -439,7 +445,7 @@ export class DataService {
       } else if (images?.length) {
         this.selectFirst(images);
       }
-    } else if (this.selectedItemsCount == 1) {
+    } else if (this.selectedItemsCount === 1) {
       const selectedNotes = notes?.filter(x => x.selected);
       const selectedTaskLists = taskLists?.filter(x => x.selected);
       const selectedImages = images?.filter(x => x.selected);
@@ -456,13 +462,13 @@ export class DataService {
         selectedImages[0].selected = false;
       }
 
-      if (currentIndex == undefined) return;
+      if (currentIndex === undefined) return;
 
       currentIndex = revert ? currentIndex - 1 : currentIndex + 1;
 
-      const possibleNextSelectedNotes = notes?.filter(x => x.posZ == currentIndex);
-      const possibleNextSelectedTaskLists = taskLists?.filter(x => x.posZ == currentIndex);
-      const possibleNextSelectedImages = images?.filter(x => x.posZ == currentIndex);
+      const possibleNextSelectedNotes = notes?.filter(x => x.posZ === currentIndex);
+      const possibleNextSelectedTaskLists = taskLists?.filter(x => x.posZ === currentIndex);
+      const possibleNextSelectedImages = images?.filter(x => x.posZ === currentIndex);
 
       if (possibleNextSelectedNotes?.length) {
         this.selectFirst(possibleNextSelectedNotes);
@@ -475,12 +481,12 @@ export class DataService {
   }
 
   private selectFirst(list: DraggableNote[]) {
-    if (list.length == 1) {
+    if (list.length === 1) {
       list[0].selected = true;
       return;
     }
     const minIndex = list.reduce((index, draggable) => Math.min(index, draggable.posZ ?? Number.MAX_VALUE), Number.MAX_VALUE);
-    const firstItems = list.filter(x => x.posZ == minIndex);
+    const firstItems = list.filter(x => x.posZ === minIndex);
     if (firstItems.length) firstItems[0].selected = true;
     else list[0].selected = true;
   }

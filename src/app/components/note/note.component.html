@@ -82,7 +82,7 @@
           {{ 'DRAGGABLE.COPY_COLOR_FROM' | translate }}
         </button>
       </ng-container>
-      <ng-container *ngIf="dataService.getColorizedObjects(note).length == 1">
+      <ng-container *ngIf="dataService.getColorizedObjects(note).length === 1">
         <button (click)="copyColorFrom(dataService.getColorizedObjects(note)[0])" mat-menu-item>
           <mat-icon>colorize</mat-icon>
           {{ 'DRAGGABLE.COPY_OTHER_COLOR' | translate }}

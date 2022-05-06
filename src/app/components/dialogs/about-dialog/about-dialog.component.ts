@@ -13,7 +13,7 @@ export class AboutDialogComponent {
 
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent) {
-    if (event.key == 'Escape') this.cancel();
+    if (event.key === 'Escape') this.cancel();
     event.stopPropagation();
   }
 

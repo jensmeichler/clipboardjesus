@@ -29,9 +29,9 @@ export class ImportDialogComponent {
 
   @HostListener('document:keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent) {
-    if (event.key == 'Enter') {
+    if (event.key === 'Enter') {
       this.import();
-    } else if (event.key == 'Escape') {
+    } else if (event.key === 'Escape') {
       this.cancel();
     }
 
