@@ -5,35 +5,48 @@
      [style.background]="tab.color !== '#131313'
        ? 'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + tab.color + ', #131313)'
        : '#131313'">
-  <ng-container *ngFor="let note of tab.notes">
-    <note cdkDrag class="draggable-note" [class.draggable-note-selected]="note.selected"
-          (cdkDragEnded)="saveItemPosition($event, note)"
-          (mousedown)="$event.stopPropagation()"
-          [style.top.px]="note.posY - 49"
-          [style.left.px]="note.posX"
-          [style.zIndex]="note.posZ"
-          [note]="note"></note>
-  </ng-container>
+  <note *ngFor="let note of tab.notes"
+        cdkDrag class="draggable-note"
+        [class.draggable-note-selected]="note.selected"
+        (cdkDragEnded)="saveItemPosition($event, note)"
+        (mousedown)="$event.stopPropagation()"
+        [style.top.px]="note.posY - 49"
+        [style.left.px]="note.posX"
+        [style.zIndex]="note.posZ"
+        [note]="note"
+  ></note>
   <div cdkDropListGroup>
-    <ng-container *ngFor="let taskList of tab.taskLists">
-      <task-list cdkDrag class="draggable-note" [class.draggable-note-selected]="taskList.selected"
-                 (cdkDragEnded)="saveItemPosition($event, taskList)"
-                 (mousedown)="$event.stopPropagation()"
-                 [style.top.px]="taskList.posY - 49"
-                 [style.left.px]="taskList.posX"
-                 [style.zIndex]="taskList.posZ"
-                 [taskList]="taskList"></task-list>
-    </ng-container>
+    <task-list *ngFor="let taskList of tab.taskLists"
+               cdkDrag class="draggable-note"
+               [class.draggable-note-selected]="taskList.selected"
+               (cdkDragEnded)="saveItemPosition($event, taskList)"
+               (mousedown)="$event.stopPropagation()"
+               [style.top.px]="taskList.posY - 49"
+               [style.left.px]="taskList.posX"
+               [style.zIndex]="taskList.posZ"
+               [taskList]="taskList"
+    ></task-list>
   </div>
-  <ng-container *ngFor="let image of tab.images">
-    <image cdkDrag class="draggable-note" [class.draggable-note-selected]="image.selected"
-           (cdkDragEnded)="saveItemPosition($event, image)"
-           (mousedown)="$event.stopPropagation()"
-           [style.top.px]="image.posY - 49"
-           [style.left.px]="image.posX"
-           [style.zIndex]="image.posZ"
-           [image]="image"></image>
-  </ng-container>
+  <note-list *ngFor="let noteList of tab.noteLists"
+             cdkDrag class="draggable-note"
+             [class.draggable-note-selected]="noteList.selected"
+             (cdkDragEnded)="saveItemPosition($event, noteList)"
+             (mousedown)="$event.stopPropagation()"
+             [style.top.px]="noteList.posY - 49"
+             [style.left.px]="noteList.posX"
+             [style.zIndex]="noteList.posZ"
+             [noteList]="noteList"
+  ></note-list>
+  <image *ngFor="let image of tab.images"
+         cdkDrag class="draggable-note"
+         [class.draggable-note-selected]="image.selected"
+         (cdkDragEnded)="saveItemPosition($event, image)"
+         (mousedown)="$event.stopPropagation()"
+         [style.top.px]="image.posY - 49"
+         [style.left.px]="image.posX"
+         [style.zIndex]="image.posZ"
+         [image]="image"
+  ></image>
 
   <ng-container *ngIf="mouseDown">
     <!--bottom right-->

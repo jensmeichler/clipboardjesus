@@ -1,1 +1,8 @@
-<p>note-list works!</p>
+<mat-card (click)="$event.stopPropagation()">
+  <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="noteList.notes" cdkDropList>
+    <button *ngFor="let note of noteList.notes" (click)="copy(note)" mat-menu-item>
+      {{ note.content }}
+    </button>
+  </mat-card-content>
+  <mat-card-footer [style.margin-bottom.px]="-32"></mat-card-footer>
+</mat-card>
