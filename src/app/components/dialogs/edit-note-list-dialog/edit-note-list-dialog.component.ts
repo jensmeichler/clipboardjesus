@@ -1,12 +1,11 @@
-import {Component, Inject} from '@angular/core';
+import {Component, HostListener, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Note, NoteList} from "../../../models";
 import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
   selector: 'app-edit-note-list-dialog',
-  templateUrl: './edit-note-list-dialog.component.html',
-  styleUrls: ['./edit-note-list-dialog.component.scss']
+  templateUrl: './edit-note-list-dialog.component.html'
 })
 export class EditNoteListDialogComponent {
   constructor(
@@ -31,6 +30,17 @@ export class EditNoteListDialogComponent {
     if (index >= 0) {
       this.data.notes.splice(index, 1);
     }
+  }
+
+  @HostListener('keydown', ['$event'])
+  onKeyPressed(event: KeyboardEvent) {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+      this.submit();
+    } else if (event.key === 'Escape') {
+      this.cancel();
+    }
+
+    event.stopPropagation();
   }
 
   submit() {
