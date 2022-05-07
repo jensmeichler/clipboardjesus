@@ -101,7 +101,7 @@ export class NoteComponent implements OnInit {
         width: 'var(--width-edit-dialog)',
         data: note,
         disableClose: true,
-      }).afterClosed().subscribe((editedNote) => {
+      }).afterClosed().subscribe((editedNote: Note) => {
         if (editedNote) {
           this.dataService.deleteNote(this.note, true);
           this.dataService.addNote(editedNote);

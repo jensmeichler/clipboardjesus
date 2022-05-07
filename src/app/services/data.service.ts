@@ -127,12 +127,14 @@ export class DataService {
     this.tab.notes.forEach(action);
     this.tab.taskLists.forEach(action);
     this.tab.images.forEach(action);
+    this.tab.noteLists.forEach(action);
   }
 
   filterAllItems(action: (item: DraggableNote) => boolean) {
     this.tab.notes = this.tab.notes.filter(action);
     this.tab.taskLists = this.tab.taskLists.filter(action);
     this.tab.images = this.tab.images.filter(action);
+    this.tab.noteLists = this.tab.noteLists.filter(action);
   }
 
   cacheData() {
@@ -297,6 +299,14 @@ export class DataService {
     }
   }
 
+  deleteNoteList(noteList: NoteList, skipIndexing?: boolean) {
+    this.tab.noteLists = this.tab.noteLists.filter(x => x !== noteList);
+    if (!skipIndexing) {
+      this.reArrangeIndices();
+      this.cacheData();
+    }
+  }
+
   deleteImage(image: Image) {
     this.tab.images = this.tab.images.filter(x => x !== image);
     this.reArrangeIndices();
@@ -396,6 +406,14 @@ export class DataService {
     this.tabs[index] = otherTab;
   }
 
+  moveNoteListToTab(index: number, noteList: NoteList) {
+    let otherTab = this.cache.fetch(index)!;
+    otherTab.noteLists.push(noteList);
+    this.deleteNoteList(noteList);
+    this.cache.save(index, otherTab);
+    this.tabs[index] = otherTab;
+  }
+
   moveTaskListToTab(index: number, taskList: TaskList) {
     let otherTab = this.cache.fetch(index)!;
     otherTab.taskLists.push(taskList);
@@ -418,12 +436,19 @@ export class DataService {
       if (!this.colorizedObjects.some(other => DataService.compareColors(note, other))) {
         this.colorizedObjects.push(note);
       }
-    })
+    });
     this.tab.taskLists?.forEach(taskList => {
       if (!this.colorizedObjects.some(other => DataService.compareColors(taskList, other))) {
         this.colorizedObjects.push(taskList);
       }
-    })
+    });
+    this.tab.noteLists?.forEach(noteList => {
+      noteList.notes.forEach(note => {
+        if (!this.colorizedObjects.some(other => DataService.compareColors(note, other))) {
+          this.colorizedObjects.push(note);
+        }
+      });
+    });
   }
 
   selectNextTab(revert: boolean) {
@@ -436,6 +461,7 @@ export class DataService {
     let notes = this.tab.notes;
     let taskLists = this.tab.taskLists;
     let images = this.tab.images;
+    let noteLists = this.tab.noteLists;
 
     if (this.selectedItemsCount === 0) {
       if (notes?.length) {
@@ -444,11 +470,14 @@ export class DataService {
         this.selectFirst(taskLists);
       } else if (images?.length) {
         this.selectFirst(images);
+      } else if (noteLists?.length) {
+        this.selectFirst(noteLists);
       }
     } else if (this.selectedItemsCount === 1) {
       const selectedNotes = notes?.filter(x => x.selected);
       const selectedTaskLists = taskLists?.filter(x => x.selected);
       const selectedImages = images?.filter(x => x.selected);
+      const selectedNoteLists = noteLists?.filter(x => x.selected);
 
       let currentIndex: number | undefined;
       if (selectedNotes?.length) {
@@ -460,6 +489,9 @@ export class DataService {
       } else if (selectedImages?.length) {
         currentIndex = selectedImages[0].posZ!;
         selectedImages[0].selected = false;
+      } else if (selectedNoteLists?.length) {
+        currentIndex = selectedImages[0].posZ!;
+        selectedImages[0].selected = false;
       }
 
       if (currentIndex === undefined) return;
@@ -469,6 +501,7 @@ export class DataService {
       const possibleNextSelectedNotes = notes?.filter(x => x.posZ === currentIndex);
       const possibleNextSelectedTaskLists = taskLists?.filter(x => x.posZ === currentIndex);
       const possibleNextSelectedImages = images?.filter(x => x.posZ === currentIndex);
+      const possibleNextSelectedNoteLists = noteLists?.filter(x => x.posZ === currentIndex);
 
       if (possibleNextSelectedNotes?.length) {
         this.selectFirst(possibleNextSelectedNotes);
@@ -476,6 +509,8 @@ export class DataService {
         this.selectFirst(possibleNextSelectedTaskLists);
       } else if (possibleNextSelectedImages?.length) {
         this.selectFirst(possibleNextSelectedImages);
+      } else if (possibleNextSelectedNoteLists?.length) {
+        this.selectFirst(possibleNextSelectedNoteLists);
       }
     }
   }
@@ -513,11 +548,13 @@ export class DataService {
     let notes = this.tab.notes;
     let taskLists = this.tab.taskLists;
     let images = this.tab.images;
+    let noteLists = this.tab.noteLists;
 
     let result: DraggableNote[] = [];
     if (notes) result = result.concat(notes);
     if (taskLists) result = result.concat(taskLists);
     if (images) result = result.concat(images);
+    if (noteLists) result = result.concat(noteLists);
 
     return result;
   }

@@ -24,7 +24,7 @@
       <input matInput [(ngModel)]="data.header">
     </mat-form-field>
     <mat-form-field color="accent" [style.width]="'100%'">
-      <mat-label>{{ 'DIALOGS.EDIT.TASKS' | translate }}</mat-label>
+      <mat-label>{{ 'DIALOGS.EDIT.NOTES' | translate }}</mat-label>
       <mat-chip-list #chipList>
         <mat-chip
           *ngFor="let item of data.notes"
@@ -36,11 +36,11 @@
           </button>
         </mat-chip>
         <input cdkFocusInitial
-               [placeholder]="'DIALOGS.EDIT.NEW_ITEM' | translate"
+               [placeholder]="'DIALOGS.EDIT.NEW_NOTE' | translate"
                [matChipInputFor]="chipList"
                (matChipInputTokenEnd)="addNote($event)">
       </mat-chip-list>
-      <mat-hint>{{ 'DIALOGS.EDIT.TASKS_HINT' | translate }}</mat-hint>
+      <mat-hint>{{ 'DIALOGS.EDIT.NOTES_HINT' | translate }}</mat-hint>
     </mat-form-field>
   </div>
 

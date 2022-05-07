@@ -27,16 +27,18 @@
                [taskList]="taskList"
     ></task-list>
   </div>
-  <note-list *ngFor="let noteList of tab.noteLists"
-             cdkDrag class="draggable-note"
-             [class.draggable-note-selected]="noteList.selected"
-             (cdkDragEnded)="saveItemPosition($event, noteList)"
-             (mousedown)="$event.stopPropagation()"
-             [style.top.px]="noteList.posY - 49"
-             [style.left.px]="noteList.posX"
-             [style.zIndex]="noteList.posZ"
-             [noteList]="noteList"
-  ></note-list>
+  <div cdkDropListGroup>
+    <note-list *ngFor="let noteList of tab.noteLists"
+               cdkDrag class="draggable-note"
+               [class.draggable-note-selected]="noteList.selected"
+               (cdkDragEnded)="saveItemPosition($event, noteList)"
+               (mousedown)="$event.stopPropagation()"
+               [style.top.px]="noteList.posY - 49"
+               [style.left.px]="noteList.posX"
+               [style.zIndex]="noteList.posZ"
+               [noteList]="noteList"
+    ></note-list>
+  </div>
   <image *ngFor="let image of tab.images"
          cdkDrag class="draggable-note"
          [class.draggable-note-selected]="image.selected"

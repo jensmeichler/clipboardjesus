@@ -1,5 +1,5 @@
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {Component, HostListener, Input, ViewChild} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Note, TaskItem, TaskList} from "../../models";
@@ -16,11 +16,6 @@ export class TaskListComponent {
 
   mouseDown = false;
   movedPx = 0;
-
-  showRadEffect = false;
-  radEffectWidth = 0;
-  mousePosX = 0;
-  mousePosY = 0;
 
   itemToEdit?: TaskItem;
 
@@ -40,17 +35,6 @@ export class TaskListComponent {
     return this.movedPx < 5;
   }
 
-  @HostListener('mouseenter')
-  onMouseEnter() {
-    this.showRadEffect = true;
-    this.radEffectWidth = 0;
-  }
-
-  @HostListener('mouseleave')
-  onMouseLeave() {
-    this.showRadEffect = false;
-  }
-
   select() {
     this.taskList.selected = !this.taskList.selected;
   }
@@ -61,19 +45,11 @@ export class TaskListComponent {
     }
   }
 
-  onMouseMove(event: MouseEvent) {
+  onMouseMove() {
     if (this.mouseDown) {
       this.movedPx++;
     } else {
       this.movedPx = 0;
-
-      // Hack for rad effect
-      this.mousePosX = event.pageX - this.taskList.posX;
-      this.mousePosY = event.pageY - this.taskList.posY;
-    }
-
-    if (this.radEffectWidth < 80) {
-      this.radEffectWidth += (Math.abs(event.movementX) + Math.abs(event.movementY)) * 2;
     }
   }
 
@@ -131,7 +107,7 @@ export class TaskListComponent {
         width: 'var(--width-edit-dialog)',
         data: taskList,
         disableClose: true,
-      }).afterClosed().subscribe((editedTaskList) => {
+      }).afterClosed().subscribe((editedTaskList: TaskList) => {
         if (editedTaskList) {
           this.dataService.deleteTaskList(this.taskList, true);
           this.dataService.addTaskList(editedTaskList);
@@ -141,9 +117,8 @@ export class TaskListComponent {
   }
 
   delete() {
-    if (this.canInteract) {
-      this.dataService.deleteTaskList(this.taskList);
-    }
+    if (!this.canInteract) return;
+    this.dataService.deleteTaskList(this.taskList);
   }
 
   startEditItem(item: TaskItem) {
