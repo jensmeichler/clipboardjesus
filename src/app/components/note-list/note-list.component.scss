@@ -20,7 +20,9 @@
   }
 }
 
-.flex-container {
+.note-within-list {
+  display: flex;
+  align-items: center;
   gap: 6px;
 }
 
@@ -28,11 +30,15 @@
   Drag and drop animations and templates
 ******************************************/
 .cdk-drag-preview {
-  border-radius: 8px;
-  height: 34px;
-  line-height: 34px;
-  box-shadow: var(--shadow-strong);
-  padding: 0 8px;
+  white-space: nowrap;
+  .mat-menu-item {
+    border-radius: 8px;
+    height: 34px;
+    line-height: 34px;
+    padding: 0 8px;
+    transition: all ease-in-out 100ms;
+    box-shadow: var(--shadow-strong);
+  }
 }
 .cdk-drag-placeholder {
   opacity: 0;
