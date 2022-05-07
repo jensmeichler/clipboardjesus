@@ -13,6 +13,7 @@
   <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="noteList.notes" cdkDropList>
    <span *ngFor="let note of noteList.notes" class="flex-container" style="margin: 0">
       <button mat-menu-item cdkDrag
+              class="note-within-list"
               [style.background-color]="note.backgroundColor"
               [style.color]="note.foregroundColor"
               [highlightColor]="note.backgroundColorGradient ?? undefined"
