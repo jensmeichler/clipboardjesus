@@ -164,10 +164,9 @@ export class TaskListComponent {
   }
 
   deleteItem(item: TaskItem) {
-    if (this.canInteract) {
-      this.taskList.items = this.taskList.items.filter(x => x !== item);
-      this.dataService.cacheData();
-    }
+    if (!this.canInteract) return;
+    this.taskList.items = this.taskList.items.filter(x => x !== item);
+    this.dataService.cacheData();
   }
 
   dropItem(event: CdkDragDrop<TaskItem[]>) {

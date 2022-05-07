@@ -11,9 +11,19 @@
     {{ noteList.header }}
   </mat-card-title>
   <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="noteList.notes" cdkDropList>
-    <button [style.background]="note.backgroundColor" *ngFor="let note of noteList.notes" (click)="copy(note)" mat-menu-item cdkDrag>
-      {{ note.content }}
-    </button>
+   <span *ngFor="let note of noteList.notes" cdkDrag class="flex-container" style="margin: 0">
+      <button [style.background]="note.backgroundColor" (click)="copy(note)" mat-menu-item cdkDrag>
+        {{ note.content }}
+      </button>
+      <span>
+        <button (click)="editNote(note)" class="item-button" mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button (click)="deleteNote(note)" class="item-button" mat-icon-button style="margin-right: -8px">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </span>
+    </span>
   </mat-card-content>
 
   <mat-card-actions align="end">

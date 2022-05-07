@@ -116,6 +116,17 @@ export class NoteListComponent {
     this.dataService.cacheData();
   }
 
+  editNote(note: Note) {
+    //TODO: open edit note dialog
+    if (!this.canInteract) return;
+  }
+
+  deleteNote(note: Note) {
+    if (!this.canInteract) return;
+    this.noteList.notes = this.noteList.notes.filter(x => x !== note);
+    this.dataService.cacheData();
+  }
+
   moveToTab(index: number) {
     this.dataService.moveNoteListToTab(index, this.noteList);
   }

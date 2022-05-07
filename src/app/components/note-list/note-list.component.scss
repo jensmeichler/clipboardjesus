@@ -1,13 +1,17 @@
 :host ::ng-deep .mat-card-content {
-  margin: 0 -10px 0 -10px;
   display: flex;
   gap: 6px;
   flex-direction: column;
   .mat-menu-item {
     border-radius: 8px;
     height: 34px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    line-height: 34px;
+  }
+}
+
+.item-button {
+  opacity: .3;
+  &:hover {
+    opacity: 1;
   }
 }
