@@ -1,6 +1,6 @@
 import {Directive, ElementRef, HostListener, Input} from '@angular/core';
 import {DraggableNote} from "../models";
-import {SettingsService} from "../services/settings.service";
+import {SettingsService} from "../services";
 
 @Directive({
   selector: '[highlightColor]'
@@ -29,20 +29,17 @@ export class HighlightColorDirective {
   }
 
   setBackground(absoluteMousePos: { x: number, y: number }): void {
+    const highlightColorOpacity = `${this._highlightColor}67`;
     this.element.nativeElement.style.backgroundImage =
       (this._highlightColor ? 'linear-gradient(to bottom, transparent, ' + this._highlightColor + '), ' : '')
       + 'radial-gradient(circle at ' + absoluteMousePos.x + 'px ' + absoluteMousePos.y + 'px , '
-      + (this._highlightColor ?? 'var(--color-primary)')
+      + (this._highlightColor ? highlightColorOpacity : 'var(--color-primary-opacity)')
       + ' 0, transparent ' + this.radEffectWidth + 'px' + ', transparent)';
-  }
-
-  @HostListener('mouseenter')
-  onMouseEnter() {
-    this.radEffectWidth = 0;
   }
 
   @HostListener('mouseleave')
   onMouseLeave() {
+    this.radEffectWidth = 0;
     this.element.nativeElement.style.backgroundImage = this._highlightColor
       ? 'linear-gradient(to bottom, transparent, ' + this._highlightColor + ')'
       : 'none';
@@ -58,8 +55,15 @@ export class HighlightColorDirective {
       this.setBackground({x, y});
     }
 
-    if (this.radEffectWidth < 400) {
-      this.radEffectWidth += (Math.abs(event.movementX) + Math.abs(event.movementY)) * 4;
+    const maxEffectWidth = 120;
+    const currentMovement = Math.abs(event.movementX) + Math.abs(event.movementY);
+    if (this.radEffectWidth < maxEffectWidth) {
+      const newEffectWith = this.radEffectWidth + currentMovement * 4;
+      if (newEffectWith < maxEffectWidth) {
+        this.radEffectWidth = newEffectWith;
+      } else {
+        this.radEffectWidth = maxEffectWidth;
+      }
     }
   }
 }
