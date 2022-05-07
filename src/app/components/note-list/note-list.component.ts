@@ -74,20 +74,31 @@ export class NoteListComponent {
     this.mouseDown = false;
   }
 
+  add() {
+    if (!this.canInteract) return;
+    this.dialog.open(EditNoteDialogComponent, {
+      width: 'var(--width-edit-dialog)',
+      data: new Note(0, 0),
+    }).afterClosed().subscribe((addedNote: Note) => {
+      if (!addedNote) return;
+      this.noteList.notes.push(addedNote);
+      this.dataService.cacheData();
+    });
+  }
+
   edit() {
-    if (this.canInteract) {
-      let noteList = JSON.parse(JSON.stringify(this.noteList));
-      this.dialog.open(EditNoteListDialogComponent, {
-        width: 'var(--width-edit-dialog)',
-        data: noteList,
-        disableClose: true,
-      }).afterClosed().subscribe((editedNoteList: NoteList) => {
-        if (editedNoteList) {
-          this.dataService.deleteNoteList(this.noteList, true);
-          this.dataService.addNoteList(editedNoteList);
-        }
-      });
-    }
+    if (!this.canInteract) return;
+    let noteList = JSON.parse(JSON.stringify(this.noteList));
+    this.dialog.open(EditNoteListDialogComponent, {
+      width: 'var(--width-edit-dialog)',
+      data: noteList,
+      disableClose: true,
+    }).afterClosed().subscribe((editedNoteList: NoteList) => {
+      if (editedNoteList) {
+        this.dataService.deleteNoteList(this.noteList, true);
+        this.dataService.addNoteList(editedNoteList);
+      }
+    });
   }
 
   delete() {
