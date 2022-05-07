@@ -41,7 +41,7 @@ export class CustomCursorDirective {
     let isDraggableNote = false;
 
     event.path.forEach((x: any) => {
-      if (x.tagName === 'NOTE' || x.tagName === 'TASK-LIST' || x.tagName === 'IMAGE') {
+      if (x.tagName === 'NOTE' || x.tagName === 'NOTE-LIST' || x.tagName === 'TASK-LIST' || x.tagName === 'IMAGE') {
         isDraggableNote = true;
         const posX = CustomCursorDirective.convertPxToInt(x.style.left);
         const posY = CustomCursorDirective.convertPxToInt(x.style.top);
