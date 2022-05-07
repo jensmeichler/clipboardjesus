@@ -73,7 +73,7 @@ export class CustomCursorDirective {
   }
 
   private setText(value: string) {
-    if (value != this.text) {
+    if (value !== this.text) {
       this.text = value;
       this.position!.innerText = value;
     }

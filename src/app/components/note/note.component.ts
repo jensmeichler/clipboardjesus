@@ -41,7 +41,7 @@ export class NoteComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.note.code != false && this.note.content && htmlRegex.test(this.note.content)) {
+    if (this.note.code !== false && this.note.content && htmlRegex.test(this.note.content)) {
       this.note.code = true;
     }
   }
@@ -51,7 +51,7 @@ export class NoteComponent implements OnInit {
   }
 
   onMouseDown(event: MouseEvent) {
-    if (event.button != 2) {
+    if (event.button !== 2) {
       this.mouseDown = true;
     }
   }

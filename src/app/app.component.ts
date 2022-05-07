@@ -69,6 +69,7 @@ export class AppComponent implements OnInit {
           }
         }
 
+        // Clear the query params and initialize the app from localstorage
         this.router.navigate(
           ['.'],
           {relativeTo: this.route}

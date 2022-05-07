@@ -40,7 +40,7 @@ export class NoteListComponent {
   }
 
   onMouseDown(event: MouseEvent) {
-    if (event.button != 2) {
+    if (event.button !== 2) {
       this.mouseDown = true;
     }
   }
