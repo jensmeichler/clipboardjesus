@@ -17,8 +17,23 @@ import {HashyService} from "./hashy.service";
   providedIn: 'root'
 })
 export class DataService {
-  selectedTabIndex = 0;
+  private _selectedTabIndex = 0;
+  get selectedTabIndex() {
+    return this._selectedTabIndex;
+  }
+  set selectedTabIndex(index: number) {
+    this._selectedTabIndex = index;
+    this.updateAppTitle();
+  }
+
   tabs: Tab[] = [];
+  get tab(): Tab {
+    return this.tabs[this.selectedTabIndex];
+  }
+  set tab(tab: Tab) {
+    if (!tab) debugger;
+    this.tabs[this.selectedTabIndex] = tab;
+  }
 
   redoPossible = this.cache.redoPossible;
   undoPossible = this.cache.undoPossible;
@@ -45,6 +60,15 @@ export class DataService {
     this.setColorizedObjects();
   }
 
+  updateAppTitle() {
+    const appTitle = document.getElementById('title');
+    if (!appTitle) return;
+    const tabName = this.tabs[this._selectedTabIndex]?.label;
+    appTitle.innerText = tabName
+      ? `Clip#board | ${tabName}`
+      : `Clip#board | #Board ${this._selectedTabIndex+1}`;
+  }
+
   get itemsCount(): number {
     return (this.tab.notes?.length ?? 0)
       + (this.tab.taskLists?.length ?? 0)
@@ -57,15 +81,6 @@ export class DataService {
       + (this.tab.taskLists?.filter(x => x.selected).length ?? 0)
       + (this.tab.noteLists?.filter(x => x.selected).length ?? 0)
       + (this.tab.images?.filter(x => x.selected).length ?? 0);
-  }
-
-  get tab(): Tab {
-    return this.tabs[this.selectedTabIndex];
-  }
-
-  set tab(tab: Tab) {
-    if (!tab) debugger;
-    this.tabs[this.selectedTabIndex] = tab;
   }
 
   private static compareNote(left: Note, right: Note): boolean {
@@ -168,11 +183,7 @@ export class DataService {
     if (tab) tab.index = this.tabs.length;
     const newTab: Tab = tab ?? {
       index: this.tabs.length,
-      color: '#131313',
-      notes: [],
-      noteLists: [],
-      taskLists: [],
-      images: []
+      color: '#131313'
     };
     this.tabs.push(newTab);
     this.cache.save(newTab.index, newTab);
@@ -186,7 +197,7 @@ export class DataService {
     }
 
     try {
-      let tab = JSON.parse(clipboardText) as Tab;
+      const tab = JSON.parse(clipboardText) as Tab;
       return !!(tab.notes?.length || tab.taskLists?.length || tab.images?.length);
     } catch {
       return false;
@@ -198,7 +209,7 @@ export class DataService {
     if (!clipboardText) return false;
 
     try {
-      let tab = JSON.parse(clipboardText) as Tab;
+      const tab = JSON.parse(clipboardText) as Tab;
       if (tab.notes?.length) tab.notes.forEach(note => this.addNote(note));
       if (tab.taskLists?.length) tab.taskLists.forEach(taskList => this.addTaskList(taskList));
       if (tab.images?.length) tab.images.forEach(image => this.addImage(image));
@@ -212,16 +223,16 @@ export class DataService {
   }
 
   removeTab() {
-    let index = this.selectedTabIndex;
+    const index = this.selectedTabIndex;
     this.cache.remove(index);
 
-    let result = this.tabs.filter(tab => tab.index < index);
-    let rightTabs = this.tabs.filter(tab => tab.index > index);
+    const result = this.tabs.filter(tab => tab.index < index);
+    const rightTabs = this.tabs.filter(tab => tab.index > index);
     rightTabs.forEach(tab => {
       const oldIndex = tab.index;
       const newIndex = tab.index - 1;
 
-      let tabContent = this.cache.fetch(oldIndex);
+      const tabContent = this.cache.fetch(oldIndex);
       this.cache.remove(oldIndex);
       this.cache.save(newIndex, tabContent!)
 
@@ -230,13 +241,13 @@ export class DataService {
     })
     this.tabs = result;
 
-    let isRightTab = index > (this.tabs.length - 1);
+    const isRightTab = index > (this.tabs.length - 1);
     this.selectedTabIndex = isRightTab ? index - 1 : index;
   }
 
   reArrangeTab(sourceIndex: number, targetIndex: number) {
-    let sourceTabCopy = JSON.parse(JSON.stringify(this.tabs[sourceIndex])) as Tab;
-    let targetTabCopy = JSON.parse(JSON.stringify(this.tabs[targetIndex])) as Tab;
+    const sourceTabCopy = JSON.parse(JSON.stringify(this.tabs[sourceIndex])) as Tab;
+    const targetTabCopy = JSON.parse(JSON.stringify(this.tabs[targetIndex])) as Tab;
 
     this.cache.remove(sourceIndex);
     this.cache.remove(targetIndex);
@@ -337,7 +348,7 @@ export class DataService {
   }
 
   getSelectedItems(): Tab {
-    let tab = JSON.parse(JSON.stringify(this.tab)) as Tab;
+    const tab = JSON.parse(JSON.stringify(this.tab)) as Tab;
 
     tab.notes = tab.notes?.filter(x => x.selected);
     tab.taskLists = tab.taskLists?.filter(x => x.selected);
@@ -433,7 +444,7 @@ export class DataService {
   }
 
   moveNoteToTab(index: number, note: Note) {
-    let otherTab = this.cache.fetch(index)!;
+    const otherTab = this.cache.fetch(index)!;
     if (!otherTab.notes) otherTab.notes = [];
     otherTab.notes.push(note);
     this.deleteNote(note);
@@ -442,7 +453,7 @@ export class DataService {
   }
 
   moveNoteListToTab(index: number, noteList: NoteList) {
-    let otherTab = this.cache.fetch(index)!;
+    const otherTab = this.cache.fetch(index)!;
     if (!otherTab.noteLists) otherTab.noteLists = [];
     otherTab.noteLists.push(noteList);
     this.deleteNoteList(noteList);
@@ -451,7 +462,7 @@ export class DataService {
   }
 
   moveTaskListToTab(index: number, taskList: TaskList) {
-    let otherTab = this.cache.fetch(index)!;
+    const otherTab = this.cache.fetch(index)!;
     if (!otherTab.taskLists) otherTab.taskLists = [];
     otherTab.taskLists.push(taskList);
     this.deleteTaskList(taskList);
@@ -460,7 +471,7 @@ export class DataService {
   }
 
   moveImageToTab(index: number, image: Image) {
-    let otherTab = this.cache.fetch(index)!;
+    const otherTab = this.cache.fetch(index)!;
     if (!otherTab.images) otherTab.images = [];
     otherTab.images.push(image);
     this.deleteImage(image);
@@ -496,10 +507,10 @@ export class DataService {
   }
 
   selectNextItem(revert: boolean) {
-    let notes = this.tab.notes;
-    let taskLists = this.tab.taskLists;
-    let images = this.tab.images;
-    let noteLists = this.tab.noteLists;
+    const notes = this.tab.notes;
+    const taskLists = this.tab.taskLists;
+    const images = this.tab.images;
+    const noteLists = this.tab.noteLists;
 
     if (this.selectedItemsCount === 0) {
       if (notes?.length) {
@@ -569,24 +580,24 @@ export class DataService {
   }
 
   private reArrangeIndices() {
-    let indexItems = this.getIndexItems()
+    const indexItems = this.getIndexItems()
       .sort((a, b) => (a.posZ ?? 0) - (b.posZ ?? 0));
     let i = 1;
     indexItems.forEach(item => item.posZ = i++);
   }
 
   private getNextIndex(): number {
-    let highestItem = this.getIndexItems()
+    const highestItem = this.getIndexItems()
       ?.filter(n => n.posZ)
       ?.reduce((hn, n) => Math.max(hn, n.posZ!), 0);
     return highestItem ? highestItem + 1 : 1
   }
 
   private getIndexItems(): DraggableNote[] {
-    let notes = this.tab.notes;
-    let taskLists = this.tab.taskLists;
-    let images = this.tab.images;
-    let noteLists = this.tab.noteLists;
+    const notes = this.tab.notes;
+    const taskLists = this.tab.taskLists;
+    const images = this.tab.images;
+    const noteLists = this.tab.noteLists;
 
     let result: DraggableNote[] = [];
     if (notes) result = result.concat(notes);

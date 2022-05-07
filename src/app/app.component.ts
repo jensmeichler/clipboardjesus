@@ -259,6 +259,7 @@ export class AppComponent implements OnInit {
     }).afterClosed().subscribe((tab) => {
       if (tab) {
         this.dataService.cacheData();
+        this.dataService.updateAppTitle();
       } else {
         this.dataService.tabs[this.dataService.selectedTabIndex] = this.cache.fetch(this.dataService.selectedTabIndex)!;
       }
