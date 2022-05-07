@@ -6,6 +6,10 @@
     height: 34px;
     line-height: 34px;
     padding: 0 8px;
+    transition: all ease-in-out 100ms;
+    &:hover {
+      box-shadow: var(--shadow-light);
+    }
   }
 }
 
@@ -28,6 +32,7 @@
   height: 34px;
   line-height: 34px;
   box-shadow: var(--shadow-dragging);
+  padding: 0 8px;
 }
 .cdk-drag-placeholder {
   opacity: 0;
