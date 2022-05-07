@@ -3,7 +3,7 @@ import {Note, NoteList} from "../../models";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {DataService, HashyService} from "../../services";
 import {Clipboard} from "@angular/cdk/clipboard";
-import {EditNoteListDialogComponent} from "../dialogs";
+import {EditNoteDialogComponent, EditNoteListDialogComponent} from "../dialogs";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 
@@ -116,9 +116,17 @@ export class NoteListComponent {
     this.dataService.cacheData();
   }
 
-  editNote(note: Note) {
-    //TODO: open edit note dialog
+  editNote(noteToEdit: Note) {
     if (!this.canInteract) return;
+    this.dialog.open(EditNoteDialogComponent, {
+      width: 'var(--width-edit-dialog)',
+      data: {...noteToEdit},
+    }).afterClosed().subscribe((editedNote) => {
+      if (!editedNote) return;
+      const index = this.noteList.notes.indexOf(noteToEdit);
+      this.noteList.notes[index] = editedNote;
+      this.dataService.cacheData();
+    });
   }
 
   deleteNote(note: Note) {

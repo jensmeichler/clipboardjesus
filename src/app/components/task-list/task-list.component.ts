@@ -122,13 +122,12 @@ export class TaskListComponent {
   }
 
   startEditItem(item: TaskItem) {
-    if (this.canInteract) {
-      this.itemToEdit = item;
-    }
+    if (!this.canInteract) return;
+    this.itemToEdit = item;
   }
 
   endEditItem(item: TaskItem) {
-    let index = this.taskList.items.indexOf(item);
+    const index = this.taskList.items.indexOf(item);
     this.taskList.items[index] = item;
     this.itemToEdit = undefined;
 
@@ -136,10 +135,9 @@ export class TaskListComponent {
   }
 
   toggleSubTask(item: TaskItem) {
-    if (this.canInteract) {
-      item.isSubTask = !item.isSubTask;
-      this.dataService.cacheData();
-    }
+    if (!this.canInteract) return;
+    item.isSubTask = !item.isSubTask;
+    this.dataService.cacheData();
   }
 
   onKeyPressed(event: KeyboardEvent, item: TaskItem) {
