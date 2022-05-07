@@ -26,9 +26,7 @@
   border-radius: 8px;
   height: 34px;
   line-height: 34px;
-  box-shadow: 0 5px 5px -3px #00000033,
-    0 8px 10px 1px #00000023,
-    0 3px 14px 2px #0000001E;
+  box-shadow: var(--shadow-dragging);
 }
 .cdk-drag-placeholder {
   opacity: 0;
