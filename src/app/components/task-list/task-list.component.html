@@ -9,8 +9,8 @@
           [style.color]="taskList.foregroundColor"
           [highlightColor]="taskList.backgroundColorGradient"
           [highlightedItem]="taskList">
-  <mat-card-title class="flex-container">
-    {{ taskList.header ?? 'Tasks' }}
+  <mat-card-title *ngIf="taskList.header">
+    {{ taskList.header }}
   </mat-card-title>
   <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="taskList.items" cdkDropList>
     <ng-container *ngFor="let item of taskList.items">

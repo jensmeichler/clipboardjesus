@@ -253,6 +253,12 @@ export class DataService {
     this.selectedTabIndex = targetIndex;
   }
 
+  moveLastTabToFirstPosition() {
+    for (let i = this.tabs.length - 1; i; i--) {
+      this.reArrangeTab(i, i - 1);
+    }
+  }
+
   clearSelection() {
     this.editAllItems(item => item.selected = false);
     this.cacheData();

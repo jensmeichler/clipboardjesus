@@ -66,12 +66,11 @@ export class AppComponent implements OnInit {
             this.dataService.selectedTabIndex = 0;
           } else {
             this.dataService.addTab(tab);
-            //TODO: move tab to first index
+            this.dataService.moveLastTabToFirstPosition();
           }
         }
 
         // Clear the query params and initialize the app from localstorage
-        //TODO: test
         this.router.navigate(
           ['.'],
           {relativeTo: this.route}
