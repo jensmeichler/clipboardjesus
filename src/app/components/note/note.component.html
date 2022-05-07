@@ -7,7 +7,7 @@
           [matRippleDisabled]="rippleDisabled"
           [style.background-color]="note.backgroundColor"
           [style.color]="note.foregroundColor" matRipple
-          [highlightColor]="note.backgroundColorGradient ?? undefined"
+          [highlightColor]="note.backgroundColorGradient"
           [highlightedItem]="note">
   <mat-card-title *ngIf="note.header" class="flex-container">
     {{ note.header }}
@@ -51,7 +51,7 @@
 <mat-menu #contextMenu="matMenu">
   <div [style.color]="note.foregroundColor"
        [style.background-color]="note.backgroundColor"
-       [highlightColor]="note.backgroundColorGradient ?? undefined"
+       [highlightColor]="note.backgroundColorGradient"
        [x]="rightClickPosX" [y]="rightClickPosY">
     <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="dataService.bringToFront(this.note)" mat-menu-item>

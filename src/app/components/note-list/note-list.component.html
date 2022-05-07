@@ -16,7 +16,7 @@
               class="note-within-list"
               [style.background-color]="note.backgroundColor"
               [style.color]="note.foregroundColor"
-              [highlightColor]="note.backgroundColorGradient ?? undefined"
+              [highlightColor]="note.backgroundColorGradient"
               [highlightedItem]="note"
               (click)="copy(note)">
         {{ note.content }}
