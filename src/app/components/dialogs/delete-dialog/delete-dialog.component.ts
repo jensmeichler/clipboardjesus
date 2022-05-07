@@ -1,6 +1,6 @@
 import {Component, HostListener} from '@angular/core';
 import {MatBottomSheetRef} from "@angular/material/bottom-sheet";
-import {DataService} from "../../../services/data.service";
+import {DataService} from "../../../services";
 
 @Component({
   selector: 'app-delete-dialog',
@@ -24,9 +24,9 @@ export class DeleteDialogComponent {
 
   @HostListener('document:keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent) {
-    if (event.key == 'Enter') {
+    if (event.key === 'Enter') {
       this.deleteAll();
-    } else if (event.key == 'Escape') {
+    } else if (event.key === 'Escape') {
       this.cancel();
     }
 

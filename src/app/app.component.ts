@@ -4,18 +4,24 @@ import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {ActivatedRoute, Router} from "@angular/router";
-import {AboutDialogComponent} from "./components/dialogs/about-dialog/about-dialog.component";
-import {DeleteDialogComponent} from "./components/dialogs/delete-dialog/delete-dialog.component";
-import {EditNoteDialogComponent} from "./components/dialogs/edit-note-dialog/edit-note-dialog.component";
-import {EditTabDialogComponent} from "./components/dialogs/edit-tab-dialog/edit-tab-dialog.component";
-import {EditTaskListDialogComponent} from "./components/dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
+import {
+  AboutDialogComponent,
+  DeleteDialogComponent,
+  EditNoteDialogComponent,
+  EditTabDialogComponent,
+  EditTaskListDialogComponent,
+  EditNoteListDialogComponent
+} from "./components";
 import {Note, TaskList} from './models';
-import {CacheService} from "./services/cache.service";
-import {DataService} from "./services/data.service";
-import {HashyService} from "./services/hashy.service";
-import {SettingsService} from "./services/settings.service";
+import {
+  CacheService,
+  DataService,
+  HashyService,
+  SettingsService
+} from "./services";
 import {Observable} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
+import {NoteList} from "./models";
 
 @Component({
   selector: 'app-root',
@@ -54,15 +60,18 @@ export class AppComponent implements OnInit {
       if (params.params) {
         const tab = JSON.parse(atob(params.params));
         if (typeof tab != 'string') {
-          if (this.dataService.tabs.length == 1
-            && this.dataService.itemsCount == 0) {
+          if (this.dataService.tabs.length === 1
+            && this.dataService.itemsCount === 0) {
             this.cache.save(0, tab);
             this.dataService.selectedTabIndex = 0;
           } else {
             this.dataService.addTab(tab);
+            //TODO: move tab to first index
           }
         }
 
+        // Clear the query params and initialize the app from localstorage
+        //TODO: test
         this.router.navigate(
           ['.'],
           {relativeTo: this.route}
@@ -75,16 +84,16 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
-    if (event.key == 'Tab') {
+    if (event.key === 'Tab') {
       this.dataService.selectNextItem(event.shiftKey);
       event.preventDefault();
       event.stopPropagation();
       return;
-    } else if (event.key == 'PageUp' || (event.key == 'ArrowLeft' && (event.ctrlKey || event.shiftKey || event.metaKey))) {
+    } else if (event.key === 'PageUp' || (event.key === 'ArrowLeft' && (event.ctrlKey || event.shiftKey || event.metaKey))) {
       this.dataService.selectNextTab(true);
       event.preventDefault();
       event.stopPropagation();
-    } else if (event.key == 'PageDown' || (event.key == 'ArrowRight' && (event.ctrlKey || event.shiftKey || event.metaKey))) {
+    } else if (event.key === 'PageDown' || (event.key === 'ArrowRight' && (event.ctrlKey || event.shiftKey || event.metaKey))) {
       this.dataService.selectNextTab(false);
       event.preventDefault();
       event.stopPropagation();
@@ -196,7 +205,8 @@ export class AppComponent implements OnInit {
 
   get saveButtonTooltip(): Observable<string> | undefined {
     if (!this.dataService.selectedItemsCount) return;
-    return this.translate.get('MAIN.SAVE_N_ITEMS', {n: this.dataService.selectedItemsCount});
+    const n = this.dataService.selectedItemsCount;
+    return this.translate.get('MAIN.SAVE_N_ITEMS', {n});
   }
 
   save() {
@@ -220,9 +230,16 @@ export class AppComponent implements OnInit {
       width: 'var(--width-edit-dialog)',
       data: new Note(this.newNotePositionX, this.newNotePositionY, ''),
     }).afterClosed().subscribe((note) => {
-      if (note) {
-        this.dataService.addNote(note);
-      }
+      if (note) this.dataService.addNote(note);
+    });
+  }
+
+  openNewNoteListDialog() {
+    this.dialog.open(EditNoteListDialogComponent, {
+      width: 'var(--width-edit-dialog)',
+      data: new NoteList(this.newNotePositionX, this.newNotePositionY),
+    }).afterClosed().subscribe((noteList) => {
+      if (noteList) this.dataService.addNoteList(noteList);
     });
   }
 
@@ -231,9 +248,7 @@ export class AppComponent implements OnInit {
       width: 'var(--width-edit-dialog)',
       data: new TaskList(this.newNotePositionX, this.newNotePositionY),
     }).afterClosed().subscribe((taskList) => {
-      if (taskList) {
-        this.dataService.addTaskList(taskList);
-      }
+      if (taskList) this.dataService.addTaskList(taskList);
     });
   }
 

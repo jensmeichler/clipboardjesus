@@ -32,3 +32,16 @@ input {
     transform: translateX(-2px);
   }
 }
+
+/******************************************
+  Drag and drop animations and templates
+******************************************/
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+.cdk-drop-list-dragging .task-list-item:not(.cdk-drag-placeholder) {
+  transition: var(--drag-drop-transition);
+}
+.cdk-drag-animating {
+  transition: var(--drag-drop-transition);
+}

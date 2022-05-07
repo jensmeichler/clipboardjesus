@@ -1,0 +1,51 @@
+<div [style.padding.px]="16">
+  <h1 mat-dialog-title class="flex-container"
+      cdkDrag cdkDragHandle
+      cdkDragRootElement=".cdk-overlay-pane">
+    <span>{{ 'DIALOGS.EDIT.EDIT_NOTE_LIST' | translate }}</span>
+  </h1>
+  <div mat-dialog-content style="margin: 0; padding: 0">
+    <div style="display: flex; gap: 20px">
+      <mat-form-field color="accent" [style.width]="'100%'" [style.minWidth]="'20px'">
+        <mat-label>{{ 'DIALOGS.EDIT.POSITION_X' | translate }}</mat-label>
+        <input matInput [(ngModel)]="data.posX" type="number">
+      </mat-form-field>
+      <mat-form-field color="accent" [style.width]="'100%'" [style.minWidth]="'20px'">
+        <mat-label>{{ 'DIALOGS.EDIT.POSITION_Y' | translate }}</mat-label>
+        <input matInput [(ngModel)]="data.posY" type="number">
+      </mat-form-field>
+      <mat-form-field color="accent" [style.width]="'100%'" [style.minWidth]="'20px'">
+        <mat-label>{{ 'DIALOGS.EDIT.POSITION_Z' | translate }}</mat-label>
+        <input matInput [(ngModel)]="data.posZ" type="number">
+      </mat-form-field>
+    </div>
+    <mat-form-field color="accent" [style.width]="'100%'">
+      <mat-label>{{ 'DIALOGS.EDIT.HEADER' | translate }}</mat-label>
+      <input matInput [(ngModel)]="data.header">
+    </mat-form-field>
+    <mat-form-field color="accent" [style.width]="'100%'">
+      <mat-label>{{ 'DIALOGS.EDIT.NOTES' | translate }}</mat-label>
+      <mat-chip-list #chipList>
+        <mat-chip
+          *ngFor="let item of data.notes"
+          [value]="item"
+          (removed)="removeNote(item)">
+          {{item.content}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <input cdkFocusInitial
+               [placeholder]="'DIALOGS.EDIT.NEW_NOTE' | translate"
+               [matChipInputFor]="chipList"
+               (matChipInputTokenEnd)="addNote($event)">
+      </mat-chip-list>
+      <mat-hint>{{ 'DIALOGS.EDIT.NOTES_HINT' | translate }}</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div class="dialog-button-group">
+    <button mat-button (click)="cancel()">{{ 'COMMON.CANCEL' | translate }}</button>
+    <button mat-button (click)="submit()" class="ok-button">{{ 'COMMON.OK' | translate }}</button>
+  </div>
+</div>

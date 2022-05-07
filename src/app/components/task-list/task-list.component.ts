@@ -1,31 +1,21 @@
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {Component, HostListener, Input, OnDestroy, ViewChild} from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {Subscription} from "rxjs";
 import {Note, TaskItem, TaskList} from "../../models";
-import {DataService} from "../../services/data.service";
-import {StringParserService} from "../../services/string-parser.service";
-import {EditTaskListDialogComponent} from "../dialogs/edit-task-list-dialog/edit-task-list-dialog.component";
+import {DataService, StringParserService} from "../../services";
+import {EditTaskListDialogComponent} from "../dialogs";
 
 @Component({
   selector: 'task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss']
 })
-export class TaskListComponent implements OnDestroy {
-  @Input()
-  taskList: TaskList = {} as TaskList;
-
-  dialogSubscription?: Subscription;
+export class TaskListComponent {
+  @Input() taskList: TaskList = {} as TaskList;
 
   mouseDown = false;
   movedPx = 0;
-
-  showRadEffect = false;
-  radEffectWidth = 0;
-  mousePosX = 0;
-  mousePosY = 0;
 
   itemToEdit?: TaskItem;
 
@@ -45,44 +35,21 @@ export class TaskListComponent implements OnDestroy {
     return this.movedPx < 5;
   }
 
-  @HostListener('mouseenter')
-  onMouseEnter() {
-    this.showRadEffect = true;
-    this.radEffectWidth = 0;
-  }
-
-  @HostListener('mouseleave')
-  onMouseLeave() {
-    this.showRadEffect = false;
-  }
-
-  ngOnDestroy() {
-    this.dialogSubscription?.unsubscribe();
-  }
-
   select() {
     this.taskList.selected = !this.taskList.selected;
   }
 
   onMouseDown(event: MouseEvent) {
-    if (event.button != 2) {
+    if (event.button !== 2) {
       this.mouseDown = true;
     }
   }
 
-  onMouseMove(event: MouseEvent) {
+  onMouseMove() {
     if (this.mouseDown) {
       this.movedPx++;
     } else {
       this.movedPx = 0;
-
-      // Hack for rad effect
-      this.mousePosX = event.pageX - this.taskList.posX;
-      this.mousePosY = event.pageY - this.taskList.posY;
-    }
-
-    if (this.radEffectWidth < 80) {
-      this.radEffectWidth += (Math.abs(event.movementX) + Math.abs(event.movementY)) * 2;
     }
   }
 
@@ -136,11 +103,11 @@ export class TaskListComponent implements OnDestroy {
   edit() {
     if (this.canInteract) {
       let taskList = JSON.parse(JSON.stringify(this.taskList));
-      this.dialogSubscription = this.dialog.open(EditTaskListDialogComponent, {
+      this.dialog.open(EditTaskListDialogComponent, {
         width: 'var(--width-edit-dialog)',
         data: taskList,
         disableClose: true,
-      }).afterClosed().subscribe((editedTaskList) => {
+      }).afterClosed().subscribe((editedTaskList: TaskList) => {
         if (editedTaskList) {
           this.dataService.deleteTaskList(this.taskList, true);
           this.dataService.addTaskList(editedTaskList);
@@ -150,19 +117,17 @@ export class TaskListComponent implements OnDestroy {
   }
 
   delete() {
-    if (this.canInteract) {
-      this.dataService.deleteTaskList(this.taskList);
-    }
+    if (!this.canInteract) return;
+    this.dataService.deleteTaskList(this.taskList);
   }
 
   startEditItem(item: TaskItem) {
-    if (this.canInteract) {
-      this.itemToEdit = item;
-    }
+    if (!this.canInteract) return;
+    this.itemToEdit = item;
   }
 
   endEditItem(item: TaskItem) {
-    let index = this.taskList.items.indexOf(item);
+    const index = this.taskList.items.indexOf(item);
     this.taskList.items[index] = item;
     this.itemToEdit = undefined;
 
@@ -170,16 +135,26 @@ export class TaskListComponent implements OnDestroy {
   }
 
   toggleSubTask(item: TaskItem) {
-    if (this.canInteract) {
-      item.isSubTask = !item.isSubTask;
-      this.dataService.cacheData();
-    }
+    if (!this.canInteract) return;
+    item.isSubTask = !item.isSubTask;
+    this.dataService.cacheData();
   }
 
   onKeyPressed(event: KeyboardEvent, item: TaskItem) {
-    if (event.key == 'Enter' || event.key == 'Escape') {
-      this.endEditItem(item);
-    } else if (event.key == 'Tab') {
+    if (event.key === 'Enter') {
+      if (item.value) {
+        this.endEditItem(item);
+        this.addItemAfter(item);
+      } else {
+        this.deleteItem(item);
+      }
+    } else if (event.key === 'Escape') {
+      if (item.value) {
+        this.endEditItem(item);
+      } else {
+        this.deleteItem(item);
+      }
+    } else if (event.key === 'Tab') {
       this.toggleSubTask(item);
       event.preventDefault();
     }
@@ -187,10 +162,9 @@ export class TaskListComponent implements OnDestroy {
   }
 
   deleteItem(item: TaskItem) {
-    if (this.canInteract) {
-      this.taskList.items = this.taskList.items.filter(x => x !== item);
-      this.dataService.cacheData();
-    }
+    if (!this.canInteract) return;
+    this.taskList.items = this.taskList.items.filter(x => x !== item);
+    this.dataService.cacheData();
   }
 
   dropItem(event: CdkDragDrop<TaskItem[]>) {

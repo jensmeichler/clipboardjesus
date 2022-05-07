@@ -1,9 +1,8 @@
 import {Component, ElementRef, HostListener, Input} from '@angular/core';
 import {Image, Note, Tab} from "../../models";
-import {DataService} from "../../services/data.service";
-import {HashyService} from "../../services/hashy.service";
+import {DataService, HashyService} from "../../services";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
-import {ImportDialogComponent} from "../dialogs/import-dialog/import-dialog.component";
+import {ImportDialogComponent} from "../dialogs";
 
 @Component({
   selector: 'clipboard-tab',
@@ -11,8 +10,7 @@ import {ImportDialogComponent} from "../dialogs/import-dialog/import-dialog.comp
   styleUrls: ['./tab.component.scss']
 })
 export class TabComponent {
-  @Input()
-  tab?: Tab;
+  @Input() tab?: Tab;
 
   startCursorPosX = 0;
   startCursorPosY = 0;
@@ -31,7 +29,7 @@ export class TabComponent {
 
   onMouseDown(event: MouseEvent) {
     if (!this.mouseDown) {
-      if (event.button == 0) {
+      if (event.button === 0) {
         this.mouseDown = true;
         this.startCursorPosX = event.pageX;
         this.startCursorPosY = event.pageY;
@@ -71,7 +69,7 @@ export class TabComponent {
           }
         }
       })
-    } else if (this.mouseDown && event.button == 0) {
+    } else if (this.mouseDown && event.button === 0) {
       if (this.dataService.selectedItemsCount) {
         this.dataService.clearSelection();
       } else {

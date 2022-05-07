@@ -1,7 +1,7 @@
 import {Component, HostListener, Inject} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef} from "@angular/material/bottom-sheet";
 import {Tab} from "../../../models";
-import {DataService} from "../../../services/data.service";
+import {DataService} from "../../../services";
 
 @Component({
   selector: 'app-import-dialog',
@@ -29,9 +29,9 @@ export class ImportDialogComponent {
 
   @HostListener('document:keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent) {
-    if (event.key == 'Enter') {
+    if (event.key === 'Enter') {
       this.import();
-    } else if (event.key == 'Escape') {
+    } else if (event.key === 'Escape') {
       this.cancel();
     }
 

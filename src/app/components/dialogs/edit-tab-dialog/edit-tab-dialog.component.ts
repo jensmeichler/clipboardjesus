@@ -1,7 +1,7 @@
 import {Component, HostListener, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Tab} from "../../../models";
-import {DataService} from "../../../services/data.service";
+import {DataService} from "../../../services";
 
 @Component({
   selector: 'app-edit-tab-dialog',
@@ -50,9 +50,9 @@ export class EditTabDialogComponent {
 
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent) {
-    if ((event.ctrlKey || event.metaKey) && event.key == 'Enter') {
+    if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
       this.submit();
-    } else if (event.key == 'Escape') {
+    } else if (event.key === 'Escape') {
       this.cancel();
     }
 

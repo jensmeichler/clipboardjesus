@@ -22,9 +22,9 @@ export class SaveAsDialogComponent {
 
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent) {
-    if (event.key == 'Enter') {
+    if (event.key === 'Enter') {
       this.save()
-    } else if (event.key == 'Escape') {
+    } else if (event.key === 'Escape') {
       this.cancel();
     }
 

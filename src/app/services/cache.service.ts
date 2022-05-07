@@ -33,6 +33,7 @@ export class CacheService {
     tabCopy.notes?.forEach(x => x.selected = undefined);
     tabCopy.taskLists?.forEach(x => x.selected = undefined);
     tabCopy.images?.forEach(x => x.selected = undefined);
+    tabCopy.noteLists?.forEach(x => x.selected = undefined);
 
     const key = "clipboard_data_" + index;
     const content = JSON.stringify(tabCopy);

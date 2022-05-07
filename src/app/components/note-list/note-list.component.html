@@ -1,0 +1,108 @@
+<mat-card (click)="$event.stopPropagation()"
+          (contextmenu)="showContextMenu($event)"
+          (mousedown)="onMouseDown($event)"
+          (mousemove)="onMouseMove()"
+          (mouseup)="onMouseUp($event)"
+          [class.docked-left]="noteList.posX === 0"
+          [class.docked-top]="noteList.posY === 49"
+          [highlightColor]="undefined"
+          [highlightedItem]="noteList">
+  <mat-card-title *ngIf="noteList.header">
+    {{ noteList.header }}
+  </mat-card-title>
+  <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="noteList.notes" cdkDropList>
+   <span *ngFor="let note of noteList.notes" class="flex-container" style="margin: 0">
+      <button mat-menu-item cdkDrag
+              class="note-within-list"
+              [style.background-color]="note.backgroundColor"
+              [style.color]="note.foregroundColor"
+              [highlightColor]="note.backgroundColorGradient"
+              [highlightedItem]="note"
+              (click)="copy(note)">
+        {{ note.content }}
+      </button>
+      <span>
+        <button (click)="editNote(note)" class="item-button" mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button (click)="deleteNote(note)" class="item-button" mat-icon-button style="margin-right: -8px">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </span>
+    </span>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button (click)="add()" mat-icon-button>
+      <mat-icon>add</mat-icon>
+    </button>
+    <button (click)="edit()" mat-icon-button>
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button (click)="delete(); $event.stopPropagation()" mat-icon-button>
+      <mat-icon>delete</mat-icon>
+    </button>
+    <button (click)="showContextMenu($event)" mat-icon-button>
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </mat-card-actions>
+  <mat-card-footer [style.margin-bottom.px]="-32"></mat-card-footer>
+</mat-card>
+
+<div [matMenuTriggerFor]="contextMenu"
+     [style.left.px]="rightClickPosX"
+     [style.top.px]="rightClickPosY"
+     style="visibility: hidden; position: fixed">
+</div>
+<mat-menu #contextMenu="matMenu">
+  <ng-container *ngIf="!dataService.selectedItemsCount">
+    <button (click)="dataService.bringToFront(this.noteList)" mat-menu-item>
+      <mat-icon>flip_to_front</mat-icon>
+      {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
+    </button>
+    <button (click)="dataService.bringForward(this.noteList)" mat-menu-item>
+      <mat-icon>add_circle_outline</mat-icon>
+      {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
+    </button>
+    <button (click)="dataService.sendBackward(this.noteList)" mat-menu-item>
+      <mat-icon>remove_circle_outline</mat-icon>
+      {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
+    </button>
+    <button (click)="dataService.flipToBack(this.noteList)" mat-menu-item>
+      <mat-icon>flip_to_back</mat-icon>
+      {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
+    </button>
+    <ng-container *ngIf="dataService.tabs.length > 1">
+      <button [matMenuTriggerFor]="tabs" mat-menu-item>
+        <mat-icon>drive_file_move</mat-icon>
+        {{ 'DRAGGABLE.MOVE' | translate }}
+      </button>
+    </ng-container>
+  </ng-container>
+  <button *ngIf="!noteList.selected" (click)="select()" mat-menu-item>
+    <mat-icon>check</mat-icon>
+    {{ 'DRAGGABLE.SELECT' | translate }}
+  </button>
+  <button *ngIf="noteList.selected" (click)="select()" mat-menu-item>
+    <mat-icon>close</mat-icon>
+    {{ 'DRAGGABLE.REMOVE_SELECTION' | translate }}
+  </button>
+  <ng-container *ngIf="!dataService.selectedItemsCount">
+    <button (click)="edit()" mat-menu-item>
+      <mat-icon>edit</mat-icon>
+      {{ 'DRAGGABLE.EDIT' | translate }}
+    </button>
+    <button (click)="delete()" mat-menu-item>
+      <mat-icon>delete</mat-icon>
+      {{ 'DRAGGABLE.DELETE' | translate }}
+    </button>
+  </ng-container>
+</mat-menu>
+
+<mat-menu #tabs="matMenu">
+  <ng-container *ngFor="let tab of dataService.tabs">
+    <button (click)="moveToTab(tab.index)" *ngIf="dataService.selectedTabIndex !== tab.index" mat-menu-item>
+      {{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}
+    </button>
+  </ng-container>
+</mat-menu>

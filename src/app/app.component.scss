@@ -167,25 +167,7 @@
 
 @keyframes pulse {
   50% {
-    transform: scale(1.1);
+    transform: scale(1.4);
     filter: drop-shadow(0 0 0 currentColor);
-  }
-}
-
-:host ::ng-deep {
-  ::-webkit-scrollbar {
-    width: 12px;
-    height: 12px;
-  }
-  ::-webkit-scrollbar-corner,
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--color-transparency-light);
-    border-radius: 3px;
-    &:hover {
-      background: var(--color-transparency-medium);
-    }
   }
 }

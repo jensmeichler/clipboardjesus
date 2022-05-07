@@ -1,7 +1,14 @@
 import {Injectable} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {SaveAsDialogComponent} from "../components/dialogs/save-as-dialog/save-as-dialog.component";
-import {DraggableNote, Image, Note, Tab, TaskList} from "../models";
+import {SaveAsDialogComponent} from "../components";
+import {
+  DraggableNote,
+  Image,
+  Note,
+  Tab,
+  TaskList,
+  NoteList
+} from "../models";
 import {CacheService} from "./cache.service";
 import {FileService} from "./file.service";
 import {HashyService} from "./hashy.service";
@@ -32,10 +39,7 @@ export class DataService {
         this.tabs.push(tab);
       }
     }
-
-    if (!this.tabs.length) {
-      this.addTab();
-    }
+    if (!this.tabs.length) this.addTab();
 
     this.selectedTabIndex = 0;
     this.setColorizedObjects();
@@ -43,22 +47,21 @@ export class DataService {
 
   get itemsCount(): number {
     return this.tab.notes.length + this.tab.taskLists.length + this.tab.images.length;
-  };
+  }
 
   get selectedItemsCount(): number {
     return this.tab.notes.filter(x => x.selected).length
       + this.tab.taskLists.filter(x => x.selected).length
+      + this.tab.noteLists.filter(x => x.selected).length
       + this.tab.images.filter(x => x.selected).length;
-  };
+  }
 
   get tab(): Tab {
     return this.tabs[this.selectedTabIndex];
   }
 
   set tab(tab: Tab) {
-    if (!tab) {
-      debugger;
-    }
+    if (!tab) debugger;
     this.tabs[this.selectedTabIndex] = tab;
   }
 
@@ -66,29 +69,34 @@ export class DataService {
     return left.content === right.content
       && left.header === right.header
       && left.posX === right.posX
-      && left.posY === right.posY
+      && left.posY === right.posY;
   }
 
   private static compareTaskList(left: TaskList, right: TaskList): boolean {
     return left.header === right.header
       && left.posX === right.posX
-      && left.posY === right.posY
+      && left.posY === right.posY;
+  }
+
+  private static compareNoteList(left: NoteList, right: NoteList): boolean {
+    return left.notes.every(leftNote => right.notes.some(rightNote => DataService.compareNote(leftNote, rightNote)))
+      && right.notes.every(rightNote => left.notes.some(leftNote => DataService.compareNote(leftNote, rightNote)))
+      && left.header === right.header
+      && left.posX === right.posX
+      && left.posY === right.posY;
   }
 
   private static compareImage(left: Image, right: Image): boolean {
     return left.source === right.source
       && left.posX === right.posX
-      && left.posY === right.posY
+      && left.posY === right.posY;
   }
 
   private static compareColors(left: Note | TaskList, right: Note | TaskList): boolean {
-    if (left && right) {
-      return left.backgroundColor == right.backgroundColor
-        && left.backgroundColorGradient == right.backgroundColorGradient
-        && left.foregroundColor == right.foregroundColor
-    } else {
-      return false;
-    }
+    if (!left || !right) return false;
+    return left.backgroundColor === right.backgroundColor
+      && left.backgroundColorGradient === right.backgroundColorGradient
+      && left.foregroundColor === right.foregroundColor
   }
 
   undo() {
@@ -105,9 +113,7 @@ export class DataService {
 
   restoreTab() {
     const recreatedTab = this.cache.recreate();
-    if (recreatedTab) {
-      this.addTab(recreatedTab);
-    }
+    if (recreatedTab) this.addTab(recreatedTab);
   }
 
   getColorizedObjects(excludedItem: Note | TaskList): (Note | TaskList)[] {
@@ -122,20 +128,22 @@ export class DataService {
     this.editAllItems(item => item.selected = undefined);
   }
 
-  editAllSelectedItems(action: (item: Note | TaskList | Image) => void) {
+  editAllSelectedItems(action: (item: DraggableNote) => void) {
     this.editAllItems(x => x.selected ? action(x) : {})
   }
 
-  editAllItems(action: (item: Note | TaskList | Image) => void) {
+  editAllItems(action: (item: DraggableNote) => void) {
     this.tab.notes.forEach(action);
     this.tab.taskLists.forEach(action);
     this.tab.images.forEach(action);
+    this.tab.noteLists.forEach(action);
   }
 
-  filterAllItems(action: (item: Note | TaskList | Image) => boolean) {
+  filterAllItems(action: (item: DraggableNote) => boolean) {
     this.tab.notes = this.tab.notes.filter(action);
     this.tab.taskLists = this.tab.taskLists.filter(action);
     this.tab.images = this.tab.images.filter(action);
+    this.tab.noteLists = this.tab.noteLists.filter(action);
   }
 
   cacheData() {
@@ -154,13 +162,12 @@ export class DataService {
   }
 
   addTab(tab?: Tab) {
-    if (tab) {
-      tab.index = this.tabs.length;
-    }
+    if (tab) tab.index = this.tabs.length;
     const newTab: Tab = tab ?? {
       index: this.tabs.length,
       color: '#131313',
       notes: [],
+      noteLists: [],
       taskLists: [],
       images: []
     };
@@ -185,21 +192,14 @@ export class DataService {
 
   async importItemsFromClipboard(): Promise<boolean> {
     const clipboardText = await navigator.clipboard.readText();
-    if (!clipboardText) {
-      return false;
-    }
+    if (!clipboardText) return false;
 
     try {
       let tab = JSON.parse(clipboardText) as Tab;
-      if (tab.notes.length) {
-        tab.notes.forEach(note => this.addNote(note));
-      }
-      if (tab.taskLists.length) {
-        tab.taskLists.forEach(taskList => this.addTaskList(taskList));
-      }
-      if (tab.images.length) {
-        tab.images.forEach(image => this.addImage(image));
-      }
+      if (tab.notes.length) tab.notes.forEach(note => this.addNote(note));
+      if (tab.taskLists.length) tab.taskLists.forEach(taskList => this.addTaskList(taskList));
+      if (tab.images.length) tab.images.forEach(image => this.addImage(image));
+      if (tab.noteLists.length) tab.noteLists.forEach(noteList => this.addNoteList(noteList));
     } catch {
       this.addNote(new Note(10, 61, clipboardText));
     }
@@ -272,21 +272,24 @@ export class DataService {
   addNote(note: Note) {
     this.defineIndex(note);
     this.tab.notes.push(note);
+    this.cacheData();
+  }
 
+  addNoteList(noteList: NoteList) {
+    this.defineIndex(noteList);
+    this.tab.noteLists.push(noteList);
     this.cacheData();
   }
 
   addTaskList(taskList: TaskList) {
     this.defineIndex(taskList);
     this.tab.taskLists.push(taskList);
-
     this.cacheData();
   }
 
   addImage(image: Image) {
     this.defineIndex(image);
     this.tab.images.push(image);
-
     this.cacheData();
   }
 
@@ -306,6 +309,14 @@ export class DataService {
     }
   }
 
+  deleteNoteList(noteList: NoteList, skipIndexing?: boolean) {
+    this.tab.noteLists = this.tab.noteLists.filter(x => x !== noteList);
+    if (!skipIndexing) {
+      this.reArrangeIndices();
+      this.cacheData();
+    }
+  }
+
   deleteImage(image: Image) {
     this.tab.images = this.tab.images.filter(x => x !== image);
     this.reArrangeIndices();
@@ -318,25 +329,30 @@ export class DataService {
     tab.notes = tab.notes.filter(x => x.selected);
     tab.taskLists = tab.taskLists.filter(x => x.selected);
     tab.images = tab.images.filter(x => x.selected);
+    tab.noteLists = tab.noteLists.filter(x => x.selected);
 
     tab.notes.forEach(note => note.selected = false);
     tab.taskLists.forEach(taskList => taskList.selected = false);
     tab.images.forEach(image => image.selected = false);
+    tab.noteLists.forEach(noteList => noteList.selected = false);
 
     return tab;
   }
 
   getAsJson(ignoreSelection?: boolean): Tab {
-    if (!ignoreSelection && this.selectedItemsCount) {
-      return this.getSelectedItems();
-    }
-    return this.tab;
+    if (ignoreSelection || !this.selectedItemsCount) return this.tab;
+    return this.getSelectedItems();
   }
 
   setFromTabJson(tab: Tab, skipCache?: boolean) {
     tab.notes.forEach(note => {
       if (!this.tab.notes.some(curr => DataService.compareNote(note, curr))) {
         this.tab.notes.push(note);
+      }
+    });
+    tab.noteLists.forEach(noteList => {
+      if (!this.tab.noteLists.some(curr => DataService.compareNoteList(noteList, curr))) {
+        this.tab.noteLists.push(noteList);
       }
     });
     tab.taskLists.forEach(taskList => {
@@ -350,10 +366,7 @@ export class DataService {
       }
     });
 
-    if (!skipCache) {
-      this.cacheData();
-    }
-
+    if (!skipCache) this.cacheData();
     this.reArrangeIndices();
   }
 
@@ -364,9 +377,7 @@ export class DataService {
         right: 'var(--margin-edge)'
       }
     }).afterClosed().subscribe(filename => {
-      if (filename) {
-        this.saveAll(filename);
-      }
+      if (filename) this.saveAll(filename);
     });
   }
 
@@ -384,7 +395,7 @@ export class DataService {
     this.cacheData();
   }
 
-  bringToFront(item: { posZ?: number }) {
+  bringToFront(item: DraggableNote) {
     item.posZ = this.getNextIndex();
     this.reArrangeIndices();
   }
@@ -412,6 +423,14 @@ export class DataService {
     this.tabs[index] = otherTab;
   }
 
+  moveNoteListToTab(index: number, noteList: NoteList) {
+    let otherTab = this.cache.fetch(index)!;
+    otherTab.noteLists.push(noteList);
+    this.deleteNoteList(noteList);
+    this.cache.save(index, otherTab);
+    this.tabs[index] = otherTab;
+  }
+
   moveTaskListToTab(index: number, taskList: TaskList) {
     let otherTab = this.cache.fetch(index)!;
     otherTab.taskLists.push(taskList);
@@ -434,16 +453,23 @@ export class DataService {
       if (!this.colorizedObjects.some(other => DataService.compareColors(note, other))) {
         this.colorizedObjects.push(note);
       }
-    })
+    });
     this.tab.taskLists?.forEach(taskList => {
       if (!this.colorizedObjects.some(other => DataService.compareColors(taskList, other))) {
         this.colorizedObjects.push(taskList);
       }
-    })
+    });
+    this.tab.noteLists?.forEach(noteList => {
+      noteList.notes.forEach(note => {
+        if (!this.colorizedObjects.some(other => DataService.compareColors(note, other))) {
+          this.colorizedObjects.push(note);
+        }
+      });
+    });
   }
 
   selectNextTab(revert: boolean) {
-    if (!((this.selectedTabIndex == 0 && revert) || (this.selectedTabIndex == (this.tabs.length - 1) && !revert))) {
+    if (!((this.selectedTabIndex === 0 && revert) || (this.selectedTabIndex === (this.tabs.length - 1) && !revert))) {
       this.selectedTabIndex = revert ? this.selectedTabIndex - 1 : this.selectedTabIndex + 1;
     }
   }
@@ -452,19 +478,23 @@ export class DataService {
     let notes = this.tab.notes;
     let taskLists = this.tab.taskLists;
     let images = this.tab.images;
+    let noteLists = this.tab.noteLists;
 
-    if (this.selectedItemsCount == 0) {
+    if (this.selectedItemsCount === 0) {
       if (notes?.length) {
         this.selectFirst(notes);
       } else if (taskLists?.length) {
         this.selectFirst(taskLists);
       } else if (images?.length) {
         this.selectFirst(images);
+      } else if (noteLists?.length) {
+        this.selectFirst(noteLists);
       }
-    } else if (this.selectedItemsCount == 1) {
+    } else if (this.selectedItemsCount === 1) {
       const selectedNotes = notes?.filter(x => x.selected);
       const selectedTaskLists = taskLists?.filter(x => x.selected);
       const selectedImages = images?.filter(x => x.selected);
+      const selectedNoteLists = noteLists?.filter(x => x.selected);
 
       let currentIndex: number | undefined;
       if (selectedNotes?.length) {
@@ -476,85 +506,73 @@ export class DataService {
       } else if (selectedImages?.length) {
         currentIndex = selectedImages[0].posZ!;
         selectedImages[0].selected = false;
+      } else if (selectedNoteLists?.length) {
+        currentIndex = selectedImages[0].posZ!;
+        selectedImages[0].selected = false;
       }
 
-      if (currentIndex == undefined) {
-        return;
-      } else {
-        currentIndex = revert ? currentIndex - 1 : currentIndex + 1;
-      }
+      if (currentIndex === undefined) return;
 
-      const possibleNextSelectedNotes = notes?.filter(x => x.posZ == currentIndex);
-      const possibleNextSelectedTaskLists = taskLists?.filter(x => x.posZ == currentIndex);
-      const possibleNextSelectedImages = images?.filter(x => x.posZ == currentIndex);
+      currentIndex = revert ? currentIndex - 1 : currentIndex + 1;
+
+      const possibleNextSelectedNotes = notes?.filter(x => x.posZ === currentIndex);
+      const possibleNextSelectedTaskLists = taskLists?.filter(x => x.posZ === currentIndex);
+      const possibleNextSelectedImages = images?.filter(x => x.posZ === currentIndex);
+      const possibleNextSelectedNoteLists = noteLists?.filter(x => x.posZ === currentIndex);
 
       if (possibleNextSelectedNotes?.length) {
         this.selectFirst(possibleNextSelectedNotes);
-        return;
       } else if (possibleNextSelectedTaskLists?.length) {
         this.selectFirst(possibleNextSelectedTaskLists);
-        return;
       } else if (possibleNextSelectedImages?.length) {
         this.selectFirst(possibleNextSelectedImages);
-        return;
+      } else if (possibleNextSelectedNoteLists?.length) {
+        this.selectFirst(possibleNextSelectedNoteLists);
       }
     }
   }
 
   private selectFirst(list: DraggableNote[]) {
-    if (list.length == 1) {
+    if (list.length === 1) {
       list[0].selected = true;
       return;
     }
     const minIndex = list.reduce((index, draggable) => Math.min(index, draggable.posZ ?? Number.MAX_VALUE), Number.MAX_VALUE);
-    const firstItems = list.filter(x => x.posZ == minIndex);
-    if (firstItems.length) {
-      firstItems[0].selected = true;
-    } else {
-      list[0].selected = true;
-    }
+    const firstItems = list.filter(x => x.posZ === minIndex);
+    if (firstItems.length) firstItems[0].selected = true;
+    else list[0].selected = true;
   }
 
-  private defineIndex(item: Note | TaskList | Image) {
-    if (item.posZ == undefined) {
-      item.posZ = this.getNextIndex();
-    }
+  private defineIndex(item: DraggableNote) {
+    if (item.posZ === undefined) item.posZ = this.getNextIndex();
   }
 
   private reArrangeIndices() {
     let indexItems = this.getIndexItems()
       .sort((a, b) => (a.posZ ?? 0) - (b.posZ ?? 0));
     let i = 1;
-    indexItems.forEach(item => {
-      item.posZ = i++;
-    })
+    indexItems.forEach(item => item.posZ = i++);
   }
 
   private getNextIndex(): number {
     let highestItem = this.getIndexItems()
       ?.filter(n => n.posZ)
       ?.reduce((hn, n) => Math.max(hn, n.posZ!), 0);
-
-    return highestItem
-      ? highestItem + 1
-      : 1
+    return highestItem ? highestItem + 1 : 1
   }
 
   private getIndexItems(): DraggableNote[] {
     let notes = this.tab.notes;
     let taskLists = this.tab.taskLists;
     let images = this.tab.images;
-    let result: DraggableNote[] = [];
+    let noteLists = this.tab.noteLists;
 
-    if (notes) {
-      result = result.concat(notes);
-    }
-    if (taskLists) {
-      result = result.concat(taskLists);
-    }
-    if (images) {
-      result = result.concat(images);
-    }
+    let result: DraggableNote[] = [];
+    if (notes) result = result.concat(notes);
+    if (taskLists) result = result.concat(taskLists);
+    if (images) result = result.concat(images);
+    if (noteLists) result = result.concat(noteLists);
+
     return result;
   }
 }

@@ -1,0 +1,45 @@
+:host ::ng-deep .mat-card-content {
+  display: flex;
+  flex-direction: column;
+  .mat-menu-item {
+    border-radius: 8px;
+    height: 34px;
+    line-height: 34px;
+    padding: 0 8px;
+    transition: all ease-in-out 100ms;
+    &:hover {
+      box-shadow: var(--shadow-light);
+    }
+  }
+}
+
+.item-button {
+  opacity: .3;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.flex-container {
+  gap: 6px;
+}
+
+/******************************************
+  Drag and drop animations and templates
+******************************************/
+.cdk-drag-preview {
+  border-radius: 8px;
+  height: 34px;
+  line-height: 34px;
+  box-shadow: var(--shadow-dragging);
+  padding: 0 8px;
+}
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+.cdk-drop-list-dragging .note-within-list:not(.cdk-drag-placeholder) {
+  transition: var(--drag-drop-transition);
+}
+.cdk-drag-animating {
+  transition: var(--drag-drop-transition);
+}
