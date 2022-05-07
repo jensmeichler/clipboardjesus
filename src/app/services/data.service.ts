@@ -52,6 +52,7 @@ export class DataService {
   get selectedItemsCount(): number {
     return this.tab.notes.filter(x => x.selected).length
       + this.tab.taskLists.filter(x => x.selected).length
+      + this.tab.noteLists.filter(x => x.selected).length
       + this.tab.images.filter(x => x.selected).length;
   }
 
@@ -68,19 +69,27 @@ export class DataService {
     return left.content === right.content
       && left.header === right.header
       && left.posX === right.posX
-      && left.posY === right.posY
+      && left.posY === right.posY;
   }
 
   private static compareTaskList(left: TaskList, right: TaskList): boolean {
     return left.header === right.header
       && left.posX === right.posX
-      && left.posY === right.posY
+      && left.posY === right.posY;
+  }
+
+  private static compareNoteList(left: NoteList, right: NoteList): boolean {
+    return left.notes.every(leftNote => right.notes.some(rightNote => DataService.compareNote(leftNote, rightNote)))
+      && right.notes.every(rightNote => left.notes.some(leftNote => DataService.compareNote(leftNote, rightNote)))
+      && left.header === right.header
+      && left.posX === right.posX
+      && left.posY === right.posY;
   }
 
   private static compareImage(left: Image, right: Image): boolean {
     return left.source === right.source
       && left.posX === right.posX
-      && left.posY === right.posY
+      && left.posY === right.posY;
   }
 
   private static compareColors(left: Note | TaskList, right: Note | TaskList): boolean {
@@ -190,6 +199,7 @@ export class DataService {
       if (tab.notes.length) tab.notes.forEach(note => this.addNote(note));
       if (tab.taskLists.length) tab.taskLists.forEach(taskList => this.addTaskList(taskList));
       if (tab.images.length) tab.images.forEach(image => this.addImage(image));
+      if (tab.noteLists.length) tab.noteLists.forEach(noteList => this.addNoteList(noteList));
     } catch {
       this.addNote(new Note(10, 61, clipboardText));
     }
@@ -319,10 +329,12 @@ export class DataService {
     tab.notes = tab.notes.filter(x => x.selected);
     tab.taskLists = tab.taskLists.filter(x => x.selected);
     tab.images = tab.images.filter(x => x.selected);
+    tab.noteLists = tab.noteLists.filter(x => x.selected);
 
     tab.notes.forEach(note => note.selected = false);
     tab.taskLists.forEach(taskList => taskList.selected = false);
     tab.images.forEach(image => image.selected = false);
+    tab.noteLists.forEach(noteList => noteList.selected = false);
 
     return tab;
   }
@@ -336,6 +348,11 @@ export class DataService {
     tab.notes.forEach(note => {
       if (!this.tab.notes.some(curr => DataService.compareNote(note, curr))) {
         this.tab.notes.push(note);
+      }
+    });
+    tab.noteLists.forEach(noteList => {
+      if (!this.tab.noteLists.some(curr => DataService.compareNoteList(noteList, curr))) {
+        this.tab.noteLists.push(noteList);
       }
     });
     tab.taskLists.forEach(taskList => {
