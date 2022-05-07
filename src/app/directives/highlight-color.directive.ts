@@ -59,11 +59,9 @@ export class HighlightColorDirective {
     const currentMovement = Math.abs(event.movementX) + Math.abs(event.movementY);
     if (this.radEffectWidth < maxEffectWidth) {
       const newEffectWith = this.radEffectWidth + currentMovement * 3;
-      if (newEffectWith < maxEffectWidth) {
-        this.radEffectWidth = newEffectWith;
-      } else {
-        this.radEffectWidth = maxEffectWidth;
-      }
+      this.radEffectWidth = newEffectWith < maxEffectWidth
+        ? newEffectWith
+        : maxEffectWidth;
     }
   }
 }
