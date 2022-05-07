@@ -34,8 +34,8 @@
   opacity: 0;
 }
 .cdk-drop-list-dragging .note-within-list:not(.cdk-drag-placeholder) {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+  transition: var(--drag-drop-transition);
 }
 .cdk-drag-animating {
-  transition: all cubic-bezier(0, 0, 0.2, 1) 300ms;
+  transition: var(--drag-drop-transition);
 }

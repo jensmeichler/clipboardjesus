@@ -14,7 +14,7 @@
   </mat-card-title>
   <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="taskList.items" cdkDropList>
     <ng-container *ngFor="let item of taskList.items">
-      <span cdkDrag class="flex-container" style="margin: 0">
+      <span cdkDrag class="flex-container task-list-item" style="margin: 0">
         <span [style.display]="item === itemToEdit ? 'contents' : 'block'">
           <ng-container *ngIf="item.isSubTask">
             <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button

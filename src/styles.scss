@@ -16,6 +16,7 @@ html, body {
   --drop-shadow-light: drop-shadow(2px 3px 6px #0000009D);
   --drop-shadow-medium: drop-shadow(2px 2px 3px #000000B2);
   --drop-shadow-strong: drop-shadow(2px 4px 3px black);
+  --drag-drop-transition: all cubic-bezier(0, 0, 0.2, 1) 250ms;
 
   // noinspection CssUnknownProperty
   color-scheme: dark;
