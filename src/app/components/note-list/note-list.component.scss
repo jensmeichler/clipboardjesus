@@ -37,9 +37,7 @@
 .cdk-drag-placeholder {
   opacity: 0;
 }
+.cdk-drag-animating,
 .cdk-drop-list-dragging .note-within-list:not(.cdk-drag-placeholder) {
-  transition: var(--drag-drop-transition);
-}
-.cdk-drag-animating {
   transition: var(--drag-drop-transition);
 }

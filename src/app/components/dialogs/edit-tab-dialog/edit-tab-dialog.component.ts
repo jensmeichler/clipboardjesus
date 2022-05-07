@@ -20,9 +20,9 @@ export class EditTabDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: Tab,
     public readonly dataService: DataService
   ) {
-    this.notesCount = dataService.tab.notes.length.toString() ?? '0';
-    this.taskListsCount = dataService.tab.taskLists.length.toString() ?? '0';
-    this.imagesCount = dataService.tab.images.length.toString() ?? '0';
+    this.notesCount = dataService.tab.notes?.length.toString() ?? '0';
+    this.taskListsCount = dataService.tab.taskLists?.length.toString() ?? '0';
+    this.imagesCount = dataService.tab.images?.length.toString() ?? '0';
   }
 
   deleteNotes() {

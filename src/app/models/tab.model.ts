@@ -7,8 +7,8 @@ export interface Tab {
   index: number,
   label?: string;
   color: string;
-  notes: Note[];
-  noteLists: NoteList[];
-  taskLists: TaskList[];
-  images: Image[];
+  notes?: Note[];
+  noteLists?: NoteList[];
+  taskLists?: TaskList[];
+  images?: Image[];
 }

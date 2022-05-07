@@ -46,14 +46,17 @@ export class DataService {
   }
 
   get itemsCount(): number {
-    return this.tab.notes.length + this.tab.taskLists.length + this.tab.images.length;
+    return (this.tab.notes?.length ?? 0)
+      + (this.tab.taskLists?.length ?? 0)
+      + (this.tab.images?.length ?? 0)
+      + (this.tab.noteLists?.length ?? 0);
   }
 
   get selectedItemsCount(): number {
-    return this.tab.notes.filter(x => x.selected).length
-      + this.tab.taskLists.filter(x => x.selected).length
-      + this.tab.noteLists.filter(x => x.selected).length
-      + this.tab.images.filter(x => x.selected).length;
+    return (this.tab.notes?.filter(x => x.selected).length ?? 0)
+      + (this.tab.taskLists?.filter(x => x.selected).length ?? 0)
+      + (this.tab.noteLists?.filter(x => x.selected).length ?? 0)
+      + (this.tab.images?.filter(x => x.selected).length ?? 0);
   }
 
   get tab(): Tab {
@@ -133,17 +136,17 @@ export class DataService {
   }
 
   editAllItems(action: (item: DraggableNote) => void) {
-    this.tab.notes.forEach(action);
-    this.tab.taskLists.forEach(action);
-    this.tab.images.forEach(action);
-    this.tab.noteLists.forEach(action);
+    this.tab.notes?.forEach(action);
+    this.tab.taskLists?.forEach(action);
+    this.tab.images?.forEach(action);
+    this.tab.noteLists?.forEach(action);
   }
 
   filterAllItems(action: (item: DraggableNote) => boolean) {
-    this.tab.notes = this.tab.notes.filter(action);
-    this.tab.taskLists = this.tab.taskLists.filter(action);
-    this.tab.images = this.tab.images.filter(action);
-    this.tab.noteLists = this.tab.noteLists.filter(action);
+    this.tab.notes = this.tab.notes?.filter(action);
+    this.tab.taskLists = this.tab.taskLists?.filter(action);
+    this.tab.images = this.tab.images?.filter(action);
+    this.tab.noteLists = this.tab.noteLists?.filter(action);
   }
 
   cacheData() {
@@ -184,7 +187,7 @@ export class DataService {
 
     try {
       let tab = JSON.parse(clipboardText) as Tab;
-      return !!(tab.notes.length || tab.taskLists.length || tab.images.length);
+      return !!(tab.notes?.length || tab.taskLists?.length || tab.images?.length);
     } catch {
       return false;
     }
@@ -196,10 +199,10 @@ export class DataService {
 
     try {
       let tab = JSON.parse(clipboardText) as Tab;
-      if (tab.notes.length) tab.notes.forEach(note => this.addNote(note));
-      if (tab.taskLists.length) tab.taskLists.forEach(taskList => this.addTaskList(taskList));
-      if (tab.images.length) tab.images.forEach(image => this.addImage(image));
-      if (tab.noteLists.length) tab.noteLists.forEach(noteList => this.addNoteList(noteList));
+      if (tab.notes?.length) tab.notes.forEach(note => this.addNote(note));
+      if (tab.taskLists?.length) tab.taskLists.forEach(taskList => this.addTaskList(taskList));
+      if (tab.images?.length) tab.images.forEach(image => this.addImage(image));
+      if (tab.noteLists?.length) tab.noteLists.forEach(noteList => this.addNoteList(noteList));
     } catch {
       this.addNote(new Note(10, 61, clipboardText));
     }
@@ -271,30 +274,34 @@ export class DataService {
 
   addNote(note: Note) {
     this.defineIndex(note);
+    if (!this.tab.notes) this.tab.notes = [];
     this.tab.notes.push(note);
     this.cacheData();
   }
 
   addNoteList(noteList: NoteList) {
     this.defineIndex(noteList);
+    if (!this.tab.noteLists) this.tab.noteLists = [];
     this.tab.noteLists.push(noteList);
     this.cacheData();
   }
 
   addTaskList(taskList: TaskList) {
     this.defineIndex(taskList);
+    if (!this.tab.taskLists) this.tab.taskLists = [];
     this.tab.taskLists.push(taskList);
     this.cacheData();
   }
 
   addImage(image: Image) {
     this.defineIndex(image);
+    if (!this.tab.images) this.tab.images = [];
     this.tab.images.push(image);
     this.cacheData();
   }
 
   deleteNote(note: Note, skipIndexing?: boolean) {
-    this.tab.notes = this.tab.notes.filter(x => x !== note);
+    this.tab.notes = this.tab.notes?.filter(x => x !== note);
     if (!skipIndexing) {
       this.reArrangeIndices();
       this.cacheData();
@@ -302,7 +309,7 @@ export class DataService {
   }
 
   deleteTaskList(taskList: TaskList, skipIndexing?: boolean) {
-    this.tab.taskLists = this.tab.taskLists.filter(x => x !== taskList);
+    this.tab.taskLists = this.tab.taskLists?.filter(x => x !== taskList);
     if (!skipIndexing) {
       this.reArrangeIndices();
       this.cacheData();
@@ -310,7 +317,7 @@ export class DataService {
   }
 
   deleteNoteList(noteList: NoteList, skipIndexing?: boolean) {
-    this.tab.noteLists = this.tab.noteLists.filter(x => x !== noteList);
+    this.tab.noteLists = this.tab.noteLists?.filter(x => x !== noteList);
     if (!skipIndexing) {
       this.reArrangeIndices();
       this.cacheData();
@@ -318,7 +325,7 @@ export class DataService {
   }
 
   deleteImage(image: Image) {
-    this.tab.images = this.tab.images.filter(x => x !== image);
+    this.tab.images = this.tab.images?.filter(x => x !== image);
     this.reArrangeIndices();
     this.cacheData();
   }
@@ -326,15 +333,15 @@ export class DataService {
   getSelectedItems(): Tab {
     let tab = JSON.parse(JSON.stringify(this.tab)) as Tab;
 
-    tab.notes = tab.notes.filter(x => x.selected);
-    tab.taskLists = tab.taskLists.filter(x => x.selected);
-    tab.images = tab.images.filter(x => x.selected);
-    tab.noteLists = tab.noteLists.filter(x => x.selected);
+    tab.notes = tab.notes?.filter(x => x.selected);
+    tab.taskLists = tab.taskLists?.filter(x => x.selected);
+    tab.images = tab.images?.filter(x => x.selected);
+    tab.noteLists = tab.noteLists?.filter(x => x.selected);
 
-    tab.notes.forEach(note => note.selected = false);
-    tab.taskLists.forEach(taskList => taskList.selected = false);
-    tab.images.forEach(image => image.selected = false);
-    tab.noteLists.forEach(noteList => noteList.selected = false);
+    tab.notes?.forEach(note => note.selected = false);
+    tab.taskLists?.forEach(taskList => taskList.selected = false);
+    tab.images?.forEach(image => image.selected = false);
+    tab.noteLists?.forEach(noteList => noteList.selected = false);
 
     return tab;
   }
@@ -345,22 +352,26 @@ export class DataService {
   }
 
   setFromTabJson(tab: Tab, skipCache?: boolean) {
-    tab.notes.forEach(note => {
+    tab.notes?.forEach(note => {
+      if (!this.tab.notes) this.tab.notes = [];
       if (!this.tab.notes.some(curr => DataService.compareNote(note, curr))) {
         this.tab.notes.push(note);
       }
     });
-    tab.noteLists.forEach(noteList => {
+    tab.noteLists?.forEach(noteList => {
+      if (!this.tab.noteLists) this.tab.noteLists = [];
       if (!this.tab.noteLists.some(curr => DataService.compareNoteList(noteList, curr))) {
         this.tab.noteLists.push(noteList);
       }
     });
-    tab.taskLists.forEach(taskList => {
+    tab.taskLists?.forEach(taskList => {
+      if (!this.tab.taskLists) this.tab.taskLists = [];
       if (!this.tab.taskLists.some(curr => DataService.compareTaskList(taskList, curr))) {
         this.tab.taskLists.push(taskList);
       }
     });
-    tab.images.forEach(image => {
+    tab.images?.forEach(image => {
+      if (!this.tab.images) this.tab.images = [];
       if (!this.tab.images.some(curr => DataService.compareImage(image, curr))) {
         this.tab.images.push(image);
       }
@@ -417,6 +428,7 @@ export class DataService {
 
   moveNoteToTab(index: number, note: Note) {
     let otherTab = this.cache.fetch(index)!;
+    if (!otherTab.notes) otherTab.notes = [];
     otherTab.notes.push(note);
     this.deleteNote(note);
     this.cache.save(index, otherTab);
@@ -425,6 +437,7 @@ export class DataService {
 
   moveNoteListToTab(index: number, noteList: NoteList) {
     let otherTab = this.cache.fetch(index)!;
+    if (!otherTab.noteLists) otherTab.noteLists = [];
     otherTab.noteLists.push(noteList);
     this.deleteNoteList(noteList);
     this.cache.save(index, otherTab);
@@ -433,6 +446,7 @@ export class DataService {
 
   moveTaskListToTab(index: number, taskList: TaskList) {
     let otherTab = this.cache.fetch(index)!;
+    if (!otherTab.taskLists) otherTab.taskLists = [];
     otherTab.taskLists.push(taskList);
     this.deleteTaskList(taskList);
     this.cache.save(index, otherTab);
@@ -441,6 +455,7 @@ export class DataService {
 
   moveImageToTab(index: number, image: Image) {
     let otherTab = this.cache.fetch(index)!;
+    if (!otherTab.images) otherTab.images = [];
     otherTab.images.push(image);
     this.deleteImage(image);
     this.cache.save(index, otherTab);
@@ -498,17 +513,17 @@ export class DataService {
 
       let currentIndex: number | undefined;
       if (selectedNotes?.length) {
-        currentIndex = selectedNotes[0].posZ!;
+        currentIndex = selectedNotes[0].posZ;
         selectedNotes[0].selected = false;
       } else if (selectedTaskLists?.length) {
-        currentIndex = selectedTaskLists[0].posZ!;
+        currentIndex = selectedTaskLists[0].posZ;
         selectedTaskLists[0].selected = false;
       } else if (selectedImages?.length) {
-        currentIndex = selectedImages[0].posZ!;
+        currentIndex = selectedImages[0].posZ;
         selectedImages[0].selected = false;
       } else if (selectedNoteLists?.length) {
-        currentIndex = selectedImages[0].posZ!;
-        selectedImages[0].selected = false;
+        currentIndex = selectedNoteLists[0].posZ;
+        selectedNoteLists[0].selected = false;
       }
 
       if (currentIndex === undefined) return;
