@@ -173,12 +173,6 @@ h1.flex-container,
   background-color: var(--color-transparency-light)
 }
 
-.color-button {
-  filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white) drop-shadow(-1px 1px 0 white) drop-shadow(1px -1px 0 white);
-  transform: translateY(4px);
-  margin-right: 5px;
-}
-
 .mat-icon-button {
   transition: all ease-in-out .2s;
   &:hover {

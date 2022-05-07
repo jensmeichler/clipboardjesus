@@ -5,10 +5,12 @@ import {DataService} from "../../../services";
 
 @Component({
   selector: 'app-edit-tab-dialog',
-  templateUrl: './edit-tab-dialog.component.html'
+  templateUrl: './edit-tab-dialog.component.html',
+  styleUrls: ['./edit-tab-dialog.component.scss']
 })
 export class EditTabDialogComponent {
   notesCount: string;
+  noteListsCount: string;
   taskListsCount: string;
   imagesCount: string;
   purple = '#7b1ea2';
@@ -21,6 +23,7 @@ export class EditTabDialogComponent {
     public readonly dataService: DataService
   ) {
     this.notesCount = dataService.tab.notes?.length.toString() ?? '0';
+    this.noteListsCount = dataService.tab.noteLists?.length.toString() ?? '0';
     this.taskListsCount = dataService.tab.taskLists?.length.toString() ?? '0';
     this.imagesCount = dataService.tab.images?.length.toString() ?? '0';
   }
@@ -28,6 +31,11 @@ export class EditTabDialogComponent {
   deleteNotes() {
     this.notesCount = '0';
     this.dataService.tab.notes = []
+  }
+
+  deleteNoteLists() {
+    this.noteListsCount = '0';
+    this.dataService.tab.noteLists = []
   }
 
   deleteTaskLists() {

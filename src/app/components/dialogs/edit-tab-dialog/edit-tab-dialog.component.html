@@ -45,6 +45,18 @@
 
     <div class="flex-container">
       <mat-form-field color="accent" [style.width]="'100%'">
+        <mat-label>{{ 'DIALOGS.EDIT.NOTE_LISTS' | translate }}</mat-label>
+        <input [value]="noteListsCount" disabled matInput type="number">
+        <mat-icon matSuffix>sticky_note_2</mat-icon>
+      </mat-form-field>
+      <button (click)="deleteNoteLists()" mat-flat-button
+              style="height: 53px; transform: translateY(-9px); background: transparent">
+        <mat-icon>delete_forever</mat-icon>
+      </button>
+    </div>
+
+    <div class="flex-container">
+      <mat-form-field color="accent" [style.width]="'100%'">
         <mat-label>{{ 'DIALOGS.EDIT.TASK_LISTS' | translate }}</mat-label>
         <input [value]="taskListsCount" disabled matInput type="number">
         <mat-icon matSuffix>list</mat-icon>

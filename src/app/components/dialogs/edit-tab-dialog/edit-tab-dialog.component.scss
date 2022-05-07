@@ -1,0 +1,9 @@
+.color-button {
+  filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white) drop-shadow(-1px 1px 0 white) drop-shadow(1px -1px 0 white);
+  transform: translateY(4px);
+  margin-right: 5px;
+}
+
+.flex-container {
+  gap: 6px;
+}
