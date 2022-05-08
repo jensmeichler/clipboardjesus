@@ -130,6 +130,7 @@ export class TaskListComponent {
     const index = this.taskList.items.indexOf(item);
     this.taskList.items[index] = item;
     this.itemToEdit = undefined;
+    if (!item.value) this.deleteItem(item);
 
     this.dataService.cacheData();
   }
