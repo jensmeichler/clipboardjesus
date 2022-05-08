@@ -32,94 +32,91 @@
        style="visibility: hidden; position: fixed">
   </div>
   <mat-menu #contextMenu="matMenu">
-    <div [highlightColor]="undefined"
-         [x]="rightClickPosX" [y]="rightClickPosY">
-      <ng-container *ngIf="dataService.selectedItemsCount as n">
-        <button (click)="copySelectedItems()" mat-menu-item>
-          <mat-icon>content_copy</mat-icon>
-          {{ 'MAIN.COPY_N_ITEMS' | translate : {n} }}
+    <ng-container *ngIf="dataService.selectedItemsCount as n">
+      <button (click)="copySelectedItems()" mat-menu-item>
+        <mat-icon>content_copy</mat-icon>
+        {{ 'MAIN.COPY_N_ITEMS' | translate : {n} }}
+      </button>
+      <button (click)="cutSelectedItems()" mat-menu-item>
+        <mat-icon>content_cut</mat-icon>
+        {{ 'MAIN.CUT_N_ITEMS' | translate : {n} }}
+      </button>
+      <button (click)="deleteSelectedItems()" mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        {{ 'MAIN.DELETE_N_ITEMS' | translate : {n} }}
+      </button>
+      <button (click)="saveTabOrSelection()" mat-menu-item>
+        <mat-icon>save</mat-icon>
+        {{ 'MAIN.SAVE_N_ITEMS' | translate : {n} }}
+      </button>
+    </ng-container>
+    <ng-container *ngIf="!dataService.selectedItemsCount">
+      <ng-container *ngIf="canPasteItems">
+        <button (click)="dataService.importItemsFromClipboard()" mat-menu-item>
+          <mat-icon>content_paste_go</mat-icon>
+          {{ 'MAIN.PASTE_ITEMS' | translate }}
         </button>
-        <button (click)="cutSelectedItems()" mat-menu-item>
-          <mat-icon>content_cut</mat-icon>
-          {{ 'MAIN.CUT_N_ITEMS' | translate : {n} }}
+        <mat-divider></mat-divider>
+      </ng-container>
+      <button (click)="openNewNoteDialog()" mat-menu-item>
+        <mat-icon>note</mat-icon>
+        {{ 'MAIN.CREATE_NOTE' | translate }}
+      </button>
+      <button (click)="openNewNoteListDialog()" mat-menu-item>
+        <mat-icon>sticky_note_2</mat-icon>
+        {{ 'MAIN.CREATE_NOTE_LIST' | translate }}
+      </button>
+      <button (click)="openNewTaskListDialog()" mat-menu-item>
+        <mat-icon>list</mat-icon>
+        {{ 'MAIN.CREATE_TASK_LIST' | translate }}
+      </button>
+      <mat-divider
+        *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
+      </mat-divider>
+      <ng-container *ngIf="dataService.undoPossible | async">
+        <button (click)="dataService.undo()" mat-menu-item>
+          <mat-icon>undo</mat-icon>
+          {{ 'MAIN.UNDO_LAST_ACTION' | translate }}
         </button>
-        <button (click)="deleteSelectedItems()" mat-menu-item>
+      </ng-container>
+      <ng-container *ngIf="dataService.redoPossible | async">
+        <button (click)="dataService.redo()" mat-menu-item>
+          <mat-icon>redo</mat-icon>
+          {{ 'MAIN.REDO_LAST_ACTION' | translate }}
+        </button>
+      </ng-container>
+      <ng-container *ngIf="dataService.restorePossible | async">
+        <button (click)="dataService.restoreTab()" mat-menu-item>
+          <mat-icon>restore_page</mat-icon>
+          {{ 'MAIN.RESTORE_CLOSED_TAB' | translate }}
+        </button>
+      </ng-container>
+      <mat-divider
+        *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
+      </mat-divider>
+      <button (click)="saveTabOrSelection()" mat-menu-item>
+        <mat-icon>save</mat-icon>
+        {{ 'MAIN.SAVE_TAB' | translate }}
+      </button>
+      <button (click)="shareTab()" mat-menu-item [matTooltip]="'MAIN.EXPERIMENTAL' | translate" matTooltipPosition="left">
+        <mat-icon>share</mat-icon>
+        {{ 'MAIN.SHARE_TAB' | translate }}
+      </button>
+      <button (click)="openEditTabDialog()" mat-menu-item>
+        <mat-icon>format_paint</mat-icon>
+        {{ 'MAIN.EDIT_TAB' | translate }}
+      </button>
+      <ng-container *ngIf="dataService.tabs.length > 1">
+        <button (click)="dataService.removeTab()" mat-menu-item>
           <mat-icon>delete</mat-icon>
-          {{ 'MAIN.DELETE_N_ITEMS' | translate : {n} }}
-        </button>
-        <button (click)="saveTabOrSelection()" mat-menu-item>
-          <mat-icon>save</mat-icon>
-          {{ 'MAIN.SAVE_N_ITEMS' | translate : {n} }}
+          {{ 'MAIN.DELETE_TAB' | translate }}
         </button>
       </ng-container>
-      <ng-container *ngIf="!dataService.selectedItemsCount">
-        <ng-container *ngIf="canPasteItems">
-          <button (click)="dataService.importItemsFromClipboard()" mat-menu-item>
-            <mat-icon>content_paste_go</mat-icon>
-            {{ 'MAIN.PASTE_ITEMS' | translate }}
-          </button>
-          <mat-divider></mat-divider>
-        </ng-container>
-        <button (click)="openNewNoteDialog()" mat-menu-item>
-          <mat-icon>note</mat-icon>
-          {{ 'MAIN.CREATE_NOTE' | translate }}
-        </button>
-        <button (click)="openNewNoteListDialog()" mat-menu-item>
-          <mat-icon>sticky_note_2</mat-icon>
-          {{ 'MAIN.CREATE_NOTE_LIST' | translate }}
-        </button>
-        <button (click)="openNewTaskListDialog()" mat-menu-item>
-          <mat-icon>list</mat-icon>
-          {{ 'MAIN.CREATE_TASK_LIST' | translate }}
-        </button>
-        <mat-divider
-          *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
-        </mat-divider>
-        <ng-container *ngIf="dataService.undoPossible | async">
-          <button (click)="dataService.undo()" mat-menu-item>
-            <mat-icon>undo</mat-icon>
-            {{ 'MAIN.UNDO_LAST_ACTION' | translate }}
-          </button>
-        </ng-container>
-        <ng-container *ngIf="dataService.redoPossible | async">
-          <button (click)="dataService.redo()" mat-menu-item>
-            <mat-icon>redo</mat-icon>
-            {{ 'MAIN.REDO_LAST_ACTION' | translate }}
-          </button>
-        </ng-container>
-        <ng-container *ngIf="dataService.restorePossible | async">
-          <button (click)="dataService.restoreTab()" mat-menu-item>
-            <mat-icon>restore_page</mat-icon>
-            {{ 'MAIN.RESTORE_CLOSED_TAB' | translate }}
-          </button>
-        </ng-container>
-        <mat-divider
-          *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
-        </mat-divider>
-        <button (click)="saveTabOrSelection()" mat-menu-item>
-          <mat-icon>save</mat-icon>
-          {{ 'MAIN.SAVE_TAB' | translate }}
-        </button>
-        <button (click)="shareTab()" mat-menu-item [matTooltip]="'MAIN.EXPERIMENTAL' | translate" matTooltipPosition="left">
-          <mat-icon>share</mat-icon>
-          {{ 'MAIN.SHARE_TAB' | translate }}
-        </button>
-        <button (click)="openEditTabDialog()" mat-menu-item>
-          <mat-icon>format_paint</mat-icon>
-          {{ 'MAIN.EDIT_TAB' | translate }}
-        </button>
-        <ng-container *ngIf="dataService.tabs.length > 1">
-          <button (click)="dataService.removeTab()" mat-menu-item>
-            <mat-icon>delete</mat-icon>
-            {{ 'MAIN.DELETE_TAB' | translate }}
-          </button>
-        </ng-container>
-        <button (click)="clearAllForever()" mat-menu-item>
-          <mat-icon>delete_forever</mat-icon>
-          {{ 'MAIN.DELETE_ALL_TABS' | translate }}
-        </button>
-      </ng-container>
-    </div>
+      <button (click)="clearAllForever()" mat-menu-item>
+        <mat-icon>delete_forever</mat-icon>
+        {{ 'MAIN.DELETE_ALL_TABS' | translate }}
+      </button>
+    </ng-container>
   </mat-menu>
 
   <!-- Bottom right buttons -->
