@@ -1,8 +1,9 @@
 import {Component, ElementRef, HostListener, Input} from '@angular/core';
-import {Image, Note, Tab} from "../../models";
+import {DraggableNote, Image, Note, Tab} from "../../models";
 import {DataService, HashyService} from "../../services";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {ImportDialogComponent} from "../dialogs";
+import {CdkDragEnd} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'clipboard-tab',
@@ -17,7 +18,7 @@ export class TabComponent {
   endCursorPosX = 0;
   endCursorPosY = 0;
   mouseDown = false;
-  mouseMoveEvent: any;
+  mouseMoveEvent: OmitThisParameter<(event: MouseEvent) => void>;
 
   constructor(
     private readonly hashy: HashyService,
@@ -27,7 +28,7 @@ export class TabComponent {
     this.mouseMoveEvent = this.onMouseMove.bind(this);
   }
 
-  onMouseDown(event: MouseEvent) {
+  onMouseDown(event: MouseEvent): void {
     if (!this.mouseDown) {
       if (event.button === 0) {
         this.mouseDown = true;
@@ -41,12 +42,12 @@ export class TabComponent {
     }
   }
 
-  onMouseMove(event: MouseEvent) {
+  onMouseMove(event: MouseEvent): void {
     this.endCursorPosX = event.pageX;
     this.endCursorPosY = event.pageY;
   }
 
-  async onMouseUp(event: MouseEvent) {
+  async onMouseUp(event: MouseEvent): Promise<void> {
     const cursorMoved = this.mouseDown && (Math.abs(event.pageX - this.startCursorPosX) > 5
       || Math.abs(event.pageY - this.startCursorPosY) > 5);
 
@@ -85,11 +86,11 @@ export class TabComponent {
     this.resetCursors();
   }
 
-  dropFile(event: any) {
+  dropFile(event: DragEvent): void {
     const posX = event.pageX;
     const posY = event.pageY;
-    const data = event.dataTransfer.items[0] as DataTransferItem;
-    if (data.kind === 'file') {
+    const data: DataTransferItem | undefined = event.dataTransfer?.items[0];
+    if (data?.kind === 'file') {
       const file = data.getAsFile()!;
       if (file.name.endsWith('notes.json')) {
         file.text().then(text => {
@@ -113,20 +114,20 @@ export class TabComponent {
       } else {
         this.hashy.show('Type ' + file.type.toUpperCase() + ' is not supported', 4000, 'Ok');
       }
-    } else if (data.kind === 'string') {
-      const draggedUrl = event.dataTransfer.getData('text/uri-list');
+    } else if (data?.kind === 'string') {
+      const draggedUrl = event.dataTransfer?.getData('text/uri-list');
       if (draggedUrl) {
         const newImage = new Image(posX, posY, draggedUrl);
         this.dataService.addImage(newImage);
       } else {
-        const draggedText = event.dataTransfer.getData('text');
+        const draggedText = event.dataTransfer?.getData('text');
         const newNote = new Note(posX, posY, draggedText);
         this.dataService.addNote(newNote);
       }
     }
   }
 
-  saveItemPosition(event: any, item: { posX: number, posY: number, selected?: boolean }) {
+  saveItemPosition(event: CdkDragEnd, item: DraggableNote): void {
     event.source._dragRef.reset();
 
     if (this.dataService.selectedItemsCount && item.selected) {
@@ -158,11 +159,11 @@ export class TabComponent {
   }
 
   @HostListener('document:mouseleave')
-  onWindowLeave() {
+  onWindowLeave(): void {
     this.resetCursors();
   }
 
-  private resetCursors() {
+  private resetCursors(): void {
     this.startCursorPosX = 0;
     this.startCursorPosY = 0;
     this.endCursorPosX = 0;

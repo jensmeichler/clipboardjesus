@@ -38,7 +38,7 @@ export class HighlightColorDirective {
   }
 
   @HostListener('mouseleave')
-  onMouseLeave() {
+  onMouseLeave(): void {
     this.radEffectWidth = 0;
     this.element.nativeElement.style.backgroundImage = this._highlightColor
       ? 'linear-gradient(to bottom, transparent, ' + this._highlightColor + ')'
@@ -46,7 +46,7 @@ export class HighlightColorDirective {
   }
 
   @HostListener('mousemove', ['$event'])
-  onMouseMove(event: MouseEvent) {
+  onMouseMove(event: MouseEvent): void {
     if (this.settings.animationsDisabled) return;
 
     if (event.which !== 1) {

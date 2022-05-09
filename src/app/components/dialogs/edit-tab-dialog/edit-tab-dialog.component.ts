@@ -28,36 +28,36 @@ export class EditTabDialogComponent {
     this.imagesCount = dataService.tab.images?.length.toString() ?? '0';
   }
 
-  deleteNotes() {
+  deleteNotes(): void {
     this.notesCount = '0';
     this.dataService.tab.notes = []
   }
 
-  deleteNoteLists() {
+  deleteNoteLists(): void {
     this.noteListsCount = '0';
     this.dataService.tab.noteLists = []
   }
 
-  deleteTaskLists() {
+  deleteTaskLists(): void {
     this.taskListsCount = '0';
     this.dataService.tab.taskLists = []
   }
 
-  deleteImages() {
+  deleteImages(): void {
     this.imagesCount = '0';
     this.dataService.tab.images = []
   }
 
-  moveToRight() {
+  moveToRight(): void {
     this.reArrangeTab(this.dataService.selectedTabIndex + 1);
   }
 
-  moveToLeft() {
+  moveToLeft(): void {
     this.reArrangeTab(this.dataService.selectedTabIndex - 1);
   }
 
   @HostListener('keydown', ['$event'])
-  onKeyPressed(event: KeyboardEvent) {
+  onKeyPressed(event: KeyboardEvent): void {
     if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
       this.submit();
     } else if (event.key === 'Escape') {
@@ -67,15 +67,15 @@ export class EditTabDialogComponent {
     event.stopPropagation();
   }
 
-  submit() {
+  submit(): void {
     this.dialogRef.close(this.data);
   }
 
-  cancel() {
+  cancel(): void {
     this.dialogRef.close();
   }
 
-  private reArrangeTab(targetIndex: number) {
+  private reArrangeTab(targetIndex: number): void {
     const sourceIndex = this.dataService.selectedTabIndex;
     this.dataService.reArrangeTab(sourceIndex, targetIndex);
   }

@@ -13,17 +13,17 @@ export class DeleteDialogComponent {
     private readonly dataService: DataService) {
   }
 
-  deleteAll() {
+  deleteAll(): void {
     this.dataService.clearCache();
     this.bottomSheetRef.dismiss();
   }
 
-  cancel() {
+  cancel(): void {
     this.bottomSheetRef.dismiss();
   }
 
   @HostListener('document:keydown', ['$event'])
-  onKeyPressed(event: KeyboardEvent) {
+  onKeyPressed(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       this.deleteAll();
     } else if (event.key === 'Escape') {

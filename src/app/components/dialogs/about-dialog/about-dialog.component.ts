@@ -12,12 +12,12 @@ export class AboutDialogComponent {
   }
 
   @HostListener('keydown', ['$event'])
-  onKeyPressed(event: KeyboardEvent) {
+  onKeyPressed(event: KeyboardEvent): void {
     if (event.key === 'Escape') this.cancel();
     event.stopPropagation();
   }
 
-  cancel() {
+  cancel(): void {
     this.dialogRef.close();
   }
 }

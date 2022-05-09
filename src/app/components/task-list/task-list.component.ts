@@ -31,21 +31,21 @@ export class TaskListComponent {
   ) {
   }
 
-  get canInteract() {
+  get canInteract(): boolean {
     return this.movedPx < 5;
   }
 
-  select() {
+  select(): void {
     this.taskList.selected = !this.taskList.selected;
   }
 
-  onMouseDown(event: MouseEvent) {
+  onMouseDown(event: MouseEvent): void {
     if (event.button !== 2) {
       this.mouseDown = true;
     }
   }
 
-  onMouseMove() {
+  onMouseMove(): void {
     if (this.mouseDown) {
       this.movedPx++;
     } else {
@@ -53,7 +53,7 @@ export class TaskListComponent {
     }
   }
 
-  onMouseUp(event: MouseEvent) {
+  onMouseUp(event: MouseEvent): void {
     if (this.mouseDown && this.canInteract) {
       switch (event.button) {
         case 0:
@@ -74,7 +74,7 @@ export class TaskListComponent {
     this.mouseDown = false;
   }
 
-  addItem() {
+  addItem(): void {
     if (this.canInteract) {
       let newItem = new TaskItem('');
       this.taskList.items.push(newItem);
@@ -84,7 +84,7 @@ export class TaskListComponent {
     }
   }
 
-  addItemAfter(parent: TaskItem) {
+  addItemAfter(parent: TaskItem): void {
     if (this.canInteract) {
       let newItem = new TaskItem('');
       newItem.isSubTask = parent.isSubTask;
@@ -100,7 +100,7 @@ export class TaskListComponent {
     }
   }
 
-  edit() {
+  edit(): void {
     if (this.canInteract) {
       let taskList = JSON.parse(JSON.stringify(this.taskList));
       this.dialog.open(EditTaskListDialogComponent, {
@@ -116,17 +116,17 @@ export class TaskListComponent {
     }
   }
 
-  delete() {
+  delete(): void {
     if (!this.canInteract) return;
     this.dataService.deleteTaskList(this.taskList);
   }
 
-  startEditItem(item: TaskItem) {
+  startEditItem(item: TaskItem): void {
     if (!this.canInteract) return;
     this.itemToEdit = item;
   }
 
-  endEditItem(item: TaskItem) {
+  endEditItem(item: TaskItem): void {
     const index = this.taskList.items.indexOf(item);
     this.taskList.items[index] = item;
     this.itemToEdit = undefined;
@@ -135,13 +135,13 @@ export class TaskListComponent {
     this.dataService.cacheData();
   }
 
-  toggleSubTask(item: TaskItem) {
+  toggleSubTask(item: TaskItem): void {
     if (!this.canInteract) return;
     item.isSubTask = !item.isSubTask;
     this.dataService.cacheData();
   }
 
-  onKeyPressed(event: KeyboardEvent, item: TaskItem) {
+  onKeyPressed(event: KeyboardEvent, item: TaskItem): void {
     if (event.key === 'Enter') {
       if (item.value) {
         this.endEditItem(item);
@@ -162,13 +162,13 @@ export class TaskListComponent {
     event.stopPropagation();
   }
 
-  deleteItem(item: TaskItem) {
+  deleteItem(item: TaskItem): void {
     if (!this.canInteract) return;
     this.taskList.items = this.taskList.items.filter(x => x !== item);
     this.dataService.cacheData();
   }
 
-  dropItem(event: CdkDragDrop<TaskItem[]>) {
+  dropItem(event: CdkDragDrop<TaskItem[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(this.taskList.items, event.previousIndex, event.currentIndex);
     } else {
@@ -183,18 +183,18 @@ export class TaskListComponent {
     this.dataService.cacheData();
   }
 
-  moveToTab(index: number) {
+  moveToTab(index: number): void {
     this.dataService.moveTaskListToTab(index, this.taskList);
   }
 
-  copyColorFrom(item: Note | TaskList) {
+  copyColorFrom(item: Note | TaskList): void {
     this.taskList.backgroundColor = item.backgroundColor;
     this.taskList.backgroundColorGradient = item.backgroundColorGradient;
     this.taskList.foregroundColor = item.foregroundColor;
     this.dataService.cacheData();
   }
 
-  showContextMenu(event: MouseEvent) {
+  showContextMenu(event: MouseEvent): void {
     if (this.canInteract) {
       event.preventDefault();
       event.stopPropagation();

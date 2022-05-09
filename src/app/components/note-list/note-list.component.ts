@@ -31,21 +31,21 @@ export class NoteListComponent {
   ) {
   }
 
-  get canInteract() {
+  get canInteract(): boolean {
     return this.movedPx < 5;
   }
 
-  select() {
+  select(): void {
     this.noteList.selected = !this.noteList.selected;
   }
 
-  onMouseDown(event: MouseEvent) {
+  onMouseDown(event: MouseEvent): void {
     if (event.button !== 2) {
       this.mouseDown = true;
     }
   }
 
-  onMouseMove() {
+  onMouseMove(): void {
     if (this.mouseDown) {
       this.movedPx++;
     } else {
@@ -53,7 +53,7 @@ export class NoteListComponent {
     }
   }
 
-  onMouseUp(event: MouseEvent) {
+  onMouseUp(event: MouseEvent): void {
     if (this.mouseDown && this.canInteract) {
       switch (event.button) {
         case 0:
@@ -74,7 +74,7 @@ export class NoteListComponent {
     this.mouseDown = false;
   }
 
-  add() {
+  add(): void {
     if (!this.canInteract) return;
     this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
@@ -86,7 +86,7 @@ export class NoteListComponent {
     });
   }
 
-  edit() {
+  edit(): void {
     if (!this.canInteract) return;
     let noteList = JSON.parse(JSON.stringify(this.noteList));
     this.dialog.open(EditNoteListDialogComponent, {
@@ -101,7 +101,7 @@ export class NoteListComponent {
     });
   }
 
-  delete() {
+  delete(): void {
     if (!this.canInteract) return;
     this.dataService.deleteNoteList(this.noteList);
   }
@@ -112,7 +112,7 @@ export class NoteListComponent {
     this.hashy.show('Copied to clipboard', 600);
   }
 
-  dropItem(event: CdkDragDrop<Note[]>) {
+  dropItem(event: CdkDragDrop<Note[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(this.noteList.notes, event.previousIndex, event.currentIndex);
     } else {
@@ -127,7 +127,7 @@ export class NoteListComponent {
     this.dataService.cacheData();
   }
 
-  editNote(noteToEdit: Note) {
+  editNote(noteToEdit: Note): void {
     if (!this.canInteract) return;
     this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
@@ -140,17 +140,17 @@ export class NoteListComponent {
     });
   }
 
-  deleteNote(note: Note) {
+  deleteNote(note: Note): void {
     if (!this.canInteract) return;
     this.noteList.notes = this.noteList.notes.filter(x => x !== note);
     this.dataService.cacheData();
   }
 
-  moveToTab(index: number) {
+  moveToTab(index: number): void {
     this.dataService.moveNoteListToTab(index, this.noteList);
   }
 
-  showContextMenu(event: MouseEvent) {
+  showContextMenu(event: MouseEvent): void {
     if (this.canInteract) {
       event.preventDefault();
       event.stopPropagation();

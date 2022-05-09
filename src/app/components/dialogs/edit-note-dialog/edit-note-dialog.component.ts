@@ -14,7 +14,7 @@ export class EditNoteDialogComponent {
   }
 
   @HostListener('keydown', ['$event'])
-  onKeyPressed(event: KeyboardEvent) {
+  onKeyPressed(event: KeyboardEvent): void {
     if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
       this.submit();
     } else if (event.key === 'Escape') {
@@ -24,11 +24,11 @@ export class EditNoteDialogComponent {
     event.stopPropagation();
   }
 
-  submit() {
+  submit(): void {
     this.dialogRef.close(this.data);
   }
 
-  cancel() {
+  cancel(): void {
     this.dialogRef.close();
   }
 }

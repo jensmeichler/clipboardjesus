@@ -10,7 +10,7 @@ export class SettingsService {
   };
 
   private _animationsDisabled: boolean;
-  get animationsDisabled() { return this._animationsDisabled; }
+  get animationsDisabled(): boolean { return this._animationsDisabled; }
   set animationsDisabled(value: boolean) {
     this._animationsDisabled = value;
     if (value) {
@@ -23,7 +23,7 @@ export class SettingsService {
   }
 
   private _language: string;
-  get language() { return this._language; }
+  get language(): string { return this._language; }
   set language(value: string) {
     this._language = value;
     if (value === 'en') {

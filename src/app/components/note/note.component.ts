@@ -36,27 +36,27 @@ export class NoteComponent implements OnInit {
   ) {
   }
 
-  get canInteract() {
+  get canInteract(): boolean {
     return this.movedPx < 5;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.note.code !== false && this.note.content && htmlRegex.test(this.note.content)) {
       this.note.code = true;
     }
   }
 
-  select() {
+  select(): void {
     this.note.selected = !this.note.selected;
   }
 
-  onMouseDown(event: MouseEvent) {
+  onMouseDown(event: MouseEvent): void {
     if (event.button !== 2) {
       this.mouseDown = true;
     }
   }
 
-  onMouseMove() {
+  onMouseMove(): void {
     if (this.mouseDown) {
       this.movedPx++;
     } else {
@@ -64,7 +64,7 @@ export class NoteComponent implements OnInit {
     }
   }
 
-  onMouseUp(event: MouseEvent) {
+  onMouseUp(event: MouseEvent): void {
     if (this.mouseDown && this.canInteract) {
       switch (event.button) {
         case 0:
@@ -87,14 +87,14 @@ export class NoteComponent implements OnInit {
     this.mouseDown = false;
   }
 
-  copy() {
+  copy(): void {
     if (this.note.content && !this.rippleDisabled && this.canInteract) {
       this.clipboard.copy(this.note.content);
       this.hashy.show('Copied to clipboard', 600);
     }
   }
 
-  edit(event: MouseEvent, stopPropagation?: boolean) {
+  edit(event: MouseEvent, stopPropagation?: boolean): void {
     if (this.canInteract) {
       let note = {...this.note};
       this.dialog.open(EditNoteDialogComponent, {
@@ -114,14 +114,14 @@ export class NoteComponent implements OnInit {
     }
   }
 
-  delete(event: MouseEvent) {
+  delete(event: MouseEvent): void {
     if (this.canInteract) {
       this.dataService.deleteNote(this.note);
       event.stopPropagation();
     }
   }
 
-  toggleCodeView(event: MouseEvent, stopPropagation?: boolean) {
+  toggleCodeView(event: MouseEvent, stopPropagation?: boolean): void {
     if (this.canInteract) {
       this.note.code = !this.note.code;
       this.rippleDisabled = false;
@@ -131,18 +131,18 @@ export class NoteComponent implements OnInit {
     }
   }
 
-  moveToTab(index: number) {
+  moveToTab(index: number): void {
     this.dataService.moveNoteToTab(index, this.note);
   }
 
-  copyColorFrom(item: Note | TaskList) {
+  copyColorFrom(item: Note | TaskList): void {
     this.note.backgroundColor = item.backgroundColor;
     this.note.backgroundColorGradient = item.backgroundColorGradient;
     this.note.foregroundColor = item.foregroundColor;
     this.dataService.cacheData();
   }
 
-  showContextMenu(event: MouseEvent) {
+  showContextMenu(event: MouseEvent): void {
     if (this.canInteract) {
       event.preventDefault();
       event.stopPropagation();

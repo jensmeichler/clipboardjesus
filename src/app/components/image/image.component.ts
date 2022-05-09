@@ -30,25 +30,25 @@ export class ImageComponent {
     public readonly dataService: DataService) {
   }
 
-  get canInteract() {
+  get canInteract(): boolean {
     return this.movedPx < 5;
   }
 
-  onImageLoaded() {
+  onImageLoaded(): void {
     this.imageLoaded = true
   }
 
-  select() {
+  select(): void {
     this.image.selected = !this.image.selected;
   }
 
-  onMouseDown(event: MouseEvent) {
+  onMouseDown(event: MouseEvent): void {
     if (event.button !== 2) {
       this.mouseDown = true;
     }
   }
 
-  onMouseMove() {
+  onMouseMove(): void {
     if (this.mouseDown) {
       this.movedPx++;
     } else {
@@ -56,7 +56,7 @@ export class ImageComponent {
     }
   }
 
-  onMouseUp(event: any) {
+  onMouseUp(event: MouseEvent): void {
     if (this.mouseDown && this.canInteract) {
       switch (event.button) {
         case 0:
@@ -81,16 +81,16 @@ export class ImageComponent {
     this.mouseDown = false;
   }
 
-  open() {
+  open(): void {
     window.open(this.image.source, '_blank');
   }
 
-  copy() {
+  copy(): void {
     this.clipboard.copy(this.image.source);
     this.hashy.show('Copied link to clipboard', 600);
   }
 
-  delete(event: MouseEvent, force?: boolean) {
+  delete(event: MouseEvent, force?: boolean): void {
     if (this.movedPx < 5 && (force || this.rippleDisabled)) {
       this.dataService.deleteImage(this.image);
       this.rippleDisabled = false;
@@ -98,11 +98,11 @@ export class ImageComponent {
     }
   }
 
-  moveToTab(index: number) {
+  moveToTab(index: number): void {
     this.dataService.moveImageToTab(index, this.image);
   }
 
-  showContextMenu(event: any) {
+  showContextMenu(event: MouseEvent): void {
     if (this.canInteract) {
       event.preventDefault();
       event.stopPropagation();

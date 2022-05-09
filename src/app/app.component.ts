@@ -22,6 +22,7 @@ import {
 import {Observable} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import {NoteList} from "./models";
+import {CdkDragEnd} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'app-root',
@@ -82,7 +83,7 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
+  onKeyDown(event: KeyboardEvent): void {
     if (event.key === 'Tab') {
       this.dataService.selectNextItem(event.shiftKey);
       event.preventDefault();
@@ -181,20 +182,20 @@ export class AppComponent implements OnInit {
     }
   }
 
-  copySelectedItems() {
+  copySelectedItems(): void {
     const selectedItems = this.dataService.getSelectedItems();
     this.clipboard.copy(JSON.stringify(selectedItems));
     this.dataService.removeAllSelections();
   }
 
-  cutSelectedItems() {
+  cutSelectedItems(): void {
     const selectedItems = this.dataService.getSelectedItems();
     this.clipboard.copy(JSON.stringify(selectedItems));
     this.dataService.deleteSelectedItems();
     this.dataService.removeAllSelections();
   }
 
-  shareTab() {
+  shareTab(): void {
     let params = JSON.stringify(this.dataService.getAsJson(true));
     params = btoa(params);
     const url = 'https://www.clipboardjesus.com/?params=' + params;
@@ -208,23 +209,23 @@ export class AppComponent implements OnInit {
     return this.translate.get('MAIN.SAVE_N_ITEMS', {n});
   }
 
-  save() {
+  save(): void {
     this.dataService.saveAll();
   }
 
-  saveAs() {
+  saveAs(): void {
     this.dataService.saveAllAs();
   }
 
-  saveTabOrSelection() {
+  saveTabOrSelection(): void {
     this.dataService.saveTabOrSelection();
   }
 
-  deleteSelectedItems() {
+  deleteSelectedItems(): void {
     this.dataService.deleteSelectedItems();
   }
 
-  openNewNoteDialog() {
+  openNewNoteDialog(): void {
     this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: new Note(this.newNotePositionX, this.newNotePositionY, ''),
@@ -233,7 +234,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  openNewNoteListDialog() {
+  openNewNoteListDialog(): void {
     this.dialog.open(EditNoteListDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: new NoteList(this.newNotePositionX, this.newNotePositionY),
@@ -242,7 +243,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  openNewTaskListDialog() {
+  openNewTaskListDialog(): void {
     this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: new TaskList(this.newNotePositionX, this.newNotePositionY),
@@ -251,7 +252,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  openEditTabDialog() {
+  openEditTabDialog(): void {
     this.dialog.open(EditTabDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: this.dataService.tabs[this.dataService.selectedTabIndex],
@@ -266,11 +267,11 @@ export class AppComponent implements OnInit {
     });
   }
 
-  clearAllForever() {
+  clearAllForever(): void {
     this.bottomSheet.open(DeleteDialogComponent);
   }
 
-  showAboutDialog() {
+  showAboutDialog(): void {
     this.dialog.open(AboutDialogComponent);
   }
 
@@ -279,7 +280,7 @@ export class AppComponent implements OnInit {
     this.settings.language = language;
   }
 
-  replaceLogo(event: any) {
+  replaceLogo(event: CdkDragEnd): void {
     let question = 'Hmmpf...';
     let answer: string | undefined = 'Okay.. sorry';
     switch (this.logoReplacedEasterEggCount) {
@@ -341,15 +342,15 @@ export class AppComponent implements OnInit {
     this.hashy.show(question, 5000, answer, undefined, () => {
       this.logoReplacedEasterEggCount++;
       event.source._dragRef.reset();
-    })
+    });
   }
 
-  async showContextMenu(event: any, ignoreMousePosition?: boolean) {
+  async showContextMenu(event: any, ignoreMousePosition?: boolean): Promise<void> {
     event.preventDefault();
     this.rightClickPosX = event.clientX;
     this.rightClickPosY = event.clientY;
 
-    this.canPasteItems = await this.dataService.canImportItemsFromClipboard();
+    this.dataService.canImportItemsFromClipboard().then(val => this.canPasteItems = val);
 
     this.contextMenu.openMenu();
 

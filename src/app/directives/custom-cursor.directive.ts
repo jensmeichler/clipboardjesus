@@ -16,7 +16,7 @@ export class CustomCursorDirective {
   }
 
   @HostListener('document:mousemove', ['$event'])
-  onMouseMove(event: any) {
+  onMouseMove(event: any): void {
     if (this.settings.animationsDisabled) return;
 
     if (!this.position) {
@@ -40,22 +40,22 @@ export class CustomCursorDirective {
     this.moving = true;
     let isDraggableNote = false;
 
-    event.path.forEach((x: any) => {
-      if (x.tagName === 'NOTE' || x.tagName === 'NOTE-LIST' || x.tagName === 'TASK-LIST' || x.tagName === 'IMAGE') {
-        isDraggableNote = true;
-        const posX = CustomCursorDirective.convertPxToInt(x.style.left);
-        const posY = CustomCursorDirective.convertPxToInt(x.style.top);
-        const posZ = CustomCursorDirective.convertPxToInt(x.style.zIndex);
+    event.path.forEach((elem: any) => {
+      if (!['NOTE', 'NOTE-LIST', 'TASK-LIST', 'IMAGE'].includes(elem.tagName)) return;
 
-        this.position!.style.bottom = '0';
-        if (x.style.transform) {
-          const splitted = x.style.transform.split('(')[1].split(', ');
-          const translateX = CustomCursorDirective.convertPxToInt(splitted[0]);
-          const translateY = CustomCursorDirective.convertPxToInt(splitted[1]);
-          this.setText(x.tagName + ': { X: ' + (translateX + posX) + ' | Y: ' + (translateY + posY) + ' | Z: ' + posZ + ' }');
-        } else {
-          this.setText(x.tagName + ': { X: ' + posX + ' | Y: ' + posY + ' | Z: ' + posZ + ' }');
-        }
+      isDraggableNote = true;
+      const posX = CustomCursorDirective.convertPxToInt(elem.style.left);
+      const posY = CustomCursorDirective.convertPxToInt(elem.style.top);
+      const posZ = CustomCursorDirective.convertPxToInt(elem.style.zIndex);
+
+      this.position!.style.bottom = '0';
+      if (elem.style.transform) {
+        const splitted = elem.style.transform.split('(')[1].split(', ');
+        const translateX = CustomCursorDirective.convertPxToInt(splitted[0]);
+        const translateY = CustomCursorDirective.convertPxToInt(splitted[1]);
+        this.setText(`${elem.tagName}: { X: ${translateX + posX} | Y: ${translateY + posY} | Z: ${posZ} }`);
+      } else {
+        this.setText(`${elem.tagName}: { X: ${posX} | Y: ${posY} | Z: ${posZ} }`);
       }
     });
 
@@ -65,18 +65,17 @@ export class CustomCursorDirective {
   }
 
   @HostListener('document:mouseleave')
-  onWindowLeave() {
+  onWindowLeave(): void {
     if (this.settings.animationsDisabled) return;
 
     this.position!.style.bottom = '-20px';
     this.cursor.style.display = 'none';
   }
 
-  private setText(value: string) {
-    if (value !== this.text) {
-      this.text = value;
-      this.position!.innerText = value;
-    }
+  private setText(value: string): void {
+    if (value === this.text) return;
+    if (this.position) this.position.innerText = value;
+    this.text = value;
   }
 
   private static convertPxToInt(value: string): number {

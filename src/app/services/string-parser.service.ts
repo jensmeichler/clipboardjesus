@@ -6,9 +6,7 @@ import {hyperlinkRegex} from "../const/regexes";
 })
 export class StringParserService {
   convert(rawText?: string): string {
-    if (!rawText) {
-      return '';
-    }
+    if (!rawText) return '';
 
     const placeholder = '{#0#}';
     let linkList: string[] = [];

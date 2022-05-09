@@ -21,7 +21,7 @@ export class RedoService {
     }
   }
 
-  do(index: number) {
+  do(index: number): void {
     const key = "clipboard_data_" + index;
     const content = localStorage.getItem(key);
     if (content) {
@@ -83,7 +83,7 @@ export class RedoService {
     return restoredTab;
   }
 
-  remove(index: number) {
+  remove(index: number): void {
     const key = "clipboard_data_" + index;
     const content = localStorage.getItem(key);
     if (content) {
@@ -94,7 +94,7 @@ export class RedoService {
     this.possibleRedos[index] = [];
   }
 
-  private updateRedoPossible(index: number) {
+  private updateRedoPossible(index: number): void {
     if (!this.possibleUndos[index].length && this.undoPossible.getValue()) {
       this.undoPossible.next(false);
     } else if (this.possibleUndos[index].length && !this.undoPossible.getValue()) {

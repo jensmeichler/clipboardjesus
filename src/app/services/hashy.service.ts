@@ -15,7 +15,7 @@ export class HashyService {
     private readonly translate: TranslateService) {
   }
 
-  show(text: string, milliseconds: number, button?: string, buttonAction?: Function, dismissAction?: Function) {
+  show(text: string, milliseconds: number, button?: string, buttonAction?: Function, dismissAction?: Function): void {
     combineLatest([this.translate.get(text), button ? this.translate.get(button) : of(undefined)])
       .subscribe(([translatedText, translatedButton]) => {
         this.showHashy.next(true);
@@ -27,9 +27,7 @@ export class HashyService {
 
         snackBarRef.afterDismissed().subscribe(() => {
           this.showHashy.next(false);
-          if (dismissAction) {
-            dismissAction();
-          }
+          dismissAction?.();
           this.appRef.tick();
         })
 

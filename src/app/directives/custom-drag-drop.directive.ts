@@ -10,43 +10,41 @@ export class CustomDragDropDirective {
   elementClass = 'clipboard';
 
   @HostListener("dragover", ["$event"])
-  onDragOver(event: any) {
+  onDragOver(event: any): void {
     event.preventDefault();
     this.addClass();
   }
 
   @HostListener("dragenter", ["$event"])
-  onDragEnter(event: any) {
+  onDragEnter(event: any): void {
     event.preventDefault();
     this.counter++;
     this.addClass();
   }
 
   @HostListener("dragend")
-  onDragEnd() {
+  onDragEnd(): void {
     this.removeClass();
   }
 
   @HostListener("dragleave")
-  onDragLeave() {
-    this.counter--;
-    if (this.counter === 0) {
-      this.removeClass();
-    }
+  onDragLeave(): void {
+    if (--this.counter === 0) return;
+    this.removeClass();
   }
 
   @HostListener("drop", ["$event"])
-  onDrop(event: any) {
+  onDrop(event: any): void {
     event.preventDefault();
     event.stopPropagation();
     this.removeClass();
   }
 
-  private addClass() {
+  private addClass(): void {
     this.elementClass = 'clipboard clipboard-hover';
   }
 
-  private removeClass() {
+  private removeClass(): void {
     this.elementClass = 'clipboard';
     this.counter = 0;
   }

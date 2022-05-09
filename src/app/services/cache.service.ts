@@ -25,7 +25,7 @@ export class CacheService {
     return this.redoService.recreate();
   }
 
-  save(index: number, tab: Tab) {
+  save(index: number, tab: Tab): void {
     this.redoService.do(index);
 
     const tabCopy = JSON.parse(JSON.stringify(tab)) as Tab;
@@ -50,17 +50,14 @@ export class CacheService {
     }
   }
 
-  remove(index: number) {
+  remove(index: number): void {
     this.redoService.remove(index);
-
     const key = "clipboard_data_" + index;
-
     localStorage.removeItem(key);
   }
 
   getJsonFromAll(): Tab[] {
     let tabs: Tab[] = [];
-
     for (let i = 0; i < 20; i++) {
       const tab = this.fetch(i);
       if (tab) {
@@ -68,7 +65,6 @@ export class CacheService {
         tabs.push(tab);
       }
     }
-
     return tabs;
   }
 }
