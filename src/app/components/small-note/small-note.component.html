@@ -1,0 +1,64 @@
+<button mat-menu-item
+        [style.background-color]="note.backgroundColor"
+        [style.color]="note.foregroundColor"
+        [highlightColor]="note.backgroundColorGradient"
+        [highlightedItem]="note"
+        (click)="copy()"
+        (contextmenu)="showContextMenu($event)">
+  {{ note.content }}
+</button>
+
+<div [matMenuTriggerFor]="contextMenu"
+     [style.left.px]="rightClickPosX"
+     [style.top.px]="rightClickPosY"
+     style="visibility: hidden; position: fixed">
+</div>
+<mat-menu #contextMenu="matMenu">
+  <div [style.background]="note.backgroundColorGradient
+            ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
+            : note.backgroundColor"
+       [style.color]="note.foregroundColor">
+    <button (click)="edit()" mat-menu-item>
+      <mat-icon>edit</mat-icon>
+      {{ 'DRAGGABLE.EDIT' | translate }}
+    </button>
+    <button (click)="delete()" mat-menu-item>
+      <mat-icon>delete</mat-icon>
+      {{ 'DRAGGABLE.DELETE' | translate }}
+    </button>
+    <ng-container *ngIf="dataService.getColorizedObjects(note).length > 1">
+      <button [matMenuTriggerFor]="items" mat-menu-item>
+        <mat-icon>colorize</mat-icon>
+        {{ 'DRAGGABLE.COPY_COLOR_FROM' | translate }}
+      </button>
+    </ng-container>
+    <ng-container *ngIf="dataService.getColorizedObjects(note).length === 1">
+      <button (click)="copyColorFrom(dataService.getColorizedObjects(note)[0])" mat-menu-item>
+        <mat-icon>colorize</mat-icon>
+        {{ 'DRAGGABLE.COPY_OTHER_COLOR' | translate }}
+      </button>
+    </ng-container>
+    <button (click)="copy()" mat-menu-item>
+      <mat-icon>content_copy</mat-icon>
+      {{ 'NOTE.COPY_VALUE' | translate }}
+    </button>
+  </div>
+</mat-menu>
+
+<mat-menu #items="matMenu">
+  <ng-container *ngFor="let item of dataService.getColorizedObjects(note)">
+    <button (click)="copyColorFrom(item)" *ngIf="note !== item" [style.background]="item.backgroundColorGradient
+                ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
+                : item.backgroundColor"
+            [style.color]="item.foregroundColor"
+            mat-menu-item>
+      <mat-icon>color_lens</mat-icon>
+      <ng-container *ngIf="!item.backgroundColorGradient">
+        {{ item.backgroundColor }}
+      </ng-container>
+      <ng-container *ngIf="item.backgroundColorGradient">
+        {{ item.backgroundColor + ' → ' + item.backgroundColorGradient }}
+      </ng-container>
+    </button>
+  </ng-container>
+</mat-menu>

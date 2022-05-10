@@ -55,12 +55,13 @@
     "MOVE": "Verschieben",
     "REMOVE_SELECTION": "Auswahl entfernen",
     "SELECT": "Auswählen",
+    "SEND": "Senden",
     "SEND_BACKWARD": "Eine Ebene nach hinten",
     "SEND_TO_BACK": "Nach hinten bringen"
   },
   "IMAGE": {
     "COPY_LINK": "Link kopieren",
-    "OPEN_LINK": "Open link,"
+    "OPEN_LINK": "Link öffnen"
   },
   "MAIN": {
     "CLOSE_TAB": "Tab schließen",
@@ -98,5 +99,8 @@
     "ADD_TASK": "Aufgabe hinzufügen",
     "MOVE_TO_LEFT": "Nach links verschieben",
     "MOVE_TO_RIGHT": "Nach rechts verschieben"
+  },
+  "NOTE_LIST": {
+    "ADD_NOTE": "Neue Notiz hinzufügen"
   }
 }

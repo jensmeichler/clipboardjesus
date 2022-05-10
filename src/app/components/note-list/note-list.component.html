@@ -12,14 +12,7 @@
   </mat-card-title>
   <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="noteList.notes" cdkDropList>
    <span *ngFor="let note of noteList.notes" class="note-within-list" style="margin: 0" cdkDrag>
-      <button mat-menu-item
-              [style.background-color]="note.backgroundColor"
-              [style.color]="note.foregroundColor"
-              [highlightColor]="note.backgroundColorGradient"
-              [highlightedItem]="note"
-              (click)="copy(note)">
-        {{ note.content }}
-      </button>
+     <small-note [note]="note" [noteList]="noteList"></small-note>
       <span>
         <button (click)="editNote(note)" class="item-button" mat-icon-button>
           <mat-icon>edit</mat-icon>
@@ -32,7 +25,7 @@
   </mat-card-content>
 
   <mat-card-actions align="end">
-    <button (click)="add()" mat-icon-button>
+    <button (click)="addFromClipboard()" mat-icon-button>
       <mat-icon>add</mat-icon>
     </button>
     <button (click)="edit()" mat-icon-button>
@@ -54,30 +47,6 @@
      style="visibility: hidden; position: fixed">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <ng-container *ngIf="!dataService.selectedItemsCount">
-    <button (click)="dataService.bringToFront(this.noteList)" mat-menu-item>
-      <mat-icon>flip_to_front</mat-icon>
-      {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
-    </button>
-    <button (click)="dataService.bringForward(this.noteList)" mat-menu-item>
-      <mat-icon>add_circle_outline</mat-icon>
-      {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
-    </button>
-    <button (click)="dataService.sendBackward(this.noteList)" mat-menu-item>
-      <mat-icon>remove_circle_outline</mat-icon>
-      {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
-    </button>
-    <button (click)="dataService.flipToBack(this.noteList)" mat-menu-item>
-      <mat-icon>flip_to_back</mat-icon>
-      {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
-    </button>
-    <ng-container *ngIf="dataService.tabs.length > 1">
-      <button [matMenuTriggerFor]="tabs" mat-menu-item>
-        <mat-icon>drive_file_move</mat-icon>
-        {{ 'DRAGGABLE.MOVE' | translate }}
-      </button>
-    </ng-container>
-  </ng-container>
   <button *ngIf="!noteList.selected" (click)="select()" mat-menu-item>
     <mat-icon>check</mat-icon>
     {{ 'DRAGGABLE.SELECT' | translate }}
@@ -96,11 +65,47 @@
       {{ 'DRAGGABLE.DELETE' | translate }}
     </button>
   </ng-container>
+  <ng-container *ngIf="!dataService.selectedItemsCount">
+    <button [matMenuTriggerFor]="movement" mat-menu-item>
+      <mat-icon>flip_to_front</mat-icon>
+      {{ 'DRAGGABLE.MOVE' | translate }}
+    </button>
+    <ng-container *ngIf="dataService.tabs.length > 1">
+      <button [matMenuTriggerFor]="tabs" mat-menu-item>
+        <mat-icon>tab</mat-icon>
+        {{ 'DRAGGABLE.SEND' | translate }}
+      </button>
+    </ng-container>
+    <button (click)="openNewNoteDialog()" mat-menu-item>
+      <mat-icon>add</mat-icon>
+      {{ 'NOTE_LIST.ADD_NOTE' | translate }}
+    </button>
+  </ng-container>
+</mat-menu>
+
+<mat-menu #movement="matMenu">
+  <button (click)="dataService.bringToFront(noteList)" mat-menu-item>
+    <mat-icon>flip_to_front</mat-icon>
+    {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
+  </button>
+  <button (click)="dataService.bringForward(noteList)" mat-menu-item>
+    <mat-icon>add_circle_outline</mat-icon>
+    {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
+  </button>
+  <button (click)="dataService.sendBackward(noteList)" mat-menu-item>
+    <mat-icon>remove_circle_outline</mat-icon>
+    {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
+  </button>
+  <button (click)="dataService.flipToBack(noteList)" mat-menu-item>
+    <mat-icon>flip_to_back</mat-icon>
+    {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
+  </button>
 </mat-menu>
 
 <mat-menu #tabs="matMenu">
   <ng-container *ngFor="let tab of dataService.tabs">
     <button (click)="moveToTab(tab.index)" *ngIf="dataService.selectedTabIndex !== tab.index" mat-menu-item>
+      <mat-icon>arrow_forward</mat-icon>
       {{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}
     </button>
   </ng-container>

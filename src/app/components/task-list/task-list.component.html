@@ -49,9 +49,13 @@
             <mat-icon>delete</mat-icon>
           </button>
         </span>
-        <button *ngIf="item === itemToEdit" (click)="endEditItem(item)"
-                class="item-button animated" mat-icon-button style="margin-right: -8px">
+        <button *ngIf="item === itemToEdit && item.value" (click)="endEditItem(item)"
+                class="item-button with-grow-animation" mat-icon-button style="margin-right: -8px">
           <mat-icon>check</mat-icon>
+        </button>
+        <button *ngIf="item === itemToEdit && !item.value" (click)="endEditItem(item)"
+                class="item-button with-grow-animation" mat-icon-button style="margin-right: -8px">
+          <mat-icon>close</mat-icon>
         </button>
       </span>
     </ng-container>
@@ -84,27 +88,33 @@
             ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
             : taskList.backgroundColor"
        [style.color]="taskList.foregroundColor">
+    <button *ngIf="!taskList.selected" (click)="select()" mat-menu-item>
+      <mat-icon>check</mat-icon>
+      {{ 'DRAGGABLE.SELECT' | translate }}
+    </button>
+    <button *ngIf="taskList.selected" (click)="select()" mat-menu-item>
+      <mat-icon>close</mat-icon>
+      {{ 'DRAGGABLE.REMOVE_SELECTION' | translate }}
+    </button>
     <ng-container *ngIf="!dataService.selectedItemsCount">
-      <button (click)="dataService.bringToFront(this.taskList)" mat-menu-item>
+      <button (click)="edit()" mat-menu-item>
+        <mat-icon>edit</mat-icon>
+        {{ 'DRAGGABLE.EDIT' | translate }}
+      </button>
+      <button (click)="delete()" mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        {{ 'DRAGGABLE.DELETE' | translate }}
+      </button>
+    </ng-container>
+    <ng-container *ngIf="!dataService.selectedItemsCount">
+      <button [matMenuTriggerFor]="movement" mat-menu-item>
         <mat-icon>flip_to_front</mat-icon>
-        {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
-      </button>
-      <button (click)="dataService.bringForward(this.taskList)" mat-menu-item>
-        <mat-icon>add_circle_outline</mat-icon>
-        {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
-      </button>
-      <button (click)="dataService.sendBackward(this.taskList)" mat-menu-item>
-        <mat-icon>remove_circle_outline</mat-icon>
-        {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
-      </button>
-      <button (click)="dataService.flipToBack(this.taskList)" mat-menu-item>
-        <mat-icon>flip_to_back</mat-icon>
-        {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
+        {{ 'DRAGGABLE.MOVE' | translate }}
       </button>
       <ng-container *ngIf="dataService.tabs.length > 1">
         <button [matMenuTriggerFor]="tabs" mat-menu-item>
-          <mat-icon>drive_file_move</mat-icon>
-          {{ 'DRAGGABLE.MOVE' | translate }}
+          <mat-icon>tab</mat-icon>
+          {{ 'DRAGGABLE.SEND' | translate }}
         </button>
       </ng-container>
       <ng-container *ngIf="dataService.getColorizedObjects(taskList).length > 1">
@@ -124,24 +134,30 @@
         {{ 'TASK_LIST.ADD_TASK' | translate }}
       </button>
     </ng-container>
-    <button *ngIf="!taskList.selected" (click)="select()" mat-menu-item>
-      <mat-icon>check</mat-icon>
-      {{ 'DRAGGABLE.SELECT' | translate }}
+  </div>
+</mat-menu>
+
+<mat-menu #movement="matMenu">
+  <div [style.background]="taskList.backgroundColorGradient
+            ? 'linear-gradient(to bottom, ' + taskList.backgroundColor + ', ' + taskList.backgroundColorGradient
+            : taskList.backgroundColor"
+       [style.color]="taskList.foregroundColor">
+    <button (click)="dataService.bringToFront(taskList)" mat-menu-item>
+      <mat-icon>flip_to_front</mat-icon>
+      {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
     </button>
-    <button *ngIf="taskList.selected" (click)="select()" mat-menu-item>
-      <mat-icon>close</mat-icon>
-      {{ 'DRAGGABLE.REMOVE_SELECTION' | translate }}
+    <button (click)="dataService.bringForward(taskList)" mat-menu-item>
+      <mat-icon>add_circle_outline</mat-icon>
+      {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
     </button>
-    <ng-container *ngIf="!dataService.selectedItemsCount">
-      <button (click)="edit()" mat-menu-item>
-        <mat-icon>edit</mat-icon>
-        {{ 'DRAGGABLE.EDIT' | translate }}
-      </button>
-      <button (click)="delete()" mat-menu-item>
-        <mat-icon>delete</mat-icon>
-        {{ 'DRAGGABLE.DELETE' | translate }}
-      </button>
-    </ng-container>
+    <button (click)="dataService.sendBackward(taskList)" mat-menu-item>
+      <mat-icon>remove_circle_outline</mat-icon>
+      {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
+    </button>
+    <button (click)="dataService.flipToBack(taskList)" mat-menu-item>
+      <mat-icon>flip_to_back</mat-icon>
+      {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
+    </button>
   </div>
 </mat-menu>
 
@@ -152,6 +168,7 @@
        [style.color]="taskList.foregroundColor">
     <ng-container *ngFor="let tab of dataService.tabs">
       <button (click)="moveToTab(tab.index)" *ngIf="dataService.selectedTabIndex !== tab.index" mat-menu-item>
+        <mat-icon>arrow_forward</mat-icon>
         {{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}
       </button>
     </ng-container>

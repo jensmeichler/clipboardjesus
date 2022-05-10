@@ -96,7 +96,7 @@ export class NoteComponent implements OnInit {
 
   edit(event: MouseEvent, stopPropagation?: boolean): void {
     if (this.canInteract) {
-      let note = {...this.note};
+      const note = {...this.note};
       this.dialog.open(EditNoteDialogComponent, {
         width: 'var(--width-edit-dialog)',
         data: note,
