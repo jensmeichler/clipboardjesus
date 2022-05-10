@@ -12,7 +12,7 @@
   </mat-card-title>
   <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="noteList.notes" cdkDropList>
    <span *ngFor="let note of noteList.notes" class="note-within-list" style="margin: 0" cdkDrag>
-     <small-note [note]="note"></small-note>
+     <small-note [note]="note" [noteList]="noteList"></small-note>
       <span>
         <button (click)="editNote(note)" class="item-button" mat-icon-button>
           <mat-icon>edit</mat-icon>
