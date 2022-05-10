@@ -537,7 +537,7 @@ export class DataService {
 
   private getNextIndex(): number {
     const items = this.getOrderedItems();
-    const highestIndex = items[items.length - 1].posZ;
+    const highestIndex = items[items.length - 1]?.posZ;
     return highestIndex ? highestIndex + 1 : 1;
   }
 
