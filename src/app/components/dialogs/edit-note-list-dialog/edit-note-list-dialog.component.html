@@ -1,4 +1,8 @@
-<div [style.padding.px]="16">
+<div [style.padding.px]="16"
+     [style.color]="data.foregroundColor"
+     [style.background]="data.backgroundColorGradient
+        ? 'linear-gradient(to bottom, ' + data.backgroundColor + ', ' + data.backgroundColorGradient
+        : data.backgroundColor">
   <h1 mat-dialog-title class="flex-container"
       cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane">
