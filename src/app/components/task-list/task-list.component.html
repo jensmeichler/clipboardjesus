@@ -49,9 +49,13 @@
             <mat-icon>delete</mat-icon>
           </button>
         </span>
-        <button *ngIf="item === itemToEdit" (click)="endEditItem(item)"
-                class="item-button animated" mat-icon-button style="margin-right: -8px">
+        <button *ngIf="item === itemToEdit && item.value" (click)="endEditItem(item)"
+                class="item-button with-grow-animation" mat-icon-button style="margin-right: -8px">
           <mat-icon>check</mat-icon>
+        </button>
+        <button *ngIf="item === itemToEdit && !item.value" (click)="endEditItem(item)"
+                class="item-button with-grow-animation" mat-icon-button style="margin-right: -8px">
+          <mat-icon>close</mat-icon>
         </button>
       </span>
     </ng-container>

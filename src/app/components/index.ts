@@ -4,3 +4,4 @@ export * from './note';
 export * from './tab';
 export * from './note-list';
 export * from './task-list';
+export * from './small-note';

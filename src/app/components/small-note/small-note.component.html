@@ -1,0 +1,8 @@
+<button mat-menu-item
+        [style.background-color]="note?.backgroundColor"
+        [style.color]="note?.foregroundColor"
+        [highlightColor]="note?.backgroundColorGradient"
+        [highlightedItem]="note"
+        (click)="copy(note)">
+  {{ note?.content }}
+</button>

@@ -43,7 +43,8 @@ import {
   TabComponent,
   TaskListComponent,
   NoteListComponent,
-  EditNoteListDialogComponent
+  EditNoteListDialogComponent,
+  SmallNoteComponent
 } from './components';
 import {
   CustomAutofocusDirective,
@@ -93,6 +94,7 @@ export function createTranslateLoader(http: HttpClient) {
     HighlightColorDirective,
     NoteListComponent,
     EditNoteListDialogComponent,
+    SmallNoteComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,7 @@
 import {Component, Input, ViewChild} from '@angular/core';
 import {Note, NoteList} from "../../models";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {DataService, HashyService} from "../../services";
-import {Clipboard} from "@angular/cdk/clipboard";
+import {DataService} from "../../services";
 import {EditNoteDialogComponent, EditNoteListDialogComponent} from "../dialogs";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
@@ -25,8 +24,6 @@ export class NoteListComponent {
 
   constructor(
     private readonly dialog: MatDialog,
-    private readonly clipboard: Clipboard,
-    private readonly hashy: HashyService,
     public readonly dataService: DataService
   ) {
   }
@@ -110,12 +107,6 @@ export class NoteListComponent {
   delete(): void {
     if (!this.canInteract) return;
     this.dataService.deleteNoteList(this.noteList);
-  }
-
-  copy(note: Note): void {
-    if (!note.content) return;
-    this.clipboard.copy(note.content);
-    this.hashy.show('Copied to clipboard', 600);
   }
 
   dropItem(event: CdkDragDrop<Note[]>): void {
