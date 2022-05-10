@@ -500,72 +500,30 @@ export class DataService {
   }
 
   selectNextItem(revert: boolean): void {
-    const notes = this.tab.notes;
-    const taskLists = this.tab.taskLists;
-    const images = this.tab.images;
-    const noteLists = this.tab.noteLists;
+    const selectables: DraggableNote[] = [
+      ...(this.tab.notes ?? []),
+      ...(this.tab.taskLists ?? []),
+      ...(this.tab.images ?? []),
+      ...(this.tab.noteLists ?? [])
+    ].sort((a, b) => (a.posZ ?? 0) - (b.posZ ?? 0));
 
-    if (this.selectedItemsCount === 0) {
-      if (notes?.length) {
-        this.selectFirst(notes);
-      } else if (taskLists?.length) {
-        this.selectFirst(taskLists);
-      } else if (images?.length) {
-        this.selectFirst(images);
-      } else if (noteLists?.length) {
-        this.selectFirst(noteLists);
-      }
-    } else if (this.selectedItemsCount === 1) {
-      const selectedNotes = notes?.filter(x => x.selected);
-      const selectedTaskLists = taskLists?.filter(x => x.selected);
-      const selectedImages = images?.filter(x => x.selected);
-      const selectedNoteLists = noteLists?.filter(x => x.selected);
+    const selectedIndizes = selectables
+      .filter(x => x.selected)
+      .map(x => selectables.indexOf(x));
 
-      let currentIndex: number | undefined;
-      if (selectedNotes?.length) {
-        currentIndex = selectedNotes[0].posZ;
-        selectedNotes[0].selected = false;
-      } else if (selectedTaskLists?.length) {
-        currentIndex = selectedTaskLists[0].posZ;
-        selectedTaskLists[0].selected = false;
-      } else if (selectedImages?.length) {
-        currentIndex = selectedImages[0].posZ;
-        selectedImages[0].selected = false;
-      } else if (selectedNoteLists?.length) {
-        currentIndex = selectedNoteLists[0].posZ;
-        selectedNoteLists[0].selected = false;
-      }
+    if (selectedIndizes.length === 0) {
+      selectables[0].selected = true;
+    } else if (selectedIndizes.length === 1) {
+      const oldIndex = selectedIndizes[0];
+      const newIndex = revert
+        ? oldIndex === 0 ? selectables.length - 1 : oldIndex - 1
+        : selectables.length - 1 === oldIndex ? 0 : oldIndex + 1;
 
-      if (currentIndex === undefined) return;
-
-      currentIndex = revert ? currentIndex - 1 : currentIndex + 1;
-
-      const possibleNextSelectedNotes = notes?.filter(x => x.posZ === currentIndex);
-      const possibleNextSelectedTaskLists = taskLists?.filter(x => x.posZ === currentIndex);
-      const possibleNextSelectedImages = images?.filter(x => x.posZ === currentIndex);
-      const possibleNextSelectedNoteLists = noteLists?.filter(x => x.posZ === currentIndex);
-
-      if (possibleNextSelectedNotes?.length) {
-        this.selectFirst(possibleNextSelectedNotes);
-      } else if (possibleNextSelectedTaskLists?.length) {
-        this.selectFirst(possibleNextSelectedTaskLists);
-      } else if (possibleNextSelectedImages?.length) {
-        this.selectFirst(possibleNextSelectedImages);
-      } else if (possibleNextSelectedNoteLists?.length) {
-        this.selectFirst(possibleNextSelectedNoteLists);
-      }
+      selectables[oldIndex].selected = false;
+      selectables[newIndex].selected = true;
+    } else {
+      selectables.forEach(x => x.selected = false);
     }
-  }
-
-  private selectFirst(list: DraggableNote[]): void {
-    if (list.length === 1) {
-      list[0].selected = true;
-      return;
-    }
-    const minIndex = list.reduce((index, draggable) => Math.min(index, draggable.posZ ?? Number.MAX_VALUE), Number.MAX_VALUE);
-    const firstItems = list.filter(x => x.posZ === minIndex);
-    if (firstItems.length) firstItems[0].selected = true;
-    else list[0].selected = true;
   }
 
   private defineIndex(item: DraggableNote): void {
@@ -573,31 +531,22 @@ export class DataService {
   }
 
   private reArrangeIndices(): void {
-    const indexItems = this.getIndexItems()
-      .sort((a, b) => (a.posZ ?? 0) - (b.posZ ?? 0));
     let i = 1;
-    indexItems.forEach(item => item.posZ = i++);
+    this.getOrderedItems().forEach(item => item.posZ = i++);
   }
 
   private getNextIndex(): number {
-    const highestItem = this.getIndexItems()
-      ?.filter(n => n.posZ)
-      ?.reduce((hn, n) => Math.max(hn, n.posZ!), 0);
-    return highestItem ? highestItem + 1 : 1
+    const items = this.getOrderedItems();
+    const highestIndex = items[items.length - 1].posZ;
+    return highestIndex ? highestIndex + 1 : 1;
   }
 
-  private getIndexItems(): DraggableNote[] {
-    const notes = this.tab.notes;
-    const taskLists = this.tab.taskLists;
-    const images = this.tab.images;
-    const noteLists = this.tab.noteLists;
-
-    let result: DraggableNote[] = [];
-    if (notes) result = result.concat(notes);
-    if (taskLists) result = result.concat(taskLists);
-    if (images) result = result.concat(images);
-    if (noteLists) result = result.concat(noteLists);
-
-    return result;
+  private getOrderedItems(): DraggableNote[] {
+    return [
+      ...(this.tab.notes ?? []),
+      ...(this.tab.taskLists ?? []),
+      ...(this.tab.images ?? []),
+      ...(this.tab.noteLists ?? [])
+    ].sort((a, b) => (a.posZ ?? 0) - (b.posZ ?? 0));
   }
 }
