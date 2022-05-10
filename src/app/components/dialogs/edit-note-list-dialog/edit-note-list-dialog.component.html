@@ -3,6 +3,14 @@
       cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane">
     <span>{{ 'DIALOGS.EDIT.EDIT_NOTE_LIST' | translate }}</span>
+    <a *ngIf="data.foregroundColor && data.backgroundColor">
+      <input [(ngModel)]="data.foregroundColor" style="margin-right: 5px" type="color"
+             matTooltipPosition="above" [matTooltip]="'DIALOGS.EDIT.EDIT_TEXT_COLOR' | translate">
+      <input [(ngModel)]="data.backgroundColor" style="margin-right: 5px; margin-left: 5px" type="color"
+             matTooltipPosition="above" [matTooltip]="'DIALOGS.EDIT.EDIT_BACKGROUND_COLOR' | translate">
+      <input [(ngModel)]="data.backgroundColorGradient" style="margin-left: 5px" type="color" matTooltipPosition="above"
+             [matTooltip]="(data.backgroundColorGradient ? 'DIALOGS.EDIT.EDIT_GRADIENT_COLOR' : 'DIALOGS.EDIT.ADD_GRADIENT') | translate">
+    </a>
   </h1>
   <div mat-dialog-content style="margin: 0; padding: 0">
     <div style="display: flex; gap: 20px">
