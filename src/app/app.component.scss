@@ -1,3 +1,10 @@
+:host {
+  --logo-animation-width: .7;
+  @media screen and (max-width: 600px) {
+    --logo-animation-width: .4;
+  }
+}
+
 .flags-container {
   display: flex;
   flex-direction: row;
@@ -106,14 +113,14 @@
   align-items: center;
   justify-content: center;
   color: #7b1ea2;
-  animation: fade-out cubic-bezier(.5, -.3, 0, 2) 6s;
+  animation: logo-animation cubic-bezier(.5, -.3, 0, 2) 6s;
   transform: scale(.2) translate(10em, -1.1em);
   width: auto;
   filter: drop-shadow(0 0 16px black);
   z-index: 103;
 }
 
-@keyframes fade-out {
+@keyframes logo-animation {
   0% {
     width: 100%;
     top: 36vh;
@@ -123,17 +130,11 @@
   }
   8% {
     width: 100%;
-    top: 36vh;
-    right: auto;
-    color: #4b4b4b;
-    transform: scale(.7);
+    transform: scale(var(--logo-animation-width));
   }
   50% {
     width: 100%;
-    top: 36vh;
-    right: auto;
-    color: #4b4b4b;
-    transform: scale(.7);
+    transform: scale(var(--logo-animation-width));
     opacity: 1;
   }
   89% {
@@ -149,7 +150,7 @@
     top: 0;
     right: 0;
     color: var(--color-primary);
-    transform: scale(.2) translate(10em, -1.7em);
+    transform: scale(.2) translate(9em, -1.7em);
     opacity: 0;
   }
   100% {
