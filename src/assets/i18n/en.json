@@ -55,12 +55,13 @@
     "MOVE": "Move",
     "REMOVE_SELECTION": "Remove selection",
     "SELECT": "Select",
+    "SEND": "Send",
     "SEND_BACKWARD": "Send backward",
     "SEND_TO_BACK": "Send to back"
   },
   "IMAGE": {
     "COPY_LINK": "Copy link",
-    "OPEN_LINK": "Open link,"
+    "OPEN_LINK": "Open link"
   },
   "MAIN": {
     "CLOSE_TAB": "Close tab",
@@ -98,5 +99,8 @@
     "ADD_TASK": "Add task",
     "MOVE_TO_LEFT": "Move to left",
     "MOVE_TO_RIGHT": "Move to right"
+  },
+  "NOTE_LIST": {
+    "ADD_TASK": "Add new note"
   }
 }

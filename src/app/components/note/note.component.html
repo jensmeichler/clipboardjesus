@@ -53,27 +53,33 @@
             ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
             : note.backgroundColor"
        [style.color]="note.foregroundColor">
+    <button *ngIf="!note.selected" (click)="select()" mat-menu-item>
+      <mat-icon>check</mat-icon>
+      {{ 'DRAGGABLE.SELECT' | translate }}
+    </button>
+    <button *ngIf="note.selected" (click)="select()" mat-menu-item>
+      <mat-icon>close</mat-icon>
+      {{ 'DRAGGABLE.REMOVE_SELECTION' | translate }}
+    </button>
     <ng-container *ngIf="!dataService.selectedItemsCount">
-      <button (click)="dataService.bringToFront(this.note)" mat-menu-item>
+      <button (click)="edit($event)" mat-menu-item>
+        <mat-icon>edit</mat-icon>
+        {{ 'DRAGGABLE.EDIT' | translate }}
+      </button>
+      <button (click)="delete($event)" mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        {{ 'DRAGGABLE.DELETE' | translate }}
+      </button>
+    </ng-container>
+    <ng-container *ngIf="!dataService.selectedItemsCount">
+      <button [matMenuTriggerFor]="movement" mat-menu-item>
         <mat-icon>flip_to_front</mat-icon>
-        {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
-      </button>
-      <button (click)="dataService.bringForward(this.note)" mat-menu-item>
-        <mat-icon>add_circle_outline</mat-icon>
-        {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
-      </button>
-      <button (click)="dataService.sendBackward(this.note)" mat-menu-item>
-        <mat-icon>remove_circle_outline</mat-icon>
-        {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
-      </button>
-      <button (click)="dataService.flipToBack(this.note)" mat-menu-item>
-        <mat-icon>flip_to_back</mat-icon>
-        {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
+        {{ 'DRAGGABLE.MOVE' | translate }}
       </button>
       <ng-container *ngIf="dataService.tabs.length > 1">
         <button [matMenuTriggerFor]="tabs" mat-menu-item>
-          <mat-icon>drive_file_move</mat-icon>
-          {{ 'DRAGGABLE.MOVE' | translate }}
+          <mat-icon>tab</mat-icon>
+          {{ 'DRAGGABLE.SEND' | translate }}
         </button>
       </ng-container>
       <ng-container *ngIf="dataService.getColorizedObjects(note).length > 1">
@@ -104,24 +110,30 @@
         {{ 'NOTE.COPY_VALUE' | translate }}
       </button>
     </ng-container>
-    <button *ngIf="!note.selected" (click)="select()" mat-menu-item>
-      <mat-icon>check</mat-icon>
-      {{ 'DRAGGABLE.SELECT' | translate }}
+  </div>
+</mat-menu>
+
+<mat-menu #movement="matMenu">
+  <div [style.background]="note.backgroundColorGradient
+            ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
+            : note.backgroundColor"
+       [style.color]="note.foregroundColor">
+    <button (click)="dataService.bringToFront(note)" mat-menu-item>
+      <mat-icon>flip_to_front</mat-icon>
+      {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
     </button>
-    <button *ngIf="note.selected" (click)="select()" mat-menu-item>
-      <mat-icon>close</mat-icon>
-      {{ 'DRAGGABLE.REMOVE_SELECTION' | translate }}
+    <button (click)="dataService.bringForward(note)" mat-menu-item>
+      <mat-icon>add_circle_outline</mat-icon>
+      {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
     </button>
-    <ng-container *ngIf="!dataService.selectedItemsCount">
-      <button (click)="edit($event)" mat-menu-item>
-        <mat-icon>edit</mat-icon>
-        {{ 'DRAGGABLE.EDIT' | translate }}
-      </button>
-      <button (click)="delete($event)" mat-menu-item>
-        <mat-icon>delete</mat-icon>
-        {{ 'DRAGGABLE.DELETE' | translate }}
-      </button>
-    </ng-container>
+    <button (click)="dataService.sendBackward(note)" mat-menu-item>
+      <mat-icon>remove_circle_outline</mat-icon>
+      {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
+    </button>
+    <button (click)="dataService.flipToBack(note)" mat-menu-item>
+      <mat-icon>flip_to_back</mat-icon>
+      {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
+    </button>
   </div>
 </mat-menu>
 
@@ -132,6 +144,7 @@
        [style.color]="note.foregroundColor">
     <ng-container *ngFor="let tab of dataService.tabs">
       <button (click)="moveToTab(tab.index)" *ngIf="dataService.selectedTabIndex !== tab.index" mat-menu-item>
+        <mat-icon>arrow_forward</mat-icon>
         {{ tab.label ? tab.label : '#Board ' + (tab.index + 1) }}
       </button>
     </ng-container>
