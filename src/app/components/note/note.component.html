@@ -49,75 +49,80 @@
      style="visibility: hidden; position: fixed">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <ng-container *ngIf="!dataService.selectedItemsCount">
-    <button (click)="dataService.bringToFront(this.note)" mat-menu-item>
-      <mat-icon>flip_to_front</mat-icon>
-      {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
-    </button>
-    <button (click)="dataService.bringForward(this.note)" mat-menu-item>
-      <mat-icon>add_circle_outline</mat-icon>
-      {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
-    </button>
-    <button (click)="dataService.sendBackward(this.note)" mat-menu-item>
-      <mat-icon>remove_circle_outline</mat-icon>
-      {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
-    </button>
-    <button (click)="dataService.flipToBack(this.note)" mat-menu-item>
-      <mat-icon>flip_to_back</mat-icon>
-      {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
-    </button>
-    <ng-container *ngIf="dataService.tabs.length > 1">
-      <button [matMenuTriggerFor]="tabs" mat-menu-item>
-        <mat-icon>drive_file_move</mat-icon>
-        {{ 'DRAGGABLE.MOVE' | translate }}
+  <div [style.background]="note.backgroundColorGradient
+            ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
+            : note.backgroundColor"
+       [style.color]="note.foregroundColor">
+    <ng-container *ngIf="!dataService.selectedItemsCount">
+      <button (click)="dataService.bringToFront(this.note)" mat-menu-item>
+        <mat-icon>flip_to_front</mat-icon>
+        {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
       </button>
-    </ng-container>
-    <ng-container *ngIf="dataService.getColorizedObjects(note).length > 1">
-      <button [matMenuTriggerFor]="items" mat-menu-item>
-        <mat-icon>colorize</mat-icon>
-        {{ 'DRAGGABLE.COPY_COLOR_FROM' | translate }}
+      <button (click)="dataService.bringForward(this.note)" mat-menu-item>
+        <mat-icon>add_circle_outline</mat-icon>
+        {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
       </button>
-    </ng-container>
-    <ng-container *ngIf="dataService.getColorizedObjects(note).length === 1">
-      <button (click)="copyColorFrom(dataService.getColorizedObjects(note)[0])" mat-menu-item>
-        <mat-icon>colorize</mat-icon>
-        {{ 'DRAGGABLE.COPY_OTHER_COLOR' | translate }}
+      <button (click)="dataService.sendBackward(this.note)" mat-menu-item>
+        <mat-icon>remove_circle_outline</mat-icon>
+        {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
       </button>
-    </ng-container>
-    <button (click)="toggleCodeView($event)" (mousedown)="rippleDisabled=true"
-            mat-menu-item>
-      <ng-container *ngIf="!note.code">
-        <mat-icon>code</mat-icon>
-        {{ 'NOTE.ENABLE_CODE_HIGHLIGHTING' | translate }}
+      <button (click)="dataService.flipToBack(this.note)" mat-menu-item>
+        <mat-icon>flip_to_back</mat-icon>
+        {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
+      </button>
+      <ng-container *ngIf="dataService.tabs.length > 1">
+        <button [matMenuTriggerFor]="tabs" mat-menu-item>
+          <mat-icon>drive_file_move</mat-icon>
+          {{ 'DRAGGABLE.MOVE' | translate }}
+        </button>
       </ng-container>
-      <ng-container *ngIf="note.code">
-        <mat-icon>code_off</mat-icon>
-        {{ 'NOTE.DISABLE_CODE_HIGHLIGHTING' | translate }}
+      <ng-container *ngIf="dataService.getColorizedObjects(note).length > 1">
+        <button [matMenuTriggerFor]="items" mat-menu-item>
+          <mat-icon>colorize</mat-icon>
+          {{ 'DRAGGABLE.COPY_COLOR_FROM' | translate }}
+        </button>
       </ng-container>
+      <ng-container *ngIf="dataService.getColorizedObjects(note).length === 1">
+        <button (click)="copyColorFrom(dataService.getColorizedObjects(note)[0])" mat-menu-item>
+          <mat-icon>colorize</mat-icon>
+          {{ 'DRAGGABLE.COPY_OTHER_COLOR' | translate }}
+        </button>
+      </ng-container>
+      <button (click)="toggleCodeView($event)" (mousedown)="rippleDisabled=true"
+              mat-menu-item>
+        <ng-container *ngIf="!note.code">
+          <mat-icon>code</mat-icon>
+          {{ 'NOTE.ENABLE_CODE_HIGHLIGHTING' | translate }}
+        </ng-container>
+        <ng-container *ngIf="note.code">
+          <mat-icon>code_off</mat-icon>
+          {{ 'NOTE.DISABLE_CODE_HIGHLIGHTING' | translate }}
+        </ng-container>
+      </button>
+      <button (click)="copy()" mat-menu-item>
+        <mat-icon>content_copy</mat-icon>
+        {{ 'NOTE.COPY_VALUE' | translate }}
+      </button>
+    </ng-container>
+    <button *ngIf="!note.selected" (click)="select()" mat-menu-item>
+      <mat-icon>check</mat-icon>
+      {{ 'DRAGGABLE.SELECT' | translate }}
     </button>
-    <button (click)="copy()" mat-menu-item>
-      <mat-icon>content_copy</mat-icon>
-      {{ 'NOTE.COPY_VALUE' | translate }}
+    <button *ngIf="note.selected" (click)="select()" mat-menu-item>
+      <mat-icon>close</mat-icon>
+      {{ 'DRAGGABLE.REMOVE_SELECTION' | translate }}
     </button>
-  </ng-container>
-  <button *ngIf="!note.selected" (click)="select()" mat-menu-item>
-    <mat-icon>check</mat-icon>
-    {{ 'DRAGGABLE.SELECT' | translate }}
-  </button>
-  <button *ngIf="note.selected" (click)="select()" mat-menu-item>
-    <mat-icon>close</mat-icon>
-    {{ 'DRAGGABLE.REMOVE_SELECTION' | translate }}
-  </button>
-  <ng-container *ngIf="!dataService.selectedItemsCount">
-    <button (click)="edit($event)" mat-menu-item>
-      <mat-icon>edit</mat-icon>
-      {{ 'DRAGGABLE.EDIT' | translate }}
-    </button>
-    <button (click)="delete($event)" mat-menu-item>
-      <mat-icon>delete</mat-icon>
-      {{ 'DRAGGABLE.DELETE' | translate }}
-    </button>
-  </ng-container>
+    <ng-container *ngIf="!dataService.selectedItemsCount">
+      <button (click)="edit($event)" mat-menu-item>
+        <mat-icon>edit</mat-icon>
+        {{ 'DRAGGABLE.EDIT' | translate }}
+      </button>
+      <button (click)="delete($event)" mat-menu-item>
+        <mat-icon>delete</mat-icon>
+        {{ 'DRAGGABLE.DELETE' | translate }}
+      </button>
+    </ng-container>
+  </div>
 </mat-menu>
 
 <mat-menu #tabs="matMenu">
