@@ -29,21 +29,23 @@
 /******************************************
   Drag and drop animations and templates
 ******************************************/
-.cdk-drag-preview {
-  white-space: nowrap;
-  .mat-menu-item {
-    border-radius: 8px;
-    height: 34px;
-    line-height: 34px;
-    padding: 0 8px;
-    transition: all ease-in-out 100ms;
-    box-shadow: var(--shadow-strong);
+::ng-deep {
+  .cdk-drag-preview {
+    white-space: nowrap;
+    .mat-menu-item {
+      border-radius: 8px;
+      height: 34px;
+      line-height: 34px;
+      padding: 0 8px;
+      transition: all ease-in-out 100ms;
+      box-shadow: var(--shadow-strong);
+    }
   }
-}
-.cdk-drag-placeholder {
-  opacity: 0;
-}
-.cdk-drag-animating,
-.cdk-drop-list-dragging .note-within-list:not(.cdk-drag-placeholder) {
-  transition: var(--drag-drop-transition);
+  .cdk-drag-placeholder {
+    opacity: 0;
+  }
+  .cdk-drag-animating,
+  .cdk-drop-list-dragging .note-within-list:not(.cdk-drag-placeholder) {
+    transition: var(--drag-drop-transition);
+  }
 }
