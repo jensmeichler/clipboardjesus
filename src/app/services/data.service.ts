@@ -110,7 +110,7 @@ export class DataService {
       && left.posY === right.posY;
   }
 
-  private static compareColors(left: Note | TaskList, right: Note | TaskList): boolean {
+  private static compareColors(left: Note | TaskList | NoteList, right: Note | TaskList | NoteList): boolean {
     if (!left || !right) return false;
     return left.backgroundColor === right.backgroundColor
       && left.backgroundColorGradient === right.backgroundColorGradient
@@ -485,6 +485,9 @@ export class DataService {
       }
     });
     this.tab.noteLists?.forEach(noteList => {
+      if (!this.colorizedObjects.some(other => DataService.compareColors(noteList, other))) {
+        this.colorizedObjects.push(noteList);
+      }
       noteList.notes.forEach(note => {
         if (!this.colorizedObjects.some(other => DataService.compareColors(note, other))) {
           this.colorizedObjects.push(note);

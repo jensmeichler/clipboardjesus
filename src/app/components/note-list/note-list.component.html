@@ -5,7 +5,9 @@
           (mouseup)="onMouseUp($event)"
           [class.docked-left]="noteList.posX === 0"
           [class.docked-top]="noteList.posY === 49"
-          [highlightColor]="undefined"
+          [style.background-color]="noteList.backgroundColor"
+          [style.color]="noteList.foregroundColor"
+          [highlightColor]="noteList.backgroundColorGradient"
           [highlightedItem]="noteList">
   <mat-card-title *ngIf="noteList.header">
     {{ noteList.header }}
