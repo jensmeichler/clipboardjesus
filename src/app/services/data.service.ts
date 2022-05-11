@@ -67,13 +67,13 @@ export class DataService {
     const appTitle = document.getElementById('title');
     if (!appTitle) return;
 
-    const tabName = this.tabs[this._selectedTabIndex]?.label
-      ?? `#Board ${this._selectedTabIndex+1}`;
+    const tab = this.tabs[this._selectedTabIndex];
+    const tabName = tab.label ?? `#Board ${this._selectedTabIndex+1}`;
     appTitle.innerText = `Clip#board | ${tabName}`;
 
     this.router.navigate([], {
         relativeTo: this.activatedRoute,
-        queryParams: { tab: tabName }
+        queryParams: { tab: tab.label ? tabName : (tab.index+1) }
       });
   }
 

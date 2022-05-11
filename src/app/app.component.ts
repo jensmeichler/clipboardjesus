@@ -62,7 +62,7 @@ export class AppComponent implements OnInit {
       if (initialized) return;
       if (params.tab) {
         const index = this.dataService.tabs
-          .find(x => x.label ? x.label === params.tab : `#Board ${x.index+1}` === params.tab)?.index;
+          .find(x => x.label ? x.label === params.tab : (x.index+1) == params.tab)?.index;
         if (index) this.dataService.selectedTabIndex = index;
         initialized = true;
       } else if (params.params) {
