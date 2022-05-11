@@ -152,13 +152,13 @@ div.mat-menu-content:not(:empty) {
   padding-bottom: 0;
 }
 
-button.mat-menu-item,
-button.mat-menu-item > mat-icon.mat-icon {
-  color: inherit;
-}
-
-mat-icon {
+button {
   filter: var(--drop-shadow-medium);
+  &.mat-menu-item,
+  &.mat-menu-item > mat-icon.mat-icon
+  {
+    color: inherit;
+  }
 }
 
 mat-card-title.flex-container,
