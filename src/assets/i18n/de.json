@@ -55,7 +55,7 @@
     "MOVE": "Verschieben",
     "REMOVE_SELECTION": "Auswahl entfernen",
     "SELECT": "Auswählen",
-    "SEND": "Senden",
+    "SEND_TO_TAB": "An Tab senden",
     "SEND_BACKWARD": "Eine Ebene nach hinten",
     "SEND_TO_BACK": "Nach hinten bringen"
   },

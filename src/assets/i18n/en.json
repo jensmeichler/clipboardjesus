@@ -55,7 +55,7 @@
     "MOVE": "Move",
     "REMOVE_SELECTION": "Remove selection",
     "SELECT": "Select",
-    "SEND": "Send",
+    "SEND_TO_TAB": "Send to tab",
     "SEND_BACKWARD": "Send backward",
     "SEND_TO_BACK": "Send to back"
   },
