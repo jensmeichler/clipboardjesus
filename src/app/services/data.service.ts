@@ -12,6 +12,7 @@ import {
 import {CacheService} from "./cache.service";
 import {FileService} from "./file.service";
 import {HashyService} from "./hashy.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +46,9 @@ export class DataService {
     private readonly dialog: MatDialog,
     private readonly hashy: HashyService,
     private readonly cache: CacheService,
-    private readonly fileService: FileService
+    private readonly fileService: FileService,
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute
   ) {
     for (let i = 0; i < 20; i++) {
       const tab = this.cache.fetch(i);
@@ -56,17 +59,22 @@ export class DataService {
     }
     if (!this.tabs.length) this.addTab();
 
-    this.selectedTabIndex = 0;
+    this._selectedTabIndex = 0;
     this.setColorizedObjects();
   }
 
   updateAppTitle(): void {
     const appTitle = document.getElementById('title');
     if (!appTitle) return;
-    const tabName = this.tabs[this._selectedTabIndex]?.label;
-    appTitle.innerText = tabName
-      ? `Clip#board | ${tabName}`
-      : `Clip#board | #Board ${this._selectedTabIndex+1}`;
+
+    const tabName = this.tabs[this._selectedTabIndex]?.label
+      ?? `#Board ${this._selectedTabIndex+1}`;
+    appTitle.innerText = `Clip#board | ${tabName}`;
+
+    this.router.navigate([], {
+        relativeTo: this.activatedRoute,
+        queryParams: { tab: tabName }
+      });
   }
 
   get itemsCount(): number {

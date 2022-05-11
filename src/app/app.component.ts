@@ -57,8 +57,15 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let initialized = false;
     this.route.queryParams.subscribe(params => {
-      if (params.params) {
+      if (initialized) return;
+      if (params.tab) {
+        const index = this.dataService.tabs
+          .find(x => x.label ? x.label === params.tab : `#Board ${x.index+1}` === params.tab)?.index;
+        if (index) this.dataService.selectedTabIndex = index;
+        initialized = true;
+      } else if (params.params) {
         const tab = JSON.parse(atob(params.params));
         if (typeof tab != 'string') {
           if (this.dataService.tabs.length === 1
