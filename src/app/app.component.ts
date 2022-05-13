@@ -25,7 +25,7 @@ import {NoteList} from "./models";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
 
 @Component({
-  selector: 'app-root',
+  selector: 'cb-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })

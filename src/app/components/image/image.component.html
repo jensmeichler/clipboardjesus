@@ -8,8 +8,8 @@
           [class.docked-top]="image.posY === 49"
           [matRippleDisabled]="rippleDisabled"
           class="flex-container" matRipple
-          [highlightColor]="undefined"
-          [highlightedItem]="image"
+          [cbHighlightColor]="undefined"
+          [cbHighlightedItem]="image"
           style="padding: 5px 5px 0 5px; min-height: 32px">
   <div *ngIf="!imageLoaded" class="image-link">
     {{ image.source }}

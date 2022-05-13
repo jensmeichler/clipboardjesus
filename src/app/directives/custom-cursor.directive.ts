@@ -2,7 +2,7 @@ import {Directive, HostListener} from '@angular/core';
 import {SettingsService} from "../services";
 
 @Directive({
-  selector: '[customCursor]'
+  selector: '[cbCursor]'
 })
 export class CustomCursorDirective {
   cursor: HTMLElement;

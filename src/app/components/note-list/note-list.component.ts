@@ -7,7 +7,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 
 @Component({
-  selector: 'note-list',
+  selector: 'cb-note-list',
   templateUrl: './note-list.component.html',
   styleUrls: ['./note-list.component.scss']
 })

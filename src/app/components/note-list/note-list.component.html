@@ -7,14 +7,14 @@
           [class.docked-top]="noteList.posY === 49"
           [style.background-color]="noteList.backgroundColor"
           [style.color]="noteList.foregroundColor"
-          [highlightColor]="noteList.backgroundColorGradient"
-          [highlightedItem]="noteList">
+          [cbHighlightColor]="noteList.backgroundColorGradient"
+          [cbHighlightedItem]="noteList">
   <mat-card-title *ngIf="noteList.header">
     {{ noteList.header }}
   </mat-card-title>
   <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="noteList.notes" cdkDropList>
    <span *ngFor="let note of noteList.notes" class="note-within-list" style="margin: 0" cdkDrag>
-     <small-note [note]="note" [noteList]="noteList"></small-note>
+     <cb-small-note [note]="note" [noteList]="noteList"></cb-small-note>
       <span>
         <button (click)="editNote(note)" class="item-button" mat-icon-button>
           <mat-icon>edit</mat-icon>

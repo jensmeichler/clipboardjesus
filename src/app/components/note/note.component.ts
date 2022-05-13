@@ -8,7 +8,7 @@ import {DataService, HashyService} from "../../services";
 import {EditNoteDialogComponent} from "../dialogs";
 
 @Component({
-  selector: 'note',
+  selector: 'cb-note',
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.scss']
 })

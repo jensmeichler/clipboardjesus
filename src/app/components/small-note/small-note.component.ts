@@ -7,7 +7,7 @@ import {EditNoteDialogComponent} from "../dialogs";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({
-  selector: 'small-note',
+  selector: 'cb-small-note',
   templateUrl: './small-note.component.html',
   styleUrls: ['./small-note.component.css']
 })

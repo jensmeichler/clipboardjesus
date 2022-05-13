@@ -3,7 +3,7 @@ import {MatBottomSheetRef} from "@angular/material/bottom-sheet";
 import {DataService} from "../../../services";
 
 @Component({
-  selector: 'app-delete-dialog',
+  selector: 'cb-delete-dialog',
   templateUrl: './delete-dialog.component.html',
   styleUrls: ['./delete-dialog.component.scss']
 })

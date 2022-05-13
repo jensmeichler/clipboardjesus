@@ -2,7 +2,7 @@ import {Component, HostListener} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 
 @Component({
-  selector: 'save-as-dialog',
+  selector: 'cb-save-as-dialog',
   templateUrl: './save-as-dialog.component.html',
   styleUrls: ['./save-as-dialog.component.scss']
 })

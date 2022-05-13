@@ -1,4 +1,4 @@
-<div customCursor>
+<div cbCursor>
   <mat-tab-group [(selectedIndex)]="dataService.selectedTabIndex" animationDuration="0">
     <mat-tab *ngFor="let tab of dataService.tabs">
       <ng-template mat-tab-label>
@@ -14,7 +14,7 @@
           </ng-container>
         </ng-container>
       </ng-template>
-      <clipboard-tab (contextmenu)="showContextMenu($event)" [tab]="tab"></clipboard-tab>
+      <cb-tab (contextmenu)="showContextMenu($event)" [tab]="tab"></cb-tab>
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>

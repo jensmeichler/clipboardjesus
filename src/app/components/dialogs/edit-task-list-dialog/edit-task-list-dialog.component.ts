@@ -4,7 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TaskItem, TaskList} from "../../../models";
 
 @Component({
-  selector: 'app-edit-task-list-dialog',
+  selector: 'cb-edit-task-list-dialog',
   templateUrl: './edit-task-list-dialog.component.html'
 })
 export class EditTaskListDialogComponent {

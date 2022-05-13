@@ -6,7 +6,7 @@ import {ImportDialogComponent} from "../dialogs";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
 
 @Component({
-  selector: 'clipboard-tab',
+  selector: 'cb-tab',
   templateUrl: './tab.component.html',
   styleUrls: ['./tab.component.scss']
 })

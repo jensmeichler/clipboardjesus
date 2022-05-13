@@ -8,8 +8,8 @@
           [matRippleDisabled]="rippleDisabled"
           [style.background-color]="note.backgroundColor"
           [style.color]="note.foregroundColor" matRipple
-          [highlightColor]="note.backgroundColorGradient"
-          [highlightedItem]="note">
+          [cbHighlightColor]="note.backgroundColorGradient"
+          [cbHighlightedItem]="note">
   <mat-card-title *ngIf="note.header" class="flex-container">
     {{ note.header }}
   </mat-card-title>

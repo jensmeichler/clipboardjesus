@@ -1,8 +1,8 @@
 <button mat-menu-item style="filter: none"
         [style.background-color]="note.backgroundColor"
         [style.color]="note.foregroundColor"
-        [highlightColor]="note.backgroundColorGradient"
-        [highlightedItem]="note"
+        [cbHighlightColor]="note.backgroundColorGradient"
+        [cbHighlightedItem]="note"
         (click)="copy()"
         (contextmenu)="showContextMenu($event)">
   {{ note.content }}

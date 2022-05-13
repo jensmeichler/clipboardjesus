@@ -7,7 +7,7 @@ import {DataService, StringParserService} from "../../services";
 import {EditTaskListDialogComponent} from "../dialogs";
 
 @Component({
-  selector: 'task-list',
+  selector: 'cb-task-list',
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss']
 })

@@ -4,7 +4,7 @@ import {Tab} from "../../../models";
 import {DataService} from "../../../services";
 
 @Component({
-  selector: 'app-edit-tab-dialog',
+  selector: 'cb-edit-tab-dialog',
   templateUrl: './edit-tab-dialog.component.html',
   styleUrls: ['./edit-tab-dialog.component.scss']
 })

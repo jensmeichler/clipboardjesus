@@ -1,11 +1,11 @@
-<div *ngIf="tab" class="clipboard" customDragDrop
+<div *ngIf="tab" class="clipboard" cbDragDrop
      (mousedown)="onMouseDown($event)"
      (mouseup)="onMouseUp($event)"
      (drop)="dropFile($event)"
      [style.background]="tab.color !== '#131313'
        ? 'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + tab.color + ', #131313)'
        : '#131313'">
-  <note *ngFor="let note of tab.notes"
+  <cb-note *ngFor="let note of tab.notes"
         cdkDrag class="draggable-note"
         [class.draggable-note-selected]="note.selected"
         (cdkDragEnded)="saveItemPosition($event, note)"
@@ -14,9 +14,9 @@
         [style.left.px]="note.posX"
         [style.zIndex]="note.posZ"
         [note]="note"
-  ></note>
+  ></cb-note>
   <div cdkDropListGroup>
-    <task-list *ngFor="let taskList of tab.taskLists"
+    <cb-task-list *ngFor="let taskList of tab.taskLists"
                cdkDrag class="draggable-note"
                [class.draggable-note-selected]="taskList.selected"
                (cdkDragEnded)="saveItemPosition($event, taskList)"
@@ -25,10 +25,10 @@
                [style.left.px]="taskList.posX"
                [style.zIndex]="taskList.posZ"
                [taskList]="taskList"
-    ></task-list>
+    ></cb-task-list>
   </div>
   <div cdkDropListGroup>
-    <note-list *ngFor="let noteList of tab.noteLists"
+    <cb-note-list *ngFor="let noteList of tab.noteLists"
                cdkDrag class="draggable-note"
                [class.draggable-note-selected]="noteList.selected"
                (cdkDragEnded)="saveItemPosition($event, noteList)"
@@ -37,9 +37,9 @@
                [style.left.px]="noteList.posX"
                [style.zIndex]="noteList.posZ"
                [noteList]="noteList"
-    ></note-list>
+    ></cb-note-list>
   </div>
-  <image *ngFor="let image of tab.images"
+  <cb-image *ngFor="let image of tab.images"
          cdkDrag class="draggable-note"
          [class.draggable-note-selected]="image.selected"
          (cdkDragEnded)="saveItemPosition($event, image)"
@@ -48,7 +48,7 @@
          [style.left.px]="image.posX"
          [style.zIndex]="image.posZ"
          [image]="image"
-  ></image>
+  ></cb-image>
 
   <ng-container *ngIf="mouseDown">
     <!--bottom right-->

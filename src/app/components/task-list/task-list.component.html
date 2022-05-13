@@ -7,8 +7,8 @@
           [class.docked-top]="taskList.posY === 49"
           [style.background-color]="taskList.backgroundColor"
           [style.color]="taskList.foregroundColor"
-          [highlightColor]="taskList.backgroundColorGradient"
-          [highlightedItem]="taskList">
+          [cbHighlightColor]="taskList.backgroundColorGradient"
+          [cbHighlightedItem]="taskList">
   <mat-card-title *ngIf="taskList.header">
     {{ taskList.header }}
   </mat-card-title>
@@ -39,7 +39,7 @@
             <mat-icon>add</mat-icon>
           </button>
           <input *ngIf="item === itemToEdit" (keydown)="onKeyPressed($event, item)" (mousedown)="$event.stopPropagation()"
-                 [(ngModel)]="item.value" customAutofocus>
+                 [(ngModel)]="item.value" cbAutofocus>
         </span>
         <span *ngIf="item !== itemToEdit">
           <button (click)="startEditItem(item)" class="item-button" mat-icon-button>

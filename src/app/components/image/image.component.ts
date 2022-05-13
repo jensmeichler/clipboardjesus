@@ -5,7 +5,7 @@ import {Image} from "../../models";
 import {DataService, HashyService} from "../../services";
 
 @Component({
-  selector: 'image',
+  selector: 'cb-image',
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.scss']
 })

@@ -4,7 +4,7 @@ import {Note, NoteList} from "../../../models";
 import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
-  selector: 'app-edit-note-list-dialog',
+  selector: 'cb-edit-note-list-dialog',
   templateUrl: './edit-note-list-dialog.component.html'
 })
 export class EditNoteListDialogComponent {
