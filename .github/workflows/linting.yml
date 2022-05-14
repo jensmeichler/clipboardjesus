@@ -7,7 +7,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm run lint
-      - name: Lint source files
+      - name: Run ESLint
         run: npm run lint
