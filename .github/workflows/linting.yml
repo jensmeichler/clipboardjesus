@@ -10,4 +10,4 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Lint source files
-        run: ng lint
+        run: npm run lint
