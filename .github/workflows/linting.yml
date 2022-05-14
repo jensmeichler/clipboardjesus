@@ -8,6 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
-        run: npm run lint
+        run: npm install
       - name: Lint source files
         run: npm run lint
