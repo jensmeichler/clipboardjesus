@@ -18,17 +18,15 @@
         <span [style.display]="item === itemToEdit ? 'contents' : 'block'">
           <ng-container *ngIf="item.isSubTask">
             <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
-                    [matTooltip]="'TASK_LIST.MOVE_TO_LEFT' | translate"
                     [attr.aria-label]="'TASK_LIST.MOVE_TO_LEFT' | translate"
-                    matTooltipPosition="left" style="margin-left: -6px">
+                    style="margin-left: -6px">
               <mat-icon>remove</mat-icon>
             </button>
           </ng-container>
           <ng-container *ngIf="!item.isSubTask">
             <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
-                    [matTooltip]="'TASK_LIST.MOVE_TO_RIGHT' | translate"
                     [attr.aria-label]="'TASK_LIST.MOVE_TO_RIGHT' | translate"
-                    matTooltipPosition="left" style="margin-left: -34px">
+                    style="margin-left: -34px">
               <mat-icon>arrow_right</mat-icon>
             </button>
           </ng-container>
@@ -36,9 +34,7 @@
             <div *ngIf="item !== itemToEdit" [innerHTML]="stringParser.convert(item.value)"></div>
           </mat-checkbox>
           <button *ngIf="item !== itemToEdit" (click)="addItemAfter(item)" class="item-button" mat-icon-button
-                  [matTooltip]="'TASK_LIST.ADD_TASK' | translate"
-                  [attr.aria-label]="'TASK_LIST.ADD_TASK' | translate"
-                  matTooltipPosition="right">
+                  [attr.aria-label]="'TASK_LIST.ADD_TASK' | translate">
             <mat-icon>add</mat-icon>
           </button>
           <input *ngIf="item === itemToEdit" (keydown)="onKeyPressed($event, item)" (mousedown)="$event.stopPropagation()"
