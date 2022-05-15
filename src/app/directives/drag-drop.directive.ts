@@ -3,7 +3,7 @@ import {Directive, HostBinding, HostListener} from '@angular/core';
 @Directive({
   selector: '[cbDragDrop]'
 })
-export class CustomDragDropDirective {
+export class DragDropDirective {
   counter = 0;
 
   @HostBinding('class')

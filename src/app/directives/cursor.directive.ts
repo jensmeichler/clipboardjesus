@@ -4,7 +4,7 @@ import {SettingsService} from "../services";
 @Directive({
   selector: '[cbCursor]'
 })
-export class CustomCursorDirective {
+export class CursorDirective {
   cursor: HTMLElement;
   position?: HTMLElement;
   moving = false;
@@ -46,15 +46,15 @@ export class CustomCursorDirective {
       const tag = elem.tagName.substring(3);
 
       isDraggableNote = true;
-      const posX = CustomCursorDirective.convertPxToInt(elem.style.left);
-      const posY = CustomCursorDirective.convertPxToInt(elem.style.top);
-      const posZ = CustomCursorDirective.convertPxToInt(elem.style.zIndex);
+      const posX = CursorDirective.convertPxToInt(elem.style.left);
+      const posY = CursorDirective.convertPxToInt(elem.style.top);
+      const posZ = CursorDirective.convertPxToInt(elem.style.zIndex);
 
       this.position!.style.bottom = '0';
       if (elem.style.transform) {
         const splitted = elem.style.transform.split('(')[1].split(', ');
-        const translateX = CustomCursorDirective.convertPxToInt(splitted[0]);
-        const translateY = CustomCursorDirective.convertPxToInt(splitted[1]);
+        const translateX = CursorDirective.convertPxToInt(splitted[0]);
+        const translateY = CursorDirective.convertPxToInt(splitted[1]);
         this.setText(`${tag}: { X: ${translateX + posX} | Y: ${translateY + posY} | Z: ${posZ} }`);
       } else {
         this.setText(`${tag}: { X: ${posX} | Y: ${posY} | Z: ${posZ} }`);

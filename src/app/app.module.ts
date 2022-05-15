@@ -47,9 +47,9 @@ import {
   SmallNoteComponent
 } from './components';
 import {
-  CustomAutofocusDirective,
-  CustomCursorDirective,
-  CustomDragDropDirective,
+  AutofocusDirective,
+  CursorDirective,
+  DragDropDirective,
   HighlightColorDirective
 } from './directives';
 
@@ -83,14 +83,14 @@ export function createTranslateLoader(http: HttpClient) {
     EditTaskListDialogComponent,
     TaskListComponent,
     ImageComponent,
-    CustomDragDropDirective,
+    DragDropDirective,
     AboutDialogComponent,
     SaveAsDialogComponent,
     TabComponent,
     EditTabDialogComponent,
     DeleteDialogComponent,
-    CustomAutofocusDirective,
-    CustomCursorDirective,
+    AutofocusDirective,
+    CursorDirective,
     ImportDialogComponent,
     HighlightColorDirective,
     NoteListComponent,
