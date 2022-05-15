@@ -141,7 +141,8 @@
       <mat-icon>save_as</mat-icon>
     </button>
     <button (click)="save(); $event.stopPropagation()" [disabled]="!dataService.itemsCount"
-            [matTooltip]="(saveButtonTooltip | async) ?? ''" [attr.aria-label]="(saveButtonTooltip | async) ?? ''"
+            [matTooltip]="(saveButtonTooltip | async) ?? ''"
+            [attr.aria-label]="(saveButtonTooltip | async) ?? ('MAIN.SAVE' | translate)"
             color="primary" mat-fab matTooltipPosition="left">
       <mat-icon>save</mat-icon>
     </button>
