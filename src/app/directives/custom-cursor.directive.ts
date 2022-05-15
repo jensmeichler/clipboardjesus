@@ -41,7 +41,9 @@ export class CustomCursorDirective {
     let isDraggableNote = false;
 
     event.path.forEach((elem: any) => {
-      if (!['NOTE', 'NOTE-LIST', 'TASK-LIST', 'IMAGE'].includes(elem.tagName)) return;
+      if (!['CB-NOTE', 'CB-NOTE-LIST', 'CB-TASK-LIST', 'CB-IMAGE'].includes(elem.tagName)) return;
+
+      const tag = elem.tagName.substring(3);
 
       isDraggableNote = true;
       const posX = CustomCursorDirective.convertPxToInt(elem.style.left);
@@ -53,9 +55,9 @@ export class CustomCursorDirective {
         const splitted = elem.style.transform.split('(')[1].split(', ');
         const translateX = CustomCursorDirective.convertPxToInt(splitted[0]);
         const translateY = CustomCursorDirective.convertPxToInt(splitted[1]);
-        this.setText(`${elem.tagName}: { X: ${translateX + posX} | Y: ${translateY + posY} | Z: ${posZ} }`);
+        this.setText(`${tag}: { X: ${translateX + posX} | Y: ${translateY + posY} | Z: ${posZ} }`);
       } else {
-        this.setText(`${elem.tagName}: { X: ${posX} | Y: ${posY} | Z: ${posZ} }`);
+        this.setText(`${tag}: { X: ${posX} | Y: ${posY} | Z: ${posZ} }`);
       }
     });
 
