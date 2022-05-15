@@ -4,7 +4,8 @@
         [cbHighlightColor]="note.backgroundColorGradient"
         [cbHighlightedItem]="note"
         (click)="copy()"
-        (contextmenu)="showContextMenu($event)">
+        (contextmenu)="showContextMenu($event)"
+        role="menuitem">
   {{ note.content }}
 </button>
 
