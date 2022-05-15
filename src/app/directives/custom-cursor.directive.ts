@@ -40,7 +40,7 @@ export class CustomCursorDirective {
     this.moving = true;
     let isDraggableNote = false;
 
-    event.path.forEach((elem: any) => {
+    event.composedPath().forEach((elem: any) => {
       if (!['CB-NOTE', 'CB-NOTE-LIST', 'CB-TASK-LIST', 'CB-IMAGE'].includes(elem.tagName)) return;
 
       const tag = elem.tagName.substring(3);

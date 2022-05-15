@@ -44,8 +44,9 @@ html, body {
   pointer-events: none;
   filter: blur(20px);
 }
-.cursor-position {
+.cursor-position#position {
   position: fixed;
+  margin: 0;
   left: var(--margin-edge);
   color: white;
   z-index: 99999;
