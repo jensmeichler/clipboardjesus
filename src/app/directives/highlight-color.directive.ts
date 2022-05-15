@@ -50,8 +50,13 @@ export class HighlightColorDirective {
     if (this.settings.animationsDisabled) return;
 
     if (event.which !== 1) {
-      const x = event.pageX - (this.x ?? this.cbHighlightedItem?.posX ?? 0);
-      const y = event.pageY - (this.y ?? this.cbHighlightedItem?.posY ?? 0);
+      const tabBody = document.documentElement.getElementsByClassName('mat-tab-body')[0];
+      const scrolledLeft = (window.pageXOffset || tabBody.scrollLeft) - (tabBody.clientLeft || 0);
+      const scrolledTop = (window.pageYOffset || tabBody.scrollTop)  - (tabBody.clientTop || 0);
+
+      const x = event.pageX - (this.x ?? this.cbHighlightedItem?.posX ?? 0) + scrolledLeft;
+      const y = event.pageY - (this.y ?? this.cbHighlightedItem?.posY ?? 0) + scrolledTop;
+
       this.setBackground({x, y});
     }
 
