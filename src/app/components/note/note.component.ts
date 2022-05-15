@@ -3,7 +3,7 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {htmlRegex} from "../../const/regexes";
-import {Note, TaskList} from "../../models";
+import {Note, NoteList, TaskList} from "../../models";
 import {DataService, HashyService} from "../../services";
 import {EditNoteDialogComponent} from "../dialogs";
 
@@ -135,7 +135,7 @@ export class NoteComponent implements OnInit {
     this.dataService.moveNoteToTab(index, this.note);
   }
 
-  copyColorFrom(item: Note | TaskList): void {
+  copyColorFrom(item: Note | TaskList | NoteList): void {
     this.note.backgroundColor = item.backgroundColor;
     this.note.backgroundColorGradient = item.backgroundColorGradient;
     this.note.foregroundColor = item.foregroundColor;

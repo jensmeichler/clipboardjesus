@@ -19,7 +19,8 @@
   <div class="img-button-group">
     <button (mousedown)="rippleDisabled=true"
             (mouseup)="showContextMenu($event)"
-            mat-icon-button>
+            mat-icon-button
+            [attr.aria-label]="'COMMON.MORE' | translate">
       <mat-icon>more_vert</mat-icon>
     </button>
   </div>
@@ -31,36 +32,43 @@
      style="visibility: hidden; position: fixed">
 </div>
 <mat-menu #contextMenu="matMenu">
-  <button *ngIf="!image.selected" (click)="select()" mat-menu-item>
+  <button *ngIf="!image.selected" (click)="select()" mat-menu-item
+          [attr.aria-label]="'DRAGGABLE.SELECT' | translate">
     <mat-icon>check</mat-icon>
     {{ 'DRAGGABLE.SELECT' | translate }}
   </button>
-  <button *ngIf="image.selected" (click)="select()" mat-menu-item>
+  <button *ngIf="image.selected" (click)="select()" mat-menu-item
+          [attr.aria-label]="'DRAGGABLE.REMOVE_SELECTION' | translate">
     <mat-icon>close</mat-icon>
     {{ 'DRAGGABLE.REMOVE_SELECTION' | translate }}
   </button>
   <ng-container *ngIf="!dataService.selectedItemsCount">
-    <button (click)="delete($event, true)" mat-menu-item>
+    <button (click)="delete($event, true)" mat-menu-item
+            [attr.aria-label]="'DRAGGABLE.DELETE' | translate">
       <mat-icon>delete</mat-icon>
       {{ 'DRAGGABLE.DELETE' | translate }}
     </button>
   </ng-container>
   <ng-container *ngIf="!dataService.selectedItemsCount">
-    <button [matMenuTriggerFor]="movement" mat-menu-item>
+    <button [matMenuTriggerFor]="movement" mat-menu-item
+            [attr.aria-label]="'DRAGGABLE.MOVE' | translate">
       <mat-icon>auto_awesome_motion</mat-icon>
       {{ 'DRAGGABLE.MOVE' | translate }}
     </button>
     <ng-container *ngIf="dataService.tabs.length > 1">
-      <button [matMenuTriggerFor]="tabs" mat-menu-item>
+      <button [matMenuTriggerFor]="tabs" mat-menu-item
+              [attr.aria-label]="'DRAGGABLE.SEND_TO_TAB' | translate">
         <mat-icon>tab</mat-icon>
         {{ 'DRAGGABLE.SEND_TO_TAB' | translate }}
       </button>
     </ng-container>
-    <button (click)="open()" mat-menu-item>
+    <button (click)="open()" mat-menu-item
+            [attr.aria-label]="'IMAGE.OPEN_LINK' | translate">
       <mat-icon>open_in_new</mat-icon>
       {{ 'IMAGE.OPEN_LINK' | translate }}
     </button>
-    <button (click)="copy()" mat-menu-item>
+    <button (click)="copy()" mat-menu-item
+            [attr.aria-label]="'IMAGE.COPY_LINK' | translate">
       <mat-icon>content_copy</mat-icon>
       {{ 'IMAGE.COPY_LINK' | translate }}
     </button>
@@ -68,19 +76,23 @@
 </mat-menu>
 
 <mat-menu #movement="matMenu">
-  <button (click)="dataService.bringToFront(image)" mat-menu-item>
+  <button (click)="dataService.bringToFront(image)" mat-menu-item
+          [attr.aria-label]="'DRAGGABLE.BRING_TO_FRONT' | translate">
     <mat-icon>flip_to_front</mat-icon>
     {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
   </button>
-  <button (click)="dataService.bringForward(image)" mat-menu-item>
+  <button (click)="dataService.bringForward(image)" mat-menu-item
+          [attr.aria-label]="'DRAGGABLE.BRING_FORWARD' | translate">
     <mat-icon>add_circle_outline</mat-icon>
     {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
   </button>
-  <button (click)="dataService.sendBackward(image)" mat-menu-item>
+  <button (click)="dataService.sendBackward(image)" mat-menu-item
+          [attr.aria-label]="'DRAGGABLE.SEND_BACKWARD' | translate">
     <mat-icon>remove_circle_outline</mat-icon>
     {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
   </button>
-  <button (click)="dataService.flipToBack(image)" mat-menu-item>
+  <button (click)="dataService.flipToBack(image)" mat-menu-item
+          [attr.aria-label]="'DRAGGABLE.SEND_TO_BACK' | translate">
     <mat-icon>flip_to_back</mat-icon>
     {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
   </button>
@@ -88,9 +100,10 @@
 
 <mat-menu #tabs="matMenu">
   <ng-container *ngFor="let tab of dataService.tabs">
-    <button (click)="moveToTab(tab.index)" *ngIf="dataService.selectedTabIndex !== tab.index" mat-menu-item>
+    <button (click)="moveToTab(tab.index)" *ngIf="dataService.selectedTabIndex !== tab.index" mat-menu-item
+            [attr.aria-label]="'DRAGGABLE.SEND_TO_TAB' | translate">
       <mat-icon>arrow_forward</mat-icon>
-      {{ tab.label ? tab.label : '#Board ' + (tab.index + 1) }}
+      {{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}
     </button>
   </ng-container>
 </mat-menu>

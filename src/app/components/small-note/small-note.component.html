@@ -18,27 +18,32 @@
             ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
             : note.backgroundColor"
        [style.color]="note.foregroundColor">
-    <button (click)="edit()" mat-menu-item>
+    <button (click)="edit()" mat-menu-item
+            [attr.aria-label]="'DRAGGABLE.EDIT' | translate">
       <mat-icon>edit</mat-icon>
       {{ 'DRAGGABLE.EDIT' | translate }}
     </button>
-    <button (click)="delete()" mat-menu-item>
+    <button (click)="delete()" mat-menu-item
+            [attr.aria-label]="'DRAGGABLE.DELETE' | translate">
       <mat-icon>delete</mat-icon>
       {{ 'DRAGGABLE.DELETE' | translate }}
     </button>
     <ng-container *ngIf="dataService.getColorizedObjects(note).length > 1">
-      <button [matMenuTriggerFor]="items" mat-menu-item>
+      <button [matMenuTriggerFor]="items" mat-menu-item
+              [attr.aria-label]="'DRAGGABLE.COPY_COLOR_FROM' | translate">
         <mat-icon>colorize</mat-icon>
         {{ 'DRAGGABLE.COPY_COLOR_FROM' | translate }}
       </button>
     </ng-container>
     <ng-container *ngIf="dataService.getColorizedObjects(note).length === 1">
-      <button (click)="copyColorFrom(dataService.getColorizedObjects(note)[0])" mat-menu-item>
+      <button (click)="copyColorFrom(dataService.getColorizedObjects(note)[0])" mat-menu-item
+              [attr.aria-label]="'DRAGGABLE.COPY_OTHER_COLOR' | translate">
         <mat-icon>colorize</mat-icon>
         {{ 'DRAGGABLE.COPY_OTHER_COLOR' | translate }}
       </button>
     </ng-container>
-    <button (click)="copy()" mat-menu-item>
+    <button (click)="copy()" mat-menu-item
+            [attr.aria-label]="'NOTE.COPY_VALUE' | translate">
       <mat-icon>content_copy</mat-icon>
       {{ 'NOTE.COPY_VALUE' | translate }}
     </button>
@@ -51,10 +56,10 @@
                 ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
                 : item.backgroundColor"
             [style.color]="item.foregroundColor"
-            mat-menu-item>
+            mat-menu-item [attr.aria-label]="'DRAGGABLE.COPY_COLOR_FROM' | translate">
       <mat-icon>color_lens</mat-icon>
       <ng-container *ngIf="!item.backgroundColorGradient">
-        {{ item.backgroundColor }}
+        {{item.backgroundColor}}
       </ng-container>
       <ng-container *ngIf="item.backgroundColorGradient">
         {{ item.backgroundColor + ' → ' + item.backgroundColorGradient }}

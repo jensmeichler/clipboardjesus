@@ -43,7 +43,7 @@
           [value]="item"
           (removed)="removeItem(item)">
           {{item.value}}
-          <button matChipRemove>
+          <button matChipRemove [attr.aria-label]="'COMMON.CANCEL' | translate">
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>

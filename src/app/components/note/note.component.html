@@ -24,20 +24,20 @@
   </mat-card-content>
   <mat-card-actions align="end">
     <button (click)="toggleCodeView($event, true)" (mousedown)="rippleDisabled=true"
-            mat-icon-button>
+            mat-icon-button [attr.aria-label]="'NOTE.ENABLE_CODE_HIGHLIGHTING' | translate">
       <mat-icon *ngIf="!note.code">code</mat-icon>
       <mat-icon *ngIf="note.code">code_off</mat-icon>
     </button>
     <button (click)="edit($event, true)" (mousedown)="rippleDisabled=true"
-            mat-icon-button>
+            mat-icon-button [attr.aria-label]="'DRAGGABLE.EDIT' | translate">
       <mat-icon>edit</mat-icon>
     </button>
     <button (click)="delete($event)" (mousedown)="rippleDisabled=true"
-            mat-icon-button>
+            mat-icon-button [attr.aria-label]="'DRAGGABLE.DELETE' | translate">
       <mat-icon>delete</mat-icon>
     </button>
     <button (click)="showContextMenu($event)" (mousedown)="rippleDisabled=true"
-            mat-icon-button>
+            mat-icon-button [attr.aria-label]="'COMMON.MORE' | translate">
       <mat-icon>more_vert</mat-icon>
     </button>
   </mat-card-actions>
@@ -54,49 +54,57 @@
             ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
             : note.backgroundColor"
        [style.color]="note.foregroundColor">
-    <button *ngIf="!note.selected" (click)="select()" mat-menu-item>
+    <button *ngIf="!note.selected" (click)="select()" mat-menu-item
+            [attr.aria-label]="'DRAGGABLE.SELECT' | translate">
       <mat-icon>check</mat-icon>
       {{ 'DRAGGABLE.SELECT' | translate }}
     </button>
-    <button *ngIf="note.selected" (click)="select()" mat-menu-item>
+    <button *ngIf="note.selected" (click)="select()" mat-menu-item
+            [attr.aria-label]="'DRAGGABLE.REMOVE_SELECTION' | translate">
       <mat-icon>close</mat-icon>
       {{ 'DRAGGABLE.REMOVE_SELECTION' | translate }}
     </button>
     <ng-container *ngIf="!dataService.selectedItemsCount">
-      <button (click)="edit($event)" mat-menu-item>
+      <button (click)="edit($event)" mat-menu-item
+              [attr.aria-label]="'DRAGGABLE.EDIT' | translate">
         <mat-icon>edit</mat-icon>
         {{ 'DRAGGABLE.EDIT' | translate }}
       </button>
-      <button (click)="delete($event)" mat-menu-item>
+      <button (click)="delete($event)" mat-menu-item
+              [attr.aria-label]="'DRAGGABLE.DELETE' | translate">
         <mat-icon>delete</mat-icon>
         {{ 'DRAGGABLE.DELETE' | translate }}
       </button>
     </ng-container>
     <ng-container *ngIf="!dataService.selectedItemsCount">
-      <button [matMenuTriggerFor]="movement" mat-menu-item>
+      <button [matMenuTriggerFor]="movement" mat-menu-item
+              [attr.aria-label]="'DRAGGABLE.MOVE' | translate">
         <mat-icon>auto_awesome_motion</mat-icon>
         {{ 'DRAGGABLE.MOVE' | translate }}
       </button>
       <ng-container *ngIf="dataService.tabs.length > 1">
-        <button [matMenuTriggerFor]="tabs" mat-menu-item>
+        <button [matMenuTriggerFor]="tabs" mat-menu-item
+                [attr.aria-label]="'DRAGGABLE.SEND_TO_TAB' | translate">
           <mat-icon>tab</mat-icon>
           {{ 'DRAGGABLE.SEND_TO_TAB' | translate }}
         </button>
       </ng-container>
       <ng-container *ngIf="dataService.getColorizedObjects(note).length > 1">
-        <button [matMenuTriggerFor]="items" mat-menu-item>
+        <button [matMenuTriggerFor]="items" mat-menu-item
+                [attr.aria-label]="'DRAGGABLE.COPY_COLOR_FROM' | translate">
           <mat-icon>colorize</mat-icon>
           {{ 'DRAGGABLE.COPY_COLOR_FROM' | translate }}
         </button>
       </ng-container>
       <ng-container *ngIf="dataService.getColorizedObjects(note).length === 1">
-        <button (click)="copyColorFrom(dataService.getColorizedObjects(note)[0])" mat-menu-item>
+        <button (click)="copyColorFrom(dataService.getColorizedObjects(note)[0])" mat-menu-item
+                [attr.aria-label]="'DRAGGABLE.COPY_OTHER_COLOR' | translate">
           <mat-icon>colorize</mat-icon>
           {{ 'DRAGGABLE.COPY_OTHER_COLOR' | translate }}
         </button>
       </ng-container>
       <button (click)="toggleCodeView($event)" (mousedown)="rippleDisabled=true"
-              mat-menu-item>
+              mat-menu-item [attr.aria-label]="'NOTE.ENABLE_CODE_HIGHLIGHTING' | translate">
         <ng-container *ngIf="!note.code">
           <mat-icon>code</mat-icon>
           {{ 'NOTE.ENABLE_CODE_HIGHLIGHTING' | translate }}
@@ -106,7 +114,8 @@
           {{ 'NOTE.DISABLE_CODE_HIGHLIGHTING' | translate }}
         </ng-container>
       </button>
-      <button (click)="copy()" mat-menu-item>
+      <button (click)="copy()" mat-menu-item
+              [attr.aria-label]="'NOTE.COPY_VALUE' | translate">
         <mat-icon>content_copy</mat-icon>
         {{ 'NOTE.COPY_VALUE' | translate }}
       </button>
@@ -119,19 +128,23 @@
             ? 'linear-gradient(to bottom, ' + note.backgroundColor + ', ' + note.backgroundColorGradient
             : note.backgroundColor"
        [style.color]="note.foregroundColor">
-    <button (click)="dataService.bringToFront(note)" mat-menu-item>
+    <button (click)="dataService.bringToFront(note)" mat-menu-item
+            [attr.aria-label]="'DRAGGABLE.BRING_TO_FRONT' | translate">
       <mat-icon>flip_to_front</mat-icon>
       {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
     </button>
-    <button (click)="dataService.bringForward(note)" mat-menu-item>
+    <button (click)="dataService.bringForward(note)" mat-menu-item
+            [attr.aria-label]="'DRAGGABLE.BRING_FORWARD' | translate">
       <mat-icon>add_circle_outline</mat-icon>
       {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
     </button>
-    <button (click)="dataService.sendBackward(note)" mat-menu-item>
+    <button (click)="dataService.sendBackward(note)" mat-menu-item
+            [attr.aria-label]="'DRAGGABLE.SEND_BACKWARD' | translate">
       <mat-icon>remove_circle_outline</mat-icon>
       {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
     </button>
-    <button (click)="dataService.flipToBack(note)" mat-menu-item>
+    <button (click)="dataService.flipToBack(note)" mat-menu-item
+            [attr.aria-label]="'DRAGGABLE.SEND_TO_BACK' | translate">
       <mat-icon>flip_to_back</mat-icon>
       {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
     </button>
@@ -144,9 +157,10 @@
             : note.backgroundColor"
        [style.color]="note.foregroundColor">
     <ng-container *ngFor="let tab of dataService.tabs">
-      <button (click)="moveToTab(tab.index)" *ngIf="dataService.selectedTabIndex !== tab.index" mat-menu-item>
+      <button (click)="moveToTab(tab.index)" *ngIf="dataService.selectedTabIndex !== tab.index" mat-menu-item
+              [attr.aria-label]="'DRAGGABLE.SEND_TO_TAB' | translate">
         <mat-icon>arrow_forward</mat-icon>
-        {{ tab.label ? tab.label : '#Board ' + (tab.index + 1) }}
+        {{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}
       </button>
     </ng-container>
   </div>
@@ -158,10 +172,10 @@
                 ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
                 : item.backgroundColor"
             [style.color]="item.foregroundColor"
-            mat-menu-item>
+            mat-menu-item [attr.aria-label]="'DRAGGABLE.COPY_COLOR_FROM' | translate">
       <mat-icon>color_lens</mat-icon>
       <ng-container *ngIf="!item.backgroundColorGradient">
-        {{ item.backgroundColor }}
+        {{item.backgroundColor}}
       </ng-container>
       <ng-container *ngIf="item.backgroundColorGradient">
         {{ item.backgroundColor + ' → ' + item.backgroundColorGradient }}
@@ -169,3 +183,4 @@
     </button>
   </ng-container>
 </mat-menu>
+

@@ -1,6 +1,8 @@
 {
   "COMMON": {
+    "ADD": "Hinzufügen",
     "CANCEL": "Abbrechen",
+    "CONFIRM": "Bestätigen",
     "DELETE": "Löschen",
     "FILENAME": "Dateiname",
     "IMPORT": "Importieren",

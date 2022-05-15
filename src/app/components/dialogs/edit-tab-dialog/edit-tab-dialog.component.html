@@ -9,15 +9,18 @@
     </span>
     <a>
       <mat-icon (click)="data.color = green" [style.color]="green" class="color-button" matTooltipPosition="above"
-                [matTooltip]="'DIALOGS.EDIT.SET_COLOR_TO' | translate : { color: green }">
+                [matTooltip]="'DIALOGS.EDIT.SET_COLOR_TO' | translate : { color: green }"
+                [attr.aria-label]="'DIALOGS.EDIT.SET_COLOR_TO' | translate : { color: green }">
         color_lens
       </mat-icon>
       <mat-icon (click)="data.color = purple" [style.color]="purple" class="color-button" matTooltipPosition="above"
-                [matTooltip]="'DIALOGS.EDIT.SET_COLOR_TO' | translate : { color: purple }">
+                [matTooltip]="'DIALOGS.EDIT.SET_COLOR_TO' | translate : { color: purple }"
+                [attr.aria-label]="'DIALOGS.EDIT.SET_COLOR_TO' | translate : { color: purple }">
         color_lens
       </mat-icon>
       <mat-icon (click)="data.color = reset" [style.color]="reset" class="color-button" matTooltipPosition="above"
-                [matTooltip]="'DIALOGS.EDIT.RESET_COLOR' | translate">
+                [matTooltip]="'DIALOGS.EDIT.RESET_COLOR' | translate"
+                [attr.aria-label]="'DIALOGS.EDIT.RESET_COLOR' | translate">
         format_color_reset
       </mat-icon>
       <input [(ngModel)]="data.color" type="color"
@@ -38,7 +41,8 @@
         <mat-icon matSuffix>note</mat-icon>
       </mat-form-field>
       <button (click)="deleteNotes()" mat-flat-button
-              style="height: 53px; transform: translateY(-9px); background: transparent">
+              style="height: 53px; transform: translateY(-9px); background: transparent"
+              [attr.aria-label]="'COMMON.DELETE' | translate">
         <mat-icon>delete_forever</mat-icon>
       </button>
     </div>
@@ -50,7 +54,8 @@
         <mat-icon matSuffix>sticky_note_2</mat-icon>
       </mat-form-field>
       <button (click)="deleteNoteLists()" mat-flat-button
-              style="height: 53px; transform: translateY(-9px); background: transparent">
+              style="height: 53px; transform: translateY(-9px); background: transparent"
+              [attr.aria-label]="'COMMON.DELETE' | translate">
         <mat-icon>delete_forever</mat-icon>
       </button>
     </div>
@@ -62,7 +67,8 @@
         <mat-icon matSuffix>list</mat-icon>
       </mat-form-field>
       <button (click)="deleteTaskLists()" mat-flat-button
-              style="height: 53px; transform: translateY(-9px); background: transparent">
+              style="height: 53px; transform: translateY(-9px); background: transparent"
+              [attr.aria-label]="'COMMON.DELETE' | translate">
         <mat-icon>delete_forever</mat-icon>
       </button>
     </div>
@@ -74,18 +80,20 @@
         <mat-icon matSuffix>image</mat-icon>
       </mat-form-field>
       <button (click)="deleteImages()" mat-flat-button
-              style="height: 53px; transform: translateY(-9px); background: transparent">
+              style="height: 53px; transform: translateY(-9px); background: transparent"
+              [attr.aria-label]="'COMMON.DELETE' | translate">
         <mat-icon>delete_forever</mat-icon>
       </button>
     </div>
 
     <div class="flex-container" style="padding: 8px">
-      <button (click)="moveToLeft()" [disabled]="dataService.selectedTabIndex < 1" mat-icon-button>
+      <button (click)="moveToLeft()" [disabled]="dataService.selectedTabIndex < 1"
+              mat-icon-button [attr.aria-label]="'DRAGGABLE.MOVE' | translate">
         <mat-icon>chevron_left</mat-icon>
       </button>
       {{ 'DIALOGS.EDIT.TAB_INDEX_I' | translate : { i: dataService.selectedTabIndex } }}
       <button (click)="moveToRight()" [disabled]="dataService.selectedTabIndex >= dataService.tabs.length - 1"
-              mat-icon-button>
+              mat-icon-button [attr.aria-label]="'DRAGGABLE.MOVE' | translate">
         <mat-icon>chevron_right</mat-icon>
       </button>
     </div>
