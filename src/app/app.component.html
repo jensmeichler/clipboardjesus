@@ -4,11 +4,19 @@
       <ng-template mat-tab-label>
         <div style="margin-left: 8px; margin-right: 4px">{{ tab.label ? tab.label : '#Board ' + (tab.index + 1) }}</div>
         <ng-container *ngIf="dataService.selectedTabIndex === tab.index">
-          <mat-icon (click)="openEditTabDialog()" class="tab-button" [matTooltip]="'MAIN.EDIT_TAB' | translate">
+          <mat-icon
+            [attr.aria-label]="'MAIN.EDIT_TAB' | translate"
+            [matTooltip]="'MAIN.EDIT_TAB' | translate"
+            class="tab-button"
+            (click)="openEditTabDialog()">
             edit
           </mat-icon>
           <ng-container *ngIf="dataService.tabs.length > 1">
-            <mat-icon (click)="dataService.removeTab()" class="tab-button" [matTooltip]="'MAIN.CLOSE_TAB' | translate">
+            <mat-icon
+              [attr.aria-label]="'MAIN.CLOSE_TAB' | translate"
+              [matTooltip]="'MAIN.CLOSE_TAB' | translate"
+              class="tab-button"
+              (click)="dataService.removeTab()">
               close
             </mat-icon>
           </ng-container>
@@ -20,7 +28,12 @@
       <ng-template mat-tab-label>
         <div (click)="dataService.addTab(); $event.stopPropagation()"
              style="padding: 24px; margin: -24px">
-          <mat-icon [matTooltip]="'MAIN.NEW_TAB' | translate" style="transform: translateY(2px)">add</mat-icon>
+          <mat-icon
+            [attr.aria-label]="'MAIN.NEW_TAB' | translate"
+            [matTooltip]="'MAIN.NEW_TAB' | translate"
+            style="transform: translateY(2px)">
+            add
+          </mat-icon>
         </div>
       </ng-template>
     </mat-tab>
@@ -33,40 +46,40 @@
   </div>
   <mat-menu #contextMenu="matMenu">
     <ng-container *ngIf="dataService.selectedItemsCount as n">
-      <button (click)="copySelectedItems()" mat-menu-item>
+      <button (click)="copySelectedItems()" mat-menu-item [attr.aria-label]="'MAIN.COPY_N_ITEMS' | translate : {n}">
         <mat-icon>content_copy</mat-icon>
         {{ 'MAIN.COPY_N_ITEMS' | translate : {n} }}
       </button>
-      <button (click)="cutSelectedItems()" mat-menu-item>
+      <button (click)="cutSelectedItems()" mat-menu-item [attr.aria-label]="'MAIN.CUT_N_ITEMS' | translate : {n}">
         <mat-icon>content_cut</mat-icon>
         {{ 'MAIN.CUT_N_ITEMS' | translate : {n} }}
       </button>
-      <button (click)="deleteSelectedItems()" mat-menu-item>
+      <button (click)="deleteSelectedItems()" mat-menu-item [attr.aria-label]="'MAIN.DELETE_N_ITEMS' | translate : {n}">
         <mat-icon>delete</mat-icon>
         {{ 'MAIN.DELETE_N_ITEMS' | translate : {n} }}
       </button>
-      <button (click)="saveTabOrSelection()" mat-menu-item>
+      <button (click)="saveTabOrSelection()" mat-menu-item [attr.aria-label]="'MAIN.SAVE_N_ITEMS' | translate : {n}">
         <mat-icon>save</mat-icon>
         {{ 'MAIN.SAVE_N_ITEMS' | translate : {n} }}
       </button>
     </ng-container>
     <ng-container *ngIf="!dataService.selectedItemsCount">
       <ng-container *ngIf="canPasteItems">
-        <button (click)="dataService.importItemsFromClipboard()" mat-menu-item>
+        <button (click)="dataService.importItemsFromClipboard()" mat-menu-item [attr.aria-label]="'MAIN.PASTE_ITEMS' | translate">
           <mat-icon>content_paste_go</mat-icon>
           {{ 'MAIN.PASTE_ITEMS' | translate }}
         </button>
         <mat-divider></mat-divider>
       </ng-container>
-      <button (click)="openNewNoteDialog()" mat-menu-item>
+      <button (click)="openNewNoteDialog()" mat-menu-item [attr.aria-label]="'MAIN.CREATE_NOTE' | translate">
         <mat-icon>note</mat-icon>
         {{ 'MAIN.CREATE_NOTE' | translate }}
       </button>
-      <button (click)="openNewNoteListDialog()" mat-menu-item>
+      <button (click)="openNewNoteListDialog()" mat-menu-item [attr.aria-label]="'MAIN.CREATE_NOTE_LIST' | translate">
         <mat-icon>sticky_note_2</mat-icon>
         {{ 'MAIN.CREATE_NOTE_LIST' | translate }}
       </button>
-      <button (click)="openNewTaskListDialog()" mat-menu-item>
+      <button (click)="openNewTaskListDialog()" mat-menu-item [attr.aria-label]="'MAIN.CREATE_TASK_LIST' | translate">
         <mat-icon>list</mat-icon>
         {{ 'MAIN.CREATE_TASK_LIST' | translate }}
       </button>
@@ -74,19 +87,19 @@
         *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
       </mat-divider>
       <ng-container *ngIf="dataService.undoPossible | async">
-        <button (click)="dataService.undo()" mat-menu-item>
+        <button (click)="dataService.undo()" mat-menu-item [attr.aria-label]="'MAIN.UNDO_LAST_ACTION' | translate">
           <mat-icon>undo</mat-icon>
           {{ 'MAIN.UNDO_LAST_ACTION' | translate }}
         </button>
       </ng-container>
       <ng-container *ngIf="dataService.redoPossible | async">
-        <button (click)="dataService.redo()" mat-menu-item>
+        <button (click)="dataService.redo()" mat-menu-item [attr.aria-label]="'MAIN.REDO_LAST_ACTION' | translate">
           <mat-icon>redo</mat-icon>
           {{ 'MAIN.REDO_LAST_ACTION' | translate }}
         </button>
       </ng-container>
       <ng-container *ngIf="dataService.restorePossible | async">
-        <button (click)="dataService.restoreTab()" mat-menu-item>
+        <button (click)="dataService.restoreTab()" mat-menu-item [attr.aria-label]="'MAIN.RESTORE_CLOSED_TAB' | translate">
           <mat-icon>restore_page</mat-icon>
           {{ 'MAIN.RESTORE_CLOSED_TAB' | translate }}
         </button>
@@ -94,25 +107,26 @@
       <mat-divider
         *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
       </mat-divider>
-      <button (click)="saveTabOrSelection()" mat-menu-item>
+      <button (click)="saveTabOrSelection()" mat-menu-item [attr.aria-label]="'MAIN.SAVE_TAB' | translate">
         <mat-icon>save</mat-icon>
         {{ 'MAIN.SAVE_TAB' | translate }}
       </button>
-      <button (click)="shareTab()" mat-menu-item [matTooltip]="'MAIN.EXPERIMENTAL' | translate" matTooltipPosition="left">
+      <button (click)="shareTab()" mat-menu-item  [attr.aria-label]="'MAIN.SHARE_TAB' | translate"
+              [matTooltip]="'MAIN.EXPERIMENTAL' | translate" matTooltipPosition="left">
         <mat-icon>share</mat-icon>
         {{ 'MAIN.SHARE_TAB' | translate }}
       </button>
-      <button (click)="openEditTabDialog()" mat-menu-item>
+      <button (click)="openEditTabDialog()" mat-menu-item [attr.aria-label]="'MAIN.EDIT_TAB' | translate">
         <mat-icon>format_paint</mat-icon>
         {{ 'MAIN.EDIT_TAB' | translate }}
       </button>
       <ng-container *ngIf="dataService.tabs.length > 1">
-        <button (click)="dataService.removeTab()" mat-menu-item>
+        <button (click)="dataService.removeTab()" mat-menu-item [attr.aria-label]="'MAIN.DELETE_TAB' | translate">
           <mat-icon>delete</mat-icon>
           {{ 'MAIN.DELETE_TAB' | translate }}
         </button>
       </ng-container>
-      <button (click)="clearAllForever()" mat-menu-item>
+      <button (click)="clearAllForever()" mat-menu-item [attr.aria-label]="'MAIN.DELETE_ALL_TABS' | translate">
         <mat-icon>delete_forever</mat-icon>
         {{ 'MAIN.DELETE_ALL_TABS' | translate }}
       </button>
@@ -122,71 +136,78 @@
   <!-- Bottom right buttons -->
   <div class="fab-container">
     <button (click)="saveAs(); $event.stopPropagation()" [disabled]="!dataService.itemsCount" class="save-as-button"
-            mat-mini-fab [matTooltip]="'MAIN.SAVE_AS' | translate"
-            matTooltipPosition="left" color="accent">
+            [matTooltip]="'MAIN.SAVE_AS' | translate" [attr.aria-label]="'MAIN.SAVE_AS' | translate"
+            mat-mini-fab matTooltipPosition="left" color="accent">
       <mat-icon>save_as</mat-icon>
     </button>
     <button (click)="save(); $event.stopPropagation()" [disabled]="!dataService.itemsCount"
-            [matTooltip]="(saveButtonTooltip | async) ?? ''"
+            [matTooltip]="(saveButtonTooltip | async) ?? ''" [attr.aria-label]="(saveButtonTooltip | async) ?? ''"
             color="primary" mat-fab matTooltipPosition="left">
       <mat-icon>save</mat-icon>
     </button>
   </div>
   <button (click)="showContextMenu($event, true); $event.stopPropagation()"
+          [attr.aria-label]="'COMMON.MORE' | translate"
           class="context-menu-button" mat-icon-button>
     <mat-icon>menu_open</mat-icon>
   </button>
 
   <!-- Top right buttons -->
-  <button class="settings-button" mat-icon-button [matMenuTriggerFor]="settingsMenu">
+  <button class="settings-button" mat-icon-button [matMenuTriggerFor]="settingsMenu"
+          [attr.aria-label]="'COMMON.SETTINGS' | translate">
     <mat-icon>settings</mat-icon>
   </button>
   <mat-menu #settingsMenu="matMenu">
-    <button [matMenuTriggerFor]="languageMenu" mat-menu-item>
+    <button [matMenuTriggerFor]="languageMenu" mat-menu-item [attr.aria-label]="'MAIN.SWITCH_LANGUAGE' | translate">
       <mat-icon>translate</mat-icon>
       {{ 'MAIN.SWITCH_LANGUAGE' | translate }}
     </button>
-    <button *ngIf="settings.animationsDisabled" (click)="settings.animationsDisabled = false" mat-menu-item>
+    <button *ngIf="settings.animationsDisabled" (click)="settings.animationsDisabled = false" mat-menu-item
+            [attr.aria-label]="'MAIN.ENABLE_ANIMATIONS' | translate">
       <mat-icon>animation</mat-icon>
       {{ 'MAIN.ENABLE_ANIMATIONS' | translate }}
     </button>
-    <button *ngIf="!settings.animationsDisabled" (click)="settings.animationsDisabled = true" mat-menu-item>
+    <button *ngIf="!settings.animationsDisabled" (click)="settings.animationsDisabled = true" mat-menu-item
+            [attr.aria-label]="'MAIN.DISABLE_ANIMATIONS' | translate">
       <mat-icon>motion_photos_off</mat-icon>
       {{ 'MAIN.DISABLE_ANIMATIONS' | translate }}
     </button>
-    <a href="https://github.com/jensmeichler/clipboardjesus/issues" mat-menu-item target="_blank">
+    <a href="https://github.com/jensmeichler/clipboardjesus/issues" mat-menu-item target="_blank"
+       [attr.aria-label]="'DIALOGS.ABOUT.REPORT_BUG' | translate">
       <mat-icon>bug_report</mat-icon>
       {{ 'DIALOGS.ABOUT.REPORT_BUG' | translate }}
     </a>
-    <a href="https://github.com/jensmeichler/clipboardjesus/commits" mat-menu-item target="_blank">
+    <a href="https://github.com/jensmeichler/clipboardjesus/commits" mat-menu-item target="_blank"
+       [attr.aria-label]="'DIALOGS.ABOUT.VIEW_LAST_CHANGES' | translate">
       <mat-icon>published_with_changes</mat-icon>
       {{ 'DIALOGS.ABOUT.VIEW_LAST_CHANGES' | translate }}
     </a>
-    <a href="https://www.buymeacoffee.com/jensmeichler" mat-menu-item target="_blank">
+    <a href="https://www.buymeacoffee.com/jensmeichler" mat-menu-item target="_blank"
+       [attr.aria-label]="'DIALOGS.ABOUT.DONATE_TO_THE_DEVELOPER' | translate">
       <mat-icon class="heart">favorite</mat-icon>
       {{ 'DIALOGS.ABOUT.DONATE_TO_THE_DEVELOPER' | translate }}
     </a>
-    <button (click)="showAboutDialog()" mat-menu-item>
+    <button (click)="showAboutDialog()" mat-menu-item [attr.aria-label]="'MAIN.ABOUT_CLIPBOARD' | translate">
       <mat-icon>info</mat-icon>
       {{ 'MAIN.ABOUT_CLIPBOARD' | translate }}
     </button>
   </mat-menu>
   <mat-menu #languageMenu="matMenu">
-    <button class="flags-container" (click)="setLanguage('en')" mat-menu-item>
+    <button class="flags-container" (click)="setLanguage('en')" mat-menu-item aria-label="English">
       <div class="flag flag-en"></div>
       English
     </button>
-    <button class="flags-container" (click)="setLanguage('de')" mat-menu-item>
+    <button class="flags-container" (click)="setLanguage('de')" mat-menu-item aria-label="Deutsch">
       <div class="flag flag-de"></div>
       Deutsch
     </button>
-    <button class="flags-container" (click)="setLanguage('ua')" mat-menu-item>
+    <button class="flags-container" (click)="setLanguage('ua')" mat-menu-item aria-label="Український">
       <div class="flag flag-ua"></div>
       Український
     </button>
   </mat-menu>
 
-  <a (click)="showAboutDialog()" class="startup-logo">
+  <a (click)="showAboutDialog()" class="startup-logo" aria-label="About">
     <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-right: 12px">Clip</span>
     <img (cdkDragEnded)="replaceLogo($event)" alt="#" cdkDrag height="120"
          src="favicon.ico" style="transform: translateY(-4px)" width="120">
