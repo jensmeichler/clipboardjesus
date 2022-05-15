@@ -208,12 +208,12 @@
     </button>
   </mat-menu>
 
-  <a (click)="showAboutDialog()" class="startup-logo" aria-label="About">
+  <p (click)="showAboutDialog()" class="startup-logo" aria-label="About">
     <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-right: 12px">Clip</span>
     <img (cdkDragEnded)="replaceLogo($event)" alt="#" cdkDrag height="120"
          src="favicon.ico" style="transform: translateY(-4px)" width="120">
     <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-left: 12px">board</span>
-  </a>
+  </p>
 
   <img [class.show-hashy-bg]="hashy.showHashy | async" alt="hashy"
        class="hashy hashy-bg" height="124" src="assets/hashy-bg.svg">
