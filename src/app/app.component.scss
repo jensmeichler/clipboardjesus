@@ -112,7 +112,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #7b1ea2;
+  color: var(--color-secondary);
   animation: logo-animation cubic-bezier(.5, -.3, 0, 2) 6s;
   transform: scale(.2) translate(10em, -1.2em);
   width: auto;
