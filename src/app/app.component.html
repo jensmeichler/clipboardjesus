@@ -192,6 +192,10 @@
       <mat-icon>info</mat-icon>
       {{ 'MAIN.ABOUT_CLIPBOARD' | translate }}
     </button>
+    <button (click)="reloadApp()" mat-menu-item [attr.aria-label]="'MAIN.RELOAD_APP' | translate">
+      <mat-icon>cached</mat-icon>
+      {{ 'MAIN.RELOAD_APP' | translate }}
+    </button>
   </mat-menu>
   <mat-menu #languageMenu="matMenu">
     <button class="flags-container" (click)="setLanguage('en')" mat-menu-item aria-label="English">

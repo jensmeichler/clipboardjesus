@@ -282,6 +282,10 @@ export class AppComponent implements OnInit {
     this.dialog.open(AboutDialogComponent);
   }
 
+  reloadApp(): void {
+    window.location.reload();
+  }
+
   setLanguage(language: string): void {
     this.translate.setDefaultLang(language);
     this.settings.language = language;

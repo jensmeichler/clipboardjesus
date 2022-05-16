@@ -67,6 +67,7 @@
     "OPEN_LINK": "Link öffnen"
   },
   "MAIN": {
+    "ABOUT_CLIPBOARD": "Über Clip#board",
     "CLOSE_TAB": "Tab schließen",
     "COPIED_URL_TO_CLIPBOARD": "Url in die Zwischenablage kopiert",
     "COPY_N_ITEMS": "{{n}} Elemente kopieren",
@@ -83,6 +84,7 @@
     "EXPERIMENTAL": "Experimentell!",
     "NEW_TAB": "Neuer Tab",
     "PASTE_ITEMS": "Elemente einfügen",
+    "RELOAD_APP": "App neu laden",
     "REDO_LAST_ACTION": "Letzte Aktion wiederholen",
     "RESTORE_CLOSED_TAB": "Geschlossenen Tab wiederherstellen",
     "SAVE": "Speichern",
@@ -90,7 +92,6 @@
     "SAVE_N_ITEMS": "{{n}} Elemente speichern",
     "SAVE_TAB": "Tab speichern",
     "SHARE_TAB": "Tab teilen",
-    "ABOUT_CLIPBOARD": "Über Clip#board",
     "SWITCH_LANGUAGE": "Sprache wechseln",
     "UNDO_LAST_ACTION": "Letzte Aktion rückgängig machen"
   },

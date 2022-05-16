@@ -67,6 +67,7 @@
     "OPEN_LINK": "Open link"
   },
   "MAIN": {
+    "ABOUT_CLIPBOARD": "About Clip#board",
     "CLOSE_TAB": "Close tab",
     "COPIED_URL_TO_CLIPBOARD": "Copied url to clipboard",
     "COPY_N_ITEMS": "Copy {{n}} items",
@@ -83,6 +84,7 @@
     "EXPERIMENTAL": "Experimental!",
     "NEW_TAB": "New tab",
     "PASTE_ITEMS": "Paste items",
+    "RELOAD_APP": "Reload app",
     "REDO_LAST_ACTION": "Redo last action",
     "RESTORE_CLOSED_TAB": "Restore closed tab",
     "SAVE": "Save",
@@ -90,7 +92,6 @@
     "SAVE_N_ITEMS": "Save {{n}} items",
     "SAVE_TAB": "Save tab",
     "SHARE_TAB": "Share tab",
-    "ABOUT_CLIPBOARD": "About Clip#board",
     "SWITCH_LANGUAGE": "Switch language",
     "UNDO_LAST_ACTION": "Undo last action"
   },

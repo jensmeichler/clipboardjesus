@@ -67,6 +67,7 @@
     "OPEN_LINK": "Відкрити посилання"
   },
   "MAIN": {
+    "ABOUT_CLIPBOARD": "Про Clip#board",
     "CLOSE_TAB": "Закрити вкладку",
     "COPIED_URL_TO_CLIPBOARD": "URL-адресу скопійовано в буфер обміну",
     "COPY_N_ITEMS": "Копіювати {{n}} елементів",
@@ -83,6 +84,7 @@
     "EXPERIMENTAL": "Експериментальний!",
     "NEW_TAB": "Нова вкладка",
     "PASTE_ITEMS": "Вставити елементи",
+    "RELOAD_APP": "Перезавантажте додаток",
     "REDO_LAST_ACTION": "Повторити останню дію",
     "RESTORE_CLOSED_TAB": "Відновити закриту вкладку",
     "SAVE": "Зберегти",
@@ -90,7 +92,6 @@
     "SAVE_N_ITEMS": "Зберегти {{n}} елементів",
     "SAVE_TAB": "Вкладка Зберегти",
     "SHARE_TAB": "Вкладка Поділитися",
-    "ABOUT_CLIPBOARD": "Про Clip#board",
     "SWITCH_LANGUAGE": "Змінити мову",
     "UNDO_LAST_ACTION": "Скасувати останню дію"
   },
