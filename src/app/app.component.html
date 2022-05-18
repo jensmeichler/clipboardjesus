@@ -216,23 +216,37 @@
     </button>
   </mat-menu>
   <mat-menu #fontMenu="matMenu">
-    <button style="font-family: var(--font-family-victor)"
-      (click)="settings.font = 'Victor Mono'" mat-menu-item aria-label="Victor Mono">
+    <button style="font-family: var(--font-family-victor); font-style: normal"
+            (click)="settings.fontFamily = 'Victor Mono'; settings.fontStyle = 'normal'"
+            mat-menu-item aria-label="Victor Mono">
       <mat-icon style="margin-right: 12px">segment</mat-icon>
       Victor Mono
     </button>
-    <button style="font-family: var(--font-family-roboto)"
-            (click)="settings.font = 'Roboto'" mat-menu-item aria-label="Roboto">
+    <button style="font-family: var(--font-family-victor); font-style: italic"
+            (click)="settings.fontFamily = 'Victor Mono'; settings.fontStyle = 'italic'"
+            mat-menu-item aria-label="Victor Mono italic">
+      <mat-icon style="margin-right: 12px">segment</mat-icon>
+      Victor Mono italic
+    </button>
+    <button style="font-family: var(--font-family-roboto); font-style: normal"
+            (click)="settings.fontFamily = 'Roboto'; settings.fontStyle = 'normal'"
+            mat-menu-item aria-label="Roboto">
       <mat-icon>segment</mat-icon>
       Roboto
+    </button>
+    <button style="font-family: var(--font-family-roboto); font-style: italic"
+            (click)="settings.fontFamily = 'Roboto'; settings.fontStyle = 'italic'"
+            mat-menu-item aria-label="Roboto italic">
+      <mat-icon>segment</mat-icon>
+      Roboto italic
     </button>
   </mat-menu>
 
   <b (click)="showAboutDialog()" class="startup-logo" aria-label="About">
-    <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-right: 12px">Clip</span>
+    <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-right: 12px; font-style: italic">Clip</span>
     <img (cdkDragEnded)="replaceLogo($event)" alt="#" cdkDrag height="110"
          src="favicon.ico" width="110">
-    <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-left: 12px">BOARD</span>
+    <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-left: 12px; font-style: normal">BOARD</span>
   </b>
 
   <img [class.show-hashy-bg]="hashy.showHashy | async" alt="hashy"

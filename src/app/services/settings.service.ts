@@ -4,10 +4,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SettingsService {
-  storageKeys = {
+  private storageKeys = {
     animationsDisabled: 'animations_disabled',
     language: 'language',
-    font: 'font-family'
+    fontFamily: 'font-family',
+    fontStyle: 'font-style',
   };
 
   private _animationsDisabled: boolean;
@@ -34,29 +35,48 @@ export class SettingsService {
     }
   }
 
-  private _font: Font;
-  get font(): Font { return this._font; }
-  set font(value: Font) {
-    this._font = value;
+  private _fontFamily: Font;
+  get fontFamily(): Font { return this._fontFamily; }
+  set fontFamily(value: Font) {
+    this._fontFamily = value;
     if (value === 'Roboto') {
-      localStorage.removeItem(this.storageKeys.font);
+      localStorage.removeItem(this.storageKeys.fontFamily);
       SettingsService.setFontFamily('var(--font-family-roboto)');
     } else {
-      localStorage.setItem(this.storageKeys.font, value);
+      localStorage.setItem(this.storageKeys.fontFamily, value);
       SettingsService.setFontFamily('var(--font-family-victor)');
     }
+  }
+
+  private _fontStyle: string;
+  get fontStyle(): string { return this._fontStyle; }
+  set fontStyle(value: string) {
+    this._fontStyle = value;
+    if (value === 'normal') {
+      localStorage.removeItem(this.storageKeys.fontStyle);
+    } else {
+      localStorage.setItem(this.storageKeys.fontStyle, value);
+    }
+    SettingsService.setFontStyle(value);
   }
 
   constructor() {
     this._animationsDisabled = localStorage.getItem(this.storageKeys.animationsDisabled) === 'True';
     this._language = localStorage.getItem(this.storageKeys.language) ?? 'en';
-    this._font = localStorage.getItem(this.storageKeys.font) as Font ?? 'Roboto';
-    SettingsService.setFontFamily(this._font);
+    this._fontFamily = localStorage.getItem(this.storageKeys.fontFamily) as Font ?? 'Roboto';
+    SettingsService.setFontFamily(this._fontFamily);
+    this._fontStyle = localStorage.getItem(this.storageKeys.fontStyle) ?? 'normal';
+    SettingsService.setFontStyle(this._fontStyle);
   }
 
   private static setFontFamily(value: string): void {
     (document.querySelector(':root') as any)
       .style.setProperty('--font-family', value);
+  }
+
+  private static setFontStyle(value: string): void {
+    (document.querySelector(':root') as any)
+      .style.setProperty('--font-style', value);
   }
 }
 
