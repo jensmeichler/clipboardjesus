@@ -159,6 +159,10 @@
     <mat-icon>settings</mat-icon>
   </button>
   <mat-menu #settingsMenu="matMenu">
+    <button [matMenuTriggerFor]="fontMenu" mat-menu-item [attr.aria-label]="'MAIN.SWITCH_FONT' | translate">
+      <mat-icon>font_download</mat-icon>
+      {{ 'MAIN.SWITCH_FONT' | translate }}
+    </button>
     <button [matMenuTriggerFor]="languageMenu" mat-menu-item [attr.aria-label]="'MAIN.SWITCH_LANGUAGE' | translate">
       <mat-icon>translate</mat-icon>
       {{ 'MAIN.SWITCH_LANGUAGE' | translate }}
@@ -209,6 +213,18 @@
     <button class="flags-container" (click)="setLanguage('ua')" mat-menu-item aria-label="Український">
       <div class="flag flag-ua"></div>
       Український
+    </button>
+  </mat-menu>
+  <mat-menu #fontMenu="matMenu">
+    <button style="font-family: var(--font-family-victor)"
+      (click)="settings.font = 'Victor Mono'" mat-menu-item aria-label="Victor Mono">
+      <mat-icon style="margin-right: 12px">segment</mat-icon>
+      Victor Mono
+    </button>
+    <button style="font-family: var(--font-family-roboto)"
+            (click)="settings.font = 'Roboto'" mat-menu-item aria-label="Roboto">
+      <mat-icon>segment</mat-icon>
+      Roboto
     </button>
   </mat-menu>
 

@@ -92,6 +92,7 @@
     "SAVE_N_ITEMS": "Save {{n}} items",
     "SAVE_TAB": "Save tab",
     "SHARE_TAB": "Share tab",
+    "SWITCH_FONT": "Switch font family",
     "SWITCH_LANGUAGE": "Switch language",
     "UNDO_LAST_ACTION": "Undo last action"
   },

@@ -6,7 +6,8 @@ import { Injectable } from '@angular/core';
 export class SettingsService {
   storageKeys = {
     animationsDisabled: 'animations_disabled',
-    language: 'language'
+    language: 'language',
+    font: 'font-family'
   };
 
   private _animationsDisabled: boolean;
@@ -33,8 +34,30 @@ export class SettingsService {
     }
   }
 
+  private _font: Font;
+  get font(): Font { return this._font; }
+  set font(value: Font) {
+    this._font = value;
+    if (value === 'Roboto') {
+      localStorage.removeItem(this.storageKeys.font);
+      SettingsService.setFontFamily('var(--font-family-roboto)');
+    } else {
+      localStorage.setItem(this.storageKeys.font, value);
+      SettingsService.setFontFamily('var(--font-family-victor)');
+    }
+  }
+
   constructor() {
     this._animationsDisabled = localStorage.getItem(this.storageKeys.animationsDisabled) === 'True';
     this._language = localStorage.getItem(this.storageKeys.language) ?? 'en';
+    this._font = localStorage.getItem(this.storageKeys.font) as Font ?? 'Roboto';
+    SettingsService.setFontFamily(this._font);
+  }
+
+  private static setFontFamily(value: string): void {
+    (document.querySelector(':root') as any)
+      .style.setProperty('--font-family', value);
   }
 }
+
+type Font = 'Victor Mono' | 'Roboto'

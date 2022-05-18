@@ -62,7 +62,7 @@ export class CursorDirective {
     });
 
     if (!isDraggableNote) {
-      this.position!.style.bottom = '-20px';
+      this.position!.style.bottom = '-22px';
     }
   }
 
@@ -70,7 +70,7 @@ export class CursorDirective {
   onWindowLeave(): void {
     if (this.settings.animationsDisabled) return;
 
-    this.position!.style.bottom = '-20px';
+    this.position!.style.bottom = '-22px';
     this.cursor.style.display = 'none';
   }
 

@@ -106,6 +106,7 @@
 .startup-logo {
   cursor: pointer;
   font-size: 8rem;
+  font-family: 'Victor Mono', monospace;
   position: fixed;
   top: 0;
   right: 0;
@@ -114,7 +115,7 @@
   justify-content: center;
   color: var(--color-secondary);
   animation: logo-animation cubic-bezier(.5, -.3, 0, 2) 6s;
-  transform: scale(.2) translate(10em, -1.2em);
+  transform: translate(2em, -0.24em) scale(0.2);
   width: auto;
   filter: drop-shadow(0 0 16px black);
   z-index: 103;
