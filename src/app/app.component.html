@@ -196,11 +196,6 @@
       <mat-icon>info</mat-icon>
       {{ 'MAIN.ABOUT_CLIPBOARD' | translate }}
     </button>
-    <a [routerLink]="'3rdpartylicenses.txt'" mat-menu-item target="_blank"
-       [attr.aria-label]="'MAIN.LICENCES' | translate">
-      <mat-icon>copyright</mat-icon>
-      {{ 'MAIN.LICENCES' | translate }}
-    </a>
     <button (click)="reloadApp()" mat-menu-item [attr.aria-label]="'MAIN.RELOAD_APP' | translate">
       <mat-icon>cached</mat-icon>
       {{ 'MAIN.RELOAD_APP' | translate }}

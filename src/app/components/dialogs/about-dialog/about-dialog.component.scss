@@ -17,3 +17,16 @@
   justify-content: left;
   margin-left: 8px;
 }
+
+.thumb {
+  font-size: 1.5rem;
+  vertical-align: bottom;
+}
+
+// Preventing border on enter dialog
+.licence-button {
+  text-decoration: none;
+  &:-webkit-any-link:focus-visible {
+    outline: none;
+  }
+}
