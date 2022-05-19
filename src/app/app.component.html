@@ -202,15 +202,15 @@
     </button>
   </mat-menu>
   <mat-menu #languageMenu="matMenu">
-    <button class="flags-container" (click)="setLanguage('en')" mat-menu-item aria-label="English">
+    <button class="flags-container" (click)="settings.language = 'en'" mat-menu-item aria-label="English">
       <div class="flag flag-en"></div>
       English
     </button>
-    <button class="flags-container" (click)="setLanguage('de')" mat-menu-item aria-label="Deutsch">
+    <button class="flags-container" (click)="settings.language = 'de'" mat-menu-item aria-label="Deutsch">
       <div class="flag flag-de"></div>
       Deutsch
     </button>
-    <button class="flags-container" (click)="setLanguage('ua')" mat-menu-item aria-label="Український">
+    <button class="flags-container" (click)="settings.language = 'ua'" mat-menu-item aria-label="Український">
       <div class="flag flag-ua"></div>
       Український
     </button>

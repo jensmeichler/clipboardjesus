@@ -53,7 +53,6 @@ export class AppComponent implements OnInit {
     private readonly translate: TranslateService,
     public readonly settings: SettingsService
   ) {
-    this.translate.setDefaultLang(settings.language);
   }
 
   ngOnInit(): void {
@@ -284,11 +283,6 @@ export class AppComponent implements OnInit {
 
   reloadApp(): void {
     window.location.reload();
-  }
-
-  setLanguage(language: string): void {
-    this.translate.setDefaultLang(language);
-    this.settings.language = language;
   }
 
   replaceLogo(event: CdkDragEnd): void {

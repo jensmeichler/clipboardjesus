@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {TranslateService} from "@ngx-translate/core";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,7 @@ export class SettingsService {
   get language(): string { return this._language; }
   set language(value: string) {
     this._language = value;
+    this.translate.setDefaultLang(value);
     if (value === 'en') {
       localStorage.removeItem(this.storageKeys.language);
     } else {
@@ -60,11 +62,15 @@ export class SettingsService {
     SettingsService.setFontStyle(value);
   }
 
-  constructor() {
+  constructor(private readonly translate: TranslateService) {
     this._animationsDisabled = localStorage.getItem(this.storageKeys.animationsDisabled) === 'True';
+
     this._language = localStorage.getItem(this.storageKeys.language) ?? 'en';
+    translate.setDefaultLang(this._language);
+
     this._fontFamily = localStorage.getItem(this.storageKeys.fontFamily) as Font ?? 'Roboto';
     SettingsService.setFontFamily(this._fontFamily);
+
     this._fontStyle = localStorage.getItem(this.storageKeys.fontStyle) ?? 'normal';
     SettingsService.setFontStyle(this._fontStyle);
   }
