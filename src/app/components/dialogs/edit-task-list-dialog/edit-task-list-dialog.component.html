@@ -6,58 +6,58 @@
   <h1 mat-dialog-title class="flex-container"
       cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane">
-    <span>{{ 'DIALOGS.EDIT.EDIT_TASK_LIST' | translate }}</span>
+    <span>{{ 'EDIT_TASK_LIST' | translate }}</span>
     <a *ngIf="data.foregroundColor && data.backgroundColor">
       <input [(ngModel)]="data.foregroundColor" style="margin-right: 5px" type="color"
-             matTooltipPosition="above" [matTooltip]="'DIALOGS.EDIT.EDIT_TEXT_COLOR' | translate">
+             matTooltipPosition="above" [matTooltip]="'EDIT_TEXT_COLOR' | translate">
       <input [(ngModel)]="data.backgroundColor" style="margin-right: 5px; margin-left: 5px" type="color"
-             matTooltipPosition="above" [matTooltip]="'DIALOGS.EDIT.EDIT_BACKGROUND_COLOR' | translate">
+             matTooltipPosition="above" [matTooltip]="'EDIT_BACKGROUND_COLOR' | translate">
       <input [(ngModel)]="data.backgroundColorGradient" style="margin-left: 5px" type="color" matTooltipPosition="above"
-             [matTooltip]="(data.backgroundColorGradient ? 'DIALOGS.EDIT.EDIT_GRADIENT_COLOR' : 'DIALOGS.EDIT.ADD_GRADIENT') | translate">
+             [matTooltip]="(data.backgroundColorGradient ? 'EDIT_GRADIENT_COLOR' : 'ADD_GRADIENT') | translate">
     </a>
   </h1>
   <div mat-dialog-content style="margin: 0; padding: 0">
     <div style="display: flex; gap: 20px">
       <mat-form-field color="accent" [style.width]="'100%'" [style.minWidth]="'20px'">
-        <mat-label>{{ 'DIALOGS.EDIT.POSITION_X' | translate }}</mat-label>
+        <mat-label>{{ 'POSITION_X' | translate }}</mat-label>
         <input matInput [(ngModel)]="data.posX" type="number">
       </mat-form-field>
       <mat-form-field color="accent" [style.width]="'100%'" [style.minWidth]="'20px'">
-        <mat-label>{{ 'DIALOGS.EDIT.POSITION_Y' | translate }}</mat-label>
+        <mat-label>{{ 'POSITION_Y' | translate }}</mat-label>
         <input matInput [(ngModel)]="data.posY" type="number">
       </mat-form-field>
       <mat-form-field color="accent" [style.width]="'100%'" [style.minWidth]="'20px'">
-        <mat-label>{{ 'DIALOGS.EDIT.POSITION_Z' | translate }}</mat-label>
+        <mat-label>{{ 'POSITION_Z' | translate }}</mat-label>
         <input matInput [(ngModel)]="data.posZ" type="number">
       </mat-form-field>
     </div>
     <mat-form-field color="accent" [style.width]="'100%'">
-      <mat-label>{{ 'DIALOGS.EDIT.HEADER' | translate }}</mat-label>
+      <mat-label>{{ 'HEADER' | translate }}</mat-label>
       <input matInput [(ngModel)]="data.header">
     </mat-form-field>
     <mat-form-field color="accent" [style.width]="'100%'">
-      <mat-label>{{ 'DIALOGS.EDIT.TASKS' | translate }}</mat-label>
+      <mat-label>{{ 'TASKS' | translate }}</mat-label>
       <mat-chip-list #chipList>
         <mat-chip
           *ngFor="let item of data.items"
           [value]="item"
           (removed)="removeItem(item)">
           {{item.value}}
-          <button matChipRemove [attr.aria-label]="'COMMON.CANCEL' | translate">
+          <button matChipRemove [attr.aria-label]="'CANCEL' | translate">
             <mat-icon>cancel</mat-icon>
           </button>
         </mat-chip>
         <input cdkFocusInitial
-          [placeholder]="'DIALOGS.EDIT.NEW_ITEM' | translate"
+          [placeholder]="'NEW_ITEM' | translate"
           [matChipInputFor]="chipList"
           (matChipInputTokenEnd)="addItem($event)">
       </mat-chip-list>
-      <mat-hint>{{ 'DIALOGS.EDIT.TASKS_HINT' | translate }}</mat-hint>
+      <mat-hint>{{ 'TASKS_HINT' | translate }}</mat-hint>
     </mat-form-field>
   </div>
 
   <div class="dialog-button-group">
-    <button mat-button (click)="cancel()">{{ 'COMMON.CANCEL' | translate }}</button>
-    <button mat-button (click)="submit()" class="ok-button">{{ 'COMMON.OK' | translate }}</button>
+    <button mat-button (click)="cancel()">{{ 'CANCEL' | translate }}</button>
+    <button mat-button (click)="submit()" class="ok-button">{{ 'OK' | translate }}</button>
   </div>
 </div>

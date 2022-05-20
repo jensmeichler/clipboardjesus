@@ -18,14 +18,14 @@
         <span [style.display]="item === itemToEdit ? 'contents' : 'block'">
           <ng-container *ngIf="item.isSubTask">
             <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
-                    [attr.aria-label]="'TASK_LIST.MOVE_TO_LEFT' | translate"
+                    [attr.aria-label]="'MOVE_TO_LEFT' | translate"
                     style="margin-left: -6px">
               <mat-icon>remove</mat-icon>
             </button>
           </ng-container>
           <ng-container *ngIf="!item.isSubTask">
             <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
-                    [attr.aria-label]="'TASK_LIST.MOVE_TO_RIGHT' | translate"
+                    [attr.aria-label]="'MOVE_TO_RIGHT' | translate"
                     style="margin-left: -34px">
               <mat-icon>arrow_right</mat-icon>
             </button>
@@ -34,7 +34,7 @@
             <div *ngIf="item !== itemToEdit" [innerHTML]="stringParser.convert(item.value)"></div>
           </mat-checkbox>
           <button *ngIf="item !== itemToEdit" (click)="addItemAfter(item)" class="item-button" mat-icon-button
-                  [attr.aria-label]="'TASK_LIST.ADD_TASK' | translate">
+                  [attr.aria-label]="'ADD_TASK' | translate">
             <mat-icon>add</mat-icon>
           </button>
           <input *ngIf="item === itemToEdit" (keydown)="onKeyPressed($event, item)" (mousedown)="$event.stopPropagation()"
@@ -42,22 +42,22 @@
         </span>
         <span *ngIf="item !== itemToEdit">
           <button (click)="startEditItem(item)" class="item-button" mat-icon-button
-                  [attr.aria-label]="'DRAGGABLE.EDIT' | translate">
+                  [attr.aria-label]="'EDIT' | translate">
             <mat-icon>edit</mat-icon>
           </button>
           <button (click)="deleteItem(item)" class="item-button" mat-icon-button
-                  [attr.aria-label]="'DRAGGABLE.DELETE' | translate" style="margin-right: -8px">
+                  [attr.aria-label]="'DELETE' | translate" style="margin-right: -8px">
             <mat-icon>delete</mat-icon>
           </button>
         </span>
         <button *ngIf="item === itemToEdit && item.value" (click)="endEditItem(item)"
                 class="item-button with-grow-animation" mat-icon-button
-                [attr.aria-label]="'DRAGGABLE.SELECT' | translate" style="margin-right: -8px">
+                [attr.aria-label]="'SELECT' | translate" style="margin-right: -8px">
           <mat-icon>check</mat-icon>
         </button>
         <button *ngIf="item === itemToEdit && !item.value" (click)="endEditItem(item)"
                 class="item-button with-grow-animation" mat-icon-button
-                [attr.aria-label]="'COMMON.CANCEL' | translate" style="margin-right: -8px">
+                [attr.aria-label]="'CANCEL' | translate" style="margin-right: -8px">
           <mat-icon>close</mat-icon>
         </button>
       </span>
@@ -65,17 +65,17 @@
   </mat-card-content>
 
   <mat-card-actions align="end">
-    <button (click)="addItem()" mat-icon-button [attr.aria-label]="'COMMON.ADD' | translate">
+    <button (click)="addItem()" mat-icon-button [attr.aria-label]="'ADD' | translate">
       <mat-icon>add</mat-icon>
     </button>
-    <button (click)="edit()" mat-icon-button [attr.aria-label]="'DRAGGABLE.EDIT' | translate">
+    <button (click)="edit()" mat-icon-button [attr.aria-label]="'EDIT' | translate">
       <mat-icon>edit</mat-icon>
     </button>
     <button (click)="delete(); $event.stopPropagation()" mat-icon-button
-            [attr.aria-label]="'DRAGGABLE.DELETE' | translate">
+            [attr.aria-label]="'DELETE' | translate">
       <mat-icon>delete</mat-icon>
     </button>
-    <button (click)="showContextMenu($event)" mat-icon-button [attr.aria-label]="'COMMON.MORE' | translate">
+    <button (click)="showContextMenu($event)" mat-icon-button [attr.aria-label]="'MORE' | translate">
       <mat-icon>more_vert</mat-icon>
     </button>
   </mat-card-actions>
@@ -93,58 +93,58 @@
             : taskList.backgroundColor"
        [style.color]="taskList.foregroundColor">
     <button *ngIf="!taskList.selected" (click)="select()" mat-menu-item
-            [attr.aria-label]="'DRAGGABLE.SELECT' | translate">
+            [attr.aria-label]="'SELECT' | translate">
       <mat-icon>check</mat-icon>
-      {{ 'DRAGGABLE.SELECT' | translate }}
+      {{ 'SELECT' | translate }}
     </button>
     <button *ngIf="taskList.selected" (click)="select()" mat-menu-item
-            [attr.aria-label]="'DRAGGABLE.REMOVE_SELECTION' | translate">
+            [attr.aria-label]="'REMOVE_SELECTION' | translate">
       <mat-icon>close</mat-icon>
-      {{ 'DRAGGABLE.REMOVE_SELECTION' | translate }}
+      {{ 'REMOVE_SELECTION' | translate }}
     </button>
     <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="edit()" mat-menu-item
-              [attr.aria-label]="'DRAGGABLE.EDIT' | translate">
+              [attr.aria-label]="'EDIT' | translate">
         <mat-icon>edit</mat-icon>
-        {{ 'DRAGGABLE.EDIT' | translate }}
+        {{ 'EDIT' | translate }}
       </button>
       <button (click)="delete()" mat-menu-item
-              [attr.aria-label]="'DRAGGABLE.DELETE' | translate">
+              [attr.aria-label]="'DELETE' | translate">
         <mat-icon>delete</mat-icon>
-        {{ 'DRAGGABLE.DELETE' | translate }}
+        {{ 'DELETE' | translate }}
       </button>
     </ng-container>
     <ng-container *ngIf="!dataService.selectedItemsCount">
       <button [matMenuTriggerFor]="movement" mat-menu-item
-              [attr.aria-label]="'DRAGGABLE.MOVE' | translate">
+              [attr.aria-label]="'MOVE' | translate">
         <mat-icon>auto_awesome_motion</mat-icon>
-        {{ 'DRAGGABLE.MOVE' | translate }}
+        {{ 'MOVE' | translate }}
       </button>
       <ng-container *ngIf="dataService.tabs.length > 1">
         <button [matMenuTriggerFor]="tabs" mat-menu-item
-                [attr.aria-label]="'DRAGGABLE.SEND_TO_TAB' | translate">
+                [attr.aria-label]="'SEND_TO_TAB' | translate">
           <mat-icon>tab</mat-icon>
-          {{ 'DRAGGABLE.SEND_TO_TAB' | translate }}
+          {{ 'SEND_TO_TAB' | translate }}
         </button>
       </ng-container>
       <ng-container *ngIf="dataService.getColorizedObjects(taskList).length > 1">
         <button [matMenuTriggerFor]="items" mat-menu-item
-                [attr.aria-label]="'DRAGGABLE.COPY_COLOR_FROM' | translate">
+                [attr.aria-label]="'COPY_COLOR_FROM' | translate">
           <mat-icon>colorize</mat-icon>
-          {{ 'DRAGGABLE.COPY_COLOR_FROM' | translate }}
+          {{ 'COPY_COLOR_FROM' | translate }}
         </button>
       </ng-container>
       <ng-container *ngIf="dataService.getColorizedObjects(taskList).length === 1">
         <button (click)="copyColorFrom(dataService.getColorizedObjects(taskList)[0])" mat-menu-item
-                [attr.aria-label]="'DRAGGABLE.COPY_OTHER_COLOR' | translate">
+                [attr.aria-label]="'COPY_OTHER_COLOR' | translate">
           <mat-icon>colorize</mat-icon>
-          {{ 'DRAGGABLE.COPY_OTHER_COLOR' | translate }}
+          {{ 'COPY_OTHER_COLOR' | translate }}
         </button>
       </ng-container>
       <button (click)="addItem()" mat-menu-item
-              [attr.aria-label]="'TASK_LIST.ADD_TASK' | translate">
+              [attr.aria-label]="'ADD_TASK' | translate">
         <mat-icon>add</mat-icon>
-        {{ 'TASK_LIST.ADD_TASK' | translate }}
+        {{ 'ADD_TASK' | translate }}
       </button>
     </ng-container>
   </div>
@@ -156,24 +156,24 @@
             : taskList.backgroundColor"
        [style.color]="taskList.foregroundColor">
     <button (click)="dataService.bringToFront(taskList)" mat-menu-item
-            [attr.aria-label]="'DRAGGABLE.BRING_TO_FRONT' | translate">
+            [attr.aria-label]="'BRING_TO_FRONT' | translate">
       <mat-icon>flip_to_front</mat-icon>
-      {{ 'DRAGGABLE.BRING_TO_FRONT' | translate }}
+      {{ 'BRING_TO_FRONT' | translate }}
     </button>
     <button (click)="dataService.bringForward(taskList)" mat-menu-item
-            [attr.aria-label]="'DRAGGABLE.BRING_FORWARD' | translate">
+            [attr.aria-label]="'BRING_FORWARD' | translate">
       <mat-icon>add_circle_outline</mat-icon>
-      {{ 'DRAGGABLE.BRING_FORWARD' | translate }}
+      {{ 'BRING_FORWARD' | translate }}
     </button>
     <button (click)="dataService.sendBackward(taskList)" mat-menu-item
-            [attr.aria-label]="'DRAGGABLE.SEND_BACKWARD' | translate">
+            [attr.aria-label]="'SEND_BACKWARD' | translate">
       <mat-icon>remove_circle_outline</mat-icon>
-      {{ 'DRAGGABLE.SEND_BACKWARD' | translate }}
+      {{ 'SEND_BACKWARD' | translate }}
     </button>
     <button (click)="dataService.flipToBack(taskList)" mat-menu-item
-            [attr.aria-label]="'DRAGGABLE.SEND_TO_BACK' | translate">
+            [attr.aria-label]="'SEND_TO_BACK' | translate">
       <mat-icon>flip_to_back</mat-icon>
-      {{ 'DRAGGABLE.SEND_TO_BACK' | translate }}
+      {{ 'SEND_TO_BACK' | translate }}
     </button>
   </div>
 </mat-menu>
@@ -185,7 +185,7 @@
        [style.color]="taskList.foregroundColor">
     <ng-container *ngFor="let tab of dataService.tabs">
       <button (click)="moveToTab(tab.index)" *ngIf="dataService.selectedTabIndex !== tab.index" mat-menu-item
-              [attr.aria-label]="'DRAGGABLE.SEND_TO_TAB' | translate">
+              [attr.aria-label]="'SEND_TO_TAB' | translate">
         <mat-icon>arrow_forward</mat-icon>
         {{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}
       </button>
@@ -199,7 +199,7 @@
                 ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
                 : item.backgroundColor"
             [style.color]="item.foregroundColor"
-            mat-menu-item [attr.aria-label]="'DRAGGABLE.COPY_COLOR_FROM' | translate">
+            mat-menu-item [attr.aria-label]="'COPY_COLOR_FROM' | translate">
       <mat-icon>color_lens</mat-icon>
       <ng-container *ngIf="!item.backgroundColorGradient">
         {{item.backgroundColor}}

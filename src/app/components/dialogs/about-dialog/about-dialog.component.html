@@ -1,18 +1,18 @@
 <h1 mat-dialog-title style="margin: var(--margin-edge)">
-  {{ 'DIALOGS.ABOUT.ABOUT' | translate }}
+  {{ 'ABOUT' | translate }}
   <span style="margin-right: 4px">Clip</span>
   <img alt="#" height="20px" src="favicon.ico" style="transform: translateY(1px)" width="20px">
   <span style="margin-left: 4px">BOARD</span>
 </h1>
 <mat-dialog-content style="margin: 0">
-  <span [innerHTML]="'DIALOGS.ABOUT.ABOUT_CLIPBOARD' | translate"></span>
+  <span [innerHTML]="'ABOUT_DIALOG_TEXT_1' | translate"></span>
   <br><br>
-  <span [innerHTML]="'DIALOGS.ABOUT.ABOUT_DEVELOPER' | translate"></span>
+  <span [innerHTML]="'ABOUT_DIALOG_TEXT_2' | translate"></span>
   <br><br>
   <span class="thumb">☞&nbsp;</span>
   <a class="licence-button" [routerLink]="'3rdpartylicenses.txt'"
-     [attr.aria-label]="'MAIN.LICENCES' | translate" target="_blank">
-    <em>{{ 'MAIN.LICENCES' | translate }}</em>
+     [attr.aria-label]="'LICENCES' | translate" target="_blank">
+    <em>{{ 'LICENCES' | translate }}</em>
   </a>
 
   <div class="hashy-icon-wrapper">
