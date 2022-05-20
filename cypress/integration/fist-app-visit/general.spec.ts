@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-context('First time visiting app', () => {
+context('First time visiting visit-with-data', () => {
   beforeEach(() => {
     cy.visit('/')
   })
