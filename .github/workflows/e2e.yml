@@ -6,10 +6,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        run: npm install
-      - name: Start development server
-        run: npm run start
-      - name: Run e2e tests
-        run: npm run e2e:run
+    - name: Cypress run on chrome
+      uses: cypress-io/github-action@v2
+      with:
+        browser: chrome
+        start: npm run start
+        wait-on: 'http://localhost:4201'
+
+    - name: Cypress run on firefox
+      uses: cypress-io/github-action@v2
+      with:
+        browser: firefox
+        start: npm run start
+        wait-on: 'http://localhost:4201'
+
+    - name: Cypress run on edge
+      uses: cypress-io/github-action@v2
+      with:
+        browser: edge
+        start: npm run start
+        wait-on: 'http://localhost:4201'
