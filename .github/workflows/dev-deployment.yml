@@ -19,4 +19,4 @@ jobs:
         with:
           branch: gh-pages
           folder: dist/clipboard
-          ssh-key: ${{ secrets.GH_PAGES_TOKEN }}
+          ssh-key: ${{ secrets.GH_PAGES_SSH_TOKEN }}
