@@ -14,5 +14,9 @@ jobs:
       - name: Build project
         run: npm run build
 
-      - name: Deploy app to github pages
-        run: npx angular-cli-ghpages --dir=dist/clipboard
+      - name: Deploy to Github pages
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages
+          folder: dist/clipboard
+          ssh-key: ${{ secrets.GH_PAGES_TOKEN }}
