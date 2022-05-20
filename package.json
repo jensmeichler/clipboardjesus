@@ -6,7 +6,8 @@
     "restore": "npm install",
     "start": "ng serve --port 4201",
     "build": "ng build --base-href",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "test": "cypress open"
   },
   "private": true,
   "dependencies": {
@@ -45,6 +46,7 @@
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "5.17.0",
     "@typescript-eslint/parser": "5.17.0",
+    "cypress": "^9.6.1",
     "eslint": "^8.12.0",
     "typescript": "~4.6.2"
   }
