@@ -12,24 +12,25 @@ export class SettingsService {
     fontStyle: 'font-style',
   };
 
-  private _animationsDisabled: boolean;
+  private _animationsDisabled!: boolean;
   get animationsDisabled(): boolean { return this._animationsDisabled; }
   set animationsDisabled(value: boolean) {
     this._animationsDisabled = value;
     if (value) {
-      localStorage.setItem(this.storageKeys.animationsDisabled, 'True');
       const cursor = document.getElementById('cursor');
       if (cursor) cursor.style.display = 'none';
+      localStorage.setItem(this.storageKeys.animationsDisabled, 'True');
     } else {
       localStorage.removeItem(this.storageKeys.animationsDisabled);
     }
   }
 
-  private _language: string;
+  private _language!: string;
   get language(): string { return this._language; }
   set language(value: string) {
     this._language = value;
     this.translate.setDefaultLang(value);
+    document.documentElement.setAttribute("lang", value);
     if (value === 'en') {
       localStorage.removeItem(this.storageKeys.language);
     } else {
@@ -37,42 +38,36 @@ export class SettingsService {
     }
   }
 
-  private _fontFamily: Font;
+  private _fontFamily!: Font;
   get fontFamily(): Font { return this._fontFamily; }
   set fontFamily(value: Font) {
     this._fontFamily = value;
     if (value === 'Roboto') {
-      localStorage.removeItem(this.storageKeys.fontFamily);
       SettingsService.setFontFamily('var(--font-family-roboto)');
+      localStorage.removeItem(this.storageKeys.fontFamily);
     } else {
-      localStorage.setItem(this.storageKeys.fontFamily, value);
       SettingsService.setFontFamily('var(--font-family-victor)');
+      localStorage.setItem(this.storageKeys.fontFamily, value);
     }
   }
 
-  private _fontStyle: string;
+  private _fontStyle!: string;
   get fontStyle(): string { return this._fontStyle; }
   set fontStyle(value: string) {
     this._fontStyle = value;
+    SettingsService.setFontStyle(value);
     if (value === 'normal') {
       localStorage.removeItem(this.storageKeys.fontStyle);
     } else {
       localStorage.setItem(this.storageKeys.fontStyle, value);
     }
-    SettingsService.setFontStyle(value);
   }
 
   constructor(private readonly translate: TranslateService) {
-    this._animationsDisabled = localStorage.getItem(this.storageKeys.animationsDisabled) === 'True';
-
-    this._language = localStorage.getItem(this.storageKeys.language) ?? 'en';
-    translate.setDefaultLang(this._language);
-
-    this._fontFamily = localStorage.getItem(this.storageKeys.fontFamily) as Font ?? 'Roboto';
-    SettingsService.setFontFamily(this._fontFamily);
-
-    this._fontStyle = localStorage.getItem(this.storageKeys.fontStyle) ?? 'normal';
-    SettingsService.setFontStyle(this._fontStyle);
+    this.animationsDisabled = localStorage.getItem(this.storageKeys.animationsDisabled) === 'True';
+    this.language = localStorage.getItem(this.storageKeys.language) ?? 'en';
+    this.fontFamily = localStorage.getItem(this.storageKeys.fontFamily) as Font ?? 'Roboto';
+    this.fontStyle = localStorage.getItem(this.storageKeys.fontStyle) ?? 'normal';
   }
 
   private static setFontFamily(value: string): void {
