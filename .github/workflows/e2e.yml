@@ -6,23 +6,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Cypress run on chrome
-      uses: cypress-io/github-action@v2
-      with:
-        browser: chrome
-        start: npm run start
-        wait-on: 'http://localhost:4201'
+      - name: Cypress run on chrome
+        uses: cypress-io/github-action@v2
+        with:
+          browser: chrome
+          start: npm run start
+          wait-on: 'http://localhost:4201'
 
-    - name: Cypress run on firefox
-      uses: cypress-io/github-action@v2
-      with:
-        browser: firefox
-        start: npm run start
-        wait-on: 'http://localhost:4201'
+      - name: Cypress run on firefox
+        uses: cypress-io/github-action@v2
+        with:
+          browser: firefox
+          start: npm run start
+          wait-on: 'http://localhost:4201'
 
-    - name: Cypress run on edge
-      uses: cypress-io/github-action@v2
-      with:
-        browser: edge
-        start: npm run start
-        wait-on: 'http://localhost:4201'
+      - name: Cypress run on edge
+        uses: cypress-io/github-action@v2
+        with:
+          browser: edge
+          start: npm run start
+          wait-on: 'http://localhost:4201'
