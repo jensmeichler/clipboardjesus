@@ -1,0 +1,15 @@
+name: Running e2e tests
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Start development server
+        run: npm run start
+      - name: Run e2e tests
+        run: npm run e2e:run
