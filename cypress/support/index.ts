@@ -8,7 +8,7 @@ declare global {
        * Custom command to seed tabs to localStorage.
        * @example cy.seed(tabs)
        */
-      seed(testData: Tab[]): Chainable
+      seed(tabs: Tab[]): Chainable
     }
   }
 }

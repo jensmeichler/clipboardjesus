@@ -1,31 +1,30 @@
 /// <reference types="cypress" />
-import {Tab} from "../../../src/app/models";
+
+import singleNoteTab from '../test-data/single-note.json';
 
 context('Notes tests', () => {
   beforeEach(() => {
-    const testData: Tab[] = [{
-      index: 0,
-      color: "#131313",
-      notes: [{
-          foregroundColor: "#ffffff",
-          backgroundColor: "#212121",
-          posX: 80,
-          posY: 100,
-          posZ: 1,
-          content: "test"
-        }]
-    }];
-
-    cy.seed(testData);
+    cy.seed([singleNoteTab]);
     cy.visit('/')
   })
 
   describe('Layout checks', () => {
+    xit('should contain required buttons', () => {
+      //TODO
+    })
+
+    xit('should contain a single note', () => {
+      //TODO
+    })
+
+    xit('should contain text "test"', () => {
+      //TODO
+    })
   })
 
   describe('Functionality checks', () => {
-    it('should open new note dialog on context menu selection', () => {
-
+    xit('should open new note dialog on context menu selection', () => {
+      //TODO
     })
   })
 })
