@@ -1,0 +1,14 @@
+{
+  "index": 0,
+  "color": "#131313",
+  "notes": [
+    {
+      "foregroundColor": "#ffffff",
+      "backgroundColor": "#212121",
+      "posX": 58,
+      "posY": 95,
+      "posZ": 1,
+      "content": "test"
+    }
+  ]
+}

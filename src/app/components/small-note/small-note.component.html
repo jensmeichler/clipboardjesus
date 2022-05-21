@@ -5,7 +5,8 @@
         [cbHighlightedItem]="note"
         (click)="copy()"
         (contextmenu)="showContextMenu($event)"
-        role="menuitem">
+        role="menuitem"
+        data-cy="small-note">
   {{ note.content }}
 </button>
 

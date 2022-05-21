@@ -4,7 +4,8 @@
      (drop)="dropFile($event)"
      [style.background]="tab.color !== '#131313'
        ? 'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + tab.color + ', #131313)'
-       : '#131313'">
+       : '#131313'"
+     data-cy="tab">
   <cb-note *ngFor="let note of tab.notes"
         cdkDrag class="draggable-note"
         [class.draggable-note-selected]="note.selected"
