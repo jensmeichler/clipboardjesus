@@ -14,19 +14,19 @@ context('Notes tests', () => {
     })
 
     it('should contain a single note', () => {
-      cy.get('cb-note').should('have.length', 1);
+      cy.dataCy('note').should('have.length', 1);
     })
 
     it('should contain text "test"', () => {
-      cy.get('cb-note').should('contain', 'test');
+      cy.dataCy('note').should('contain', 'test');
     })
   })
 
   describe('Functionality checks', () => {
     it('should open new note dialog on context menu selection', () => {
-      cy.get('cb-tab').rightclick();
+      cy.dataCy('tab').rightclick();
       cy.dataCy('tab-context-menu').contains('Create note').click();
-      cy.get('cb-edit-note-dialog').should('be.visible');
+      cy.dataCy('edit-note-dialog').should('be.visible');
     })
   })
 })

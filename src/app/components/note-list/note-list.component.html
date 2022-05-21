@@ -8,7 +8,8 @@
           [style.background-color]="noteList.backgroundColor"
           [style.color]="noteList.foregroundColor"
           [cbHighlightColor]="noteList.backgroundColorGradient"
-          [cbHighlightedItem]="noteList">
+          [cbHighlightedItem]="noteList"
+          data-cy="note-list">
   <mat-card-title *ngIf="noteList.header">
     {{ noteList.header }}
   </mat-card-title>

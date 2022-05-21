@@ -2,7 +2,8 @@
      [style.color]="data.foregroundColor"
      [style.background]="data.backgroundColorGradient
         ? 'linear-gradient(to bottom, ' + data.backgroundColor + ', ' + data.backgroundColorGradient
-        : data.backgroundColor">
+        : data.backgroundColor"
+     data-cy="edit-task-list-dialog">
   <h1 mat-dialog-title class="flex-container"
       cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane">

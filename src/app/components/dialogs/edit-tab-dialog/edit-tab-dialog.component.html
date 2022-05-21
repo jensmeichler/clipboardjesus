@@ -1,6 +1,6 @@
-<div
-  [style.background]="'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + data.color + ', #131313)'"
-  [style.padding.px]="16">
+<div [style.padding.px]="16"
+     [style.background]="'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + data.color + ', #131313)'"
+     data-cy="edit-tab-dialog">
   <h1 cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane" class="flex-container"
       mat-dialog-title>

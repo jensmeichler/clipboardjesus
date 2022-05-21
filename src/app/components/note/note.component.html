@@ -9,7 +9,8 @@
           [style.background-color]="note.backgroundColor"
           [style.color]="note.foregroundColor" matRipple
           [cbHighlightColor]="note.backgroundColorGradient"
-          [cbHighlightedItem]="note">
+          [cbHighlightedItem]="note"
+          data-cy="note">
   <mat-card-title *ngIf="note.header" class="flex-container">
     {{ note.header }}
   </mat-card-title>
