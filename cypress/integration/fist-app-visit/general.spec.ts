@@ -2,7 +2,7 @@
 
 context('First time visiting visit-with-data', () => {
   beforeEach(() => {
-    cy.visit('/')
+    cy.visit('/');
   })
 
   describe('Layout checks', () => {
@@ -41,6 +41,18 @@ context('First time visiting visit-with-data', () => {
       cy.get('cb-about-dialog').should('not.exist');
       cy.get('#logo').click();
       cy.get('cb-about-dialog').should('be.visible');
+    })
+
+    xit('should be localized in english', () => {
+      //TODO
+    })
+
+    xit('should be localized in german', () => {
+      //TODO
+    })
+
+    xit('should be localized in ukrainian', () => {
+      //TODO
     })
   })
 })

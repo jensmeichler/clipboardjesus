@@ -1,11 +1,11 @@
 /// <reference types="cypress" />
 
-import singleNoteTab from '../test-data/single-note.json';
+import singleNoteTab from '../../fixtures/single-note.json';
 
 context('Notes tests', () => {
   beforeEach(() => {
     cy.seed([singleNoteTab]);
-    cy.visit('/')
+    cy.visit('/');
   })
 
   describe('Layout checks', () => {
@@ -13,12 +13,12 @@ context('Notes tests', () => {
       //TODO
     })
 
-    xit('should contain a single note', () => {
-      //TODO
+    it('should contain a single note', () => {
+      cy.get('cb-note').should('have.length', 1);
     })
 
-    xit('should contain text "test"', () => {
-      //TODO
+    it('should contain text "test"', () => {
+      cy.get('cb-note').should('contain', 'test');
     })
   })
 
