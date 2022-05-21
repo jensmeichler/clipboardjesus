@@ -23,8 +23,10 @@ context('Notes tests', () => {
   })
 
   describe('Functionality checks', () => {
-    xit('should open new note dialog on context menu selection', () => {
-      //TODO
+    it('should open new note dialog on context menu selection', () => {
+      cy.get('cb-tab').rightclick();
+      cy.get('#tab-context-menu').contains('Create note').click();
+      cy.get('cb-edit-note-dialog').should('be.visible');
     })
   })
 })
