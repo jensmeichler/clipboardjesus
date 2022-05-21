@@ -30,15 +30,18 @@
       <mat-icon *ngIf="note.code">code_off</mat-icon>
     </button>
     <button (click)="edit($event, true)" (mousedown)="rippleDisabled=true"
-            mat-icon-button [attr.aria-label]="'EDIT' | translate">
+            mat-icon-button [attr.aria-label]="'EDIT' | translate"
+            data-cy="edit-note">
       <mat-icon>edit</mat-icon>
     </button>
     <button (click)="delete($event)" (mousedown)="rippleDisabled=true"
-            mat-icon-button [attr.aria-label]="'DELETE' | translate">
+            mat-icon-button [attr.aria-label]="'DELETE' | translate"
+            data-cy="delete-note">
       <mat-icon>delete</mat-icon>
     </button>
     <button (click)="showContextMenu($event)" (mousedown)="rippleDisabled=true"
-            mat-icon-button [attr.aria-label]="'MORE' | translate">
+            mat-icon-button [attr.aria-label]="'MORE' | translate"
+            data-cy="more-note">
       <mat-icon>more_vert</mat-icon>
     </button>
   </mat-card-actions>

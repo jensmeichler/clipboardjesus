@@ -9,8 +9,10 @@ context('Notes tests', () => {
   })
 
   describe('Layout checks', () => {
-    xit('should contain required buttons', () => {
-      //TODO
+    it('should contain required buttons', () => {
+      cy.dataCy('edit-note').should('exist');
+      cy.dataCy('delete-note').should('exist');
+      cy.dataCy('more-note').should('exist');
     })
 
     it('should contain a single note', () => {
