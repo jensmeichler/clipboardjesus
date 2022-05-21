@@ -44,15 +44,15 @@ context('First time visiting visit-with-data', () => {
     })
 
     xit('should be localized in english', () => {
-      //TODO
+      //TODO: implement
     })
 
     xit('should be localized in german', () => {
-      //TODO
+      //TODO: implement
     })
 
     xit('should be localized in ukrainian', () => {
-      //TODO
+      //TODO: implement
     })
   })
 })

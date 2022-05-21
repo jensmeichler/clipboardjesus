@@ -10,7 +10,7 @@ context('Notes tests', () => {
 
   describe('Layout checks', () => {
     xit('should contain required buttons', () => {
-      //TODO
+      //TODO: set data-test on buttons
     })
 
     it('should contain a single note', () => {
