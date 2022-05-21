@@ -45,7 +45,7 @@
        style="visibility: hidden; position: fixed">
   </div>
   <mat-menu #contextMenu="matMenu">
-    <div id="tab-context-menu">
+    <div data-cy="tab-context-menu">
       <ng-container *ngIf="dataService.selectedItemsCount as n">
         <button (click)="copySelectedItems()" mat-menu-item [attr.aria-label]="'COPY_N_ITEMS' | translate : {n}">
           <mat-icon>content_copy</mat-icon>
@@ -140,14 +140,14 @@
     <button (click)="saveAs(); $event.stopPropagation()" [disabled]="!dataService.itemsCount" class="save-as-button"
             [matTooltip]="'SAVE_AS' | translate" [attr.aria-label]="'SAVE_AS' | translate"
             mat-mini-fab matTooltipPosition="left" color="accent"
-            id="save-as-button">
+            data-cy="save-as-button">
       <mat-icon>save_as</mat-icon>
     </button>
     <button (click)="save(); $event.stopPropagation()" [disabled]="!dataService.itemsCount"
             [matTooltip]="(saveButtonTooltip | async) ?? ''"
             [attr.aria-label]="(saveButtonTooltip | async) ?? ('SAVE' | translate)"
             color="primary" mat-fab matTooltipPosition="left"
-            id="save-button">
+            data-cy="save-button">
       <mat-icon>save</mat-icon>
     </button>
   </div>
@@ -243,7 +243,7 @@
     </button>
   </mat-menu>
 
-  <b (click)="showAboutDialog()" class="startup-logo" aria-label="About" id="logo">
+  <b (click)="showAboutDialog()" class="startup-logo" aria-label="About" data-cy="logo">
     <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-right: 12px; font-style: italic">Clip</span>
     <img (cdkDragEnded)="replaceLogo($event)" alt="#" cdkDrag height="110"
          src="favicon.ico" width="110">

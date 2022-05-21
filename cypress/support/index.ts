@@ -9,6 +9,11 @@ declare global {
        * @example cy.seed(tabs)
        */
       seed(tabs: Tab[]): Chainable
+      /**
+       * Custom command to seed tabs to localStorage.
+       * @example cy.seed(tabs)
+       */
+      dataCy(dataCy: string): Chainable
     }
   }
 }

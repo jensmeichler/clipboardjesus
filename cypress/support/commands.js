@@ -6,3 +6,8 @@ Cypress.Commands.add('seed', (tabs) => {
     window.localStorage.setItem(`clipboard_data_${i++}`, json);
   });
 })
+
+// noinspection JSCheckFunctionSignatures
+Cypress.Commands.add('dataCy', (dataCy) => {
+  return cy.get(`[data-cy=${dataCy}]`);
+})

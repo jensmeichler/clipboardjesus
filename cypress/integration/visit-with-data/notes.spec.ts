@@ -10,7 +10,7 @@ context('Notes tests', () => {
 
   describe('Layout checks', () => {
     xit('should contain required buttons', () => {
-      //TODO: set data-test on buttons
+      //TODO
     })
 
     it('should contain a single note', () => {
@@ -25,7 +25,7 @@ context('Notes tests', () => {
   describe('Functionality checks', () => {
     it('should open new note dialog on context menu selection', () => {
       cy.get('cb-tab').rightclick();
-      cy.get('#tab-context-menu').contains('Create note').click();
+      cy.dataCy('tab-context-menu').contains('Create note').click();
       cy.get('cb-edit-note-dialog').should('be.visible');
     })
   })

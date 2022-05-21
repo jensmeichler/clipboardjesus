@@ -7,10 +7,10 @@ context('First time visiting visit-with-data', () => {
 
   describe('Layout checks', () => {
     it('should contain required buttons', () => {
-      cy.get('#logo').should('exist');
-      cy.get('#save-button').should('exist');
-      cy.get('#save-as-button').should('exist');
-      cy.get('#settings-button').should('exist');
+      cy.dataCy('logo').should('exist');
+      cy.dataCy('save-button').should('exist');
+      cy.dataCy('save-as-button').should('exist');
+      cy.dataCy('settings-button').should('exist');
     })
 
     it('should contain a single tab', () => {
@@ -18,8 +18,8 @@ context('First time visiting visit-with-data', () => {
     })
 
     it('should not be able to save empty board', () => {
-      cy.get('#save-button').should('be.disabled');
-      cy.get('#save-as-button').should('be.disabled');
+      cy.dataCy('save-button').should('be.disabled');
+      cy.dataCy('save-as-button').should('be.disabled');
     })
 
     it('should not contain items', () => {
@@ -32,27 +32,27 @@ context('First time visiting visit-with-data', () => {
 
   describe('Functionality checks', () => {
     it('should open context menu on right click', () => {
-      cy.get('#tab-context-menu').should('not.exist');
+      cy.dataCy('tab-context-menu').should('not.exist');
       cy.get('cb-tab').rightclick();
-      cy.get('#tab-context-menu').should('be.visible');
+      cy.dataCy('tab-context-menu').should('be.visible');
     })
 
     it('should open about dialog on logo click', () => {
       cy.get('cb-about-dialog').should('not.exist');
-      cy.get('#logo').click();
+      cy.dataCy('logo').click();
       cy.get('cb-about-dialog').should('be.visible');
     })
 
     xit('should be localized in english', () => {
-      //TODO: implement
+      //TODO
     })
 
     xit('should be localized in german', () => {
-      //TODO: implement
+      //TODO
     })
 
     xit('should be localized in ukrainian', () => {
-      //TODO: implement
+      //TODO
     })
   })
 })
