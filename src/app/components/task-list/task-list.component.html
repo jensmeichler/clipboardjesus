@@ -8,7 +8,8 @@
           [style.background-color]="taskList.backgroundColor"
           [style.color]="taskList.foregroundColor"
           [cbHighlightColor]="taskList.backgroundColorGradient"
-          [cbHighlightedItem]="taskList">
+          [cbHighlightedItem]="taskList"
+          data-cy="task-list">
   <mat-card-title *ngIf="taskList.header">
     {{ taskList.header }}
   </mat-card-title>

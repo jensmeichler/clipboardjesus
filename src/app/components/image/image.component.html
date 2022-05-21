@@ -10,7 +10,8 @@
           class="flex-container" matRipple
           [cbHighlightColor]="undefined"
           [cbHighlightedItem]="image"
-          style="padding: 5px 5px 0 5px; min-height: 32px">
+          style="padding: 5px 5px 0 5px; min-height: 32px"
+          data-cy="image">
   <div *ngIf="!imageLoaded" class="image-link">
     {{ image.source }}
   </div>
