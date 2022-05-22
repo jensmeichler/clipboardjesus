@@ -27,13 +27,13 @@ context('Note functionality', () => {
 
     it('should open new note dialog on context menu selection', () => {
       cy.dataCy(dataCy.tab.content).rightclick();
-      cy.dataCy(dataCy.tab.menu).contains('Create note').click();
+      cy.get(selectors.menu).contains('Create note').click();
       cy.dataCy(dataCy.note.dialog.content).should('be.visible');
     })
 
     it('should create new note after dialog submit', () => {
       cy.dataCy(dataCy.tab.content).rightclick();
-      cy.dataCy(dataCy.tab.menu).contains('Create note').click();
+      cy.get(selectors.menu).contains('Create note').click();
       cy.dataCy(dataCy.note.dialog.content).type('FooBar');
       cy.dataCy(dataCy.note.dialog.header).type('Baz');
       cy.dataCy(dataCy.note.dialog.submit).click();
@@ -67,6 +67,7 @@ context('Note functionality', () => {
 
     it('should update note header after edit', () => {
       cy.dataCy(dataCy.note.editBtn).click();
+      cy.dataCy(dataCy.note.dialog.header).click();
       cy.dataCy(dataCy.note.dialog.header).type('Added header');
       cy.dataCy(dataCy.note.dialog.submit).click();
       cy.dataCy(dataCy.note.note).should('contain', 'Added header');

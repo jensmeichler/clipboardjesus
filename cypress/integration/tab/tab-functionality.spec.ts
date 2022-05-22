@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import {dataCy} from "../../support/selectors";
+import {dataCy, selectors} from "../../support/selectors";
 
 context('Tab functionality', () => {
   beforeEach(() => {
@@ -8,9 +8,9 @@ context('Tab functionality', () => {
   })
 
   it('should open context menu on right click', () => {
-    cy.dataCy(dataCy.tab.menu).should('not.exist');
+    cy.get(selectors.menu).should('not.exist');
     cy.dataCy(dataCy.tab.content).rightclick();
-    cy.dataCy(dataCy.tab.menu).should('be.visible');
+    cy.get(selectors.menu).should('be.visible');
   })
 
   it('should open about dialog on logo click', () => {

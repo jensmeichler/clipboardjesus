@@ -5,13 +5,10 @@ export const selectors = {
 export const dataCy = {
   common: {
     logo: 'logo',
-    settings: {
-      button: 'settings-button',
-      menu: 'settings-menu',
-    },
     buttons: {
       save: 'save-button',
       saveAs: 'save-as-button',
+      settings: 'settings-button',
     }
   },
   dialogs: {
@@ -19,7 +16,6 @@ export const dataCy = {
   },
   tab: {
     content: 'tab',
-    menu: 'tab-menu',
   },
   note: {
     note: 'note',
