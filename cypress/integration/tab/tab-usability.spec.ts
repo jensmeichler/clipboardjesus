@@ -8,10 +8,10 @@ context('Tab usability', () => {
   })
 
   it('should contain required buttons', () => {
-    cy.dataCy('logo').should('exist');
-    cy.dataCy('save-button').should('exist');
-    cy.dataCy('save-as-button').should('exist');
-    cy.dataCy('settings-button').should('exist');
+    cy.dataCy(dataCy.common.logo).should('exist');
+    cy.dataCy(dataCy.common.buttons.save).should('exist');
+    cy.dataCy(dataCy.common.buttons.saveAs).should('exist');
+    cy.dataCy(dataCy.common.buttons.settings).should('exist');
   })
 
   it('should contain a single tab', () => {
@@ -19,8 +19,8 @@ context('Tab usability', () => {
   })
 
   it('should not be able to save empty board', () => {
-    cy.dataCy('save-button').should('be.disabled');
-    cy.dataCy('save-as-button').should('be.disabled');
+    cy.dataCy(dataCy.common.buttons.save).should('be.disabled');
+    cy.dataCy(dataCy.common.buttons.save).should('be.disabled');
   })
 
   it('should not contain items', () => {

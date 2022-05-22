@@ -22,8 +22,8 @@ context('Note functionality', () => {
   describe('Create notes', () => {
     it('should open new note dialog on context menu selection', () => {
       cy.dataCy(dataCy.tab.content).rightclick();
-      cy.dataCy('tab-context-menu').contains('Create note').click();
-      cy.dataCy('edit-note-dialog').should('be.visible');
+      cy.dataCy(dataCy.tab.contextMenu).contains('Create note').click();
+      cy.dataCy(dataCy.dialogs.editNote).should('be.visible');
     })
 
     xit('should create new note after dialog submit', () => {

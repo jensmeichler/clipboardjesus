@@ -8,15 +8,15 @@ context('Tab functionality', () => {
   })
 
   it('should open context menu on right click', () => {
-    cy.dataCy('tab-context-menu').should('not.exist');
+    cy.dataCy(dataCy.tab.contextMenu).should('not.exist');
     cy.dataCy(dataCy.tab.content).rightclick();
-    cy.dataCy('tab-context-menu').should('be.visible');
+    cy.dataCy(dataCy.tab.contextMenu).should('be.visible');
   })
 
   it('should open about dialog on logo click', () => {
-    cy.dataCy('about-dialog').should('not.exist');
-    cy.dataCy('logo').click();
-    cy.dataCy('about-dialog').should('be.visible');
+    cy.dataCy(dataCy.dialogs.about).should('not.exist');
+    cy.dataCy(dataCy.common.logo).click();
+    cy.dataCy(dataCy.dialogs.about).should('be.visible');
   })
 
   xit('should be localized in english', () => {
