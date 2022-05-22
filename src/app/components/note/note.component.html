@@ -11,7 +11,7 @@
           [cbHighlightColor]="note.backgroundColorGradient"
           [cbHighlightedItem]="note"
           data-cy="note">
-  <mat-card-title *ngIf="note.header" class="flex-container">
+  <mat-card-title *ngIf="note.header" class="flex-container" data-cy="note-header">
     {{ note.header }}
   </mat-card-title>
   <mat-card-content *ngIf="!note.code" data-cy="note-content">

@@ -20,6 +20,7 @@ export const dataCy = {
   note: {
     note: 'note',
     content: 'note-content',
+    header: 'note-header',
     editBtn: 'note-edit-btn',
     deleteBtn: 'note-delete-btn',
     moreBtn: 'note-more-btn',

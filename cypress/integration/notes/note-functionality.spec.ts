@@ -16,7 +16,7 @@ context('Note functionality', () => {
     })
 
     it('should contain text "test"', () => {
-      cy.dataCy(dataCy.note.note).should('contain', 'test');
+      cy.dataCy(dataCy.note.content).should('contain', 'test');
     })
   })
 
@@ -37,9 +37,8 @@ context('Note functionality', () => {
       cy.dataCy(dataCy.note.dialog.content).type('FooBar');
       cy.dataCy(dataCy.note.dialog.header).type('Baz');
       cy.dataCy(dataCy.note.dialog.submit).click();
-      cy.dataCy(dataCy.note.note)
-        .should('contain', 'FooBar')
-        .and('contain', 'Baz');
+      cy.dataCy(dataCy.note.content).should('contain', 'FooBar')
+      cy.dataCy(dataCy.note.header).should('contain', 'Baz');
     })
   })
 
@@ -54,7 +53,7 @@ context('Note functionality', () => {
       cy.dataCy(dataCy.note.dialog.content).clear();
       cy.dataCy(dataCy.note.dialog.content).type('Updated text');
       cy.dataCy(dataCy.note.dialog.submit).click();
-      cy.dataCy(dataCy.note.note).should('contain', 'Updated text');
+      cy.dataCy(dataCy.note.content).should('contain', 'Updated text');
     })
 
     it('should not update note content after edit cancel', () => {
@@ -62,7 +61,7 @@ context('Note functionality', () => {
       cy.dataCy(dataCy.note.dialog.content).clear();
       cy.dataCy(dataCy.note.dialog.content).type('Updated text');
       cy.dataCy(dataCy.note.dialog.submit).click();
-      cy.dataCy(dataCy.note.note).should('not.contain', 'Updated text');
+      cy.dataCy(dataCy.note.content).should('not.contain', 'Updated text');
     })
 
     it('should update note header after edit', () => {
@@ -70,7 +69,7 @@ context('Note functionality', () => {
       cy.dataCy(dataCy.note.dialog.header).click();
       cy.dataCy(dataCy.note.dialog.header).type('Added header');
       cy.dataCy(dataCy.note.dialog.submit).click();
-      cy.dataCy(dataCy.note.note).should('contain', 'Added header');
+      cy.dataCy(dataCy.note.header).should('contain', 'Added header');
     })
   })
 
