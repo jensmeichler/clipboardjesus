@@ -8,12 +8,17 @@ declare global {
        * Custom command to seed tabs to localStorage.
        * @example cy.seed(tabs)
        */
-      seed(tabs: Tab[]): Chainable
+      seed(tabs: Tab[]): void
       /**
-       * Custom command to seed tabs to localStorage.
-       * @example cy.seed(tabs)
+       * Custom command to get elements with data-cy.
+       * @example cy.dataCy('note').should(...)
        */
       dataCy(dataCy: string): Chainable
+      /**
+       * Custom command to set language.
+       * @example cy.lang('en')
+       */
+      lang(language: 'en' | 'de' | 'ua'): void
     }
   }
 }

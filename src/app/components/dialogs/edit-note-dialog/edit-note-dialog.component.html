@@ -2,8 +2,7 @@
      [style.color]="data.foregroundColor"
      [style.background]="data.backgroundColorGradient
         ? 'linear-gradient(to bottom, ' + data.backgroundColor + ', ' + data.backgroundColorGradient
-        : data.backgroundColor"
-     data-cy="edit-note-dialog">
+        : data.backgroundColor">
   <h1 mat-dialog-title class="flex-container"
       cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane">
@@ -34,16 +33,22 @@
     </div>
     <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>{{ 'HEADER' | translate }}</mat-label>
-      <input matInput [(ngModel)]="data.header">
+      <input data-cy="edit-note-dialog-header" matInput [(ngModel)]="data.header">
     </mat-form-field>
     <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>{{ 'CONTENT' | translate }}</mat-label>
-      <textarea cdkFocusInitial matInput [(ngModel)]="data.content" style="height: 200px"></textarea>
+      <textarea data-cy="edit-note-dialog-content" cdkFocusInitial matInput
+                [(ngModel)]="data.content" style="height: 200px"
+      ></textarea>
     </mat-form-field>
   </div>
 
   <div class="dialog-button-group">
-    <button mat-button (click)="cancel()">{{ 'CANCEL' | translate }}</button>
-    <button mat-button (click)="submit()" class="ok-button">{{ 'OK' | translate }}</button>
+    <button mat-button (click)="cancel()" data-cy="edit-note-dialog-cancel">
+      {{ 'CANCEL' | translate }}
+    </button>
+    <button mat-button (click)="submit()" data-cy="edit-note-dialog-submit" class="ok-button">
+      {{ 'OK' | translate }}
+    </button>
   </div>
 </div>

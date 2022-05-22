@@ -1,0 +1,30 @@
+{
+  "index": 0,
+  "color": "#131313",
+  "notes": [
+    {
+      "foregroundColor": "#ffffff",
+      "backgroundColor": "#8312ce",
+      "posX": 339,
+      "posY": 90,
+      "posZ": 1,
+      "content": "purple"
+    },
+    {
+      "foregroundColor": "#ffffff",
+      "backgroundColor": "#1ea427",
+      "posX": 52,
+      "posY": 170,
+      "posZ": 3,
+      "content": "green"
+    },
+    {
+      "foregroundColor": "#ffffff",
+      "backgroundColor": "#1999b3",
+      "posX": 147,
+      "posY": 417,
+      "posZ": 2,
+      "content": "blue"
+    }
+  ]
+}

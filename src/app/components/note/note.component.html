@@ -14,11 +14,11 @@
   <mat-card-title *ngIf="note.header" class="flex-container">
     {{ note.header }}
   </mat-card-title>
-  <mat-card-content *ngIf="!note.code">
+  <mat-card-content *ngIf="!note.code" data-cy="note-content">
     <markdown [data]="note.content">
     </markdown>
   </mat-card-content>
-  <mat-card-content *ngIf="note.code">
+  <mat-card-content *ngIf="note.code" data-cy="note-content">
     <pre *ngIf="note.content" class="note-code-content">
       <code #code [highlight]="note.content" style="padding: 0; margin: -22px 0 -42px 0"></code>
     </pre>
@@ -31,17 +31,17 @@
     </button>
     <button (click)="edit($event, true)" (mousedown)="rippleDisabled=true"
             mat-icon-button [attr.aria-label]="'EDIT' | translate"
-            data-cy="edit-note">
+            data-cy="note-edit-btn">
       <mat-icon>edit</mat-icon>
     </button>
     <button (click)="delete($event)" (mousedown)="rippleDisabled=true"
             mat-icon-button [attr.aria-label]="'DELETE' | translate"
-            data-cy="delete-note">
+            data-cy="note-delete-btn">
       <mat-icon>delete</mat-icon>
     </button>
     <button (click)="showContextMenu($event)" (mousedown)="rippleDisabled=true"
             mat-icon-button [attr.aria-label]="'MORE' | translate"
-            data-cy="more-note">
+            data-cy="note-more-btn">
       <mat-icon>more_vert</mat-icon>
     </button>
   </mat-card-actions>

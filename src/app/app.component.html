@@ -45,7 +45,7 @@
        style="visibility: hidden; position: fixed">
   </div>
   <mat-menu #contextMenu="matMenu">
-    <div data-cy="tab-context-menu">
+    <div data-cy="tab-menu">
       <ng-container *ngIf="dataService.selectedItemsCount as n">
         <button (click)="copySelectedItems()" mat-menu-item [attr.aria-label]="'COPY_N_ITEMS' | translate : {n}">
           <mat-icon>content_copy</mat-icon>
@@ -163,47 +163,49 @@
     <mat-icon>settings</mat-icon>
   </button>
   <mat-menu #settingsMenu="matMenu">
-    <button [matMenuTriggerFor]="fontMenu" mat-menu-item [attr.aria-label]="'SWITCH_FONT' | translate">
-      <mat-icon>font_download</mat-icon>
-      {{ 'SWITCH_FONT' | translate }}
-    </button>
-    <button [matMenuTriggerFor]="languageMenu" mat-menu-item [attr.aria-label]="'SWITCH_LANGUAGE' | translate">
-      <mat-icon>translate</mat-icon>
-      {{ 'SWITCH_LANGUAGE' | translate }}
-    </button>
-    <button *ngIf="settings.animationsDisabled" (click)="settings.animationsDisabled = false" mat-menu-item
-            [attr.aria-label]="'ENABLE_ANIMATIONS' | translate">
-      <mat-icon>animation</mat-icon>
-      {{ 'ENABLE_ANIMATIONS' | translate }}
-    </button>
-    <button *ngIf="!settings.animationsDisabled" (click)="settings.animationsDisabled = true" mat-menu-item
-            [attr.aria-label]="'DISABLE_ANIMATIONS' | translate">
-      <mat-icon>motion_photos_off</mat-icon>
-      {{ 'DISABLE_ANIMATIONS' | translate }}
-    </button>
-    <a href="https://github.com/jensmeichler/clipboardjesus/issues" mat-menu-item target="_blank"
-       [attr.aria-label]="'REPORT_BUG' | translate">
-      <mat-icon>bug_report</mat-icon>
-      {{ 'REPORT_BUG' | translate }}
-    </a>
-    <a href="https://github.com/jensmeichler/clipboardjesus/commits" mat-menu-item target="_blank"
-       [attr.aria-label]="'VIEW_LAST_CHANGES' | translate">
-      <mat-icon>published_with_changes</mat-icon>
-      {{ 'VIEW_LAST_CHANGES' | translate }}
-    </a>
-    <a href="https://www.buymeacoffee.com/jensmeichler" mat-menu-item target="_blank"
-       [attr.aria-label]="'DONATE_TO_THE_DEVELOPER' | translate">
-      <mat-icon class="heart">favorite</mat-icon>
-      {{ 'DONATE_TO_THE_DEVELOPER' | translate }}
-    </a>
-    <button (click)="showAboutDialog()" mat-menu-item [attr.aria-label]="'ABOUT_CLIPBOARD' | translate">
-      <mat-icon>info</mat-icon>
-      {{ 'ABOUT_CLIPBOARD' | translate }}
-    </button>
-    <button (click)="reloadApp()" mat-menu-item [attr.aria-label]="'RELOAD_APP' | translate">
-      <mat-icon>cached</mat-icon>
-      {{ 'RELOAD_APP' | translate }}
-    </button>
+    <div data-cy="settings-menu">
+      <button [matMenuTriggerFor]="fontMenu" mat-menu-item [attr.aria-label]="'SWITCH_FONT' | translate">
+        <mat-icon>font_download</mat-icon>
+        {{ 'SWITCH_FONT' | translate }}
+      </button>
+      <button [matMenuTriggerFor]="languageMenu" mat-menu-item [attr.aria-label]="'SWITCH_LANGUAGE' | translate">
+        <mat-icon>translate</mat-icon>
+        {{ 'SWITCH_LANGUAGE' | translate }}
+      </button>
+      <button *ngIf="settings.animationsDisabled" (click)="settings.animationsDisabled = false" mat-menu-item
+              [attr.aria-label]="'ENABLE_ANIMATIONS' | translate">
+        <mat-icon>animation</mat-icon>
+        {{ 'ENABLE_ANIMATIONS' | translate }}
+      </button>
+      <button *ngIf="!settings.animationsDisabled" (click)="settings.animationsDisabled = true" mat-menu-item
+              [attr.aria-label]="'DISABLE_ANIMATIONS' | translate">
+        <mat-icon>motion_photos_off</mat-icon>
+        {{ 'DISABLE_ANIMATIONS' | translate }}
+      </button>
+      <a href="https://github.com/jensmeichler/clipboardjesus/issues" mat-menu-item target="_blank"
+         [attr.aria-label]="'REPORT_BUG' | translate">
+        <mat-icon>bug_report</mat-icon>
+        {{ 'REPORT_BUG' | translate }}
+      </a>
+      <a href="https://github.com/jensmeichler/clipboardjesus/commits" mat-menu-item target="_blank"
+         [attr.aria-label]="'VIEW_LAST_CHANGES' | translate">
+        <mat-icon>published_with_changes</mat-icon>
+        {{ 'VIEW_LAST_CHANGES' | translate }}
+      </a>
+      <a href="https://www.buymeacoffee.com/jensmeichler" mat-menu-item target="_blank"
+         [attr.aria-label]="'DONATE_TO_THE_DEVELOPER' | translate">
+        <mat-icon class="heart">favorite</mat-icon>
+        {{ 'DONATE_TO_THE_DEVELOPER' | translate }}
+      </a>
+      <button (click)="showAboutDialog()" mat-menu-item [attr.aria-label]="'ABOUT_CLIPBOARD' | translate">
+        <mat-icon>info</mat-icon>
+        {{ 'ABOUT_CLIPBOARD' | translate }}
+      </button>
+      <button (click)="reloadApp()" mat-menu-item [attr.aria-label]="'RELOAD_APP' | translate">
+        <mat-icon>cached</mat-icon>
+        {{ 'RELOAD_APP' | translate }}
+      </button>
+    </div>
   </mat-menu>
 
   <mat-menu #languageMenu="matMenu">

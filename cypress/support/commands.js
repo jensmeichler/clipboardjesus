@@ -11,3 +11,9 @@ Cypress.Commands.add('seed', (tabs) => {
 Cypress.Commands.add('dataCy', (dataCy) => {
   return cy.get(`[data-cy=${dataCy}]`);
 })
+
+// noinspection JSCheckFunctionSignatures
+Cypress.Commands.add('lang', (lang) => {
+  if (lang === 'en') return;
+  window.localStorage.setItem('language', lang);
+})

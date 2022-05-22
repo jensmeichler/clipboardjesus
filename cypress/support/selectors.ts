@@ -1,22 +1,37 @@
+export const selectors = {
+  menu: '.cdk-overlay-pane',
+}
+
 export const dataCy = {
   common: {
     logo: 'logo',
+    settings: {
+      button: 'settings-button',
+      menu: 'settings-menu',
+    },
     buttons: {
       save: 'save-button',
       saveAs: 'save-as-button',
-      settings: 'settings-button',
     }
   },
   dialogs: {
     about: 'about-dialog',
-    editNote: 'edit-note-dialog',
   },
   tab: {
     content: 'tab',
-    contextMenu: 'tab-context-menu',
+    menu: 'tab-menu',
   },
   note: {
-    content: 'note',
+    note: 'note',
+    content: 'note-content',
+    editBtn: 'note-edit-btn',
+    deleteBtn: 'note-delete-btn',
+    moreBtn: 'note-more-btn',
+    dialog: {
+      content: 'edit-note-dialog-content',
+      header: 'edit-note-dialog-header',
+      submit: 'edit-note-dialog-submit',
+    }
   },
   taskList: {
     content: 'task-list',

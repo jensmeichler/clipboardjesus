@@ -11,7 +11,7 @@ context('Tab usability', () => {
     cy.dataCy(dataCy.common.logo).should('exist');
     cy.dataCy(dataCy.common.buttons.save).should('exist');
     cy.dataCy(dataCy.common.buttons.saveAs).should('exist');
-    cy.dataCy(dataCy.common.buttons.settings).should('exist');
+    cy.dataCy(dataCy.common.settings.button).should('exist');
   })
 
   it('should contain a single tab', () => {
@@ -24,7 +24,7 @@ context('Tab usability', () => {
   })
 
   it('should not contain items', () => {
-    cy.dataCy(dataCy.note.content).should('not.exist');
+    cy.dataCy(dataCy.note.note).should('not.exist');
     cy.dataCy(dataCy.taskList.content).should('not.exist');
     cy.dataCy(dataCy.noteList.content).should('not.exist');
     cy.dataCy(dataCy.image.content).should('not.exist');
