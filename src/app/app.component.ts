@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
     private readonly translate: TranslateService,
     public readonly settings: SettingsService
   ) {
-    this.isBeta = !window.location.href.includes('clipboardjesus');
+    this.isBeta = !window.location.href.includes('clipboardjesus.com');
   }
 
   ngOnInit(): void {
