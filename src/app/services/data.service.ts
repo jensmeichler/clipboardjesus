@@ -18,6 +18,8 @@ import {ActivatedRoute, Router} from "@angular/router";
   providedIn: 'root'
 })
 export class DataService {
+  isBeta: boolean;
+
   private _selectedTabIndex = 0;
   get selectedTabIndex(): number {
     return this._selectedTabIndex;
@@ -50,6 +52,8 @@ export class DataService {
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute
   ) {
+    this.isBeta = !window.location.href.includes('clipboardjesus.com');
+
     for (let i = 0; i < 20; i++) {
       const tab = this.cache.fetch(i);
       if (tab) {

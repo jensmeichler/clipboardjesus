@@ -1,5 +1,6 @@
 import {Component, HostListener} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
+import {DataService} from "../../../services";
 
 @Component({
   selector: 'cb-about-dialog',
@@ -7,8 +8,13 @@ import {MatDialogRef} from "@angular/material/dialog";
   styleUrls: ['./about-dialog.component.scss']
 })
 export class AboutDialogComponent {
+  isBeta: boolean;
+
   constructor(
-    public dialogRef: MatDialogRef<AboutDialogComponent>) {
+    public dialogRef: MatDialogRef<AboutDialogComponent>,
+    dataService: DataService
+  ) {
+    this.isBeta = dataService.isBeta;
   }
 
   @HostListener('keydown', ['$event'])

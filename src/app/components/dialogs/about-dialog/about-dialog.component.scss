@@ -1,3 +1,17 @@
+.dialog-header {
+  margin: var(--margin-edge);
+  display: flex;
+  justify-content: space-between;
+
+  .beta-button {
+    color: var(--color-secondary);
+    position: relative;
+    top: -.6em;
+    font-size: 50%;
+    text-transform: uppercase;
+  }
+}
+
 .hashy-icon {
   width: 100px;
   transform: translateX(-10px);
@@ -24,7 +38,7 @@
 }
 
 // Preventing border on enter dialog
-.licence-button {
+a {
   text-decoration: none;
   &:-webkit-any-link:focus-visible {
     outline: none;

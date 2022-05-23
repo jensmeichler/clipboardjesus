@@ -8,6 +8,7 @@
   "ADD_GRADIENT": "Add gradient",
   "ADD_NOTE": "Add new note",
   "ADD_TASK": "Add task",
+  "BETA": "Beta",
   "BRING_FORWARD": "Bring forward",
   "BRING_TO_FRONT": "Bring to front",
   "CANCEL": "Cancel",
@@ -91,5 +92,7 @@
   "TASKS_HINT": "Tasks can be separated by new line",
   "TASK_LISTS": "Task lists",
   "UNDO_LAST_ACTION": "Undo last action",
-  "VIEW_LAST_CHANGES": "View last changes"
+  "VIEW_LAST_CHANGES": "View last changes",
+  "VIEW_BETA": "View beta",
+  "VISIT_PRODUCTIVE_VERSION": "Visit productive version"
 }
