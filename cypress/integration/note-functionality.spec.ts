@@ -1,34 +1,13 @@
 /// <reference types="cypress" />
 
-import singleNoteTab from '../../fixtures/single-note.json';
-import multipleNotesTab from '../../fixtures/multiple-notes.json';
-import {dataCy, selectors} from "../../support/selectors";
+import singleNoteTab from '../fixtures/single-note.json';
+import multipleNotesTab from '../fixtures/multiple-notes.json';
+import {dataCy, selectors} from "../support/selectors";
 
 context('Note functionality', () => {
-  describe('Import notes', () => {
-    beforeEach(() => {
-      cy.seed(singleNoteTab);
-      cy.visit('/');
-    })
-
-    it('should contain a single note', () => {
-      cy.dataCy(dataCy.note.note).should('have.length', 1);
-    })
-
-    it('should contain text "test"', () => {
-      cy.dataCy(dataCy.note.content).should('contain', 'test');
-    })
-  })
-
   describe('Create notes', () => {
     beforeEach(() => {
       cy.visit('/');
-    })
-
-    it('should open new note dialog on context menu selection', () => {
-      cy.dataCy(dataCy.tab.content).rightclick();
-      cy.get(selectors.menu).contains('Create note').click();
-      cy.dataCy(dataCy.note.dialog.content).should('be.visible');
     })
 
     it('should create new note after dialog submit', () => {
@@ -48,12 +27,15 @@ context('Note functionality', () => {
       cy.visit('/');
     })
 
-    it('should update note content after edit submit', () => {
+    it('should update note after edit submit', () => {
       cy.dataCy(dataCy.note.editBtn).click();
       cy.dataCy(dataCy.note.dialog.content).clear();
       cy.dataCy(dataCy.note.dialog.content).type('Updated text');
+      cy.dataCy(dataCy.note.dialog.header).click();
+      cy.dataCy(dataCy.note.dialog.header).type('Added header');
       cy.dataCy(dataCy.note.dialog.submit).click();
       cy.dataCy(dataCy.note.content).should('contain', 'Updated text');
+      cy.dataCy(dataCy.note.header).should('contain', 'Added header');
     })
 
     it('should not update note content after edit cancel', () => {
@@ -62,14 +44,6 @@ context('Note functionality', () => {
       cy.dataCy(dataCy.note.dialog.content).type('Updated text');
       cy.dataCy(dataCy.note.dialog.submit).click();
       cy.dataCy(dataCy.note.content).should('not.contain', 'Updated text');
-    })
-
-    it('should update note header after edit', () => {
-      cy.dataCy(dataCy.note.editBtn).click();
-      cy.dataCy(dataCy.note.dialog.header).click();
-      cy.dataCy(dataCy.note.dialog.header).type('Added header');
-      cy.dataCy(dataCy.note.dialog.submit).click();
-      cy.dataCy(dataCy.note.header).should('contain', 'Added header');
     })
   })
 
