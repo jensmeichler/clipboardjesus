@@ -7,7 +7,7 @@
     "build": "ng build --base-href",
     "lint": "ng lint",
     "e2e:open": "cypress open",
-    "e2e:run": "cypress run --record --key 01dbe592-356f-404b-996c-7a3eb9ffcb81"
+    "e2e:run": "cypress run"
   },
   "private": true,
   "dependencies": {
