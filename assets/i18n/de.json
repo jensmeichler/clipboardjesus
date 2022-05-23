@@ -8,6 +8,7 @@
   "ADD_GRADIENT": "Farbverlauf hinzufügen",
   "ADD_NOTE": "Neue Notiz hinzufügen",
   "ADD_TASK": "Aufgabe hinzufügen",
+  "BETA": "Beta",
   "BRING_FORWARD": "Eine Ebene nach vorne",
   "BRING_TO_FRONT": "Nach vorne bringen",
   "CANCEL": "Abbrechen",
@@ -91,5 +92,7 @@
   "TASKS_HINT": "Aufgaben können durch eine neue Zeile getrennt werden",
   "TASK_LISTS": "Aufgabenlisten",
   "UNDO_LAST_ACTION": "Letzte Aktion rückgängig machen",
-  "VIEW_LAST_CHANGES": "Letzte Änderungen anzeigen"
+  "VIEW_LAST_CHANGES": "Letzte Änderungen anzeigen",
+  "VIEW_BETA": "Zur Beta",
+  "VISIT_PRODUCTIVE_VERSION": "Zurück zur Produktivinstanz"
 }
