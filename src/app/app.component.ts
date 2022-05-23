@@ -41,6 +41,8 @@ export class AppComponent implements OnInit {
 
   logoReplacedEasterEggCount = 0;
 
+  isBeta: boolean;
+
   constructor(
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
@@ -53,6 +55,7 @@ export class AppComponent implements OnInit {
     private readonly translate: TranslateService,
     public readonly settings: SettingsService
   ) {
+    this.isBeta = !window.location.href.includes('clipboardjesus');
   }
 
   ngOnInit(): void {

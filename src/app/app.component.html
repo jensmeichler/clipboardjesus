@@ -245,7 +245,7 @@
     <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-right: 12px; font-style: italic">Clip</span>
     <img (cdkDragEnded)="replaceLogo($event)" alt="#" cdkDrag height="110"
          src="favicon.ico" width="110">
-    <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-left: 12px; font-style: normal">BOARD</span>
+    <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-left: 12px; font-style: normal">{{ isBeta ? '_BETA' : 'BOARD' }}</span>
   </b>
 
   <img [class.show-hashy-bg]="hashy.showHashy | async" alt="hashy"
