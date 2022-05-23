@@ -7,7 +7,7 @@ import {dataCy, selectors} from "../../support/selectors";
 context('Note functionality', () => {
   describe('Import notes', () => {
     beforeEach(() => {
-      cy.seed([singleNoteTab]);
+      cy.seed(singleNoteTab);
       cy.visit('/');
     })
 
@@ -44,7 +44,7 @@ context('Note functionality', () => {
 
   describe('Update notes', () => {
     beforeEach(() => {
-      cy.seed([singleNoteTab]);
+      cy.seed(singleNoteTab);
       cy.visit('/');
     })
 
@@ -75,7 +75,7 @@ context('Note functionality', () => {
 
   describe('Delete notes', () => {
     beforeEach(() => {
-      cy.seed([multipleNotesTab]);
+      cy.seed(multipleNotesTab);
       cy.visit('/');
     })
 

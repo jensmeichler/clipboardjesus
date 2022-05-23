@@ -15,6 +15,8 @@ export const dataCy = {
     about: 'about-dialog',
   },
   tab: {
+    active: 'tab-header-active',
+    other: 'tab-header',
     content: 'tab',
   },
   note: {

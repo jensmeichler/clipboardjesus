@@ -6,9 +6,9 @@ declare global {
     interface Chainable {
       /**
        * Custom command to seed tabs to localStorage.
-       * @example cy.seed(tabs)
+       * @example cy.seed([tab1, tab2])
        */
-      seed(tabs: Tab[]): void
+      seed(tabs: Tab | Tab[]): void
       /**
        * Custom command to get elements with data-cy.
        * @example cy.dataCy('note').should(...)

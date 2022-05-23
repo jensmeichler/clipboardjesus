@@ -1,12 +1,12 @@
 /// <reference types="cypress" />
 
-import {dataCy, selectors} from "../../support/selectors";
 import singleTaskListTab from "../../fixtures/single-task-list.json";
+import {dataCy, selectors} from "../../support/selectors";
 
 context('Task list functionality', () => {
   describe('Import task lists', () =>  {
     beforeEach(() => {
-      cy.seed([singleTaskListTab]);
+      cy.seed(singleTaskListTab);
       cy.visit('/');
     })
 
@@ -39,7 +39,7 @@ context('Task list functionality', () => {
 
   describe('Delete task list', () => {
     beforeEach(() => {
-      cy.seed([singleTaskListTab]);
+      cy.seed(singleTaskListTab);
       cy.visit('/');
     })
 

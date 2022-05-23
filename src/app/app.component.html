@@ -2,7 +2,10 @@
   <mat-tab-group [(selectedIndex)]="dataService.selectedTabIndex" animationDuration="0">
     <mat-tab *ngFor="let tab of dataService.tabs">
       <ng-template mat-tab-label>
-        <div style="margin-left: 8px; margin-right: 4px">{{ tab.label ? tab.label : '#Board ' + (tab.index + 1) }}</div>
+        <div style="margin-left: 8px; margin-right: 4px"
+             [attr.data-cy]="dataService.selectedTabIndex === tab.index ? 'tab-header-active' : 'tab-header'">
+          {{ tab.label ? tab.label : '#Board ' + (tab.index + 1) }}
+        </div>
         <ng-container *ngIf="dataService.selectedTabIndex === tab.index">
           <mat-icon
             [attr.aria-label]="'EDIT_TAB' | translate"
