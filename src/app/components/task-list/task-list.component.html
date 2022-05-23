@@ -10,12 +10,12 @@
           [cbHighlightColor]="taskList.backgroundColorGradient"
           [cbHighlightedItem]="taskList"
           data-cy="task-list">
-  <mat-card-title *ngIf="taskList.header">
+  <mat-card-title *ngIf="taskList.header" data-cy="task-list-header">
     {{ taskList.header }}
   </mat-card-title>
   <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="taskList.items" cdkDropList>
     <ng-container *ngFor="let item of taskList.items">
-      <span cdkDrag class="flex-container task-list-item" style="margin: 0">
+      <span cdkDrag class="flex-container task-list-item" style="margin: 0" data-cy="task-list-task">
         <span [style.display]="item === itemToEdit ? 'contents' : 'block'">
           <ng-container *ngIf="item.isSubTask">
             <button (click)="toggleSubTask(item)" class="item-button" mat-icon-button
@@ -66,17 +66,18 @@
   </mat-card-content>
 
   <mat-card-actions align="end">
-    <button (click)="addItem()" mat-icon-button [attr.aria-label]="'ADD' | translate">
+    <button (click)="addItem()" mat-icon-button [attr.aria-label]="'ADD' | translate" data-cy="task-list-add-btn">
       <mat-icon>add</mat-icon>
     </button>
-    <button (click)="edit()" mat-icon-button [attr.aria-label]="'EDIT' | translate">
+    <button (click)="edit()" mat-icon-button [attr.aria-label]="'EDIT' | translate" data-cy="task-list-edit-btn">
       <mat-icon>edit</mat-icon>
     </button>
     <button (click)="delete(); $event.stopPropagation()" mat-icon-button
-            [attr.aria-label]="'DELETE' | translate">
+            [attr.aria-label]="'DELETE' | translate" data-cy="task-list-delete-btn">
       <mat-icon>delete</mat-icon>
     </button>
-    <button (click)="showContextMenu($event)" mat-icon-button [attr.aria-label]="'MORE' | translate">
+    <button (click)="showContextMenu($event)" mat-icon-button [attr.aria-label]="'MORE' | translate"
+            data-cy="task-list-more-btn">
       <mat-icon>more_vert</mat-icon>
     </button>
   </mat-card-actions>

@@ -6,10 +6,10 @@ export const dataCy = {
   common: {
     logo: 'logo',
     buttons: {
-      save: 'save-button',
-      saveAs: 'save-as-button',
-      settings: 'settings-button',
-    }
+      save: 'save-btn',
+      saveAs: 'save-as-btn',
+      settings: 'settings-btn',
+    },
   },
   dialogs: {
     about: 'about-dialog',
@@ -19,8 +19,8 @@ export const dataCy = {
   },
   note: {
     note: 'note',
-    content: 'note-content',
     header: 'note-header',
+    content: 'note-content',
     editBtn: 'note-edit-btn',
     deleteBtn: 'note-delete-btn',
     moreBtn: 'note-more-btn',
@@ -28,15 +28,28 @@ export const dataCy = {
       content: 'edit-note-dialog-content',
       header: 'edit-note-dialog-header',
       submit: 'edit-note-dialog-submit',
-    }
+      cancel: 'edit-note-dialog-cancel',
+    },
   },
   taskList: {
-    content: 'task-list',
+    taskList: 'task-list',
+    header: 'task-list-header',
+    tasks: 'task-list-task',
+    addBtn: 'task-list-add-btn',
+    editBtn: 'task-list-edit-btn',
+    deleteBtn: 'task-list-delete-btn',
+    moreBtn: 'task-list-more-btn',
+    dialog: {
+      tasks: 'edit-task-list-dialog-tasks',
+      header: 'edit-task-list-dialog-header',
+      submit: 'edit-task-list-dialog-submit',
+      cancel: 'edit-task-list-dialog-cancel',
+    },
   },
   noteList: {
-    content: 'note-list',
+    noteList: 'note-list',
   },
   image: {
-    content: 'image',
-  }
+    image: 'image',
+  },
 }

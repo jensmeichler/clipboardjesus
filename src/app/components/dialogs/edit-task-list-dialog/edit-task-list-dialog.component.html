@@ -34,7 +34,7 @@
     </div>
     <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>{{ 'HEADER' | translate }}</mat-label>
-      <input matInput [(ngModel)]="data.header">
+      <input matInput [(ngModel)]="data.header" data-cy="edit-task-list-dialog-header">
     </mat-form-field>
     <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>{{ 'TASKS' | translate }}</mat-label>
@@ -49,16 +49,21 @@
           </button>
         </mat-chip>
         <input cdkFocusInitial
-          [placeholder]="'NEW_ITEM' | translate"
-          [matChipInputFor]="chipList"
-          (matChipInputTokenEnd)="addItem($event)">
+               [placeholder]="'NEW_ITEM' | translate"
+               [matChipInputFor]="chipList"
+               (matChipInputTokenEnd)="addItem($event)"
+               data-cy="edit-task-list-dialog-tasks">
       </mat-chip-list>
       <mat-hint>{{ 'TASKS_HINT' | translate }}</mat-hint>
     </mat-form-field>
   </div>
 
   <div class="dialog-button-group">
-    <button mat-button (click)="cancel()">{{ 'CANCEL' | translate }}</button>
-    <button mat-button (click)="submit()" class="ok-button">{{ 'OK' | translate }}</button>
+    <button mat-button (click)="cancel()" data-cy="edit-task-list-dialog-cancel">
+      {{ 'CANCEL' | translate }}
+    </button>
+    <button mat-button (click)="submit()" data-cy="edit-task-list-dialog-submit" class="ok-button">
+      {{ 'OK' | translate }}
+    </button>
   </div>
 </div>

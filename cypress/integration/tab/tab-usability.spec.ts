@@ -14,8 +14,8 @@ context('Tab usability', () => {
 
   it('should not contain items', () => {
     cy.dataCy(dataCy.note.note).should('not.exist');
-    cy.dataCy(dataCy.taskList.content).should('not.exist');
-    cy.dataCy(dataCy.noteList.content).should('not.exist');
-    cy.dataCy(dataCy.image.content).should('not.exist');
+    cy.dataCy(dataCy.taskList.taskList).should('not.exist');
+    cy.dataCy(dataCy.noteList.noteList).should('not.exist');
+    cy.dataCy(dataCy.image.image).should('not.exist');
   })
 })

@@ -138,14 +138,14 @@
     <button (click)="saveAs(); $event.stopPropagation()" [disabled]="!dataService.itemsCount" class="save-as-button"
             [matTooltip]="'SAVE_AS' | translate" [attr.aria-label]="'SAVE_AS' | translate"
             mat-mini-fab matTooltipPosition="left" color="accent"
-            data-cy="save-as-button">
+            data-cy="save-as-btn">
       <mat-icon>save_as</mat-icon>
     </button>
     <button (click)="save(); $event.stopPropagation()" [disabled]="!dataService.itemsCount"
             [matTooltip]="(saveButtonTooltip | async) ?? ''"
             [attr.aria-label]="(saveButtonTooltip | async) ?? ('SAVE' | translate)"
             color="primary" mat-fab matTooltipPosition="left"
-            data-cy="save-button">
+            data-cy="save-btn">
       <mat-icon>save</mat-icon>
     </button>
   </div>
@@ -157,7 +157,7 @@
 
   <!-- Top right buttons -->
   <button class="settings-button" mat-icon-button [matMenuTriggerFor]="settingsMenu"
-          [attr.aria-label]="'SETTINGS' | translate" data-cy="settings-button">
+          [attr.aria-label]="'SETTINGS' | translate" data-cy="settings-btn">
     <mat-icon>settings</mat-icon>
   </button>
   <mat-menu #settingsMenu="matMenu">
