@@ -9,16 +9,15 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎
       - uses: actions/checkout@v2
 
-      - name: Install dependencies 📦
+      - name: Install dependencies
         run: npm install
 
-      - name: Build project 🏗
+      - name: Build project
         run: npm run build
 
-      - name: Deploy to Github pages 🚀
+      - name: Deploy to Github pages
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           branch: gh-pages
