@@ -16,6 +16,9 @@ jobs:
           browser: chrome
           start: npm run start
           wait-on: 'http://localhost:4201'
+          record: true
+        env:
+          CYPRESS_RECORD_KEY: '01dbe592-356f-404b-996c-7a3eb9ffcb81'
 
       - name: Cypress run on firefox
         uses: cypress-io/github-action@v2

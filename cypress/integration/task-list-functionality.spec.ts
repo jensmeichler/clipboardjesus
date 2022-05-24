@@ -1,24 +1,9 @@
 /// <reference types="cypress" />
 
-import singleTaskListTab from "../../fixtures/single-task-list.json";
-import {dataCy, selectors} from "../../support/selectors";
+import singleTaskListTab from "../fixtures/single-task-list.json";
+import {dataCy, selectors} from "../support/selectors";
 
 context('Task list functionality', () => {
-  describe('Import task lists', () =>  {
-    beforeEach(() => {
-      cy.seed(singleTaskListTab);
-      cy.visit('/');
-    })
-
-    it('should contain a single task list', () => {
-      cy.dataCy(dataCy.taskList.taskList).should('have.length', 1);
-    })
-
-    it('should contain 4 tasks', () => {
-      cy.dataCy(dataCy.taskList.tasks).should('have.length', 4);
-    })
-  })
-
   describe('Create task lists', () => {
     beforeEach(() => {
       cy.visit('/');
@@ -43,7 +28,13 @@ context('Task list functionality', () => {
       cy.visit('/');
     })
 
-    it('should delete task list on delete click', () => {
+    xit('should delete task list on delete click', () => {
+      cy.dataCy(dataCy.taskList.tasks).should('have.length', 4);
+      //TODO: Delete first task
+      cy.dataCy(dataCy.taskList.tasks).should('have.length', 3);
+      //TODO: Delete first task
+      cy.dataCy(dataCy.taskList.tasks).should('have.length', 2);
+      //TODO: Delete first task
       cy.dataCy(dataCy.taskList.taskList).should('be.visible');
       cy.dataCy(dataCy.taskList.deleteBtn).click();
       cy.dataCy(dataCy.taskList.taskList).should('not.exist');
