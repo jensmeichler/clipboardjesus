@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1653330683776,
+  "timestamp": 1653359808778,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -114,7 +114,7 @@
     "/assets/hashy-fg.svg": "90abd65560511a65a4e2def92072e4aee6f159c7",
     "/assets/hashy.svg": "b4c7bf963b2df9a80a58643b5517be0b87b3aed3",
     "/assets/i18n/de.json": "69212f4861c515f2c730dabced5d11fdcd504c60",
-    "/assets/i18n/en.json": "86216678baf9b63d0b8988fdc3c4b0d896e7807f",
+    "/assets/i18n/en.json": "e9b59f2814a597dc4b0f0c4f5db8744a824ef182",
     "/assets/i18n/ua.json": "5fe285428d880f42ee32a04a71e2d4c58ab97043",
     "/assets/icons/apple-touch-icon.png": "5cec0227be3a3c6d4c5faf1f02d321c0697c0493",
     "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
