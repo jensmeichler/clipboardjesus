@@ -3,7 +3,7 @@
 import singleTaskListTab from "../fixtures/single-task-list.json";
 import {dataCy, selectors} from "../support/selectors";
 
-context('Task list functionality', () => {
+describe('Task list functionality', () => {
   describe('Create task lists', () => {
     beforeEach(() => {
       cy.visit('/');

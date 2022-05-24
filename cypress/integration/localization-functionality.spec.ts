@@ -2,7 +2,7 @@
 
 import {dataCy, selectors} from "../support/selectors";
 
-context('Localization functionality', () => {
+describe('Localization functionality', () => {
   it('should be localized in english, german, ukrainian', () => {
     // Default language should be english
     cy.visit('/');

@@ -5,7 +5,7 @@ import multipleNotesTab from '../fixtures/multiple-notes.json';
 import singleTaskListTab from "../fixtures/single-task-list.json";
 import {dataCy} from "../support/selectors";
 
-context('Tab functionality', () => {
+describe('Tab functionality', () => {
   beforeEach(() => {
     cy.seed([singleNoteTab, multipleNotesTab, singleTaskListTab]);
     cy.visit('/?tab=2');

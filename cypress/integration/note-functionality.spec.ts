@@ -4,7 +4,7 @@ import singleNoteTab from '../fixtures/single-note.json';
 import multipleNotesTab from '../fixtures/multiple-notes.json';
 import {dataCy, selectors} from "../support/selectors";
 
-context('Note functionality', () => {
+describe('Note functionality', () => {
   describe('Create notes', () => {
     beforeEach(() => {
       cy.visit('/');

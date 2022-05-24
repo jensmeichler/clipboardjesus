@@ -3,7 +3,7 @@
 import manyNotesTab from '../fixtures/many-notes.json';
 import {dataCy} from "../support/selectors";
 
-context('Localization functionality', () => {
+describe('Localization functionality', () => {
   let multicoloredNotesCount: number;
   let yellowNotesCount: number;
   let purpleNotesCount: number;
