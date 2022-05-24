@@ -1,4 +1,4 @@
-name: Running e2e tests
+name: 🧪 Running e2e tests
 
 on:
   push:
@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [ 1, 2, 3 ]
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
@@ -21,6 +25,7 @@ jobs:
           start: npm run start
           wait-on: 'http://localhost:4201'
           record: true
+          parallel: true
         env:
           CYPRESS_RECORD_KEY: '01dbe592-356f-404b-996c-7a3eb9ffcb81'
 
