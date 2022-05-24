@@ -15,10 +15,10 @@ jobs:
         containers: [ 1, 2 ]
     steps:
       - uses: actions/checkout@v2
-      - name: Install dependencies
+      - name: Install dependencies 📦
         run: npm install
 
-      - name: Cypress run on chrome
+      - name: Cypress run on chrome 🧪
         uses: cypress-io/github-action@v2
         with:
           browser: chrome
@@ -29,7 +29,7 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: '01dbe592-356f-404b-996c-7a3eb9ffcb81'
 
-      - name: Cypress run on firefox
+      - name: Cypress run on firefox 🦊
         uses: cypress-io/github-action@v2
         with:
           browser: firefox
