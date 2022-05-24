@@ -6,11 +6,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout 🛎
       - uses: actions/checkout@v2
 
-      - name: Install dependencies
+      - name: Install dependencies 📦
         run: npm install
 
-      - name: Lint source files
+      - name: Lint source files 👕
         run: npm run lint
