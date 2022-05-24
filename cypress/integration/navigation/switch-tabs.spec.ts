@@ -1,11 +1,9 @@
-/// <reference types="cypress" />
+import singleNoteTab from '../../fixtures/single-note.json';
+import multipleNotesTab from '../../fixtures/multiple-notes.json';
+import singleTaskListTab from "../../fixtures/single-task-list.json";
+import {dataCy} from "../../support/selectors";
 
-import singleNoteTab from '../fixtures/single-note.json';
-import multipleNotesTab from '../fixtures/multiple-notes.json';
-import singleTaskListTab from "../fixtures/single-task-list.json";
-import {dataCy} from "../support/selectors";
-
-describe('Tab functionality', () => {
+describe('Switch tabs', () => {
   beforeEach(() => {
     cy.seed([singleNoteTab, multipleNotesTab, singleTaskListTab]);
     cy.visit('/?tab=2');

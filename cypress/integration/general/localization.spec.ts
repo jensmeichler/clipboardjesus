@@ -1,8 +1,6 @@
-/// <reference types="cypress" />
+import {dataCy, selectors} from "../../support/selectors";
 
-import {dataCy, selectors} from "../support/selectors";
-
-describe('Localization functionality', () => {
+describe('Localization', () => {
   it('should be localized in english, german, ukrainian', () => {
     // Default language should be english
     cy.visit('/');

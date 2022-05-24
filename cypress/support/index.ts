@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 // @ts-ignore
 import {Tab} from "../../src/app/models";
 

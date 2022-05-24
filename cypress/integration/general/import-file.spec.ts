@@ -1,9 +1,7 @@
-/// <reference types="cypress" />
+import manyNotesTab from '../../fixtures/many-notes.json';
+import {dataCy} from "../../support/selectors";
 
-import manyNotesTab from '../fixtures/many-notes.json';
-import {dataCy} from "../support/selectors";
-
-describe('Localization functionality', () => {
+describe('Import', () => {
   let multicoloredNotesCount: number;
   let yellowNotesCount: number;
   let purpleNotesCount: number;

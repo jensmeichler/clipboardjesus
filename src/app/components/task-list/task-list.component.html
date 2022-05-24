@@ -39,15 +39,17 @@
             <mat-icon>add</mat-icon>
           </button>
           <input *ngIf="item === itemToEdit" (keydown)="onKeyPressed($event, item)" (mousedown)="$event.stopPropagation()"
-                 [(ngModel)]="item.value" cbAutofocus>
+                 [(ngModel)]="item.value" cbAutofocus data-cy="task-list-task-input">
         </span>
         <span *ngIf="item !== itemToEdit">
           <button (click)="startEditItem(item)" class="item-button" mat-icon-button
-                  [attr.aria-label]="'EDIT' | translate">
+                  [attr.aria-label]="'EDIT' | translate"
+                  data-cy="task-list-task-edit-btn">
             <mat-icon>edit</mat-icon>
           </button>
           <button (click)="deleteItem(item)" class="item-button" mat-icon-button
-                  [attr.aria-label]="'DELETE' | translate" style="margin-right: -8px">
+                  [attr.aria-label]="'DELETE' | translate" style="margin-right: -8px"
+                  data-cy="task-list-task-delete-btn">
             <mat-icon>delete</mat-icon>
           </button>
         </span>

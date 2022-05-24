@@ -41,6 +41,11 @@ export const dataCy = {
     editBtn: 'task-list-edit-btn',
     deleteBtn: 'task-list-delete-btn',
     moreBtn: 'task-list-more-btn',
+    task: {
+      editBtn: 'task-list-task-edit-btn',
+      deleteBtn: 'task-list-task-delete-btn',
+      input: 'task-list-task-input',
+    },
     dialog: {
       tasks: 'edit-task-list-dialog-tasks',
       header: 'edit-task-list-dialog-header',
