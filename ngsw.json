@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1653495231819,
+  "timestamp": 1653500136305,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -11,13 +11,13 @@
         "ignoreVary": true
       },
       "urls": [
-        "/722.755538ba7600a3ae.js",
+        "/722.f6a9ac033b3126ea.js",
         "/favicon.ico",
         "/index.html",
-        "/main.e9b918f55279a525.js",
+        "/main.ea85f94a4d3527fa.js",
         "/manifest.webmanifest",
-        "/polyfills.5813b7886570ccb2.js",
-        "/runtime.f95e71b977c48be0.js",
+        "/polyfills.fe6b2061bd93e8ec.js",
+        "/runtime.13b2720262953c56.js",
         "/scripts.59da18659c125faa.js",
         "/styles.db33a987820e26ff.css"
       ],
@@ -104,7 +104,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "/722.755538ba7600a3ae.js": "996016f826b05c02cf9203a7dea2f78f4c3b350c",
+    "/722.f6a9ac033b3126ea.js": "17235f127ff459c4b61febdab58b543005042f36",
     "/assets/flags/de.svg": "214f9c5a89272ade7794800fb3b63f611fe3f2c4",
     "/assets/flags/en.svg": "68b2ead4370e7ab7b70eb6d35a09c31e73c44fd3",
     "/assets/flags/ua.svg": "3a484a496b721f8ff4955497e6b38baec232e855",
@@ -172,11 +172,11 @@
     "/de.9336ec706d3e4915.svg": "214f9c5a89272ade7794800fb3b63f611fe3f2c4",
     "/en.90bfbf6e60d2b604.svg": "68b2ead4370e7ab7b70eb6d35a09c31e73c44fd3",
     "/favicon.ico": "ec1e61231942c76e18b9ac8bd322346390c19500",
-    "/index.html": "0d6c2add95e5cce1b0e339d734b3a2dcc6f59139",
-    "/main.e9b918f55279a525.js": "3cabf9a69ba39f0b6b12d94da0e3302ed104261f",
+    "/index.html": "9d9ffe173d86527f956309d12868eae0fbf6f5d4",
+    "/main.ea85f94a4d3527fa.js": "e5707b27bf5b45a23afc96d0c40bc7c9b7d89152",
     "/manifest.webmanifest": "02e7d1ce4371368a6ea5e36cd4ef2244610a7cfe",
-    "/polyfills.5813b7886570ccb2.js": "eb4aed8e4dbb23419d97824325f7196011005dc1",
-    "/runtime.f95e71b977c48be0.js": "8521c6814f8e0978c4e4dea9fd13632ae323acdc",
+    "/polyfills.fe6b2061bd93e8ec.js": "73c7a52059304f0bde00924357f239946ac8f127",
+    "/runtime.13b2720262953c56.js": "0217e4f22aa27881443d8889eca26f14fdbb6c0a",
     "/scripts.59da18659c125faa.js": "9a1471e7da17f34e252774dc1c7d3d0afa839666",
     "/styles.db33a987820e26ff.css": "80d5221a76cbc3be1011fb257cdb3c66d236a6fe",
     "/ua.c0bb7b2588dfc86d.svg": "3a484a496b721f8ff4955497e6b38baec232e855"
