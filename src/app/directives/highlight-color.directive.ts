@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener, Input} from '@angular/core';
+import {Directive, HostBinding, HostListener, Input} from '@angular/core';
 import {DraggableNote} from "../models";
 import {SettingsService} from "../services";
 import {scrolledPosition} from "../const";
@@ -9,6 +9,10 @@ import {scrolledPosition} from "../const";
 export class HighlightColorDirective {
   private _cbHighlightColor?: string;
 
+  private _cursorX = 0;
+  private _cursorY = 0;
+  private _radEffectWidth = 0;
+
   @Input()
   set cbHighlightColor(value: string | undefined) {
     this._cbHighlightColor = value;
@@ -18,29 +22,20 @@ export class HighlightColorDirective {
   @Input()
   cbHighlightedItem?: DraggableNote;
 
-  radEffectWidth = 0;
-
-  constructor(
-    private readonly element: ElementRef,
-    private readonly settings: SettingsService
-  ) {
+  constructor(private readonly settings: SettingsService) {
   }
 
-  setBackground(absoluteMousePos: { x: number, y: number }): void {
-    const highlightColorOpacity = `${this._cbHighlightColor}67`;
-    this.element.nativeElement.style.backgroundImage =
-      (this._cbHighlightColor ? `linear-gradient(to bottom, transparent, ${this._cbHighlightColor}), ` : '')
-      + `radial-gradient(circle at ${absoluteMousePos.x}px ${absoluteMousePos.y}px , `
-      + (this._cbHighlightColor ? highlightColorOpacity : 'var(--color-primary-opacity)')
-      + ` 0, transparent ${this.radEffectWidth}px, transparent)`;
+  @HostBinding('style.background-image')
+  get background(): string {
+    return (this._cbHighlightColor ? `linear-gradient(to bottom, transparent, ${this._cbHighlightColor}), ` : '')
+      + `radial-gradient(circle at ${this._cursorX}px ${this._cursorY}px , `
+      + (this._cbHighlightColor ? `${this._cbHighlightColor}67` : 'var(--color-primary-opacity)')
+      + ` 0, transparent ${this._radEffectWidth}px, transparent)`;
   }
 
   @HostListener('mouseleave')
   onMouseLeave(): void {
-    this.radEffectWidth = 0;
-    this.element.nativeElement.style.backgroundImage = this._cbHighlightColor
-      ? `linear-gradient(to bottom, transparent, ${this._cbHighlightColor})`
-      : 'none';
+    this._radEffectWidth = 0;
   }
 
   @HostListener('mousemove', ['$event'])
@@ -49,16 +44,15 @@ export class HighlightColorDirective {
 
     if (event.which !== 1) {
       const scrolled = scrolledPosition();
-      const x = event.pageX - (this.cbHighlightedItem?.posX ?? 0) + scrolled.left;
-      const y = event.pageY - (this.cbHighlightedItem?.posY ?? 0) + scrolled.top;
-      this.setBackground({x, y});
+      this._cursorX = event.pageX - (this.cbHighlightedItem?.posX ?? 0) + scrolled.left;
+      this._cursorY = event.pageY - (this.cbHighlightedItem?.posY ?? 0) + scrolled.top;
     }
 
     const maxEffectWidth = 120;
     const currentMovement = Math.abs(event.movementX) + Math.abs(event.movementY);
-    if (this.radEffectWidth < maxEffectWidth) {
-      const newEffectWith = this.radEffectWidth + currentMovement * 3;
-      this.radEffectWidth = newEffectWith < maxEffectWidth
+    if (this._radEffectWidth < maxEffectWidth) {
+      const newEffectWith = this._radEffectWidth + currentMovement * 3;
+      this._radEffectWidth = newEffectWith < maxEffectWidth
         ? newEffectWith
         : maxEffectWidth;
     }
