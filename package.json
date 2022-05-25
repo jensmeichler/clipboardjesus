@@ -27,7 +27,6 @@
     "@types/file-saver": "^2.0.4",
     "angular-cli-ghpages": "^1.0.0",
     "file-saver": "^2.0.5",
-    "moment": "^2.29.1",
     "ngx-filesaver": "^13.0.0",
     "ngx-highlightjs": "^6.1.1",
     "ngx-markdown": "^13.0.0",
