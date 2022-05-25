@@ -67,6 +67,7 @@ html, body {
 .mat-card {
   background: var(--color-note);
   border-radius: var(--border-radius) !important;
+  transition: all ease-in-out .2s;
   .mat-card-content {
     white-space: nowrap;
   }

@@ -19,10 +19,16 @@ export class HighlightColorDirective {
     this.onMouseLeave();
   }
 
-  @Input()
-  cbHighlightedItem?: DraggableNote;
+  @Input() cbHighlightedItem?: DraggableNote;
 
   constructor(private readonly settings: SettingsService) {
+  }
+
+  @HostBinding('style.transition') transition = 'filter ease-in-out .18s';
+
+  @HostBinding('style.filter')
+  get filter(): string {
+    return this._radEffectWidth ? 'brightness(0.9)' : 'none';
   }
 
   @HostBinding('style.background-image')
