@@ -4,48 +4,41 @@ import {Directive, HostBinding, HostListener} from '@angular/core';
   selector: '[cbDragDrop]'
 })
 export class DragDropDirective {
-  counter = 0;
+  private _hoveredSection = 0;
 
   @HostBinding('class')
-  elementClass = 'clipboard';
+  get elementClass(): string {
+    return this._hoveredSection === 0
+      ? 'clipboard'
+      : 'clipboard clipboard-hover';
+  }
 
   @HostListener("dragover", ["$event"])
   onDragOver(event: any): void {
     event.preventDefault();
-    this.addClass();
   }
 
   @HostListener("dragenter", ["$event"])
   onDragEnter(event: any): void {
     event.preventDefault();
-    this.counter++;
-    this.addClass();
+    this._hoveredSection++;
   }
 
   @HostListener("dragend")
   onDragEnd(): void {
-    this.removeClass();
+    this._hoveredSection = 0;
   }
 
   @HostListener("dragleave")
   onDragLeave(): void {
-    if (--this.counter === 0) return;
-    this.removeClass();
+    if (this._hoveredSection === 0) return;
+    this._hoveredSection--;
   }
 
   @HostListener("drop", ["$event"])
   onDrop(event: any): void {
     event.preventDefault();
     event.stopPropagation();
-    this.removeClass();
-  }
-
-  private addClass(): void {
-    this.elementClass = 'clipboard clipboard-hover';
-  }
-
-  private removeClass(): void {
-    this.elementClass = 'clipboard';
-    this.counter = 0;
+    this._hoveredSection = 0;
   }
 }
