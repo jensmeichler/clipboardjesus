@@ -1,4 +1,4 @@
-import {colorRegex} from "../const/regexes";
+import {colorRegex} from "../const";
 import {DraggableNote} from "./draggable-note.model";
 
 export class Note implements DraggableNote {

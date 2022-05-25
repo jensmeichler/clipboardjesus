@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {hyperlinkRegex} from "../const/regexes";
+import {hyperlinkRegex} from "../const";
 
 @Injectable({
   providedIn: 'root'

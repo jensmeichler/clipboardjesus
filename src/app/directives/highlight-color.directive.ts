@@ -1,6 +1,7 @@
 import {Directive, ElementRef, HostListener, Input} from '@angular/core';
 import {DraggableNote} from "../models";
 import {SettingsService} from "../services";
+import {scrolledPosition} from "../const";
 
 @Directive({
   selector: '[cbHighlightColor]'
@@ -16,9 +17,6 @@ export class HighlightColorDirective {
 
   @Input()
   cbHighlightedItem?: DraggableNote;
-
-  @Input() x?: number;
-  @Input() y?: number;
 
   radEffectWidth = 0;
 
@@ -50,13 +48,9 @@ export class HighlightColorDirective {
     if (this.settings.animationsDisabled) return;
 
     if (event.which !== 1) {
-      const tabBody = document.documentElement.getElementsByClassName('mat-tab-body-active')[0];
-      const scrolledLeft = tabBody.scrollLeft ?? 0;
-      const scrolledTop = tabBody.scrollTop ?? 0;
-
-      const x = event.pageX - (this.x ?? this.cbHighlightedItem?.posX ?? 0) + scrolledLeft;
-      const y = event.pageY - (this.y ?? this.cbHighlightedItem?.posY ?? 0) + scrolledTop;
-
+      const scrolled = scrolledPosition();
+      const x = event.pageX - (this.cbHighlightedItem?.posX ?? 0) + scrolled.left;
+      const y = event.pageY - (this.cbHighlightedItem?.posY ?? 0) + scrolled.top;
       this.setBackground({x, y});
     }
 
