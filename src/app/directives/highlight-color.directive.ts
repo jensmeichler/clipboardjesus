@@ -31,17 +31,17 @@ export class HighlightColorDirective {
   setBackground(absoluteMousePos: { x: number, y: number }): void {
     const highlightColorOpacity = `${this._cbHighlightColor}67`;
     this.element.nativeElement.style.backgroundImage =
-      (this._cbHighlightColor ? 'linear-gradient(to bottom, transparent, ' + this._cbHighlightColor + '), ' : '')
-      + 'radial-gradient(circle at ' + absoluteMousePos.x + 'px ' + absoluteMousePos.y + 'px , '
+      (this._cbHighlightColor ? `linear-gradient(to bottom, transparent, ${this._cbHighlightColor}), ` : '')
+      + `radial-gradient(circle at ${absoluteMousePos.x}px ${absoluteMousePos.y}px , `
       + (this._cbHighlightColor ? highlightColorOpacity : 'var(--color-primary-opacity)')
-      + ' 0, transparent ' + this.radEffectWidth + 'px' + ', transparent)';
+      + ` 0, transparent ${this.radEffectWidth}px, transparent)`;
   }
 
   @HostListener('mouseleave')
   onMouseLeave(): void {
     this.radEffectWidth = 0;
     this.element.nativeElement.style.backgroundImage = this._cbHighlightColor
-      ? 'linear-gradient(to bottom, transparent, ' + this._cbHighlightColor + ')'
+      ? `linear-gradient(to bottom, transparent, ${this._cbHighlightColor})`
       : 'none';
   }
 
