@@ -31,7 +31,7 @@ export class SmallNoteComponent {
   copy(): void {
     if (!this.note?.content) return;
     this.clipboard.copy(this.note.content);
-    this.hashy.show('Copied to clipboard', 600);
+    this.hashy.show('COPIED_TO_CLIPBOARD', 600);
   }
 
   edit(): void {

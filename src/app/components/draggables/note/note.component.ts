@@ -90,7 +90,7 @@ export class NoteComponent implements OnInit {
   copy(): void {
     if (this.note.content && !this.rippleDisabled && this.canInteract) {
       this.clipboard.copy(this.note.content);
-      this.hashy.show('Copied to clipboard', 600);
+      this.hashy.show('COPIED_TO_CLIPBOARD', 600);
     }
   }
 
