@@ -251,8 +251,5 @@
     <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-left: 12px; font-style: normal">{{ dataService.isBeta ? '_BETA' : 'BOARD' }}</span>
   </b>
 
-  <img [class.show-hashy-bg]="hashy.showHashy | async" alt="hashy"
-       class="hashy hashy-bg" height="124" src="assets/hashy-bg.svg">
-  <img [class.show-hashy]="hashy.showHashy | async" alt="hashy"
-       class="hashy" height="154" src="assets/hashy-fg.svg">
+  <cb-hashy></cb-hashy>
 </div>

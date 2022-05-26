@@ -77,32 +77,6 @@
   }
 }
 
-.hashy {
-  position: fixed;
-  bottom: 42px;
-  left: 22px;
-  z-index: 1000;
-  transition: all cubic-bezier(.8, -.5, .8, 1) .5s;
-  transform: translateY(60px) scale(0);
-}
-
-.show-hashy {
-  transition: all cubic-bezier(.5, -.3, 0, 2) .3s;
-  transform: translateY(0) scale(1);
-}
-
-.hashy-bg {
-  opacity: 0;
-  transition-delay: 100ms;
-}
-
-.show-hashy-bg {
-  transition: all cubic-bezier(.5, -.3, 0, 2) .3s;
-  transform: translateY(0) scale(1);
-  opacity: 1;
-  transition-delay: .1s;
-}
-
 .startup-logo {
   cursor: pointer;
   font-size: 8rem;

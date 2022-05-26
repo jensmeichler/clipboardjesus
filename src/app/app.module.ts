@@ -52,6 +52,7 @@ import {
   DragDropDirective,
   HighlightColorDirective
 } from './directives';
+import {HashyComponent} from './components/illustrations/hashy/hashy.component';
 
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
@@ -96,6 +97,7 @@ export function createTranslateLoader(http: HttpClient) {
     NoteListComponent,
     EditNoteListDialogComponent,
     SmallNoteComponent,
+    HashyComponent,
   ],
   imports: [
     BrowserModule,
