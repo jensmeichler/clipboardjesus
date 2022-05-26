@@ -2,10 +2,10 @@ import {Clipboard} from "@angular/cdk/clipboard";
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {htmlRegex} from "../../const";
-import {Note, NoteList, TaskList} from "../../models";
-import {DataService, HashyService} from "../../services";
-import {EditNoteDialogComponent} from "../dialogs";
+import {htmlRegex} from "../../../const";
+import {Note, NoteList, TaskList} from "../../../models";
+import {DataService, HashyService} from "../../../services";
+import {EditNoteDialogComponent} from "../../dialogs";
 
 @Component({
   selector: 'cb-note',

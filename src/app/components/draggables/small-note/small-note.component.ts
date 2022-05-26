@@ -1,9 +1,9 @@
 import {Component, Input, ViewChild} from '@angular/core';
-import {Note, NoteList, TaskList} from "../../models";
-import {DataService, HashyService} from "../../services";
+import {Note, NoteList, TaskList} from "../../../models";
+import {DataService, HashyService} from "../../../services";
 import {Clipboard} from "@angular/cdk/clipboard";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {EditNoteDialogComponent} from "../dialogs";
+import {EditNoteDialogComponent} from "../../dialogs";
 import {MatDialog} from "@angular/material/dialog";
 
 @Component({

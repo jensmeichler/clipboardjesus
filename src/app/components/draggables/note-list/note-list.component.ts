@@ -1,8 +1,8 @@
 import {Component, Input, ViewChild} from '@angular/core';
-import {Note, NoteList, TaskList} from "../../models";
+import {Note, NoteList, TaskList} from "../../../models";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {DataService} from "../../services";
-import {EditNoteDialogComponent, EditNoteListDialogComponent} from "../dialogs";
+import {DataService} from "../../../services";
+import {EditNoteDialogComponent, EditNoteListDialogComponent} from "../../dialogs";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 
