@@ -44,7 +44,9 @@ import {
   TaskListComponent,
   NoteListComponent,
   EditNoteListDialogComponent,
-  SmallNoteComponent
+  SmallNoteComponent,
+  HashyComponent,
+  SignatureComponent
 } from './components';
 import {
   AutofocusDirective,
@@ -52,7 +54,6 @@ import {
   DragDropDirective,
   HighlightColorDirective
 } from './directives';
-import {HashyComponent} from './components/illustrations/hashy/hashy.component';
 
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
@@ -98,6 +99,7 @@ export function createTranslateLoader(http: HttpClient) {
     EditNoteListDialogComponent,
     SmallNoteComponent,
     HashyComponent,
+    SignatureComponent,
   ],
   imports: [
     BrowserModule,
