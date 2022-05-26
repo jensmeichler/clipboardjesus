@@ -2,12 +2,10 @@
   "name": "clipboard",
   "version": "1.0.0",
   "scripts": {
-    "restore": "npm install",
     "start": "ng serve --port 4201",
     "build": "ng build --base-href",
     "lint": "ng lint",
-    "e2e:open": "cypress open",
-    "e2e:run": "cypress run"
+    "test": "cypress open"
   },
   "private": true,
   "dependencies": {
