@@ -46,6 +46,7 @@ import {
   EditNoteListDialogComponent,
   SmallNoteComponent,
   HashyComponent,
+  HashyAnimatedComponent,
   SignatureComponent
 } from './components';
 import {
@@ -98,8 +99,9 @@ export function createTranslateLoader(http: HttpClient) {
     NoteListComponent,
     EditNoteListDialogComponent,
     SmallNoteComponent,
-    HashyComponent,
+    HashyAnimatedComponent,
     SignatureComponent,
+    HashyComponent,
   ],
   imports: [
     BrowserModule,
