@@ -1,5 +1,7 @@
-<svg [class.show-hashy-bg]="showAlways || (hashy.showHashy | async)" class="hashy hashy-bg" height="124"
-     [class.fixed-position]="!showAlways" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 308.041 330.204">
+<svg [class.fixed-position]="!showAlways" class="hashy hashy-bg" height="124"
+     [class.show-hashy-bg]="showAlways || (hashy.showHashy | async)"
+     [class.scale-for-dialog]="showAlways"
+     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 308.041 330.204">
   <defs>
     <filter id="Ellipse_7">
       <feOffset dx="13" input="SourceAlpha"/>
@@ -116,8 +118,10 @@
   </g>
 </svg>
 
-<svg [class.show-hashy]="showAlways || (hashy.showHashy | async)" class="hashy" height="154"
-     [class.fixed-position]="!showAlways" [class.move-to-left]="showAlways"
+<svg [class.fixed-position]="!showAlways" class="hashy" height="154"
+     [class.show-hashy]="showAlways || (hashy.showHashy | async)"
+     [class.move-to-left-for-dialog]="showAlways"
+     [class.scale-for-dialog]="showAlways"
      xmlns="http://www.w3.org/2000/svg" viewBox="0 0 277.219 405.204">
   <defs>
     <filter id="Pfad_1" x="61.014" y="4.052" width="102.33" height="395.778" filterUnits="userSpaceOnUse">

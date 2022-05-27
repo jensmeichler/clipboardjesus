@@ -5,9 +5,12 @@
   z-index: 1000;
 }
 
-.move-to-left {
-  // Hack to set the foreground to the same position as the background
-  transform: translateX(-116px) !important;
+.scale-for-dialog {
+  transform: scale(0.9) translate(-16px, -10px) !important;
+}
+
+.move-to-left-for-dialog {
+  margin-left: -116px;
 }
 
 .hashy {
