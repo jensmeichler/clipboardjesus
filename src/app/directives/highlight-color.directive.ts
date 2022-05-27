@@ -47,11 +47,12 @@ export class HighlightColorDirective {
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
     if (this.settings.animationsDisabled) return;
+    if (!this.cbHighlightedItem) return;
 
     if (event.which !== 1) {
       const scrolled = scrolledPosition();
-      this._cursorX = event.pageX - (this.cbHighlightedItem?.posX ?? 0) + scrolled.left;
-      this._cursorY = event.pageY - (this.cbHighlightedItem?.posY ?? 0) + scrolled.top;
+      this._cursorX = event.pageX - this.cbHighlightedItem.posX + scrolled.left;
+      this._cursorY = event.pageY - this.cbHighlightedItem.posY + scrolled.top;
     }
 
     const maxEffectWidth = 120;
