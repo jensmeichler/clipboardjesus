@@ -5,32 +5,29 @@
   z-index: 1000;
 }
 
-.scale-for-dialog {
-  transform: scale(0.9) translate(-16px, -10px) !important;
-}
-
-.move-to-left-for-dialog {
-  margin-left: -116px;
-}
-
 .hashy {
   transition: all cubic-bezier(.8, -.5, .8, 1) .5s;
   transform: translateY(60px) scale(0);
-}
-
-.show-hashy {
-  transition: all cubic-bezier(.5, -.3, 0, 2) .3s;
-  transform: translateY(0) scale(1);
-}
-
-.hashy-bg {
-  opacity: 0;
-  transition-delay: 100ms;
-}
-
-.show-hashy-bg {
-  transition: all cubic-bezier(.5, -.3, 0, 2) .3s;
-  transform: translateY(0) scale(1);
-  opacity: 1;
-  transition-delay: .1s;
+  &.background {
+    opacity: 0;
+    transition-delay: 100ms;
+    &.show {
+      transition: all cubic-bezier(.5, -.3, 0, 2) .3s;
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      transition-delay: .1s;
+      &.dialog {
+        transform: scale(0.9) translate(-16px, -10px);
+      }
+    }
+  }
+  &.foreground {
+    &.show {
+      transition: all cubic-bezier(.5, -.3, 0, 2) .3s;
+      transform: translateY(0) scale(1);
+      &.dialog {
+        transform: scale(0.9) translate(-143px, -10px);
+      }
+    }
+  }
 }
