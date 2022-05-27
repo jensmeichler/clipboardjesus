@@ -4,7 +4,7 @@ import {HashyService} from "../../../services";
 @Component({
   selector: 'cb-hashy',
   templateUrl: './hashy.component.html',
-  styleUrls: ['./hashy.component.css']
+  styleUrls: ['./hashy.component.scss']
 })
 export class HashyComponent {
   @Input() showAlways = false;

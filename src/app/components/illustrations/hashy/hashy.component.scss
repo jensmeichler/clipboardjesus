@@ -1,8 +1,16 @@
-.hashy {
+.fixed-position {
   position: fixed;
   bottom: 42px;
   left: 22px;
   z-index: 1000;
+}
+
+.move-to-left {
+  // Hack to set the foreground to the same position as the background
+  transform: translateX(-116px) !important;
+}
+
+.hashy {
   transition: all cubic-bezier(.8, -.5, .8, 1) .5s;
   transform: translateY(60px) scale(0);
 }
