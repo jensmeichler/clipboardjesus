@@ -2,13 +2,13 @@ import {Injectable} from '@angular/core';
 
 @Injectable({providedIn: 'root'})
 export class FileAccessService {
-  read(path: string): string {
+  async read(path: string): Promise<string> {
     //TODO: implement
-    return '';
+    return window.__TAURI__.fs.readTextFile(path);
   }
 
   write(content: string, path: string): void {
     //TODO: implement
-    return;
+    let file: FsTextFileOption;
   }
 }
