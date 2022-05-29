@@ -29,7 +29,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "www.clipboardjesus.com",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -59,7 +59,8 @@
         "height": 900,
         "resizable": true,
         "title": "Clip#board",
-        "width": 1200
+        "width": 1200,
+        "theme": "Dark"
       }
     ]
   }
