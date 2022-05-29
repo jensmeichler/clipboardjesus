@@ -246,7 +246,7 @@ export class DataService {
 
       tab.index--;
       result.push(tab);
-    })
+    });
     this.tabs = result;
 
     const isRightTab = index > (this.tabs.length - 1);
@@ -509,9 +509,9 @@ export class DataService {
   }
 
   selectNextTab(revert: boolean): void {
-    if (!((this.selectedTabIndex === 0 && revert) || (this.selectedTabIndex === (this.tabs.length - 1) && !revert))) {
-      this.selectedTabIndex = revert ? this.selectedTabIndex - 1 : this.selectedTabIndex + 1;
-    }
+    if (this.selectedTabIndex === 0 && revert) return;
+    if (this.selectedTabIndex === (this.tabs.length - 1) && !revert) return;
+    this.selectedTabIndex = revert ? this.selectedTabIndex - 1 : this.selectedTabIndex + 1;
   }
 
   selectNextItem(revert: boolean): void {
