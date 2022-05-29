@@ -5,10 +5,8 @@
     "start": "ng serve --port 4201",
     "build": "ng build --base-href",
     "lint": "ng lint",
-    "e2e:run": "cypress run",
-    "e2e:start": "cypress open",
-    "tauri:build": "tauri build",
-    "tauri:start": "tauri dev"
+    "test": "cypress open",
+    "tauri": "tauri"
   },
   "private": true,
   "dependencies": {
