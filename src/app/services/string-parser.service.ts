@@ -1,9 +1,7 @@
 import {Injectable} from '@angular/core';
 import {hyperlinkRegex} from "../const";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class StringParserService {
   convert(rawText?: string): string {
     if (!rawText) return '';

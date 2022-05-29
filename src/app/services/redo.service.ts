@@ -2,9 +2,7 @@ import {Injectable} from '@angular/core';
 import {Tab} from "../models";
 import {BehaviorSubject} from "rxjs";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class RedoService {
   possibleUndos: Tab[][] = [];
   possibleRedos: Tab[][] = [];

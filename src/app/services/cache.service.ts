@@ -2,9 +2,7 @@ import {Injectable} from '@angular/core';
 import {Tab} from "../models";
 import {RedoService} from "./redo.service";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class CacheService {
   redoPossible = this.redoService.redoPossible;
   undoPossible = this.redoService.undoPossible;

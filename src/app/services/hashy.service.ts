@@ -3,9 +3,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {BehaviorSubject, combineLatest, of} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class HashyService {
   showHashy = new BehaviorSubject(false);
 

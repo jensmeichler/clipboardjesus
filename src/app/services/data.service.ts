@@ -14,9 +14,7 @@ import {FileService} from "./file.service";
 import {HashyService} from "./hashy.service";
 import {ActivatedRoute, Router} from "@angular/router";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class DataService {
   isBeta: boolean;
 
