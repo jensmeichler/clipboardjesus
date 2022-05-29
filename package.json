@@ -5,7 +5,8 @@
     "start": "ng serve --port 4201",
     "build": "ng build --base-href",
     "lint": "ng lint",
-    "test": "cypress open"
+    "test": "cypress open",
+    "tauri": "tauri"
   },
   "private": true,
   "dependencies": {
@@ -41,6 +42,7 @@
     "@angular-eslint/template-parser": "13.2.1",
     "@angular/cli": "~13.3.5",
     "@angular/compiler-cli": "~13.3.0",
+    "@tauri-apps/cli": "^1.0.0-rc.13",
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "5.17.0",
     "@typescript-eslint/parser": "5.17.0",
