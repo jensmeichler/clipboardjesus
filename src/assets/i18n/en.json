@@ -30,6 +30,7 @@
   "DELETE_ALL_TABS": "Delete all tabs",
   "DELETE_N_ITEMS": "Delete {{n}} items",
   "DELETE_TAB": "Delete tab",
+  "DESKTOP": "Desktop",
   "DIALOG_TEXT_DELETE": "Those changes cannot be undone.",
   "DIALOG_TITLE_DELETE": "Are you sure you want to delete everything permanently?",
   "DIALOG_TEXT_IMPORT": "All your current tabs will be closed.",

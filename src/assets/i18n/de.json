@@ -30,6 +30,7 @@
   "DELETE_ALL_TABS": "Alle Tabs löschen",
   "DELETE_N_ITEMS": "{{n}} Einträge löschen",
   "DELETE_TAB": "Tab löschen",
+  "DESKTOP": "Desktop",
   "DIALOG_TEXT_DELETE": "Diese Änderungen können nicht rückgängig gemacht werden.",
   "DIALOG_TITLE_DELETE": "Sind Sie sicher, dass Sie alles dauerhaft löschen möchten?",
   "DIALOG_TEXT_IMPORT": "Alle Ihre aktuellen Tabs werden dabei geschlossen.",
