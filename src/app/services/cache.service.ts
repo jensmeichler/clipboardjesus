@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Tab} from "../models";
 import {RedoService} from "./redo.service";
+import {StorageService} from "./storage.service";
 
 @Injectable({providedIn: 'root'})
 export class CacheService {
@@ -8,7 +9,9 @@ export class CacheService {
   undoPossible = this.redoService.undoPossible;
   restorePossible = this.redoService.restorePossible;
 
-  constructor(private readonly redoService: RedoService) {
+  constructor(
+    private readonly redoService: RedoService,
+    private readonly storageService: StorageService) {
   }
 
   undo(index: number): boolean {
@@ -27,35 +30,25 @@ export class CacheService {
     this.redoService.do(index);
 
     const tabCopy = JSON.parse(JSON.stringify(tab)) as Tab;
-
     tabCopy.notes?.forEach(x => x.selected = undefined);
     tabCopy.taskLists?.forEach(x => x.selected = undefined);
     tabCopy.images?.forEach(x => x.selected = undefined);
     tabCopy.noteLists?.forEach(x => x.selected = undefined);
 
-    const key = "clipboard_data_" + index;
-    const content = JSON.stringify(tabCopy);
-    localStorage.setItem(key, content);
+    this.storageService.setTab(tabCopy, index);
   }
 
-  fetch(index: number): Tab | null {
-    const key = "clipboard_data_" + index;
-    const data = localStorage.getItem(key);
-    if (data) {
-      return JSON.parse(data) as Tab;
-    } else {
-      return null;
-    }
+  fetch(index: number): Tab | undefined {
+    return this.storageService.fetchTab(index);
   }
 
   remove(index: number): void {
     this.redoService.remove(index);
-    const key = "clipboard_data_" + index;
-    localStorage.removeItem(key);
+    this.storageService.deleteTab(index);
   }
 
   getJsonFromAll(): Tab[] {
-    let tabs: Tab[] = [];
+    const tabs: Tab[] = [];
     for (let i = 0; i < 20; i++) {
       const tab = this.fetch(i);
       if (tab) {
