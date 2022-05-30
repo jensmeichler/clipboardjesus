@@ -76,6 +76,7 @@ export class TabComponent {
       } else {
         const clipboardText = await navigator.clipboard.readText();
         if (!clipboardText) {
+          //TODO: localize
           this.hashy.show('Your clipboard is empty', 3000);
         } else {
           this.dataService.addNote(new Note(event.pageX, event.pageY, clipboardText))
@@ -112,6 +113,7 @@ export class TabComponent {
           this.dataService.addNote(new Note(posX, posY, text, file.name));
         })
       } else {
+        //TODO: localize
         this.hashy.show('Type ' + file.type.toUpperCase() + ' is not supported', 4000, 'Ok');
       }
     } else if (data?.kind === 'string') {

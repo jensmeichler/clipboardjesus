@@ -87,7 +87,7 @@ export class ImageComponent {
 
   copy(): void {
     this.clipboard.copy(this.image.source);
-    this.hashy.show('Copied link to clipboard', 600);
+    this.hashy.show('COPIED_URL_TO_CLIPBOARD', 600);
   }
 
   delete(event: MouseEvent, force?: boolean): void {
