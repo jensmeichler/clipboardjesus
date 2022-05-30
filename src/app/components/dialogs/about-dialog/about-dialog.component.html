@@ -15,9 +15,15 @@
     <a *ngIf="!dataService.isBeta" href="https://jensmeichler.github.io/clipboardjesus/" class="beta-button">
       {{ 'VIEW_BETA' | translate }}
     </a>
-    <a *ngIf="dataService.isBeta" href="https://www.clipboardjesus.com/" class="beta-button">
+    <span>
+      <a *ngIf="dataService.isBeta" href="https://www.clipboardjesus.com/" class="beta-button">
       {{ 'VISIT_PRODUCTIVE_VERSION' | translate }}
     </a>
+    <span>|</span>
+    <a href="/assets/installers/clipboardjesus-for-windows.msi" class="beta-button">
+      {{ 'DOWNLOAD_DESKTOP_CLIENT' | translate }}
+    </a>
+    </span>
   </ng-container>
   <ng-template #tauri>
     <a href="https://www.clipboardjesus.com/" class="beta-button" target="_tauri">
