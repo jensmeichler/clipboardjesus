@@ -23,6 +23,7 @@
     "@angular/service-worker": "~13.3.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
+    "@tauri-apps/api": "^1.0.0-rc.6",
     "@types/file-saver": "^2.0.4",
     "angular-cli-ghpages": "^1.0.0",
     "file-saver": "^2.0.5",
