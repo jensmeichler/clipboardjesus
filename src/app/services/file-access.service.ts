@@ -4,11 +4,13 @@ import {FsTextFileOption} from "@tauri-apps/api/fs";
 @Injectable({providedIn: 'root'})
 export class FileAccessService {
   async read(path: string): Promise<string> {
+    // @ts-ignore https://tauri.studio/v1/api/js/modules/fs/
     return window.__TAURI__.fs.readTextFile(path);
   }
 
   write(contents: string, path: string): void {
     const file: FsTextFileOption = {path, contents};
+    // @ts-ignore https://tauri.studio/v1/api/js/modules/fs/
     window.__TAURI__.fs.writeFile(file);
   }
 }
