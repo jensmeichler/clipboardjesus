@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {hyperlinkRegex} from "../const";
+import {__HREF__, hyperlinkRegex} from "../const";
 
 @Injectable({providedIn: 'root'})
 export class StringParserService {
@@ -24,7 +24,7 @@ export class StringParserService {
   }
 
   private static getAsHref(link: string): string {
-    const linkRef = link.startsWith('http') ? link : 'https://' + link;
-    return '<a href="' + linkRef + '" target="_blank">' + link + '</a>';
+    const linkRef = link.startsWith('http') ? link : `https://${link}`;
+    return `<a href="${linkRef}" target="${__HREF__}">${link}</a>`;
   }
 }

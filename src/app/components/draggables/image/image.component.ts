@@ -3,6 +3,7 @@ import {Component, Input, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from "@angular/material/menu";
 import {Image} from "../../../models";
 import {DataService, HashyService} from "../../../services";
+import {__HREF__} from "../../../const";
 
 @Component({
   selector: 'cb-image',
@@ -82,7 +83,7 @@ export class ImageComponent {
   }
 
   open(): void {
-    window.open(this.image.source, '_blank');
+    window.open(this.image.source, __HREF__);
   }
 
   copy(): void {

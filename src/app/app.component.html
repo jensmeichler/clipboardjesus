@@ -182,17 +182,17 @@
       <mat-icon>motion_photos_off</mat-icon>
       {{ 'DISABLE_ANIMATIONS' | translate }}
     </button>
-    <a href="https://github.com/jensmeichler/clipboardjesus/issues" mat-menu-item target="_blank"
+    <a href="https://github.com/jensmeichler/clipboardjesus/issues" mat-menu-item [target]="dataService._blank"
        [attr.aria-label]="'REPORT_BUG' | translate">
       <mat-icon>bug_report</mat-icon>
       {{ 'REPORT_BUG' | translate }}
     </a>
-    <a href="https://github.com/jensmeichler/clipboardjesus/commits" mat-menu-item target="_blank"
+    <a href="https://github.com/jensmeichler/clipboardjesus/commits" mat-menu-item [target]="dataService._blank"
        [attr.aria-label]="'VIEW_LAST_CHANGES' | translate">
       <mat-icon>published_with_changes</mat-icon>
       {{ 'VIEW_LAST_CHANGES' | translate }}
     </a>
-    <a href="https://www.buymeacoffee.com/jensmeichler" mat-menu-item target="_blank"
+    <a href="https://www.buymeacoffee.com/jensmeichler" mat-menu-item [target]="dataService._blank"
        [attr.aria-label]="'DONATE_TO_THE_DEVELOPER' | translate">
       <mat-icon class="heart">favorite</mat-icon>
       {{ 'DONATE_TO_THE_DEVELOPER' | translate }}

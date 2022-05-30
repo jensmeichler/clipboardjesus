@@ -14,11 +14,21 @@ import {FileService} from "./file.service";
 import {HashyService} from "./hashy.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FileAccessService} from "./file-access.service";
-import {__TAURI__} from "../const";
+import {__HREF__, __TAURI__} from "../const";
 
 @Injectable({providedIn: 'root'})
 export class DataService {
   isBeta: boolean;
+
+  /**
+   * gets '_blank' or '_tauri' according to the platform you are on
+   */
+  get _blank(): string {
+    return __HREF__;
+  };
+  get isTauri(): boolean {
+    return !!__TAURI__;
+  }
 
   private _selectedTabIndex = 0;
   get selectedTabIndex(): number {
@@ -53,7 +63,7 @@ export class DataService {
     private readonly activatedRoute: ActivatedRoute,
     private readonly fileAccessService: FileAccessService
   ) {
-    this.isBeta = !window.location.href.includes('clipboardjesus.com');
+    this.isBeta = !this.isTauri && !window.location.href.includes('clipboardjesus.com');
 
     for (let i = 0; i < 20; i++) {
       const tab = this.cache.fetch(i);

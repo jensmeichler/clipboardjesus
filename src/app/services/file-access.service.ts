@@ -5,6 +5,13 @@ import {__TAURI__, getTimeStamp} from "../const";
 
 @Injectable({providedIn: 'root'})
 export class FileAccessService {
+  _dataDir?: string;
+  get dataDir(): Promise<string> {
+    return this._dataDir
+      ? Promise.resolve(this._dataDir)
+      : __TAURI__.path.dataDir();
+  }
+
   loadedFileName = '';
 
   constructor(private readonly hashy: HashyService) {
@@ -27,12 +34,12 @@ export class FileAccessService {
       ? `${options.fileName ?? getTimeStamp()}.${options.fileType}`
       : this.loadedFileName;
 
-    const dataDir = await __TAURI__.path.dataDir();
+    const dataDir = await this.dataDir;
     const file: FsTextFileOption = {path: `${dataDir}${fileName}`, contents};
     try {
       await __TAURI__.fs.writeFile(file);
       //TODO: localize
-      this.hashy.show(`Saved as ${file.path}`, 2000, 'OK');
+      this.hashy.show(`Saved as ${file.path}`, 5000, 'OK');
       return true;
     } catch(error: any) {
       this.hashy.show(error.toString(), 9999, 'OK');
