@@ -18,9 +18,6 @@
         "writeFile": true,
         "scope": ["$DATA/**"]
       },
-      "path": {
-        "all": true
-      },
       "dialog": {
         "open": true,
         "save": true
@@ -42,7 +39,8 @@
         "icons/icon.ico"
       ],
       "identifier": "www.clipboardjesus.com",
-      "longDescription": "",
+      "shortDescription": "The Clip#board as a desktop app",
+      "longDescription": "Manage your clipboard like a pro with Clip#board. Clip#board is an awesome tool to create notes from your clipboard or to organize your tasks.",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -51,7 +49,6 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,

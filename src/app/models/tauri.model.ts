@@ -7,10 +7,6 @@ export type TAURI = {
     readTextFile(filePath: string, options?: FsOptions): Promise<string>,
     writeFile(file: FsTextFileOption, options?: FsOptions): Promise<void>,
   },
-  path: {
-    /* @see {@link https://tauri.studio/v1/api/js/modules/path} */
-    dataDir(): Promise<string>
-  },
   dialog: {
     /* @see {@link https://tauri.studio/v1/api/js/modules/dialog} */
     open(options?: OpenDialogOptions): Promise<null | string | string[]>,
