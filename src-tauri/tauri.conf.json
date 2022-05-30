@@ -4,7 +4,8 @@
     "beforeBuildCommand": "",
     "beforeDevCommand": "",
     "devPath": "http://localhost:4201",
-    "distDir": "../dist/clipboard"
+    "distDir": "../dist/clipboard",
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "clipboardjesus",
