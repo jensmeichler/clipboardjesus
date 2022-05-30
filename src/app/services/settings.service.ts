@@ -8,7 +8,19 @@ export class SettingsService {
     language: 'language',
     fontFamily: 'font-family',
     fontStyle: 'font-style',
+    lastLoadedFile: 'file-path',
   };
+
+  private _lastLoadedFilePath: string | undefined;
+  get lastLoadedFilePath(): string | undefined { return this._lastLoadedFilePath; }
+  set lastLoadedFilePath(value: string | undefined) {
+    this._lastLoadedFilePath = value;
+    if (value === undefined) {
+      localStorage.removeItem(this.storageKeys.lastLoadedFile);
+    } else {
+      localStorage.setItem(this.storageKeys.lastLoadedFile, value);
+    }
+  }
 
   private _animationsDisabled!: boolean;
   get animationsDisabled(): boolean { return this._animationsDisabled; }

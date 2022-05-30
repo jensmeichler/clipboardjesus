@@ -414,25 +414,33 @@ export class DataService {
     this.reArrangeIndices();
   }
 
-  saveAllAs(): void {
-    this.dialog.open(SaveAsDialogComponent, {
-      position: {
-        bottom: '90px',
-        right: 'var(--margin-edge)'
-      }
-    }).afterClosed().subscribe(async (filename) => {
-      if (filename) await this.saveAll(filename);
-    });
+  async saveAllAs(): Promise<void> {
+    if (__TAURI__) {
+      return __TAURI__.dialog.save().then(async (path) => {
+        const jsonString = JSON.stringify(this.getAsJson(true));
+        const fileName = `${path.replace('.boards.json', '')}.boards.json`;
+        await this.fileAccessService.write(jsonString, fileName);
+      })
+    } else {
+      this.dialog.open(SaveAsDialogComponent, {
+        position: {
+          bottom: '90px',
+          right: 'var(--margin-edge)'
+        }
+      }).afterClosed().subscribe(async (filename) => {
+        if (filename) await this.saveAll(filename);
+      });
+    }
   }
 
   async saveAll(fileName?: string): Promise<void> {
     const json = this.cache.getJsonFromAll();
     const contents = JSON.stringify(json);
-    const fileType = 'boards.json';
     if (__TAURI__) {
-      await this.fileAccessService.write(contents, { fileType, fileName});
+      fileName = fileName ? `${fileName.replace('.boards.json', '')}.boards.json` : undefined;
+      await this.fileAccessService.write(contents, fileName);
     } else {
-      const savedAs = this.fileService.save(contents, fileType, fileName);
+      const savedAs = this.fileService.save(contents, 'boards.json', fileName);
       //TODO: localize
       this.hashy.show('Saved all tabs as ' + savedAs, 3000, 'Ok');
     }

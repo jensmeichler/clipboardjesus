@@ -12,17 +12,17 @@ import {
   EditTaskListDialogComponent,
   EditNoteListDialogComponent
 } from "./components";
-import {Note, TaskList} from './models';
+import {Note, Tab, TaskList} from './models';
 import {
   CacheService,
-  DataService,
+  DataService, FileAccessService,
   HashyService,
   SettingsService
 } from "./services";
-import {Observable} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 import {NoteList} from "./models";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
+import {__TAURI__} from "./const";
 
 @Component({
   selector: 'cb-root',
@@ -51,7 +51,8 @@ export class AppComponent implements OnInit {
     private readonly router: Router,
     private readonly cache: CacheService,
     private readonly translate: TranslateService,
-    public readonly settings: SettingsService
+    public readonly settings: SettingsService,
+    private readonly fileAccessService: FileAccessService,
   ) {
   }
 
@@ -66,7 +67,7 @@ export class AppComponent implements OnInit {
         initialized = true;
       } else if (params.params) {
         const tab = JSON.parse(atob(params.params));
-        if (typeof tab != 'string') {
+        if (typeof tab !== 'string') {
           if (this.dataService.tabs.length === 1
             && this.dataService.itemsCount === 0) {
             this.cache.save(0, tab);
@@ -89,7 +90,7 @@ export class AppComponent implements OnInit {
   }
 
   @HostListener('document:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent): void {
+  async onKeyDown(event: KeyboardEvent): Promise<void> {
     if (event.key === 'Tab') {
       this.dataService.selectNextItem(event.shiftKey);
       event.preventDefault();
@@ -122,7 +123,7 @@ export class AppComponent implements OnInit {
           this.dataService.removeTab();
           return;
         case 'v':
-          this.dataService.importItemsFromClipboard();
+          await this.dataService.importItemsFromClipboard();
           return;
         case 'z':
           if (event.shiftKey) {
@@ -140,9 +141,9 @@ export class AppComponent implements OnInit {
           return;
         case 's':
           if (event.shiftKey) {
-            this.saveAs();
+            await this.saveAs();
           } else {
-            this.save();
+            await this.save();
           }
           event.preventDefault();
           return;
@@ -209,18 +210,44 @@ export class AppComponent implements OnInit {
     this.hashy.show('COPIED_URL_TO_CLIPBOARD', 3000, 'OK');
   }
 
-  get saveButtonTooltip(): Observable<string> | undefined {
-    if (!this.dataService.selectedItemsCount) return;
-    const n = this.dataService.selectedItemsCount;
-    return this.translate.get('SAVE_N_ITEMS', {n});
+  async save(): Promise<void> {
+    return this.dataService.saveAll();
   }
 
-  save(): void {
-    this.dataService.saveAll();
+  async saveAs(): Promise<void> {
+    await this.dataService.saveAllAs();
   }
 
-  saveAs(): void {
-    this.dataService.saveAllAs();
+  async openFileDialog(): Promise<void> {
+    return __TAURI__.dialog.open().then(async (path) => {
+      if (typeof path !== 'string') return;
+
+      const contents = await this.fileAccessService.read(path);
+      if (contents) {
+        const tabs = JSON.parse(contents) as Tab[];
+        const isTabsArray = Array.isArray(tabs)
+          && tabs[0].index !== undefined
+          && tabs[0].color !== undefined
+          && (tabs[0].images?.length
+            || tabs[0].notes?.length
+            || tabs[0].noteLists?.length
+            || tabs[0].taskLists?.length);
+        const importFile: () => void = () => {
+          this.dataService.clearCache();
+          this.dataService.tabs = tabs;
+          this.dataService.selectedTabIndex = 0;
+          this.dataService.cacheAllData();
+        }
+
+        if (isTabsArray) {
+          importFile();
+        } else {
+          this.hashy.show('Could not read file', 7000, 'Try anyway', () =>
+            importFile()
+          );
+        }
+      }
+    })
   }
 
   saveTabOrSelection(): void {
