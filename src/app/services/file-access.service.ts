@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {FsTextFileOption} from "@tauri-apps/api/fs";
 import {HashyService} from "./hashy.service";
-import {TAURI} from "../models";
-import {getTimeStamp} from "../const/time-stamps";
+import {__TAURI__, getTimeStamp} from "../const";
 
 @Injectable({providedIn: 'root'})
 export class FileAccessService {
@@ -11,15 +10,10 @@ export class FileAccessService {
   constructor(private readonly hashy: HashyService) {
   }
 
-  get __TAURI__(): TAURI | undefined {
-    // @ts-ignore https://tauri.studio/v1/api/js/
-    return window.__TAURI__;
-  }
-
   async read(path: string): Promise<string | undefined> {
-    if (!this.__TAURI__) return;
+    if (!__TAURI__) return;
     try {
-      const contents = await this.__TAURI__.fs.readTextFile(path);
+      const contents = await __TAURI__.fs.readTextFile(path);
       this.loadedFileName = path;
       return contents;
     } catch {
@@ -28,15 +22,15 @@ export class FileAccessService {
   }
 
   async write(contents: string, options?: { fileType: string, fileName?: string }): Promise<boolean> {
-    if (!this.__TAURI__) return false;
+    if (!__TAURI__) return false;
     const fileName = options
       ? `${options.fileName ?? getTimeStamp()}.${options.fileType}`
       : this.loadedFileName;
 
-    const dataDir = await this.__TAURI__.path.dataDir();
+    const dataDir = await __TAURI__.path.dataDir();
     const file: FsTextFileOption = {path: `${dataDir}${fileName}`, contents};
     try {
-      await this.__TAURI__.fs.writeFile(file);
+      await __TAURI__.fs.writeFile(file);
       //TODO: localize
       this.hashy.show(`Saved as ${file.path}`, 2000, 'OK');
       return true;

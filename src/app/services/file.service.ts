@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FileSaverService} from "ngx-filesaver";
-import {getTimeStamp} from "../const/time-stamps";
+import {getTimeStamp} from "../const";
 
 @Injectable({providedIn: 'root'})
 export class FileService {

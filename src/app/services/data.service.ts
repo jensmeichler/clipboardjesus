@@ -14,6 +14,7 @@ import {FileService} from "./file.service";
 import {HashyService} from "./hashy.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FileAccessService} from "./file-access.service";
+import {__TAURI__} from "../const";
 
 @Injectable({providedIn: 'root'})
 export class DataService {
@@ -418,7 +419,7 @@ export class DataService {
     const json = this.cache.getJsonFromAll();
     const contents = JSON.stringify(json);
     const fileType = 'boards.json';
-    if (this.fileAccessService.__TAURI__) {
+    if (__TAURI__) {
       await this.fileAccessService.write(contents, { fileType, fileName});
     } else {
       const savedAs = this.fileService.save(contents, fileType, fileName);
