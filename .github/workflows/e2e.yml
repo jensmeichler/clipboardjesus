@@ -1,16 +1,13 @@
 name: 🧪 Running e2e tests
 
-on:
-  push:
-    branches:
-      - main
-      - develop
+on: pull_request
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - name: Install dependencies 📦
         run: npm install
 
