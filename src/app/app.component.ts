@@ -219,7 +219,14 @@ export class AppComponent implements OnInit {
   }
 
   async openFileDialog(): Promise<void> {
-    return __TAURI__.dialog.open().then(async (path) => {
+    const options = {
+      multiple: false,
+      filters: [{
+        name: '*.boards.json | JSON',
+        extensions: ['boards.json']
+      }]
+    };
+    return __TAURI__.dialog.open(options).then(async (path) => {
       if (typeof path !== 'string') return;
 
       const contents = await this.fileAccessService.read(path);
