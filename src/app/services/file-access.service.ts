@@ -12,6 +12,13 @@ export class FileAccessService {
   ) {
   }
 
+  /**
+   * Reads the file contents from the given Path.
+   * Remember that the path that is provided must be selected by the user.
+   * If not the method will fail.
+   * @param path
+   * @returns The file contents as string or undefined if __TAURI__ was not provided
+   */
   async read(path: string): Promise<string | undefined> {
     if (!__TAURI__) return;
     try {
@@ -23,23 +30,25 @@ export class FileAccessService {
     }
   }
 
+  /**
+   * Try to write the contents into the last loaded filePath
+   * @param contents The content as string, which should be stored
+   * @param path Override to skip the lastLoadedFilePath
+   * @returns {false} if __TAURI__ is not specified or save file was not done successfully
+   */
   async write(contents: string, path?: string): Promise<boolean> {
     if (!__TAURI__) return false;
     path ??= this.settings.lastLoadedFilePath;
     if (!path) {
-      //TODO: localize
-      this.hashy.show('No path was provided', 5000, 'OK');
       return false;
     }
 
     const file: FsTextFileOption = {path, contents};
     try {
       await __TAURI__.fs.writeFile(file);
-      //TODO: localize
       this.hashy.show(`Saved as ${file.path}`, 5000, 'OK');
       return true;
-    } catch(error: any) {
-      this.hashy.show(error.toString(), 9999, 'OK');
+    } catch {
       return false;
     }
   }
