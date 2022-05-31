@@ -1,10 +1,10 @@
 import {Component, Input, ViewChild} from '@angular/core';
 import {Note, NoteList, TaskList} from "../../../models";
 import {DataService, HashyService} from "../../../services";
-import {Clipboard} from "@angular/cdk/clipboard";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {EditNoteDialogComponent} from "../../dialogs";
 import {MatDialog} from "@angular/material/dialog";
+import {ClipboardService} from "../../../services/clipboard.service";
 
 @Component({
   selector: 'cb-small-note',
@@ -23,14 +23,14 @@ export class SmallNoteComponent {
   constructor(
     private readonly hashy: HashyService,
     private readonly dialog: MatDialog,
-    private readonly clipboard: Clipboard,
+    private readonly clipboard: ClipboardService,
     public readonly dataService: DataService
   ) {
   }
 
-  copy(): void {
+  async copy(): Promise<void> {
     if (!this.note?.content) return;
-    this.clipboard.copy(this.note.content);
+    await this.clipboard.set(this.note.content);
     this.hashy.show('COPIED_TO_CLIPBOARD', 600);
   }
 

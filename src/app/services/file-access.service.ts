@@ -2,7 +2,8 @@ import {Injectable} from '@angular/core';
 import {FsTextFileOption} from "@tauri-apps/api/fs";
 import {HashyService} from "./hashy.service";
 import {SettingsService} from "./settings.service";
-import {__TAURI__} from "../const";
+import {isTauri} from "../const";
+import {fs} from "@tauri-apps/api";
 
 @Injectable({providedIn: 'root'})
 export class FileAccessService {
@@ -20,9 +21,9 @@ export class FileAccessService {
    * @returns The file contents as string or undefined if __TAURI__ was not provided
    */
   async read(path: string): Promise<string | undefined> {
-    if (!__TAURI__) return;
+    if (!isTauri) return;
     try {
-      const contents = await __TAURI__.fs.readTextFile(path);
+      const contents = await fs.readTextFile(path);
       this.settings.lastLoadedFilePath = path;
       return contents;
     } catch {
@@ -37,7 +38,7 @@ export class FileAccessService {
    * @returns {false} if __TAURI__ is not specified or save file was not done successfully
    */
   async write(contents: string, path?: string): Promise<boolean> {
-    if (!__TAURI__) return false;
+    if (!isTauri) return false;
     path ??= this.settings.lastLoadedFilePath;
     if (!path) {
       return false;
@@ -45,7 +46,7 @@ export class FileAccessService {
 
     const file: FsTextFileOption = {path, contents};
     try {
-      await __TAURI__.fs.writeFile(file);
+      await fs.writeFile(file);
       this.hashy.show(`Saved as ${file.path}`, 5000, 'OK');
       return true;
     } catch {
