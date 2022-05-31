@@ -8,13 +8,10 @@ import {DataService} from "../../../services";
   styleUrls: ['./about-dialog.component.scss']
 })
 export class AboutDialogComponent {
-  isBeta: boolean;
-
   constructor(
     public dialogRef: MatDialogRef<AboutDialogComponent>,
-    dataService: DataService
+    public dataService: DataService
   ) {
-    this.isBeta = dataService.isBeta;
   }
 
   @HostListener('keydown', ['$event'])

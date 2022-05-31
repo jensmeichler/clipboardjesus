@@ -13,12 +13,22 @@ import {CacheService} from "./cache.service";
 import {FileService} from "./file.service";
 import {HashyService} from "./hashy.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {FileAccessService} from "./file-access.service";
+import {__HREF__, __TAURI__} from "../const";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class DataService {
   isBeta: boolean;
+
+  /**
+   * gets '_blank' or '_tauri' according to the platform you are on
+   */
+  get _blank(): string {
+    return __HREF__;
+  };
+  get isTauri(): boolean {
+    return !!__TAURI__;
+  }
 
   private _selectedTabIndex = 0;
   get selectedTabIndex(): number {
@@ -50,9 +60,10 @@ export class DataService {
     private readonly cache: CacheService,
     private readonly fileService: FileService,
     private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly fileAccessService: FileAccessService
   ) {
-    this.isBeta = !window.location.href.includes('clipboardjesus.com');
+    this.isBeta = !this.isTauri && !window.location.href.includes('clipboardjesus.com');
 
     for (let i = 0; i < 20; i++) {
       const tab = this.cache.fetch(i);
@@ -403,27 +414,43 @@ export class DataService {
     this.reArrangeIndices();
   }
 
-  saveAllAs(): void {
-    this.dialog.open(SaveAsDialogComponent, {
-      position: {
-        bottom: '90px',
-        right: 'var(--margin-edge)'
-      }
-    }).afterClosed().subscribe(filename => {
-      if (filename) this.saveAll(filename);
-    });
+  async saveAllAs(): Promise<void> {
+    if (__TAURI__) {
+      return __TAURI__.dialog.save().then(async (path) => {
+        const jsonString = JSON.stringify(this.getAsJson(true));
+        const fileName = `${path.replace('.boards.json', '')}.boards.json`;
+        await this.fileAccessService.write(jsonString, fileName);
+      })
+    } else {
+      this.dialog.open(SaveAsDialogComponent, {
+        position: {
+          bottom: '90px',
+          right: 'var(--margin-edge)'
+        }
+      }).afterClosed().subscribe(async (filename) => {
+        if (filename) await this.saveAll(filename);
+      });
+    }
   }
 
-  saveAll(filename?: string): void {
+  async saveAll(fileName?: string): Promise<void> {
     const json = this.cache.getJsonFromAll();
-    const savedAs = this.fileService.save(JSON.stringify(json), 'boards.json', filename);
-    this.hashy.show('Saved all tabs as ' + savedAs, 3000, 'Ok');
+    const contents = JSON.stringify(json);
+    if (__TAURI__) {
+      fileName = fileName ? `${fileName.replace('.boards.json', '')}.boards.json` : undefined;
+      await this.fileAccessService.write(contents, fileName);
+    } else {
+      const savedAs = this.fileService.save(contents, 'boards.json', fileName);
+      //TODO: localize
+      this.hashy.show('Saved all tabs as ' + savedAs, 3000, 'Ok');
+    }
   }
 
   saveTabOrSelection(filename?: string): void {
     const json = this.getAsJson();
     this.removeAllSelections();
     const savedAs = this.fileService.save(JSON.stringify(json), 'notes.json', filename);
+    //TODO: localize
     this.hashy.show('Saved as ' + savedAs, 3000, 'Ok');
     this.cacheData();
   }

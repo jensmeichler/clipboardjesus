@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Tab} from "../models";
 import {BehaviorSubject} from "rxjs";
+import {StorageService} from "./storage.service";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: 'root'})
 export class RedoService {
   possibleUndos: Tab[][] = [];
   possibleRedos: Tab[][] = [];
@@ -14,7 +13,7 @@ export class RedoService {
   redoPossible = new BehaviorSubject<boolean>(false);
   restorePossible = new BehaviorSubject<boolean>(false);
 
-  constructor() {
+  constructor(private readonly storageService: StorageService) {
     for (let i = 0; i < 20; i++) {
       this.possibleUndos.push([]);
       this.possibleRedos.push([]);
@@ -22,10 +21,8 @@ export class RedoService {
   }
 
   do(index: number): void {
-    const key = "clipboard_data_" + index;
-    const content = localStorage.getItem(key);
-    if (content) {
-      const tab = JSON.parse(content);
+    const tab = this.storageService.fetchTab(index);
+    if (tab) {
       this.possibleUndos[index].push(tab);
       this.possibleRedos[index] = [];
       this.updateRedoPossible(index);
@@ -35,16 +32,11 @@ export class RedoService {
   undo(index: number): boolean {
     let success = false;
     if (this.possibleUndos[index].length) {
-      const key = "clipboard_data_" + index;
-      const content = localStorage.getItem(key);
-      if (content) {
-        const undoneTab = JSON.parse(content);
+      const undoneTab = this.storageService.fetchTab(index);
+      if (undoneTab) {
         this.possibleRedos[index].push(undoneTab);
-
         const undo = this.possibleUndos[index].pop()!;
-        const undoContent = JSON.stringify(undo);
-
-        localStorage.setItem(key, undoContent);
+        this.storageService.setTab(undo, index);
         success = true;
       }
     }
@@ -56,17 +48,11 @@ export class RedoService {
   redo(index: number): boolean {
     let success = false;
     if (this.possibleRedos[index].length) {
-      const key = "clipboard_data_" + index;
-      const content = localStorage.getItem(key);
-      if (content) {
+      const redoneTab = this.storageService.fetchTab(index);
+      if (redoneTab) {
         const redo = this.possibleRedos[index].pop()!;
-
-        const redoneTab = JSON.parse(localStorage.getItem(key)!);
         this.possibleUndos[index].push(redoneTab);
-
-        const redoContent = JSON.stringify(redo);
-        localStorage.setItem(key, redoContent);
-
+        this.storageService.setTab(redo, index);
         success = true;
       }
     }
@@ -84,10 +70,9 @@ export class RedoService {
   }
 
   remove(index: number): void {
-    const key = "clipboard_data_" + index;
-    const content = localStorage.getItem(key);
-    if (content) {
-      this.possibleRestores.push(JSON.parse(content));
+    const tab = this.storageService.fetchTab(index);
+    if (tab) {
+      this.possibleRestores.push(tab);
       this.restorePossible.next(true);
     }
     this.possibleUndos[index] = [];

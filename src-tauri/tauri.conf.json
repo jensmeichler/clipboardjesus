@@ -1,10 +1,11 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/schema.json",
   "build": {
-    "beforeBuildCommand": "",
+    "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "",
     "devPath": "http://localhost:4201",
-    "distDir": "../dist/clipboard"
+    "distDir": "../dist/clipboard",
+    "withGlobalTauri": true
   },
   "package": {
     "productName": "clipboardjesus",
@@ -12,7 +13,15 @@
   },
   "tauri": {
     "allowlist": {
-      "all": true
+      "fs": {
+        "readFile": true,
+        "writeFile": true,
+        "scope": ["$DATA/**"]
+      },
+      "dialog": {
+        "open": true,
+        "save": true
+      }
     },
     "bundle": {
       "active": true,
@@ -30,7 +39,8 @@
         "icons/icon.ico"
       ],
       "identifier": "www.clipboardjesus.com",
-      "longDescription": "",
+      "shortDescription": "The Clip#board as a desktop app",
+      "longDescription": "Manage your clipboard like a pro with Clip#board. Clip#board is an awesome tool to create notes from your clipboard or to organize your tasks.",
       "macOS": {
         "entitlements": null,
         "exceptionDomain": "",
@@ -39,7 +49,6 @@
         "signingIdentity": null
       },
       "resources": [],
-      "shortDescription": "",
       "targets": "all",
       "windows": {
         "certificateThumbprint": null,

@@ -4,16 +4,32 @@
     <span style="margin-right: 4px">Clip</span>
     <img alt="#" height="20px" src="favicon.ico" style="transform: translateY(1px)" width="20px">
     <span style="margin-left: 4px">BOARD</span>
-    <span *ngIf="isBeta" style="margin-left: 4px" class="beta-button">
+    <span *ngIf="dataService.isBeta" style="margin-left: 4px" class="beta-button">
       {{ 'BETA' | translate }}
     </span>
+    <span *ngIf="dataService.isTauri" style="margin-left: 4px" class="beta-button">
+      {{ 'DESKTOP' | translate }}
+    </span>
   </span>
-  <a *ngIf="!isBeta" href="https://jensmeichler.github.io/clipboardjesus/" class="beta-button">
-    {{ 'VIEW_BETA' | translate }}
-  </a>
-  <a *ngIf="isBeta" href="https://www.clipboardjesus.com/" class="beta-button">
-    {{ 'VISIT_PRODUCTIVE_VERSION' | translate }}
-  </a>
+  <ng-container *ngIf="!dataService.isTauri; else tauri">
+    <a *ngIf="!dataService.isBeta" href="https://jensmeichler.github.io/clipboardjesus/" class="beta-button">
+      {{ 'VIEW_BETA' | translate }}
+    </a>
+    <span>
+      <a *ngIf="dataService.isBeta" href="https://www.clipboardjesus.com/" class="beta-button">
+      {{ 'VISIT_PRODUCTIVE_VERSION' | translate }}
+    </a>
+    <span>|</span>
+    <a href="/assets/installers/clipboardjesus-for-windows.msi" class="beta-button">
+      {{ 'DOWNLOAD_DESKTOP_CLIENT' | translate }}
+    </a>
+    </span>
+  </ng-container>
+  <ng-template #tauri>
+    <a href="https://www.clipboardjesus.com/" class="beta-button" target="_tauri">
+      {{ 'VIEW_WEB_VERSION' | translate }}
+    </a>
+  </ng-template>
 </h1>
 <mat-dialog-content style="margin: 0" data-cy="about-dialog">
   <span [innerHTML]="'ABOUT_DIALOG_TEXT_1' | translate"></span>
@@ -22,7 +38,7 @@
   <br><br>
   <span class="thumb">☞&nbsp;</span>
   <a href="https://www.clipboardjesus.com/3rdpartylicenses.txt"
-     [attr.aria-label]="'LICENCES' | translate" target="_blank">
+     [attr.aria-label]="'LICENCES' | translate" [target]="dataService._blank">
     <em>{{ 'LICENCES' | translate }}</em>
   </a>
 

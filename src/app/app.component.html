@@ -145,18 +145,26 @@
       <mat-icon>save_as</mat-icon>
     </button>
     <button (click)="save(); $event.stopPropagation()" [disabled]="!dataService.itemsCount"
-            [matTooltip]="(saveButtonTooltip | async) ?? ''"
-            [attr.aria-label]="(saveButtonTooltip | async) ?? ('SAVE' | translate)"
-            color="primary" mat-fab matTooltipPosition="left"
-            data-cy="save-btn">
+            [attr.aria-label]="'SAVE'" color="primary" mat-fab data-cy="save-btn">
       <mat-icon>save</mat-icon>
     </button>
   </div>
-  <button (click)="showContextMenu($event, true); $event.stopPropagation()"
-          [attr.aria-label]="'MORE' | translate"
-          class="context-menu-button" mat-icon-button>
-    <mat-icon>menu_open</mat-icon>
-  </button>
+  <ng-container *ngIf="!dataService.isTauri; else tauri">
+    <button (click)="showContextMenu($event, true); $event.stopPropagation()"
+            [matTooltip]="'MORE' | translate" [attr.aria-label]="'MORE' | translate"
+            matTooltipPosition="left" matTooltipShowDelay="1000"
+            class="context-menu-button" mat-icon-button>
+      <mat-icon>menu_open</mat-icon>
+    </button>
+  </ng-container>
+  <ng-template #tauri>
+    <button (click)="openFileDialog(); $event.stopPropagation()"
+            [matTooltip]="'OPEN_FILE' | translate" [attr.aria-label]="'OPEN_FILE' | translate"
+            class="context-menu-button" mat-icon-button matTooltipPosition="left"
+            matTooltipShowDelay="1000">
+      <mat-icon>file_open</mat-icon>
+    </button>
+  </ng-template>
 
   <!-- Top right buttons -->
   <button class="settings-button" mat-icon-button [matMenuTriggerFor]="settingsMenu"
@@ -182,17 +190,17 @@
       <mat-icon>motion_photos_off</mat-icon>
       {{ 'DISABLE_ANIMATIONS' | translate }}
     </button>
-    <a href="https://github.com/jensmeichler/clipboardjesus/issues" mat-menu-item target="_blank"
+    <a href="https://github.com/jensmeichler/clipboardjesus/issues" mat-menu-item [target]="dataService._blank"
        [attr.aria-label]="'REPORT_BUG' | translate">
       <mat-icon>bug_report</mat-icon>
       {{ 'REPORT_BUG' | translate }}
     </a>
-    <a href="https://github.com/jensmeichler/clipboardjesus/commits" mat-menu-item target="_blank"
+    <a href="https://github.com/jensmeichler/clipboardjesus/commits" mat-menu-item [target]="dataService._blank"
        [attr.aria-label]="'VIEW_LAST_CHANGES' | translate">
       <mat-icon>published_with_changes</mat-icon>
       {{ 'VIEW_LAST_CHANGES' | translate }}
     </a>
-    <a href="https://www.buymeacoffee.com/jensmeichler" mat-menu-item target="_blank"
+    <a href="https://www.buymeacoffee.com/jensmeichler" mat-menu-item [target]="dataService._blank"
        [attr.aria-label]="'DONATE_TO_THE_DEVELOPER' | translate">
       <mat-icon class="heart">favorite</mat-icon>
       {{ 'DONATE_TO_THE_DEVELOPER' | translate }}
