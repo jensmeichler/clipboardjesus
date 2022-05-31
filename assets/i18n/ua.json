@@ -30,6 +30,7 @@
   "DELETE_ALL_TABS": "Видалити всі вкладки",
   "DELETE_N_ITEMS": "Видалити {{n}} елементів",
   "DELETE_TAB": "Видалити вкладку",
+  "DESKTOP": "Робочий стіл",
   "DIALOG_TEXT_DELETE": "Ці зміни неможливо скасувати.",
   "DIALOG_TITLE_DELETE": "Ви впевнені, що хочете видалити все назавжди?",
   "DIALOG_TEXT_IMPORT": "Усі ваші поточні вкладки будуть закриті.",
@@ -37,6 +38,7 @@
   "DISABLE_ANIMATIONS": "Вимкнути анімацію",
   "DISABLE_CODE_HIGHLIGHTING": "Вимкнути підсвічування коду",
   "DONATE_TO_THE_DEVELOPER": "Пожертвувати розробнику",
+  "DOWNLOAD_DESKTOP_CLIENT": "Завантажити настільний клієнт",
   "EDIT": "Редагувати",
   "EDIT_BACKGROUND_COLOR": "Редагувати колір фону",
   "EDIT_GRADIENT_COLOR": "Редагувати колір градієнта",
@@ -64,6 +66,7 @@
   "NOTES_HINT": "Нотатки можна відокремити новим рядком",
   "NOTE_LISTS": "Списки нотаток",
   "OK": "добре",
+  "OPEN_FILE": "Відкрити файл",
   "OPEN_LINK": "Відкрити посилання",
   "PASTE_ITEMS": "Вставити елементи",
   "POSITION_X": "Позиція X",
@@ -95,5 +98,6 @@
   "UNDO_LAST_ACTION": "Скасувати останню дію",
   "VIEW_LAST_CHANGES": "Переглянути останні зміни",
   "VIEW_BETA": "До бета-версії",
+  "VIEW_WEB_VERSION": "Переглянути веб-версію",
   "VISIT_PRODUCTIVE_VERSION": "Повернення до виробничого примірника"
 }
