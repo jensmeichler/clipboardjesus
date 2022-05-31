@@ -4,6 +4,7 @@ import {DataService, HashyService} from "../../services";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {ImportDialogComponent} from "../dialogs";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
+import {ClipboardService} from "../../services/clipboard.service";
 
 @Component({
   selector: 'cb-tab',
@@ -24,7 +25,9 @@ export class TabComponent {
     private readonly hashy: HashyService,
     private readonly elementRef: ElementRef,
     private readonly bottomSheet: MatBottomSheet,
-    public readonly dataService: DataService) {
+    public readonly dataService: DataService,
+    private readonly clipboard: ClipboardService
+  ) {
     this.mouseMoveEvent = this.onMouseMove.bind(this);
   }
 
@@ -74,12 +77,14 @@ export class TabComponent {
       if (this.dataService.selectedItemsCount) {
         this.dataService.clearSelection();
       } else {
-        const clipboardText = await navigator.clipboard.readText();
+        const clipboardText = await this.clipboard.get();
         if (!clipboardText) {
           //TODO: localize
           this.hashy.show('Your clipboard is empty', 3000);
         } else {
-          this.dataService.addNote(new Note(event.pageX, event.pageY, clipboardText))
+          this.dataService.addNote(
+            new Note(event.pageX, event.pageY, clipboardText)
+          );
         }
       }
     }

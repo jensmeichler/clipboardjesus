@@ -1,4 +1,3 @@
-import {Clipboard} from "@angular/cdk/clipboard";
 import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {MatDialog} from "@angular/material/dialog";
@@ -22,7 +21,8 @@ import {
 import {TranslateService} from "@ngx-translate/core";
 import {NoteList} from "./models";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
-import {__TAURI__} from "./const";
+import {ClipboardService} from "./services/clipboard.service";
+import {dialog} from "@tauri-apps/api";
 
 @Component({
   selector: 'cb-root',
@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
   constructor(
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
-    private readonly clipboard: Clipboard,
+    private readonly clipboard: ClipboardService,
     public readonly dataService: DataService,
     public readonly hashy: HashyService,
     private readonly route: ActivatedRoute,
@@ -177,7 +177,7 @@ export class AppComponent implements OnInit {
           return;
         case 'c':
           if (event.ctrlKey || event.metaKey) {
-            this.copySelectedItems();
+            await this.copySelectedItems();
           }
           return;
         case 'x':
@@ -189,15 +189,15 @@ export class AppComponent implements OnInit {
     }
   }
 
-  copySelectedItems(): void {
+  async copySelectedItems(): Promise<void> {
     const selectedItems = this.dataService.getSelectedItems();
-    this.clipboard.copy(JSON.stringify(selectedItems));
+    await this.clipboard.set(JSON.stringify(selectedItems));
     this.dataService.removeAllSelections();
   }
 
   cutSelectedItems(): void {
     const selectedItems = this.dataService.getSelectedItems();
-    this.clipboard.copy(JSON.stringify(selectedItems));
+    this.clipboard.set(JSON.stringify(selectedItems));
     this.dataService.deleteSelectedItems();
     this.dataService.removeAllSelections();
   }
@@ -206,7 +206,7 @@ export class AppComponent implements OnInit {
     let params = JSON.stringify(this.dataService.getAsJson(true));
     params = btoa(params);
     const url = 'https://www.clipboardjesus.com/?params=' + params;
-    this.clipboard.copy(url);
+    this.clipboard.set(url);
     this.hashy.show('COPIED_URL_TO_CLIPBOARD', 3000, 'OK');
   }
 
@@ -226,7 +226,7 @@ export class AppComponent implements OnInit {
         extensions: ['boards.json']
       }]
     };
-    return __TAURI__.dialog.open(options).then(async (path) => {
+    return dialog.open(options).then(async (path) => {
       if (typeof path !== 'string') return;
 
       const contents = await this.fileAccessService.read(path);

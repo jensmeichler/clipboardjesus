@@ -14,7 +14,9 @@ import {FileService} from "./file.service";
 import {HashyService} from "./hashy.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FileAccessService} from "./file-access.service";
-import {__HREF__, __TAURI__} from "../const";
+import {_blank, isTauri} from "../const";
+import {ClipboardService} from "./clipboard.service";
+import {dialog} from "@tauri-apps/api";
 
 @Injectable({providedIn: 'root'})
 export class DataService {
@@ -24,10 +26,10 @@ export class DataService {
    * gets '_blank' or '_tauri' according to the platform you are on
    */
   get _blank(): string {
-    return __HREF__;
+    return _blank;
   };
   get isTauri(): boolean {
-    return !!__TAURI__;
+    return isTauri;
   }
 
   private _selectedTabIndex = 0;
@@ -61,7 +63,8 @@ export class DataService {
     private readonly fileService: FileService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly fileAccessService: FileAccessService
+    private readonly fileAccessService: FileAccessService,
+    private readonly clipboard: ClipboardService
   ) {
     this.isBeta = !this.isTauri && !window.location.href.includes('clipboardjesus.com');
 
@@ -212,7 +215,7 @@ export class DataService {
   }
 
   async canImportItemsFromClipboard(): Promise<boolean> {
-    const clipboardText = await navigator.clipboard.readText();
+    const clipboardText = await this.clipboard.get();
     if (!clipboardText) return false;
 
     try {
@@ -224,7 +227,7 @@ export class DataService {
   }
 
   async importItemsFromClipboard(): Promise<boolean> {
-    const clipboardText = await navigator.clipboard.readText();
+    const clipboardText = await this.clipboard.get();
     if (!clipboardText) return false;
 
     try {
@@ -415,8 +418,8 @@ export class DataService {
   }
 
   async saveAllAs(): Promise<void> {
-    if (__TAURI__) {
-      return __TAURI__.dialog.save().then(async (path) => {
+    if (isTauri) {
+      return dialog.save().then(async (path) => {
         const jsonString = JSON.stringify(this.getAsJson(true));
         const fileName = `${path.replace('.boards.json', '')}.boards.json`;
         await this.fileAccessService.write(jsonString, fileName);
@@ -436,7 +439,7 @@ export class DataService {
   async saveAll(fileName?: string): Promise<void> {
     const json = this.cache.getJsonFromAll();
     const contents = JSON.stringify(json);
-    if (__TAURI__) {
+    if (isTauri) {
       fileName = fileName ? `${fileName.replace('.boards.json', '')}.boards.json` : undefined;
       await this.fileAccessService.write(contents, fileName);
     } else {

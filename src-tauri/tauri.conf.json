@@ -15,12 +15,15 @@
     "allowlist": {
       "fs": {
         "readFile": true,
-        "writeFile": true,
-        "scope": ["$DATA/**"]
+        "writeFile": true
       },
       "dialog": {
         "open": true,
         "save": true
+      },
+      "clipboard": {
+        "readText": true,
+        "writeText": true
       }
     },
     "bundle": {

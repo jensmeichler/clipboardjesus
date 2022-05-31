@@ -1,4 +1,3 @@
-import {Clipboard} from "@angular/cdk/clipboard";
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
@@ -6,6 +5,7 @@ import {htmlRegex} from "../../../const";
 import {Note, NoteList, TaskList} from "../../../models";
 import {DataService, HashyService} from "../../../services";
 import {EditNoteDialogComponent} from "../../dialogs";
+import {ClipboardService} from "../../../services/clipboard.service";
 
 @Component({
   selector: 'cb-note',
@@ -29,7 +29,7 @@ export class NoteComponent implements OnInit {
   codeElement?: ElementRef;
 
   constructor(
-    private readonly clipboard: Clipboard,
+    private readonly clipboard: ClipboardService,
     private readonly hashy: HashyService,
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
@@ -89,7 +89,7 @@ export class NoteComponent implements OnInit {
 
   copy(): void {
     if (this.note.content && !this.rippleDisabled && this.canInteract) {
-      this.clipboard.copy(this.note.content);
+      this.clipboard.set(this.note.content);
       this.hashy.show('COPIED_TO_CLIPBOARD', 600);
     }
   }

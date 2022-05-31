@@ -18,9 +18,12 @@
     <a *ngIf="dataService.isBeta" href="https://www.clipboardjesus.com/" class="beta-button">
       {{ 'VISIT_PRODUCTIVE_VERSION' | translate }}
     </a>
-    <ng-container *ngIf="!dataService.isBeta">
+    <ng-container *ngIf="!dataService.isBeta && (isWindows || isMacos)">
       <span>|</span>
-      <a href="/assets/installers/clipboardjesus-for-windows.msi" class="beta-button">
+      <a *ngIf="isWindows" href="/assets/installers/clipboardjesus-for-windows.msi" class="beta-button">
+        {{ 'DOWNLOAD_DESKTOP_CLIENT' | translate }}
+      </a>
+      <a *ngIf="isMacos" href="/assets/installers/clipboardjesus-for-macos.dmg" class="beta-button">
         {{ 'DOWNLOAD_DESKTOP_CLIENT' | translate }}
       </a>
     </ng-container>

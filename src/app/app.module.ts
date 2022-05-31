@@ -55,14 +55,14 @@ import {
   DragDropDirective,
   HighlightColorDirective
 } from './directives';
-import {__HREF__} from "./const";
+import {_blank} from "./const";
 
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
 
   renderer.link = (href: string | null, title: string | null, text: string) => {
-    if (!title) return `<a href="${href}" target="${__HREF__}">${text}</a>`;
-    return `<a title="${title}" href="${href}" target="${__HREF__}">${text}</a>`;
+    if (!title) return `<a href="${href}" target="${_blank}">${text}</a>`;
+    return `<a title="${title}" href="${href}" target="${_blank}">${text}</a>`;
   };
   renderer.options.breaks = true;
   renderer.text = (text: string) => {

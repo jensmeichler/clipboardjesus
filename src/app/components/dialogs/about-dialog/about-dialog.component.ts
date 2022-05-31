@@ -8,10 +8,15 @@ import {DataService} from "../../../services";
   styleUrls: ['./about-dialog.component.scss']
 })
 export class AboutDialogComponent {
+  isWindows: boolean;
+  isMacos: boolean;
+
   constructor(
     public dialogRef: MatDialogRef<AboutDialogComponent>,
     public dataService: DataService
   ) {
+    this.isWindows = navigator.platform.indexOf('Win') > -1;
+    this.isMacos = navigator.platform.indexOf('Mac') > -1;
   }
 
   @HostListener('keydown', ['$event'])

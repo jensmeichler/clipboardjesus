@@ -5,6 +5,7 @@ import {DataService} from "../../../services";
 import {EditNoteDialogComponent, EditNoteListDialogComponent} from "../../dialogs";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
+import {ClipboardService} from "../../../services/clipboard.service";
 
 @Component({
   selector: 'cb-note-list',
@@ -24,7 +25,8 @@ export class NoteListComponent {
 
   constructor(
     private readonly dialog: MatDialog,
-    public readonly dataService: DataService
+    public readonly dataService: DataService,
+    private readonly clipboard: ClipboardService
   ) {
   }
 
@@ -73,7 +75,8 @@ export class NoteListComponent {
 
   async addFromClipboard(): Promise<void> {
     if (!this.canInteract) return;
-    const clipboardText = await navigator.clipboard.readText();
+    const clipboardText = await this.clipboard.get();
+    if (!clipboardText) return;
     this.noteList.notes.push(new Note(0, 0, clipboardText));
     this.dataService.cacheData();
   }
