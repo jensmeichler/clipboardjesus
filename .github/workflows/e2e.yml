@@ -3,8 +3,12 @@ name: 🧪 Running e2e tests
 on: pull_request
 
 jobs:
-  test:
+  chrome:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [ 1, 2, 3 ]
     steps:
       - uses: actions/checkout@v2
 
@@ -18,8 +22,18 @@ jobs:
           start: npm run start
           wait-on: 'http://localhost:4201'
           record: true
+          parallel: true
         env:
           CYPRESS_RECORD_KEY: '01dbe592-356f-404b-996c-7a3eb9ffcb81'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  firefox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install dependencies 📦
+        run: npm install
 
       - name: Cypress run on firefox 🦊
         uses: cypress-io/github-action@v2
