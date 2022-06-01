@@ -24,6 +24,12 @@
       "clipboard": {
         "readText": true,
         "writeText": true
+      },
+      "globalShortcut": {
+        "all": true
+      },
+      "window": {
+        "setAlwaysOnTop": true
       }
     },
     "bundle": {

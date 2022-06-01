@@ -1,5 +1,10 @@
 import {Injectable} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
+import {window} from "@tauri-apps/api";
+import {isTauri} from "../const";
+
+const TRUE = 'True';
+type Font = 'Victor Mono' | 'Roboto';
 
 @Injectable({providedIn: 'root'})
 export class SettingsService {
@@ -9,7 +14,21 @@ export class SettingsService {
     fontFamily: 'font-family',
     fontStyle: 'font-style',
     lastLoadedFile: 'file-path',
+    alwaysOnTop: 'always-on-top'
   };
+
+  private _alwaysOnTop!: boolean;
+  get alwaysOnTop(): boolean { return this._alwaysOnTop; }
+  set alwaysOnTop(value: boolean) {
+    if (!isTauri) return;
+    this._alwaysOnTop = value;
+    (async () => await window.appWindow.setAlwaysOnTop(value))();
+    if (value) {
+      localStorage.setItem(this.storageKeys.alwaysOnTop, TRUE);
+    } else {
+      localStorage.removeItem(this.storageKeys.alwaysOnTop);
+    }
+  }
 
   private _lastLoadedFilePath: string | undefined;
   get lastLoadedFilePath(): string | undefined { return this._lastLoadedFilePath; }
@@ -29,7 +48,7 @@ export class SettingsService {
     if (value) {
       const cursor = document.getElementById('cursor');
       if (cursor) cursor.style.display = 'none';
-      localStorage.setItem(this.storageKeys.animationsDisabled, 'True');
+      localStorage.setItem(this.storageKeys.animationsDisabled, TRUE);
     } else {
       localStorage.removeItem(this.storageKeys.animationsDisabled);
     }
@@ -74,7 +93,9 @@ export class SettingsService {
   }
 
   constructor(private readonly translate: TranslateService) {
-    this.animationsDisabled = localStorage.getItem(this.storageKeys.animationsDisabled) === 'True';
+    this.lastLoadedFilePath = localStorage.getItem(this.storageKeys.lastLoadedFile) ?? undefined;
+    this.alwaysOnTop = localStorage.getItem(this.storageKeys.alwaysOnTop) === TRUE;
+    this.animationsDisabled = localStorage.getItem(this.storageKeys.animationsDisabled) === TRUE;
     this.language = localStorage.getItem(this.storageKeys.language) ?? 'en';
     this.fontFamily = localStorage.getItem(this.storageKeys.fontFamily) as Font ?? 'Roboto';
     this.fontStyle = localStorage.getItem(this.storageKeys.fontStyle) ?? 'normal';
@@ -90,5 +111,3 @@ export class SettingsService {
       .style.setProperty('--font-style', value);
   }
 }
-
-type Font = 'Victor Mono' | 'Roboto'
