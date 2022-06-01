@@ -190,6 +190,18 @@
       <mat-icon>motion_photos_off</mat-icon>
       {{ 'DISABLE_ANIMATIONS' | translate }}
     </button>
+    <ng-container *ngIf="dataService.isTauri">
+      <button *ngIf="!settings.alwaysOnTop" (click)="settings.alwaysOnTop = true" mat-menu-item
+              [attr.aria-label]="'ENABLE_ALWAYS_ON_TOP' | translate">
+        <mat-icon>push_pin</mat-icon>
+        {{ 'ENABLE_ALWAYS_ON_TOP' | translate }}
+      </button>
+      <button *ngIf="settings.alwaysOnTop" (click)="settings.alwaysOnTop = false" mat-menu-item
+              [attr.aria-label]="'DISABLE_ALWAYS_ON_TOP' | translate">
+        <mat-icon>disabled_by_default</mat-icon>
+        {{ 'DISABLE_ALWAYS_ON_TOP' | translate }}
+      </button>
+    </ng-container>
     <a href="https://github.com/jensmeichler/clipboardjesus/issues" mat-menu-item [target]="dataService._blank"
        [attr.aria-label]="'REPORT_BUG' | translate">
       <mat-icon>bug_report</mat-icon>
