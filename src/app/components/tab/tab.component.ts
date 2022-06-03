@@ -119,7 +119,7 @@ export class TabComponent {
         })
       } else {
         //TODO: localize
-        this.hashy.show('Type ' + file.type.toUpperCase() + ' is not supported', 4000, 'Ok');
+        this.hashy.show('Type ' + file.type.toUpperCase() + ' is not supported', 4000, 'OK');
       }
     } else if (data?.kind === 'string') {
       const draggedUrl = event.dataTransfer?.getData('text/uri-list');
