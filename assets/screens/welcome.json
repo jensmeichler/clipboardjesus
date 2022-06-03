@@ -1,0 +1,71 @@
+{
+  "index": 2,
+  "color": "#131313",
+  "label": "Welcome",
+  "notes": [
+    {
+      "foregroundColor": "#ffffff",
+      "backgroundColor": "#212121",
+      "posX": 0,
+      "posY": 112,
+      "posZ": 1,
+      "header": "",
+      "content": "# Welcome to Clip#board 🎉\n\n## Discover the possibilities that Clip#board offers you ✨\n\n- Create notes from your clipboard by just clicking into the app\n- Copy these notes into your clipboard by clicking onto them\n- Drag and drop everywhere ⚡\n- Many more features... 🔥"
+    }
+  ],
+  "noteLists": [
+    {
+      "notes": [
+        {
+          "foregroundColor": "#000000",
+          "backgroundColor": "#ffffff",
+          "posX": 0,
+          "posY": 0,
+          "content": "When you click me, I am saved to your clipboard 💥"
+        },
+        {
+          "foregroundColor": "#000000",
+          "backgroundColor": "#ffffff",
+          "posX": 0,
+          "posY": 0,
+          "content": "You can just add new notes from your clipboard by pressing the ➕ button"
+        },
+        {
+          "foregroundColor": "#000000",
+          "backgroundColor": "#ffffff",
+          "posX": 0,
+          "posY": 0,
+          "content": "You can also order your notes with drag and drop"
+        }
+      ],
+      "foregroundColor": "#ffffff",
+      "backgroundColor": "#7b1ea2",
+      "posX": 129,
+      "posY": 456,
+      "posZ": 2,
+      "header": "Create a list of copyable notes 📝"
+    }
+  ],
+  "taskLists": [
+    {
+      "items": [
+        {
+          "checked": true,
+          "isSubTask": false,
+          "value": "Create tasks using the ➕ button"
+        },
+        {
+          "checked": false,
+          "isSubTask": true,
+          "value": "Create sub tasks using [tab]"
+        }
+      ],
+      "foregroundColor": "#e5fff3",
+      "backgroundColor": "#51b384",
+      "posX": 608,
+      "posY": 187,
+      "posZ": 3,
+      "header": "Create task lists 📚"
+    }
+  ]
+}
