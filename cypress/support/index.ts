@@ -21,6 +21,11 @@ declare global {
        * @example cy.lang('en')
        */
       lang(language: 'en' | 'de' | 'ua'): void
+      /**
+       * Custom command skip the welcome page and start with a clean window.
+       * @example cy.lang('en')
+       */
+      clean(): void
     }
   }
 }

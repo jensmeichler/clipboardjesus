@@ -1,6 +1,12 @@
 name: 🧪 Running e2e tests
 
-on: pull_request
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - develop
 
 jobs:
   chrome:

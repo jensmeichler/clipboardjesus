@@ -2,6 +2,8 @@ import {dataCy, selectors} from "../../support/selectors";
 
 describe('Localization', () => {
   it('should be localized in english, german, ukrainian', () => {
+    cy.clean();
+
     // Default language should be english
     cy.visit('/');
     cy.dataCy(dataCy.common.buttons.settings).click();
