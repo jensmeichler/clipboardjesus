@@ -4,28 +4,36 @@ import {_blank, hyperlinkRegex} from "../const";
 @Injectable({providedIn: 'root'})
 export class StringParserService {
   /**
+   * Determines whether the text contains an accessible link.
+   * @param text The source text.
+   */
+  containsLink(text?: string): boolean {
+    return !!text && hyperlinkRegex.test(text);
+  }
+
+  /**
    * Replaces all the links of the given string with html links
    * that are targeting a new browser window.
-   * @param rawText The source text.
+   * @param text The source text.
    */
-  convert(rawText?: string): string {
-    if (!rawText) return '';
+  convert(text?: string): string {
+    if (!text) return '';
 
     const placeholder = '{#0#}';
     let linkList: string[] = [];
 
-    while (hyperlinkRegex.test(rawText)) {
-      const link: any = hyperlinkRegex.exec(rawText)![0];
+    while (hyperlinkRegex.test(text)) {
+      const link: any = hyperlinkRegex.exec(text)![0];
       linkList.push(link);
-      rawText = rawText.replace(link, placeholder);
+      text = text.replace(link, placeholder);
     }
 
     let i = 0;
-    while (rawText.includes(placeholder)) {
-      rawText = rawText.replace(placeholder, StringParserService.getAsHref(linkList[i++]))
+    while (text.includes(placeholder)) {
+      text = text.replace(placeholder, StringParserService.getAsHref(linkList[i++]))
     }
 
-    return rawText;
+    return text;
   }
 
   private static getAsHref(link: string): string {

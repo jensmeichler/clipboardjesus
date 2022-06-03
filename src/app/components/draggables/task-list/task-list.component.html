@@ -32,7 +32,10 @@
             </button>
           </ng-container>
           <mat-checkbox (change)="dataService.cacheData()" [(ngModel)]="item.checked">
-            <div *ngIf="item !== itemToEdit" [innerHTML]="stringParser.convert(item.value)"></div>
+            <ng-container *ngIf="item !== itemToEdit">
+              <div *ngIf="stringParser.containsLink(item.value)" [innerHTML]="stringParser.convert(item.value)"></div>
+              <div *ngIf="!stringParser.containsLink(item.value)" [innerText]="stringParser.convert(item.value)"></div>
+            </ng-container>
           </mat-checkbox>
           <button *ngIf="item !== itemToEdit" (click)="addItemAfter(item)" class="item-button" mat-icon-button
                   [attr.aria-label]="'ADD_TASK' | translate">
