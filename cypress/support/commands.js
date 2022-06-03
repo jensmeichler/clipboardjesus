@@ -22,3 +22,13 @@ Cypress.Commands.add('lang', (lang) => {
   if (lang === 'en') return;
   window.localStorage.setItem('language', lang);
 })
+
+// noinspection JSCheckFunctionSignatures
+Cypress.Commands.add('clean', () => {
+  const cleanWindow = {
+    index:0,
+    color:"#131313",
+    label:""
+  }
+  window.localStorage.setItem(`clipboard_data_0`, JSON.stringify(cleanWindow));
+})

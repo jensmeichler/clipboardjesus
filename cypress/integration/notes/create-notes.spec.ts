@@ -2,6 +2,7 @@ import {dataCy, selectors} from "../../support/selectors";
 
 describe('Create notes', () => {
   beforeEach(() => {
+    cy.clean();
     cy.visit('/');
   })
 
