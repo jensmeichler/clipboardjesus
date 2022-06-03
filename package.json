@@ -17,20 +17,16 @@
     "@angular/core": "~13.3.0",
     "@angular/forms": "~13.3.0",
     "@angular/material": "~13.3.0",
-    "@angular/platform-browser": "~13.3.0",
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
     "@angular/service-worker": "~13.3.0",
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "@tauri-apps/api": "^1.0.0-rc.6",
-    "angular-cli-ghpages": "^1.0.0",
     "ngx-filesaver": "^13.0.0",
     "ngx-highlightjs": "^6.1.1",
     "ngx-markdown": "^13.0.0",
-    "rxjs": "~7.5.0",
-    "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "rxjs": "~7.5.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.3.5",
@@ -45,6 +41,7 @@
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "5.17.0",
     "@typescript-eslint/parser": "5.17.0",
+    "angular-cli-ghpages": "^1.0.0",
     "cypress": "^9.6.1",
     "eslint": "^8.12.0",
     "typescript": "~4.6.2"
