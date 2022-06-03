@@ -14,18 +14,34 @@ export class CacheService {
     private readonly storageService: StorageService) {
   }
 
+  /**
+   * Read the last state of the tab and write it into the localstorage.
+   * @param index The index of the tab.
+   */
   undo(index: number): boolean {
     return this.redoService.undo(index);
   }
 
+  /**
+   * Read the previous undone state of the tab and write it into the localstorage.
+   * @param index The index of the tab.
+   */
   redo(index: number): boolean {
     return this.redoService.redo(index);
   }
 
+  /**
+   * Recreate the last deleted tab.
+   */
   recreate(): Tab | undefined {
     return this.redoService.recreate();
   }
 
+  /**
+   * Save the tab and update the change history.
+   * @param index The index of the tab.
+   * @param tab The content to save.
+   */
   save(index: number, tab: Tab): void {
     this.redoService.do(index);
 
@@ -38,15 +54,28 @@ export class CacheService {
     this.storageService.setTab(tabCopy, index);
   }
 
+  /**
+   * Reads the tab from the localstorage.
+   * @param index The index of the tab.
+   * @returns the {@link Tab} which was stored.
+   */
   fetch(index: number): Tab | undefined {
     return this.storageService.fetchTab(index);
   }
 
+  /**
+   * Delete the tab and update the change history.
+   * @param index The index of the deleted tab.
+   */
   remove(index: number): void {
     this.redoService.remove(index);
     this.storageService.deleteTab(index);
   }
 
+  /**
+   * Gets a {@link Tab} array of all currently available tabs.
+   * The maximum size is 20.
+   */
   getJsonFromAll(): Tab[] {
     const tabs: Tab[] = [];
     for (let i = 0; i < 20; i++) {

@@ -20,15 +20,23 @@ export class RedoService {
     }
   }
 
+  /**
+   * Save the tab into the undo history.
+   * @param index The index of the tab.
+   */
   do(index: number): void {
     const tab = this.storageService.fetchTab(index);
     if (tab) {
       this.possibleUndos[index].push(tab);
       this.possibleRedos[index] = [];
-      this.updateRedoPossible(index);
+      this.updateHistory(index);
     }
   }
 
+  /**
+   * Read the last state of the tab and write it into the localstorage.
+   * @param index The index of the tab.
+   */
   undo(index: number): boolean {
     let success = false;
     if (this.possibleUndos[index].length) {
@@ -41,10 +49,14 @@ export class RedoService {
       }
     }
 
-    this.updateRedoPossible(index);
+    this.updateHistory(index);
     return success;
   }
 
+  /**
+   * Read the previous undone state of the tab and write it into the localstorage.
+   * @param index The index of the tab.
+   */
   redo(index: number): boolean {
     let success = false;
     if (this.possibleRedos[index].length) {
@@ -57,10 +69,13 @@ export class RedoService {
       }
     }
 
-    this.updateRedoPossible(index);
+    this.updateHistory(index);
     return success;
   }
 
+  /**
+   * Recreate the last deleted tab.
+   */
   recreate(): Tab | undefined {
     const restoredTab = this.possibleRestores.pop();
     if (!this.possibleRestores.length) {
@@ -69,6 +84,10 @@ export class RedoService {
     return restoredTab;
   }
 
+  /**
+   * Store a deleted tab into the history.
+   * @param index The index of the deleted tab.
+   */
   remove(index: number): void {
     const tab = this.storageService.fetchTab(index);
     if (tab) {
@@ -79,7 +98,11 @@ export class RedoService {
     this.possibleRedos[index] = [];
   }
 
-  private updateRedoPossible(index: number): void {
+  /**
+   * Update the possibilities (e.g. undoPossible, redoPossible).
+   * @param index The index of the deleted tab.
+   */
+  private updateHistory(index: number): void {
     if (!this.possibleUndos[index].length && this.undoPossible.getValue()) {
       this.undoPossible.next(false);
     } else if (this.possibleUndos[index].length && !this.undoPossible.getValue()) {

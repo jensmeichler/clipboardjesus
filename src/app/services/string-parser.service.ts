@@ -3,6 +3,11 @@ import {_blank, hyperlinkRegex} from "../const";
 
 @Injectable({providedIn: 'root'})
 export class StringParserService {
+  /**
+   * Replaces all the links of the given string with html links
+   * that are targeting a new browser window.
+   * @param rawText The source text.
+   */
   convert(rawText?: string): string {
     if (!rawText) return '';
 

@@ -11,7 +11,7 @@ export class ClipboardService {
   /**
    * Copies the provided text to the clipboard.
    * This function uses the __TAURI__ api if it was provided.
-   * @param text The content which should be stored into the clipboard
+   * @param text The content which should be stored into the clipboard.
    */
   async set(text: string): Promise<void> {
     if (isTauri) {
@@ -24,7 +24,7 @@ export class ClipboardService {
   /**
    * Reads the text from the clipboard async.
    * This function uses the __TAURI__ api if it was provided.
-   * @returns The clipboard content
+   * @returns The clipboard content.
    */
   get(): Promise<string | null> {
     if (isTauri) {

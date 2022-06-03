@@ -23,14 +23,14 @@ export class DataService {
   isBeta: boolean;
 
   /**
-   * gets '_blank' or '_tauri' according to the platform you are on
-   */
-  get _blank(): string {
-    return _blank;
-  };
-  get isTauri(): boolean {
-    return isTauri;
-  }
+   * @returns '_blank' or '_tauri' according to the platform you are on.
+   * */
+  get _blank(): string { return _blank; };
+
+  /**
+   * @returns Whether the app is running as a desktop app.
+   * */
+  get isTauri(): boolean { return isTauri; }
 
   private _selectedTabIndex = 0;
   get selectedTabIndex(): number {
@@ -81,6 +81,9 @@ export class DataService {
     this.setColorizedObjects();
   }
 
+  /**
+   * Writes the current selected tab into the app title.
+   */
   updateAppTitle(): void {
     const appTitle = document.getElementById('title');
     if (!appTitle) return;
@@ -95,6 +98,9 @@ export class DataService {
       });
   }
 
+  /**
+   * @returns The total count of all items on the currently selected tab.
+   */
   get itemsCount(): number {
     return (this.tab.notes?.length ?? 0)
       + (this.tab.taskLists?.length ?? 0)
@@ -143,16 +149,25 @@ export class DataService {
       && left.foregroundColor === right.foregroundColor
   }
 
+  /**
+   * Stores the current tab into the change history and loads the last state of the tab.
+   */
   undo(): void {
     if (!this.cache.undo(this.selectedTabIndex)) return;
     this.tab = this.cache.fetch(this.selectedTabIndex)!;
   }
 
+  /**
+   * Stores the current tab into the change history and loads the last undone state of the tab.
+   */
   redo(): void {
     if (!this.cache.redo(this.selectedTabIndex)) return;
     this.tab = this.cache.fetch(this.selectedTabIndex)!;
   }
 
+  /**
+   * Recreate the last deleted tab and add it to the app.
+   */
   restoreTab(): void {
     const recreatedTab = this.cache.recreate();
     if (recreatedTab) this.addTab(recreatedTab);

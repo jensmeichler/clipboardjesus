@@ -21,8 +21,7 @@ export class HighlightColorDirective {
 
   @Input() cbHighlightedItem?: DraggableNote;
 
-  constructor(private readonly settings: SettingsService) {
-  }
+  constructor(private readonly settings: SettingsService) {}
 
   @HostBinding('style.transition') transition = 'filter ease-in-out .18s';
 
