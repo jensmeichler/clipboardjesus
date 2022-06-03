@@ -9,4 +9,12 @@ describe('Welcome page', () => {
     cy.dataCy(dataCy.noteList.noteList).should('exist');
     cy.url().should('contain', 'Welcome');
   })
+
+  it('should be possible to edit the welcome page', () => {
+    cy.visit('/');
+    cy.dataCy(dataCy.note.editBtn).click({force: true});
+    cy.dataCy(dataCy.note.dialog.submit).click();
+    cy.dataCy(dataCy.taskList.editBtn).click({force: true});
+    cy.dataCy(dataCy.taskList.dialog.submit).click();
+  })
 })
