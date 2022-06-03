@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Tab} from "../models";
+import {Tab} from "@clipboardjesus/models";
 import {BehaviorSubject} from "rxjs";
-import {StorageService} from "./storage.service";
+import {StorageService} from "@clipboardjesus/services/storage.service";
 
 @Injectable({providedIn: 'root'})
 export class RedoService {

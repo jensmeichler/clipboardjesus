@@ -1,6 +1,6 @@
 import {Component, HostListener, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Note, NoteList} from "../../../models";
+import {Note, NoteList} from "@clipboardjesus/models";
 import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({

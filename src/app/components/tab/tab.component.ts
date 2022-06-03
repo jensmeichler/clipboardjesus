@@ -1,10 +1,9 @@
 import {Component, ElementRef, HostListener, Input} from '@angular/core';
-import {DraggableNote, Image, Note, Tab} from "../../models";
-import {DataService, HashyService} from "../../services";
+import {DraggableNote, Image, Note, Tab} from "@clipboardjesus/models";
+import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
-import {ImportDialogComponent} from "../dialogs";
+import {ImportDialogComponent} from "@clipboardjesus/components";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
-import {ClipboardService} from "../../services/clipboard.service";
 
 @Component({
   selector: 'cb-tab',

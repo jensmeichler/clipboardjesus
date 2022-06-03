@@ -2,9 +2,9 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag
 import {Component, Input, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {Note, TaskItem, TaskList} from "../../../models";
-import {DataService, StringParserService} from "../../../services";
-import {EditTaskListDialogComponent} from "../../dialogs";
+import {Note, TaskItem, TaskList} from "@clipboardjesus/models";
+import {DataService, StringParserService} from "@clipboardjesus/services";
+import {EditTaskListDialogComponent} from "@clipboardjesus/components";
 
 @Component({
   selector: 'cb-task-list',

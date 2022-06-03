@@ -1,7 +1,7 @@
 import {Component, HostListener, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Tab} from "../../../models";
-import {DataService} from "../../../services";
+import {Tab} from "@clipboardjesus/models";
+import {DataService} from "@clipboardjesus/services";
 
 @Component({
   selector: 'cb-edit-tab-dialog',

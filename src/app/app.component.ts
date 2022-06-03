@@ -10,18 +10,17 @@ import {
   EditTabDialogComponent,
   EditTaskListDialogComponent,
   EditNoteListDialogComponent
-} from "./components";
-import {Note, Tab, TaskList} from './models';
+} from "@clipboardjesus/components";
+import {Note, Tab, TaskList, NoteList} from '@clipboardjesus/models';
 import {
   CacheService,
   DataService, FileAccessService,
   HashyService,
-  SettingsService
-} from "./services";
+  SettingsService,
+  ClipboardService
+} from "@clipboardjesus/services";
 import {TranslateService} from "@ngx-translate/core";
-import {NoteList} from "./models";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
-import {ClipboardService} from "./services/clipboard.service";
 import {dialog} from "@tauri-apps/api";
 
 @Component({

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {SaveAsDialogComponent} from "../components";
+import {SaveAsDialogComponent} from "@clipboardjesus/components";
 import {
   DraggableNote,
   Image,
@@ -8,14 +8,16 @@ import {
   Tab,
   TaskList,
   NoteList
-} from "../models";
-import {CacheService} from "./cache.service";
-import {FileService} from "./file.service";
-import {HashyService} from "./hashy.service";
+} from "@clipboardjesus/models";
+import {
+  CacheService,
+  FileService,
+  HashyService,
+  FileAccessService,
+  ClipboardService
+} from "@clipboardjesus/services";
 import {ActivatedRoute, Router} from "@angular/router";
-import {FileAccessService} from "./file-access.service";
-import {_blank, isTauri} from "../const";
-import {ClipboardService} from "./clipboard.service";
+import {_blank, isTauri} from "@clipboardjesus/const";
 import {dialog} from "@tauri-apps/api";
 import welcomeTab from '../../assets/screens/welcome.json';
 

@@ -1,7 +1,7 @@
 import {Component, HostListener, Inject} from '@angular/core';
 import {MatChipInputEvent} from "@angular/material/chips";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {TaskItem, TaskList} from "../../../models";
+import {TaskItem, TaskList} from "@clipboardjesus/models";
 
 @Component({
   selector: 'cb-edit-task-list-dialog',

@@ -1,6 +1,6 @@
 import {Component, HostListener, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Note} from "../../../models";
+import {Note} from "@clipboardjesus/models";
 
 @Component({
   selector: 'cb-edit-note-dialog',

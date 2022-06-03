@@ -1,4 +1,4 @@
-import {DraggableNote} from "./draggable-note.model";
+import {DraggableNote} from "@clipboardjesus/models";
 
 export class Image implements DraggableNote {
   source: string;

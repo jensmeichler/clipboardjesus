@@ -1,5 +1,5 @@
-import {colorRegex} from "../const";
-import {DraggableNote} from "./draggable-note.model";
+import {colorRegex} from "@clipboardjesus/const";
+import {DraggableNote} from "@clipboardjesus/models";
 
 export class Note implements DraggableNote {
   content?;

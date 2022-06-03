@@ -1,7 +1,7 @@
 import {Directive, HostBinding, HostListener, Input} from '@angular/core';
-import {DraggableNote} from "../models";
-import {SettingsService} from "../services";
-import {scrolledPosition} from "../const";
+import {DraggableNote} from "@clipboardjesus/models";
+import {SettingsService} from "@clipboardjesus/services";
+import {scrolledPosition} from "@clipboardjesus/const";
 
 @Directive({
   selector: '[cbHighlightColor]'

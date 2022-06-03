@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Clipboard} from "@angular/cdk/clipboard";
-import {isTauri} from "../const";
+import {isTauri} from "@clipboardjesus/const";
 import {clipboard} from "@tauri-apps/api";
 
 @Injectable({providedIn: 'root'})

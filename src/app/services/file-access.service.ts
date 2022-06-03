@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {FsTextFileOption} from "@tauri-apps/api/fs";
-import {HashyService} from "./hashy.service";
-import {SettingsService} from "./settings.service";
-import {isTauri} from "../const";
+import {HashyService, SettingsService} from "@clipboardjesus/services";
+import {isTauri} from "@clipboardjesus/const";
 import {fs} from "@tauri-apps/api";
 
 @Injectable({providedIn: 'root'})

@@ -1,6 +1,6 @@
 import {Component, HostListener} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
-import {DataService} from "../../../services";
+import {DataService} from "@clipboardjesus/services";
 
 @Component({
   selector: 'cb-about-dialog',

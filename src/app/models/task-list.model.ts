@@ -1,5 +1,4 @@
-import {TaskItem} from "./task-item.model";
-import {DraggableNote} from "./draggable-note.model";
+import {TaskItem, DraggableNote} from "@clipboardjesus/models";
 
 export class TaskList implements DraggableNote {
   items: TaskItem[] = [];

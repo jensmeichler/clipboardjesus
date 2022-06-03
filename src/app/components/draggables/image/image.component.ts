@@ -1,9 +1,8 @@
 import {Component, Input, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from "@angular/material/menu";
-import {Image} from "../../../models";
-import {DataService, HashyService} from "../../../services";
-import {_blank} from "../../../const";
-import {ClipboardService} from "../../../services/clipboard.service";
+import {Image} from "@clipboardjesus/models";
+import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
+import {_blank} from "@clipboardjesus/const";
 
 @Component({
   selector: 'cb-image',

@@ -1,6 +1,6 @@
 import {Component, HostListener} from '@angular/core';
 import {MatBottomSheetRef} from "@angular/material/bottom-sheet";
-import {DataService} from "../../../services";
+import {DataService} from "@clipboardjesus/services";
 
 @Component({
   selector: 'cb-delete-dialog',

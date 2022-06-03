@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {Tab} from "../models";
-import {RedoService} from "./redo.service";
-import {StorageService} from "./storage.service";
+import {Tab} from "@clipboardjesus/models";
+import {RedoService, StorageService} from "@clipboardjesus/services";
 
 @Injectable({providedIn: 'root'})
 export class CacheService {

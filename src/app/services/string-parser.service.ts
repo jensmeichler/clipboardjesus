@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {_blank, hyperlinkRegex} from "../const";
+import {_blank, hyperlinkRegex} from '@clipboardjesus/const';
 
 @Injectable({providedIn: 'root'})
 export class StringParserService {

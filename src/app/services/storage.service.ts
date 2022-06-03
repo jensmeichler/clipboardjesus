@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Tab} from "../models";
+import {Tab} from "@clipboardjesus/models";
 
 @Injectable({providedIn: 'root'})
 export class StorageService {

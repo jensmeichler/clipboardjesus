@@ -6,3 +6,5 @@ export * from './hashy.service';
 export * from './redo.service';
 export * from './settings.service';
 export * from './string-parser.service';
+export * from './storage.service';
+export * from './clipboard.service';

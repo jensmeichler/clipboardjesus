@@ -1,5 +1,4 @@
-import {Note} from "./note.model";
-import {DraggableNote} from "./draggable-note.model";
+import {Note, DraggableNote} from "@clipboardjesus/models";
 
 export class NoteList implements DraggableNote {
   notes: Note[] = [];

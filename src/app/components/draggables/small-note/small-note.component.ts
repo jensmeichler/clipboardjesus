@@ -1,10 +1,9 @@
 import {Component, Input, ViewChild} from '@angular/core';
-import {Note, NoteList, TaskList} from "../../../models";
-import {DataService, HashyService} from "../../../services";
+import {Note, NoteList, TaskList} from "@clipboardjesus/models";
+import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {EditNoteDialogComponent} from "../../dialogs";
+import {EditNoteDialogComponent} from "@clipboardjesus/components";
 import {MatDialog} from "@angular/material/dialog";
-import {ClipboardService} from "../../../services/clipboard.service";
 
 @Component({
   selector: 'cb-small-note',

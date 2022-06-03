@@ -1,11 +1,10 @@
 import {Component, Input, ViewChild} from '@angular/core';
-import {Note, NoteList, TaskList} from "../../../models";
+import {Note, NoteList, TaskList} from "@clipboardjesus/models";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {DataService} from "../../../services";
-import {EditNoteDialogComponent, EditNoteListDialogComponent} from "../../dialogs";
+import {DataService, ClipboardService} from "@clipboardjesus/services";
+import {EditNoteDialogComponent, EditNoteListDialogComponent} from "@clipboardjesus/components";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {ClipboardService} from "../../../services/clipboard.service";
 
 @Component({
   selector: 'cb-note-list',

@@ -48,14 +48,14 @@ import {
   HashyComponent,
   HashyAnimatedComponent,
   SignatureComponent
-} from './components';
+} from '@clipboardjesus/components';
 import {
   AutofocusDirective,
   CursorDirective,
   DragDropDirective,
   HighlightColorDirective
-} from './directives';
-import {_blank} from "./const";
+} from '@clipboardjesus/directives';
+import {_blank} from "@clipboardjesus/const";
 
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();

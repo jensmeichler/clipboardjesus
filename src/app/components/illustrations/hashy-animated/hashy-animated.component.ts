@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {HashyService} from "../../../services";
+import {HashyService} from "@clipboardjesus/services";
 
 @Component({
   selector: 'cb-hashy-animated',

@@ -1,7 +1,7 @@
 import {Component, HostListener, Inject} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef} from "@angular/material/bottom-sheet";
-import {Tab} from "../../../models";
-import {DataService} from "../../../services";
+import {Tab} from "@clipboardjesus/models";
+import {DataService} from "@clipboardjesus/services";
 
 @Component({
   selector: 'cb-import-dialog',
