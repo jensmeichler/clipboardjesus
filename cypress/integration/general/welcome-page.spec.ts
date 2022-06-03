@@ -7,5 +7,6 @@ describe('Welcome page', () => {
     cy.dataCy(dataCy.note.note).should('exist');
     cy.dataCy(dataCy.taskList.taskList).should('exist');
     cy.dataCy(dataCy.noteList.noteList).should('exist');
+    cy.url().should('contain', 'Welcome');
   })
 })

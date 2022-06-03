@@ -1,11 +1,9 @@
 import {dataCy, selectors} from "../../support/selectors";
 
 describe('Create task lists', () => {
-  beforeEach(() => {
-    cy.visit('/');
-  })
-
   it('should create new task list after dialog submit', () => {
+    cy.clean();
+    cy.visit('/');
     cy.dataCy(dataCy.tab.content).rightclick();
     cy.get(selectors.menu).contains('Create task list').click();
     cy.dataCy(dataCy.taskList.dialog.tasks).type('Foo{enter}');
