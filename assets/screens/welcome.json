@@ -1,5 +1,5 @@
 {
-  "index": 2,
+  "index": 0,
   "color": "#131313",
   "label": "Welcome",
   "notes": [
@@ -40,8 +40,8 @@
       ],
       "foregroundColor": "#ffffff",
       "backgroundColor": "#7b1ea2",
-      "posX": 129,
-      "posY": 456,
+      "posX": 124,
+      "posY": 520,
       "posZ": 2,
       "header": "Create a list of copyable notes 📝"
     }
@@ -62,8 +62,8 @@
       ],
       "foregroundColor": "#e5fff3",
       "backgroundColor": "#51b384",
-      "posX": 608,
-      "posY": 187,
+      "posX": 642,
+      "posY": 172,
       "posZ": 3,
       "header": "Create task lists 📚"
     }
