@@ -47,7 +47,6 @@ export class DataService {
     return this.tabs[this.selectedTabIndex];
   }
   set tab(tab: Tab) {
-    if (!tab) debugger;
     this.tabs[this.selectedTabIndex] = tab;
   }
 
@@ -234,9 +233,9 @@ export class DataService {
   }
 
   addWelcomePage(): void {
-    this.tabs.push(welcomeTab);
+    this._selectedTabIndex = 0;
+    this.tab = welcomeTab;
     this.cache.save(0, welcomeTab);
-    this.selectedTabIndex = 0;
   }
 
   async canImportItemsFromClipboard(): Promise<boolean> {
