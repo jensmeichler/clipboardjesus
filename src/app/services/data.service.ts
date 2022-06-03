@@ -17,6 +17,7 @@ import {FileAccessService} from "./file-access.service";
 import {_blank, isTauri} from "../const";
 import {ClipboardService} from "./clipboard.service";
 import {dialog} from "@tauri-apps/api";
+import welcomeTab from '../../assets/screens/welcome.json';
 
 @Injectable({providedIn: 'root'})
 export class DataService {
@@ -75,7 +76,10 @@ export class DataService {
         this.tabs.push(tab);
       }
     }
-    if (!this.tabs.length) this.addTab();
+
+    if (!this.tabs.length) {
+      this.addWelcomePage();
+    }
 
     this._selectedTabIndex = 0;
     this.setColorizedObjects();
@@ -227,6 +231,12 @@ export class DataService {
     this.tabs.push(newTab);
     this.cache.save(newTab.index, newTab);
     this.selectedTabIndex = newTab.index;
+  }
+
+  addWelcomePage(): void {
+    this.tabs.push(welcomeTab);
+    this.cache.save(0, welcomeTab);
+    this.selectedTabIndex = 0;
   }
 
   async canImportItemsFromClipboard(): Promise<boolean> {
