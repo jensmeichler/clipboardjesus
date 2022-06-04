@@ -21,7 +21,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from "@angular/router";
 import {ServiceWorkerModule} from '@angular/service-worker';
-import {FileSaverModule} from "ngx-filesaver";
 import {HIGHLIGHT_OPTIONS, HighlightModule} from "ngx-highlightjs";
 import {MarkdownModule, MarkedOptions, MarkedRenderer} from "ngx-markdown";
 import {environment} from '../environments/environment';
@@ -129,7 +128,6 @@ export function createTranslateLoader(http: HttpClient) {
       registrationStrategy: 'registerWhenStable:30000'
     }),
     MatTabsModule,
-    FileSaverModule,
     RouterModule.forRoot([]),
     HighlightModule,
     MarkdownModule.forRoot({
