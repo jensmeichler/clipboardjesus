@@ -1,8 +1,29 @@
 name: 🏗 Build application
 
-on: push
+on:
+  push:
+    branches:
+      - develop
+      - feature/**
 
 jobs:
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎
+        uses: actions/checkout@v2
+
+      - name: Setup node 🔧
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+
+      - name: Install dependencies 📦
+        run: npm install
+
+      - name: Build app for web 🏗
+        run: npm run build
+
   tauri:
     strategy:
       fail-fast: false
@@ -33,6 +54,7 @@ jobs:
       - name: Install dependencies 📦
         run: npm install
 
-      - uses: tauri-apps/tauri-action@v0
+      - name: Build app for ${{ matrix.platform }} 🏗
+        uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
