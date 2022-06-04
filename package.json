@@ -24,7 +24,6 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "@tauri-apps/api": "^1.0.0-rc.6",
-    "ngx-filesaver": "^13.0.0",
     "ngx-highlightjs": "^6.1.1",
     "ngx-markdown": "^13.0.0",
     "rxjs": "~7.5.0",
