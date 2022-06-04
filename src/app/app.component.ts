@@ -33,8 +33,8 @@ export class AppComponent implements OnInit {
   contextMenu!: MatMenuTrigger;
   rightClickPosX = 0;
   rightClickPosY = 0;
-  newNotePositionX = 0;
-  newNotePositionY = 0;
+  newDraggablePositionX = 0;
+  newDraggablePositionY = 0;
 
   canPasteItems = false;
 
@@ -64,10 +64,13 @@ export class AppComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       if (this.initialized) return;
+
       if (params.tab) {
         const index = this.dataService.tabs
           .find(x => x.label ? x.label === params.tab : (x.index+1) == params.tab)?.index;
-        if (index) this.dataService.selectedTabIndex = index;
+        if (index !== undefined) {
+          this.dataService.selectedTabIndex = index;
+        }
         this.initialized = true;
       } else if (params.params) {
         const tab = JSON.parse(atob(params.params));
@@ -98,23 +101,51 @@ export class AppComponent implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   async onKeyDown(event: KeyboardEvent): Promise<void> {
-    if (event.key === 'Tab') {
-      this.dataService.selectNextItem(event.shiftKey);
-      event.preventDefault();
-      event.stopPropagation();
-      return;
-    } else if (event.key === 'PageUp' || (event.key === 'ArrowLeft' && (event.ctrlKey || event.shiftKey || event.metaKey))) {
-      this.dataService.selectNextTab(true);
-      event.preventDefault();
-      event.stopPropagation();
-    } else if (event.key === 'PageDown' || (event.key === 'ArrowRight' && (event.ctrlKey || event.shiftKey || event.metaKey))) {
-      this.dataService.selectNextTab(false);
-      event.preventDefault();
-      event.stopPropagation();
+    const key = event.key;
+    const ctrl = event.ctrlKey || event.metaKey;
+    const shift = event.shiftKey;
+    const alt = event.altKey;
+
+    if (this.dataService.selectedItemsCount) {
+      switch (key) {
+        case 'Delete':
+        case 'Backspace':
+          this.deleteSelectedItems();
+          return;
+        case 'ArrowUp':
+          this.dataService.editAllSelectedItems(x => x.posY--);
+          this.dataService.cacheData();
+          return;
+        case 'ArrowDown':
+          this.dataService.editAllSelectedItems(x => x.posY++);
+          this.dataService.cacheData();
+          return;
+        case 'ArrowLeft':
+          this.dataService.editAllSelectedItems(x => x.posX--);
+          this.dataService.cacheData();
+          return;
+        case 'ArrowRight':
+          this.dataService.editAllSelectedItems(x => x.posX++);
+          this.dataService.cacheData();
+          return;
+        case 'Escape':
+          this.dataService.removeAllSelections();
+          return;
+        case 'c':
+          if (ctrl) {
+            await this.copySelectedItems();
+          }
+          return;
+        case 'x':
+          if (ctrl) {
+            await this.cutSelectedItems();
+          }
+          return;
+      }
     }
 
-    if (event.ctrlKey || event.metaKey || event.altKey) {
-      switch (event.key) {
+    if (ctrl || shift || alt) {
+      switch (key) {
         case 't':
         case 'n':
           if (event.shiftKey) {
@@ -154,45 +185,35 @@ export class AppComponent implements OnInit {
           }
           event.preventDefault();
           return;
+        case 'ArrowLeft':
+          this.dataService.selectNextTab(true);
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        case 'ArrowRight':
+          this.dataService.selectNextTab(false);
+          event.preventDefault();
+          event.stopPropagation();
+          return;
       }
     }
 
-    if (this.dataService.selectedItemsCount) {
-      switch (event.key) {
-        case 'Delete':
-        case 'Backspace':
-          this.deleteSelectedItems();
-          return;
-        case 'ArrowUp':
-          this.dataService.editAllSelectedItems(x => x.posY--);
-          this.dataService.cacheData();
-          return;
-        case 'ArrowDown':
-          this.dataService.editAllSelectedItems(x => x.posY++);
-          this.dataService.cacheData();
-          return;
-        case 'ArrowLeft':
-          this.dataService.editAllSelectedItems(x => x.posX--);
-          this.dataService.cacheData();
-          return;
-        case 'ArrowRight':
-          this.dataService.editAllSelectedItems(x => x.posX++);
-          this.dataService.cacheData();
-          return;
-        case 'Escape':
-          this.dataService.removeAllSelections();
-          return;
-        case 'c':
-          if (event.ctrlKey || event.metaKey) {
-            await this.copySelectedItems();
-          }
-          return;
-        case 'x':
-          if (event.ctrlKey || event.metaKey) {
-            this.cutSelectedItems();
-          }
-          return;
-      }
+    switch (key) {
+      case 'Tab':
+        this.dataService.selectNextItem(event.shiftKey);
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      case 'PageUp':
+        this.dataService.selectNextTab(true);
+        event.preventDefault();
+        event.stopPropagation();
+        return;
+      case 'PageDown':
+        this.dataService.selectNextTab(false);
+        event.preventDefault();
+        event.stopPropagation();
+        return;
     }
   }
 
@@ -202,18 +223,16 @@ export class AppComponent implements OnInit {
     this.dataService.removeAllSelections();
   }
 
-  cutSelectedItems(): void {
+  async cutSelectedItems(): Promise<void> {
     const selectedItems = this.dataService.getSelectedItems();
-    this.clipboard.set(JSON.stringify(selectedItems));
+    await this.clipboard.set(JSON.stringify(selectedItems));
     this.dataService.deleteSelectedItems();
     this.dataService.removeAllSelections();
   }
 
-  shareTab(): void {
-    let params = JSON.stringify(this.dataService.getAsJson(true));
-    params = btoa(params);
-    const url = 'https://www.clipboardjesus.com/?params=' + params;
-    this.clipboard.set(url);
+  async shareTab(): Promise<void> {
+    const params = JSON.stringify(this.dataService.getAsJson(true));
+    await this.clipboard.set(`https://www.clipboardjesus.com/?params=${btoa(params)}`);
     this.hashy.show('COPIED_URL_TO_CLIPBOARD', 3000, 'OK');
   }
 
@@ -275,7 +294,7 @@ export class AppComponent implements OnInit {
   openNewNoteDialog(): void {
     this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: new Note(this.newNotePositionX, this.newNotePositionY, ''),
+      data: new Note(this.newDraggablePositionX, this.newDraggablePositionY, ''),
     }).afterClosed().subscribe((note) => {
       if (note) this.dataService.addNote(note);
     });
@@ -284,7 +303,7 @@ export class AppComponent implements OnInit {
   openNewNoteListDialog(): void {
     this.dialog.open(EditNoteListDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: new NoteList(this.newNotePositionX, this.newNotePositionY),
+      data: new NoteList(this.newDraggablePositionX, this.newDraggablePositionY),
     }).afterClosed().subscribe((noteList) => {
       if (noteList) this.dataService.addNoteList(noteList);
     });
@@ -293,7 +312,7 @@ export class AppComponent implements OnInit {
   openNewTaskListDialog(): void {
     this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: new TaskList(this.newNotePositionX, this.newNotePositionY),
+      data: new TaskList(this.newDraggablePositionX, this.newDraggablePositionY),
     }).afterClosed().subscribe((taskList) => {
       if (taskList) this.dataService.addTaskList(taskList);
     });
@@ -326,6 +345,7 @@ export class AppComponent implements OnInit {
     window.location.reload();
   }
 
+  /** Easter egg 🐰 */
   replaceLogo(event: CdkDragEnd): void {
     let question = 'Hmmpf...';
     let answer: string | undefined = 'Okay.. sorry';
@@ -391,16 +411,21 @@ export class AppComponent implements OnInit {
     });
   }
 
-  async showContextMenu(event: any, ignoreMousePosition?: boolean): Promise<void> {
+  /**
+   * Open the main context menu of a tab.
+   * This method saves the current mouse position to create
+   * the draggable at this position (if chosen in context menu).
+   * @param event
+   * @param ignoreMousePosition If {@link true} the new draggable
+   *  will be created in the top left corner of the tab
+   */
+  showContextMenu(event: MouseEvent, ignoreMousePosition?: boolean): void {
     event.preventDefault();
     this.rightClickPosX = event.clientX;
     this.rightClickPosY = event.clientY;
-
     this.dataService.canImportItemsFromClipboard().then(val => this.canPasteItems = val);
-
     this.contextMenu.openMenu();
-
-    this.newNotePositionX = ignoreMousePosition ? 10 : this.rightClickPosX;
-    this.newNotePositionY = ignoreMousePosition ? 61 : this.rightClickPosY;
+    this.newDraggablePositionX = ignoreMousePosition ? 10 : this.rightClickPosX;
+    this.newDraggablePositionY = ignoreMousePosition ? 61 : this.rightClickPosY;
   }
 }
