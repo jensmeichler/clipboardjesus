@@ -40,6 +40,8 @@ export class AppComponent implements OnInit {
 
   logoReplacedEasterEggCount = 0;
 
+  initialized = false;
+
   constructor(
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
@@ -56,14 +58,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    let initialized = false;
     this.route.queryParams.subscribe(params => {
-      if (initialized) return;
+      if (this.initialized) return;
       if (params.tab) {
         const index = this.dataService.tabs
           .find(x => x.label ? x.label === params.tab : (x.index+1) == params.tab)?.index;
         if (index) this.dataService.selectedTabIndex = index;
-        initialized = true;
+        this.initialized = true;
       } else if (params.params) {
         const tab = JSON.parse(atob(params.params));
         if (typeof tab !== 'string') {
@@ -84,6 +85,9 @@ export class AppComponent implements OnInit {
         ).then(() => {
           window.location.reload();
         });
+      } else {
+        // Hack for fade in animation on startup
+        setTimeout(() => this.initialized = true, 0);
       }
     });
   }

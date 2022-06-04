@@ -5,6 +5,15 @@
   }
 }
 
+.app {
+  transition: opacity ease-in-out 3s;
+  transition-delay: .3s;
+  opacity: 0;
+  &.loading {
+    opacity: 1;
+  }
+}
+
 .flags-container {
   display: flex;
   flex-direction: row;
@@ -124,7 +133,7 @@
     width: auto;
     top: 0;
     right: 0;
-    color: var(--color-primary);
+    color: var(--color-secondary);
     transform: scale(.2) translate(10em, -1.7em);
     opacity: 0;
   }
