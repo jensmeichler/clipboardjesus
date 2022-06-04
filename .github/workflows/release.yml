@@ -3,10 +3,10 @@ name: 🔖 Publish tauri app
 on:
   push:
     branches:
-      - feature/desktop-app-build-on-pipeline
+      - main
 
 jobs:
-  Publish:
+  publish:
     strategy:
       fail-fast: false
       matrix:
@@ -43,5 +43,6 @@ jobs:
         with:
           tagName: v__VERSION__
           releaseName: "Clip#board v__VERSION__ 🔖"
+          body: "v__VERSION__"
           releaseDraft: true
           prerelease: false
