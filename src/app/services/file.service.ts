@@ -12,11 +12,15 @@ export class FileService {
   save(content: string, fileType: string, filename?: string): string {
     filename ??= getTimeStamp();
     filename = filename.endsWith('.' + fileType) ? filename : filename + '.' + fileType;
-    this.saveText(content, filename);
+    FileService.saveText(content, filename);
     return filename;
   }
 
-  private saveText(content: string, filename: string): void {
-    //TODO implement
+  private static saveText(content: string, filename: string): void {
+    const a = document.createElement("a");
+    const blob = new Blob([content], {type: "application/json"});
+    a.href = window.URL.createObjectURL(blob);
+    a.download = filename;
+    a.click();
   }
 }
