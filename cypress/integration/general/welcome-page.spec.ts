@@ -11,8 +11,8 @@ describe('Welcome page', () => {
 
   it('should be possible to edit the welcome page', () => {
     cy.visit('/');
-    cy.dataCy(dataCy.note.editBtn).click();
-    cy.dataCy(dataCy.note.dialog.submit).click();
+    cy.dataCy(dataCy.note.editBtn).first().click();
+    cy.dataCy(dataCy.note.dialog.submit).first().click();
     cy.dataCy(dataCy.taskList.editBtn).click();
     cy.dataCy(dataCy.taskList.dialog.submit).click();
   })
