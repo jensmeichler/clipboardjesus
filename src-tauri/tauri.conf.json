@@ -8,8 +8,8 @@
     "withGlobalTauri": true
   },
   "package": {
-    "productName": "clipboardjesus",
-    "version": "0.1.0"
+    "productName": "Clip#board desktop",
+    "version": "0.1.1"
   },
   "tauri": {
     "allowlist": {
