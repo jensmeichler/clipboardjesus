@@ -6,11 +6,14 @@
 }
 
 .app {
-  transition: opacity ease-in-out 3s;
+  transition: filter ease-in-out 2s;
   transition-delay: .3s;
-  opacity: 0;
+  filter: blur(0);
   &.loading {
-    opacity: 1;
+    filter: blur(80px);
+  }
+  &.inaccessible {
+    pointer-events: none;
   }
 }
 
