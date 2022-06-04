@@ -10,9 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           submodules: true
+
+      - name: Setup node 🔧
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - name: Build And Deploy 🚀
         id: builddeploy
