@@ -10,7 +10,17 @@
       "posY": 96,
       "posZ": 1,
       "header": "",
-      "content": "# Welcome to Clip#board 🎉\n\n## Discover the possibilities that Clip#board offers you ✨\n\n- Create notes from your clipboard by just clicking into the app\n- Copy these notes into your clipboard by clicking onto them\n- Drag and drop everywhere ⚡\n- Many more features... 🔥"
+      "content": "# Welcome to Clip#board 👋\n\n## Discover the possibilities that Clip#board offers you ✨\n\n- Create notes from your clipboard by just clicking into the app\n- Copy these notes into your clipboard by clicking onto them\n- Drag and drop everywhere 🎉\n- Many more features... 🔥",
+      "code": false
+    },
+    {
+      "foregroundColor": "#ffffff",
+      "backgroundColor": "#212121",
+      "posX": 735,
+      "posY": 440,
+      "posZ": 4,
+      "content": "/*\n * Enable code highlighting ❗\n */\nwriteAwesomeness(): void {\n    var minValue = 9000;\n    console.log(`Over ${minValue}`);\n}",
+      "code": true
     }
   ],
   "noteLists": [
@@ -35,7 +45,7 @@
           "backgroundColor": "#ffffff",
           "posX": 0,
           "posY": 0,
-          "content": "It's also possible to order notes using drag drop"
+          "content": "It's also possible to order notes using drag drop ⚡"
         }
       ],
       "foregroundColor": "#ffffff",
@@ -62,8 +72,8 @@
       ],
       "foregroundColor": "#e5fff3",
       "backgroundColor": "#51b384",
-      "posX": 569,
-      "posY": 170,
+      "posX": 588,
+      "posY": 168,
       "posZ": 3,
       "header": "Create task lists 📚"
     }
