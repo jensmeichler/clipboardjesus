@@ -20,10 +20,12 @@
     </a>
     <ng-container *ngIf="!dataService.isBeta && (isWindows || isMacos)">
       <span>|</span>
-      <a *ngIf="isWindows" href="/assets/installers/clipboardjesus-for-windows.msi" class="beta-button">
+      <a *ngIf="isWindows" href="https://github.com/jensmeichler/clipboardjesus/releases/tag/windows"
+         class="beta-button" [target]="dataService._blank">
         {{ 'DOWNLOAD_DESKTOP_CLIENT' | translate }}
       </a>
-      <a *ngIf="isMacos" href="/assets/installers/clipboardjesus-for-macos.dmg" class="beta-button">
+      <a *ngIf="isMacos" href="https://github.com/jensmeichler/clipboardjesus/releases/tag/macos"
+         class="beta-button" [target]="dataService._blank">
         {{ 'DOWNLOAD_DESKTOP_CLIENT' | translate }}
       </a>
     </ng-container>
