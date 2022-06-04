@@ -1,9 +1,7 @@
 import {Directive, HostListener} from '@angular/core';
 import {SettingsService} from "@clipboardjesus/services";
 
-@Directive({
-  selector: '[cbCursor]'
-})
+@Directive({selector: '[cbCursor]'})
 export class CursorDirective {
   cursor: HTMLElement;
   position?: HTMLElement;

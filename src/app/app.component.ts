@@ -11,10 +11,16 @@ import {
   EditTaskListDialogComponent,
   EditNoteListDialogComponent
 } from "@clipboardjesus/components";
-import {Note, Tab, TaskList, NoteList} from '@clipboardjesus/models';
+import {
+  Note,
+  Tab,
+  TaskList,
+  NoteList
+} from '@clipboardjesus/models';
 import {
   CacheService,
-  DataService, FileAccessService,
+  DataService,
+  FileAccessService,
   HashyService,
   SettingsService,
   ClipboardService

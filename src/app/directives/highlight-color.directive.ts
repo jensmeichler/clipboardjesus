@@ -3,9 +3,7 @@ import {DraggableNote} from "@clipboardjesus/models";
 import {SettingsService} from "@clipboardjesus/services";
 import {scrolledPosition} from "@clipboardjesus/const";
 
-@Directive({
-  selector: '[cbHighlightColor]'
-})
+@Directive({selector: '[cbHighlightColor]'})
 export class HighlightColorDirective {
   private _cbHighlightColor?: string;
 
