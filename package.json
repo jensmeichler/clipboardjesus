@@ -39,7 +39,7 @@
     "@angular/cli": "13.3.7",
     "@angular/compiler-cli": "13.3.11",
     "@tauri-apps/cli": "1.0.0-rc.13",
-    "@types/node": "12.20.54",
+    "@types/node": "16.11.38",
     "@typescript-eslint/eslint-plugin": "5.17.0",
     "@typescript-eslint/parser": "5.17.0",
     "angular-cli-ghpages": "1.0.0",
