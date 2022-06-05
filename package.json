@@ -30,13 +30,13 @@
     "zone.js": "0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "13.3.5",
+    "@angular-devkit/build-angular": "13.3.7",
     "@angular-eslint/builder": "13.2.1",
     "@angular-eslint/eslint-plugin": "13.2.1",
     "@angular-eslint/eslint-plugin-template": "13.2.1",
     "@angular-eslint/schematics": "13.2.1",
     "@angular-eslint/template-parser": "13.2.1",
-    "@angular/cli": "13.3.5",
+    "@angular/cli": "13.3.7",
     "@angular/compiler-cli": "13.3.7",
     "@tauri-apps/cli": "1.0.0-rc.13",
     "@types/node": "12.20.37",
