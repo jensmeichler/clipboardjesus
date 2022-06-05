@@ -44,7 +44,7 @@
     "@typescript-eslint/parser": "5.17.0",
     "angular-cli-ghpages": "1.0.0",
     "cypress": "9.7.0",
-    "eslint": "8.15.0",
+    "eslint": "8.17.0",
     "typescript": "4.6.4"
   }
 }
