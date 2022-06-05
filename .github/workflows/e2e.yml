@@ -24,7 +24,7 @@ jobs:
         run: npm install
 
       - name: Cypress run on chrome 🧪
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v4
         with:
           browser: chrome
           start: npm run start
@@ -44,7 +44,7 @@ jobs:
         run: npm install
 
       - name: Cypress run on firefox 🦊
-        uses: cypress-io/github-action@v2
+        uses: cypress-io/github-action@v4
         with:
           browser: firefox
           start: npm run start
