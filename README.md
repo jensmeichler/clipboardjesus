@@ -6,6 +6,13 @@ saved previously.
 
 ---
 
+## Preconditions
+
+The following preconditions must be met in order to develop Clip#board.
+
+- You need Node.js to be installed with the version specified in the [.nvmrc](.nvmrc) file.
+- Run `npm install` to install all the dependencies onto your system.
+
 ## Development server
 
 ### Web app
