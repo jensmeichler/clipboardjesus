@@ -1,0 +1,6 @@
+{
+  "tsconfig": "tsconfig.doc.json",
+  "serve": true,
+  "open": true,
+  "watch": true
+}
