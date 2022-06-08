@@ -47,3 +47,6 @@ Thumbs.db
 
 # e2e test results
 cypress/videos
+
+# compodoc output
+documentation
