@@ -48,6 +48,13 @@ Remember that the [dev server](#development-server) must be running in order to 
 
 To see the current test status visit the [Cypress Dashboard](https://dashboard.cypress.io/projects/c1e5r5/runs)
 
+## Documentation
+
+The source code documentation is generated using compodoc.
+
+Run `npm run docs` to generate and open the documentation webpage.
+This command will generate the source code for the documentation webpage and open in at [localhost:8080](http://localhost:8080/).
+
 ## Deployment
 
 Clip#board offers continuous delivery. That means that every push will deploy the app.
