@@ -18,6 +18,10 @@ export class RedoService {
       this.possibleUndos.push([]);
       this.possibleRedos.push([]);
     }
+
+    storageService.onTabChanged.subscribe((changedTab: Tab) => {
+      this.do(changedTab.index);
+    })
   }
 
   /**

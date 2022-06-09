@@ -1,8 +1,19 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Tab} from "@clipboardjesus/models";
 
 @Injectable({providedIn: 'root'})
 export class StorageService {
+  onTabChanged = new EventEmitter<Tab>();
+
+  constructor() {
+    window.addEventListener('storage', ({newValue}) => {
+      //TODO: Handle tab deletion from other browser tab
+      if (!newValue) return;
+      const changedTab: Tab = JSON.parse(newValue);
+      this.onTabChanged.emit(changedTab);
+    })
+  }
+
   /**
    * Reads the tab from the localstorage.
    * @param index The index of the tab.

@@ -14,7 +14,8 @@ import {
   FileService,
   HashyService,
   FileAccessService,
-  ClipboardService
+  ClipboardService,
+  StorageService
 } from "@clipboardjesus/services";
 import {ActivatedRoute, Router} from "@angular/router";
 import {_blank, isTauri} from "@clipboardjesus/const";
@@ -66,7 +67,8 @@ export class DataService {
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly fileAccessService: FileAccessService,
-    private readonly clipboard: ClipboardService
+    private readonly clipboard: ClipboardService,
+    storageService: StorageService
   ) {
     this.isBeta = !this.isTauri && !window.location.href.includes('clipboardjesus.com');
 
@@ -84,6 +86,10 @@ export class DataService {
 
     this._selectedTabIndex = 0;
     this.setColorizedObjects();
+
+    storageService.onTabChanged.subscribe((changedTab: Tab) => {
+      this.tabs[changedTab.index] = changedTab;
+    })
   }
 
   /**
