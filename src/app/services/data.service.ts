@@ -273,6 +273,11 @@ export class DataService {
     return true;
   }
 
+  private rearrangeTabIndices(): void {
+    let i = 0;
+    this.tabs.forEach(tab => tab.index = i++);
+  }
+
   /**
    * Deletes a tab from tab array and from the cache.
    * Navigates to the next tab if current tab was removed.
@@ -283,9 +288,7 @@ export class DataService {
     }
 
     this.tabs = this.tabs.filter(x => x.index !== index);
-
-    let i = 0;
-    this.tabs.forEach(tab => tab.index = i++);
+    this.rearrangeTabIndices();
   }
 
   /**
@@ -295,6 +298,8 @@ export class DataService {
     const index = this.selectedTabIndex;
     this.cache.remove(index);
 
+    this.rearrangeTabIndices();
+
     const result = this.tabs.filter(tab => tab.index < index);
     const rightTabs = this.tabs.filter(tab => tab.index > index);
     rightTabs.forEach(tab => {
@@ -302,7 +307,6 @@ export class DataService {
       const newIndex = tab.index - 1;
 
       const tabContent = this.cache.fetch(oldIndex);
-      //TODO: from here comes the delete tab bug.. storage event is triggert multiple times from here
       this.cache.remove(oldIndex);
       this.cache.save(newIndex, tabContent!)
 
