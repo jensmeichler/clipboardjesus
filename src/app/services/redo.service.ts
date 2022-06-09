@@ -19,9 +19,12 @@ export class RedoService {
       this.possibleRedos.push([]);
     }
 
-    storageService.onTabChanged.subscribe((changedTab: Tab) => {
-      this.do(changedTab.index);
-    })
+    storageService.onTabChanged.subscribe((changedTab: Tab) =>
+      this.do(changedTab.index)
+    );
+    storageService.onTabDeleted.subscribe((index: number) =>
+      this.remove(index)
+    );
   }
 
   /**

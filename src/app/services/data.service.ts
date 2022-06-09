@@ -42,22 +42,18 @@ export class DataService {
   }
   set selectedTabIndex(index: number) {
     this._selectedTabIndex = index;
-    this.updateAppTitle();
+    (async () => await this.updateAppTitle())();
   }
 
   tabs: Tab[] = [];
-  get tab(): Tab {
-    return this.tabs[this.selectedTabIndex];
-  }
-  set tab(tab: Tab) {
-    this.tabs[this.selectedTabIndex] = tab;
-  }
+  get tab(): Tab { return this.tabs[this.selectedTabIndex]; }
+  set tab(tab: Tab) { this.tabs[this.selectedTabIndex] = tab; }
 
   redoPossible = this.cache.redoPossible;
   undoPossible = this.cache.undoPossible;
   restorePossible = this.cache.restorePossible;
 
-  private colorizedObjects: (Note | TaskList)[] = [];
+  private colorizedObjects: (Note | TaskList | NoteList)[] = [];
 
   constructor(
     private readonly dialog: MatDialog,
@@ -87,15 +83,20 @@ export class DataService {
     this._selectedTabIndex = 0;
     this.setColorizedObjects();
 
-    storageService.onTabChanged.subscribe((changedTab: Tab) => {
-      this.tabs[changedTab.index] = changedTab;
-    })
+    storageService.onTabChanged.subscribe((changedTab: Tab) =>
+      this.tabs[changedTab.index] = changedTab
+    );
+    storageService.onTabDeleted.subscribe((index: number) => {
+      console.log(index)
+        this.removeTab(index)
+      }
+    );
   }
 
   /**
    * Writes the current selected tab into the app title.
    */
-  updateAppTitle(): void {
+  async updateAppTitle(): Promise<void> {
     const appTitle = document.getElementById('title');
     if (!appTitle) return;
 
@@ -103,7 +104,7 @@ export class DataService {
     const tabName = tab.label ?? `#Board ${this._selectedTabIndex+1}`;
     appTitle.innerText = `Clip#board | ${tabName}`;
 
-    this.router.navigate([], {
+    await this.router.navigate([], {
         relativeTo: this.activatedRoute,
         queryParams: { tab: tab.label ? tabName : (tab.index+1) }
       });
@@ -276,7 +277,22 @@ export class DataService {
     return true;
   }
 
-  removeTab(): void {
+  /**
+   * Deletes a tab from tab array and from the cache.
+   * Navigates to the next tab if current tab was removed.
+   */
+  removeTab(index: number): void {
+    if (index === this.selectedTabIndex) {
+      return this.removeCurrentTab();
+    }
+
+    this.tabs = this.tabs.filter(x => x.index !== index);
+  }
+
+  /**
+   * Deletes the current tab from the tab array and from the cache.
+   */
+  removeCurrentTab(): void {
     const index = this.selectedTabIndex;
     this.cache.remove(index);
 

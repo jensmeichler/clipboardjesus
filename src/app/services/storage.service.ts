@@ -4,13 +4,19 @@ import {Tab} from "@clipboardjesus/models";
 @Injectable({providedIn: 'root'})
 export class StorageService {
   onTabChanged = new EventEmitter<Tab>();
+  onTabDeleted = new EventEmitter<number>();
 
   constructor() {
-    window.addEventListener('storage', ({newValue}) => {
-      //TODO: Handle tab deletion from other browser tab
-      if (!newValue) return;
-      const changedTab: Tab = JSON.parse(newValue);
-      this.onTabChanged.emit(changedTab);
+    window.addEventListener('storage', ({oldValue, newValue}) => {
+      if (newValue) {
+        // Tab was changed from other browser tab
+        const changedTab: Tab = JSON.parse(newValue);
+        this.onTabChanged.emit(changedTab);
+      } else if (oldValue) {
+        // Tab was deleted from other browser tab
+        const deletedTab: Tab = JSON.parse(oldValue);
+        this.onTabDeleted.emit(deletedTab.index);
+      }
     })
   }
 
