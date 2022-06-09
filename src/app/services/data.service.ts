@@ -37,9 +37,7 @@ export class DataService {
   get isTauri(): boolean { return isTauri; }
 
   private _selectedTabIndex = 0;
-  get selectedTabIndex(): number {
-    return this._selectedTabIndex;
-  }
+  get selectedTabIndex(): number { return this._selectedTabIndex; }
   set selectedTabIndex(index: number) {
     this._selectedTabIndex = index;
     (async () => await this.updateAppTitle())();
@@ -83,13 +81,11 @@ export class DataService {
     this._selectedTabIndex = 0;
     this.setColorizedObjects();
 
-    storageService.onTabChanged.subscribe((changedTab: Tab) =>
-      this.tabs[changedTab.index] = changedTab
+    storageService.onTabChanged.subscribe(({tab, index}) =>
+      this.tabs[index] = tab
     );
-    storageService.onTabDeleted.subscribe((index: number) => {
-      console.log(index)
-        this.removeTab(index)
-      }
+    storageService.onTabDeleted.subscribe((index) =>
+      this.removeTab(index)
     );
   }
 
@@ -287,6 +283,9 @@ export class DataService {
     }
 
     this.tabs = this.tabs.filter(x => x.index !== index);
+
+    let i = 0;
+    this.tabs.forEach(tab => tab.index = i++);
   }
 
   /**
@@ -303,6 +302,7 @@ export class DataService {
       const newIndex = tab.index - 1;
 
       const tabContent = this.cache.fetch(oldIndex);
+      //TODO: from here comes the delete tab bug.. storage event is triggert multiple times from here
       this.cache.remove(oldIndex);
       this.cache.save(newIndex, tabContent!)
 
