@@ -18,6 +18,13 @@ export class RedoService {
       this.possibleUndos.push([]);
       this.possibleRedos.push([]);
     }
+
+    storageService.onTabChanged.subscribe(({index}) =>
+      this.do(index)
+    );
+    storageService.onTabDeleted.subscribe((index) =>
+      this.remove(index)
+    );
   }
 
   /**

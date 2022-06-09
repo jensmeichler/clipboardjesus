@@ -19,7 +19,7 @@
               [attr.aria-label]="'CLOSE_TAB' | translate"
               [matTooltip]="'CLOSE_TAB' | translate"
               class="tab-button"
-              (click)="dataService.removeTab()">
+              (click)="dataService.removeCurrentTab()">
               close
             </mat-icon>
           </ng-container>
@@ -124,7 +124,7 @@
         {{ 'EDIT_TAB' | translate }}
       </button>
       <ng-container *ngIf="dataService.tabs.length > 1">
-        <button (click)="dataService.removeTab()" mat-menu-item [attr.aria-label]="'DELETE_TAB' | translate">
+        <button (click)="dataService.removeCurrentTab()" mat-menu-item [attr.aria-label]="'DELETE_TAB' | translate">
           <mat-icon>delete</mat-icon>
           {{ 'DELETE_TAB' | translate }}
         </button>
