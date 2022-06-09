@@ -164,7 +164,7 @@ export class AppComponent implements OnInit {
           this.dataService.restoreTab();
           return;
         case 'w':
-          this.dataService.removeTab();
+          this.dataService.removeCurrentTab();
           return;
         case 'v':
           await this.dataService.importItemsFromClipboard();
