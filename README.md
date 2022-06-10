@@ -1,4 +1,4 @@
-# Clip#board [![angular](https://badges.aleen42.com/src/angular.svg)](https://angular.io/)  [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-%231A1F6C?logo=renovatebot)](https://app.renovatebot.com/dashboard) [![clipboard](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/c1e5r5&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/c1e5r5/runs)
+# Clip#board [![Angular](https://badges.aleen42.com/src/angular.svg)](https://angular.io/)  [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-%231A1F6C?logo=renovatebot)](https://app.renovatebot.com/dashboard) [![Test runs](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/c1e5r5&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/c1e5r5/runs)
 
 Clip#board is a tool to manage and organize your clipboard.
 You can add notes on click everywhere, or import files you
@@ -26,7 +26,7 @@ any of the source files.
 
 Run `npm run tauri dev` to start the desktop app with a dev server.
 
-## Build
+## Build [![🏗 Build application](https://github.com/jensmeichler/clipboardjesus/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/build.yml)
 
 ### Web app
 
@@ -39,7 +39,7 @@ Run `npm run tauri build` to build the installer for the OS you are currently on
 
 You need to have at least Rust installed onto your system ([See documentation](https://tauri.studio/v1/guides/getting-started/prerequisites)).
 
-## Testing
+## Testing [![🧪 Running e2e tests](https://github.com/jensmeichler/clipboardjesus/actions/workflows/e2e.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/e2e.yml)
 
 Clip#board is tested with automated UI tests using Cypress.
 
@@ -61,20 +61,20 @@ Clip#board offers continuous delivery. That means that every push will deploy th
 
 ### Production environment
 
-#### Web app
+#### Web app [![🚀 Azure deployment](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml)
 
 Each push to the main branch triggers the deployment action for production environment.
 The production version of Clip#board is hostet on Azure (as a static website).
 You can reach it at [www.clipboardjesus.com](https://www.clipboardjesus.com)
 or at [clipboardjesus.de](https://clipboardjesus.de)
 
-#### Desktop app
+#### Desktop app [![🔖 Publish tauri app](https://github.com/jensmeichler/clipboardjesus/actions/workflows/release.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/release.yml)
 
 Each push to the main branch triggers the release action.
 This will create bundles for MacOS, Linux and Windows.
 They will be available [here](https://github.com/jensmeichler/clipboardjesus/releases).
 
-### Testing environment
+### Testing environment [![🔥 Github pages deployment](https://github.com/jensmeichler/clipboardjesus/actions/workflows/dev-deployment.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/dev-deployment.yml)
 
 Each push to the develop branch triggers the deployment action for the beta environment.
 The beta version of Clip#board is hostet on GitHub pages.
