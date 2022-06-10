@@ -48,6 +48,13 @@ Remember that the [dev server](#development-server) must be running in order to 
 
 To see the current test status visit the [Cypress Dashboard](https://dashboard.cypress.io/projects/c1e5r5/runs)
 
+## Linting [![👕 Lint source files](https://github.com/jensmeichler/clipboardjesus/actions/workflows/linting.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/linting.yml)
+
+The source code is linted by the angular linter.
+Each push will trigger a GitHub action which lints the source files.
+
+To trigger the linting process manually run `npm run lint`.
+
 ## Documentation
 
 The source code documentation is generated using compodoc.
