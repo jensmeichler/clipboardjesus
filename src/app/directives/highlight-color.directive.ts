@@ -36,6 +36,21 @@ export class HighlightColorDirective {
       + ` 0, transparent ${this._radEffectWidth}px, transparent)`;
   }
 
+  @HostListener('wheel', ['$event'])
+  onScroll(event: any): void {
+    if (this.settings.animationsDisabled) return;
+    if (!this.cbHighlightedItem) return;
+
+    for (let i = 0; i < 6; i++) {
+      setTimeout(() => {
+        if (!this.cbHighlightedItem) return;
+        const scrolled = scrolledPosition();
+        this._cursorX = event.pageX - this.cbHighlightedItem.posX + scrolled.left;
+        this._cursorY = event.pageY - this.cbHighlightedItem.posY + scrolled.top;
+      }, i * 50);
+    }
+  }
+
   @HostListener('mouseleave')
   onMouseLeave(): void {
     this._radEffectWidth = 0;

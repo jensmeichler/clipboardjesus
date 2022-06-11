@@ -19,7 +19,7 @@
               [attr.aria-label]="'CLOSE_TAB' | translate"
               [matTooltip]="'CLOSE_TAB' | translate"
               class="tab-button"
-              (click)="dataService.removeTab()">
+              (click)="dataService.removeCurrentTab()">
               close
             </mat-icon>
           </ng-container>
@@ -124,7 +124,7 @@
         {{ 'EDIT_TAB' | translate }}
       </button>
       <ng-container *ngIf="dataService.tabs.length > 1">
-        <button (click)="dataService.removeTab()" mat-menu-item [attr.aria-label]="'DELETE_TAB' | translate">
+        <button (click)="dataService.removeCurrentTab()" mat-menu-item [attr.aria-label]="'DELETE_TAB' | translate">
           <mat-icon>delete</mat-icon>
           {{ 'DELETE_TAB' | translate }}
         </button>
@@ -212,7 +212,7 @@
       <mat-icon>published_with_changes</mat-icon>
       {{ 'VIEW_LAST_CHANGES' | translate }}
     </a>
-    <a href="https://www.buymeacoffee.com/jensmeichler" mat-menu-item [target]="dataService._blank"
+    <a href="https://github.com/sponsors/jensmeichler" mat-menu-item [target]="dataService._blank"
        [attr.aria-label]="'DONATE_TO_THE_DEVELOPER' | translate">
       <mat-icon class="heart">favorite</mat-icon>
       {{ 'DONATE_TO_THE_DEVELOPER' | translate }}
