@@ -6,6 +6,8 @@ import {Note, NoteList, TaskList} from "@clipboardjesus/models";
 import {DataService, HashyService} from "@clipboardjesus/services";
 import {EditNoteDialogComponent} from "@clipboardjesus/components";
 import {ClipboardService} from "@clipboardjesus/services";
+import {_blank} from "@clipboardjesus/const";
+import {marked, Renderer} from 'marked';
 
 @Component({
   selector: 'cb-note',
@@ -28,6 +30,8 @@ export class NoteComponent implements OnInit {
   @ViewChild('code')
   codeElement?: ElementRef;
 
+  parsedMarkdownContent = '';
+
   constructor(
     private readonly clipboard: ClipboardService,
     private readonly hashy: HashyService,
@@ -41,9 +45,30 @@ export class NoteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.note.code !== false && this.note.content && htmlRegex.test(this.note.content)) {
+    this.updateMarkdown();
+    if (this.note.code !== false
+      && this.note.content
+      && htmlRegex.test(this.note.content)) {
       this.note.code = true;
     }
+  }
+
+  private updateMarkdown(): void {
+    const renderer = new Renderer();
+
+    renderer.link = (href: string | null, title: string | null, text: string) => {
+      if (!title) return `<a href="${href}" target="${_blank}">${text}</a>`;
+      return `<a title="${title}" href="${href}" target="${_blank}">${text}</a>`;
+    };
+    renderer.options.breaks = true;
+    renderer.text = (text: string) => {
+      while (text.match(/^(&nbsp;)*?\s+/)) {
+        text = text.replace(' ', '&nbsp;');
+      }
+      return text;
+    }
+
+    this.parsedMarkdownContent = marked.parse(this.note.content ?? '', {renderer});
   }
 
   select(): void {

@@ -22,7 +22,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RouterModule} from "@angular/router";
 import {ServiceWorkerModule} from '@angular/service-worker';
 import {HIGHLIGHT_OPTIONS, HighlightModule} from "ngx-highlightjs";
-import {MarkdownModule, MarkedOptions, MarkedRenderer} from "ngx-markdown";
 import {environment} from '../environments/environment';
 import {AppComponent} from './app.component';
 import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
@@ -54,25 +53,6 @@ import {
   DragDropDirective,
   HighlightColorDirective
 } from '@clipboardjesus/directives';
-import {_blank} from "@clipboardjesus/const";
-
-export function markedOptionsFactory(): MarkedOptions {
-  const renderer = new MarkedRenderer();
-
-  renderer.link = (href: string | null, title: string | null, text: string) => {
-    if (!title) return `<a href="${href}" target="${_blank}">${text}</a>`;
-    return `<a title="${title}" href="${href}" target="${_blank}">${text}</a>`;
-  };
-  renderer.options.breaks = true;
-  renderer.text = (text: string) => {
-    while (text.match(/^(&nbsp;)*?\s+/)) {
-      text = text.replace(' ', '&nbsp;');
-    }
-    return text;
-  }
-
-  return {renderer};
-}
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -130,12 +110,6 @@ export function createTranslateLoader(http: HttpClient) {
     MatTabsModule,
     RouterModule.forRoot([]),
     HighlightModule,
-    MarkdownModule.forRoot({
-      markedOptions: {
-        provide: MarkedOptions,
-        useFactory: markedOptionsFactory,
-      }
-    }),
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {
