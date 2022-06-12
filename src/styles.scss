@@ -77,13 +77,6 @@ html, body {
   }
 }
 
-markdown {
-  filter: var(--drop-shadow-light);
-  &>p:last-child {
-    margin: 0;
-  }
-}
-
 .mat-tab-group {
   .mat-tab-header {
     width: calc(100vw - 180px - 32px);
