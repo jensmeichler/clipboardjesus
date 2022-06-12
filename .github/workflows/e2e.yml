@@ -21,7 +21,7 @@ jobs:
           node-version: 16
 
       - name: Install dependencies 📦
-        run: npm install
+        run: npm ci
 
       - name: Cypress run on chrome 🧪
         uses: cypress-io/github-action@v4
@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install dependencies 📦
-        run: npm install
+        run: npm ci
 
       - name: Cypress run on firefox 🦊
         uses: cypress-io/github-action@v4
