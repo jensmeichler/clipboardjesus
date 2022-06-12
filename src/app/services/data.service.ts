@@ -24,17 +24,10 @@ import welcomeTab from '../../assets/screens/welcome.json';
 
 @Injectable({providedIn: 'root'})
 export class DataService {
-  isBeta: boolean;
-
   /**
    * @returns '_blank' or '_tauri' according to the platform you are on.
    * */
   get _blank(): string { return _blank; };
-
-  /**
-   * @returns Whether the app is running as a desktop app.
-   * */
-  get isTauri(): boolean { return isTauri; }
 
   private _selectedTabIndex = 0;
   get selectedTabIndex(): number { return this._selectedTabIndex; }
@@ -64,8 +57,6 @@ export class DataService {
     private readonly clipboard: ClipboardService,
     storageService: StorageService
   ) {
-    this.isBeta = !this.isTauri && !window.location.href.includes('clipboardjesus.com');
-
     for (let i = 0; i < 20; i++) {
       const tab = this.cache.fetch(i);
       if (tab) {

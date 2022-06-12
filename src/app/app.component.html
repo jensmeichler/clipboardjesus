@@ -1,4 +1,11 @@
-<div cbCursor class="app" [class.loading]="!initialized" [class.inaccessible]="!accessible">
+<div cbCursor
+     class="app"
+     [class.loading]="!initialized"
+     [class.inaccessible]="!accessible"
+     [class.windows]="settings.isWindows"
+     [class.macos]="settings.isMacos"
+     [class.linux]="settings.isLinux"
+     [class.tauri]="settings.isTauri">
   <mat-tab-group [(selectedIndex)]="dataService.selectedTabIndex" animationDuration="0">
     <mat-tab *ngFor="let tab of dataService.tabs">
       <ng-template mat-tab-label>
@@ -149,7 +156,7 @@
       <mat-icon>save</mat-icon>
     </button>
   </div>
-  <ng-container *ngIf="!dataService.isTauri; else tauri">
+  <ng-container *ngIf="!settings.isTauri; else tauri">
     <button (click)="showContextMenu($event, true); $event.stopPropagation()"
             [matTooltip]="'MORE' | translate" [attr.aria-label]="'MORE' | translate"
             matTooltipPosition="left" matTooltipShowDelay="1000"
@@ -190,7 +197,7 @@
       <mat-icon>motion_photos_off</mat-icon>
       {{ 'DISABLE_ANIMATIONS' | translate }}
     </button>
-    <ng-container *ngIf="dataService.isTauri">
+    <ng-container *ngIf="settings.isTauri">
       <button *ngIf="!settings.alwaysOnTop" (click)="settings.alwaysOnTop = true" mat-menu-item
               [attr.aria-label]="'ENABLE_ALWAYS_ON_TOP' | translate">
         <mat-icon>push_pin</mat-icon>
@@ -270,5 +277,5 @@
   <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-right: 12px; font-style: italic">Clip</span>
   <img (cdkDragEnded)="replaceLogo($event)" alt="#" cdkDrag height="110"
        src="favicon.ico" width="110">
-  <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-left: 12px; font-style: normal">{{ dataService.isBeta ? '_BETA' : 'BOARD' }}</span>
+  <span (cdkDragEnded)="replaceLogo($event)" cdkDrag style="margin-left: 12px; font-style: normal">{{ settings.isBeta ? '_BETA' : 'BOARD' }}</span>
 </b>

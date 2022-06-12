@@ -228,24 +228,26 @@ a[href] {
   }
 }
 
-::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
-::-webkit-scrollbar-track {
-  border-radius: 3px;
-  background: transparent;
-  &:hover {
-    background: var(--color-transparency-light);
+.windows {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
   }
-}
-::-webkit-scrollbar-thumb {
-  border-radius: 3px;
-  background: var(--color-transparency-light);
-  &:hover {
-    background: var(--color-transparency-medium);
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-track {
+    border-radius: 3px;
+    background: transparent;
+    &:hover {
+      background: var(--color-transparency-light);
+    }
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background: var(--color-transparency-light);
+    &:hover {
+      background: var(--color-transparency-medium);
+    }
   }
 }
