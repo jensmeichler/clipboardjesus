@@ -4,21 +4,21 @@
     <span style="margin-right: 4px">Clip</span>
     <img alt="#" height="20px" src="favicon.ico" style="transform: translateY(1px)" width="20px">
     <span style="margin-left: 4px">BOARD</span>
-    <span *ngIf="dataService.isBeta" style="margin-left: 4px" class="beta-button">
+    <span *ngIf="settings.isBeta" style="margin-left: 4px" class="beta-button">
       {{ 'BETA' | translate }}
     </span>
-    <span *ngIf="dataService.isTauri" style="margin-left: 4px" class="beta-button">
+    <span *ngIf="settings.isTauri" style="margin-left: 4px" class="beta-button">
       {{ 'DESKTOP' | translate }}
     </span>
   </span>
-  <span *ngIf="!dataService.isTauri; else tauri">
-    <a *ngIf="!dataService.isBeta" href="https://jensmeichler.github.io/clipboardjesus/" class="beta-button">
+  <span *ngIf="!settings.isTauri; else tauri">
+    <a *ngIf="!settings.isBeta" href="https://jensmeichler.github.io/clipboardjesus/" class="beta-button">
       {{ 'VIEW_BETA' | translate }}
     </a>
-    <a *ngIf="dataService.isBeta" href="https://www.clipboardjesus.com/" class="beta-button">
+    <a *ngIf="settings.isBeta" href="https://www.clipboardjesus.com/" class="beta-button">
       {{ 'VISIT_PRODUCTIVE_VERSION' | translate }}
     </a>
-    <ng-container *ngIf="!dataService.isBeta && (isWindows || isMacos)">
+    <ng-container *ngIf="!settings.isBeta && (settings.isWindows || settings.isMacos)">
       <span>|</span>
       <a href="https://github.com/jensmeichler/clipboardjesus/releases"
          class="beta-button" [target]="dataService._blank">

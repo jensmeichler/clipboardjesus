@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
-import {window} from "@tauri-apps/api";
+import {window as tauri} from "@tauri-apps/api";
 import {isTauri} from "@clipboardjesus/const";
 
 const TRUE = 'True';
@@ -8,6 +8,12 @@ type Font = 'Victor Mono' | 'Roboto';
 
 @Injectable({providedIn: 'root'})
 export class SettingsService {
+  isTauri: boolean;
+  isWindows: boolean;
+  isMacos: boolean;
+  isLinux: boolean;
+  isBeta: boolean;
+
   private storageKeys = {
     animationsDisabled: 'animations_disabled',
     language: 'language',
@@ -22,7 +28,7 @@ export class SettingsService {
   set alwaysOnTop(value: boolean) {
     if (!isTauri) return;
     this._alwaysOnTop = value;
-    (async () => await window.appWindow.setAlwaysOnTop(value))();
+    (async () => await tauri.appWindow.setAlwaysOnTop(value))();
     if (value) {
       localStorage.setItem(this.storageKeys.alwaysOnTop, TRUE);
     } else {
@@ -99,6 +105,12 @@ export class SettingsService {
     this.language = localStorage.getItem(this.storageKeys.language) ?? 'en';
     this.fontFamily = localStorage.getItem(this.storageKeys.fontFamily) as Font ?? 'Roboto';
     this.fontStyle = localStorage.getItem(this.storageKeys.fontStyle) ?? 'normal';
+
+    this.isBeta = !isTauri && !window.location.href.includes('clipboardjesus.com');
+    this.isWindows = navigator.platform.indexOf('Win') > -1;
+    this.isMacos = navigator.platform.indexOf('Mac') > -1;
+    this.isLinux = !(this.isWindows || this.isMacos);
+    this.isTauri = isTauri;
   }
 
   private static setFontFamily(value: string): void {

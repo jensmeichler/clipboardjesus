@@ -1,6 +1,6 @@
 import {Component, HostListener} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
-import {DataService} from "@clipboardjesus/services";
+import {DataService, SettingsService} from "@clipboardjesus/services";
 
 @Component({
   selector: 'cb-about-dialog',
@@ -8,15 +8,11 @@ import {DataService} from "@clipboardjesus/services";
   styleUrls: ['./about-dialog.component.scss']
 })
 export class AboutDialogComponent {
-  isWindows: boolean;
-  isMacos: boolean;
-
   constructor(
     public dialogRef: MatDialogRef<AboutDialogComponent>,
-    public dataService: DataService
+    public dataService: DataService,
+    public settings: SettingsService
   ) {
-    this.isWindows = navigator.platform.indexOf('Win') > -1;
-    this.isMacos = navigator.platform.indexOf('Mac') > -1;
   }
 
   @HostListener('keydown', ['$event'])
