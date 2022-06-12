@@ -7,7 +7,7 @@
     "lint": "ng lint",
     "e2e": "cypress open --e2e",
     "tauri": "tauri",
-    "docs": "npx compodoc -c compodocrc.json"
+    "docs": "compodoc -c compodocrc.json"
   },
   "private": true,
   "dependencies": {
