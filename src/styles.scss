@@ -87,11 +87,16 @@ html, body {
   }
   .mat-tab-body-wrapper {
     border-top: 1px solid var(--color-transparency-light);
-    .mat-tab-body.mat-tab-body-active {
-      // noinspection CssInvalidPropertyValue
-      overflow: overlay;
-    }
   }
+}
+
+.windows .mat-tab-group .mat-tab-body.mat-tab-body-active {
+  // noinspection CssInvalidPropertyValue
+  overflow: overlay;
+}
+// Desktop app on linux can't handle overflow overlay
+.linux .mat-tab-group .mat-tab-body.mat-tab-body-active {
+  overflow: scroll;
 }
 
 .mat-chip.mat-standard-chip {
