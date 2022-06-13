@@ -34,7 +34,7 @@ jobs:
           CYPRESS_RECORD_KEY: '01dbe592-356f-404b-996c-7a3eb9ffcb81'
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  firefox:
+  opera:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎
@@ -43,10 +43,10 @@ jobs:
       - name: Install dependencies 📦
         run: npm ci
 
-      - name: Cypress run on firefox 🦊
+      - name: Cypress run on opera ⭕
         uses: cypress-io/github-action@v4
         with:
-          browser: firefox
+          browser: opera
           start: npm run start
           wait-on: 'http://localhost:4201'
         env:
