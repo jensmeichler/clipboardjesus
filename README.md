@@ -6,61 +6,37 @@ saved previously.
 
 ---
 
-## Preconditions
+# Release versions
 
-The following preconditions must be met in order to develop Clip#board.
+## Web app [![🚀 Azure deployment](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml) [![🔥 Github pages deployment](https://github.com/jensmeichler/clipboardjesus/actions/workflows/dev-deployment.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/dev-deployment.yml)
 
-- You need Node.js to be installed with the version specified in the [.nvmrc](.nvmrc) file.
-- Run `npm install` to install all the dependencies onto your system.
+You can visit the app at [www.clipboardjesus.com](https://www.clipboardjesus.com) or [clipboardjesus.de](https://clipboardjesus.de).
+For getting the latest features visit the beta version of the Clip#board at [jensmeichler.github.io/clipboardjesus](https://jensmeichler.github.io/clipboardjesus).
 
-## Development server
+Remember that you have to give the browser access to your clipboard.
 
-### Web app
+## Desktop app [![🏗 Build application](https://github.com/jensmeichler/clipboardjesus/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/build.yml) [![🔖 Publish tauri app](https://github.com/jensmeichler/clipboardjesus/actions/workflows/release.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/release.yml)
 
-Run `npm start` for a dev server.
-Navigate to `http://localhost:4201/`.
-The app will automatically reload if you change
-any of the source files.
+Clip#board also exists as a desktop app for Windows, MacOS and Linux.
+The desktop app works like the web app with one extra feature (Writing files into your file system).
+You can view the latest releases [here](https://github.com/jensmeichler/clipboardjesus/releases).
 
-### Desktop app
-
-Run `npm run tauri dev` to start the desktop app with a dev server.
-
-## Build [![🏗 Build application](https://github.com/jensmeichler/clipboardjesus/actions/workflows/build.yml/badge.svg?branch=develop)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/build.yml)
-
-### Web app
-
-Run `npm run build` to build the project.
-The build artifacts will be stored in the `dist/clipboard/` directory.
-
-### Desktop app
-
-Run `npm run tauri build` to build the installer for the OS you are currently on.
-
-You need to have at least Rust installed onto your system ([See documentation](https://tauri.studio/v1/guides/getting-started/prerequisites)).
+# Automations
 
 ## Testing [![🧪 Running e2e tests](https://github.com/jensmeichler/clipboardjesus/actions/workflows/e2e.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/e2e.yml)
 
 Clip#board is tested with automated UI tests using Cypress.
-
-Run `npm run e2e` to start the test runner ui.
-Remember that the [dev server](#development-server) must be running in order to run the tests.
-
-To see the current test status visit the [Cypress Dashboard](https://dashboard.cypress.io/projects/c1e5r5/runs)
+To see the current test status visit the [Cypress Dashboard](https://dashboard.cypress.io/projects/c1e5r5/runs).
 
 ## Linting [![👕 Lint source files](https://github.com/jensmeichler/clipboardjesus/actions/workflows/linting.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/linting.yml)
 
 The source code is linted by the angular linter.
 Each push will trigger a GitHub action which lints the source files.
 
-To trigger the linting process manually run `npm run lint`.
-
 ## Documentation
 
 The source code documentation is generated using compodoc.
-
-Run `npm run docs` to generate and open the documentation webpage.
-This command will generate the source code for the documentation webpage and open in at [localhost:8080](http://localhost:8080/).
+The documentation is currently not published and can just be visited by generating it from the source code.
 
 ## Deployment
 
@@ -87,3 +63,9 @@ Each push to the develop branch triggers the deployment action for the beta envi
 The beta version of Clip#board is hostet on GitHub pages.
 You can reach it at [jensmeichler.github.io/clipboardjesus](https://jensmeichler.github.io/clipboardjesus)
 (Sometimes you have to load it twice, cause of a bug in GitHub pages)
+
+# Contributing
+
+You want to contribute code to Clip#board?
+
+See the [CONTRIBUTING](CONTRIBUTING.md) guidelines.
