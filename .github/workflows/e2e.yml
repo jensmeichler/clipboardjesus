@@ -1,13 +1,13 @@
 name: 🧪 Running e2e tests
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
   pull_request:
     branches:
       - develop
-  workflow_dispatch
 
 jobs:
   chrome:
