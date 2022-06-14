@@ -100,15 +100,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "904dfeac50f3cdaba28fc6f57fdcddb75f49ed61346676a78c4ffe55877802fd"
 
 [[package]]
-name = "bincode"
-version = "1.3.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b1f45e9417d87227c7a56d22e471c6206462cba514c7590c09aff4cf6d1ddcad"
-dependencies = [
- "serde",
-]
-
-[[package]]
 name = "bitflags"
 version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2348,9 +2339,9 @@ dependencies = [
 
 [[package]]
 name = "tao"
-version = "0.9.1"
+version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "53da5dd98a3c605a3ca8fe967d7c50eba8a36072ff13e04e24402b2c492ac55a"
+checksum = "d2497feadd60f2a5a7f124572d7a44b2aba589a0ad2a65d3aaf2d073c327c3b8"
 dependencies = [
  "bitflags",
  "cairo-rs",
@@ -2415,12 +2406,11 @@ dependencies = [
 
 [[package]]
 name = "tauri"
-version = "1.0.0-rc.14"
+version = "1.0.0-rc.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "81af088a87f908dab3a268f92e3c331e911bed6b1756bbfaeadedfe9dd40fe4f"
+checksum = "cb533e95e09fd191ef8e0a0ee6b61701b5f32175e48f82854a71a8f8367bdb41"
 dependencies = [
  "anyhow",
- "bincode",
  "cocoa",
  "dirs-next",
  "embed_plist",
@@ -2462,9 +2452,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-build"
-version = "1.0.0-rc.12"
+version = "1.0.0-rc.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9bbf472a3caf7ec80358996056fe56f0ff3f91f71bc42e96efdbdc3c2618511a"
+checksum = "58f9a1c87ad53f584f970b06c9243b39d1c2aeca6116dd04c641f406133053b0"
 dependencies = [
  "anyhow",
  "cargo_toml",
@@ -2477,9 +2467,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-codegen"
-version = "1.0.0-rc.8"
+version = "1.0.0-rc.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0ae4ebcd190eb22fcee58b40b77d32f5b372a20440833bf27ae7921db131ecca"
+checksum = "ceb3b7cb66f1a6ca30f601cccfa01820477881c27412909a3e6f80b6a2f73815"
 dependencies = [
  "base64",
  "brotli",
@@ -2499,9 +2489,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-macros"
-version = "1.0.0-rc.8"
+version = "1.0.0-rc.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cc72220c1e52ecb33b4d9f04ff171009f100d28789c18049e19e374ec0355531"
+checksum = "07883238ade4c96be38a6a0025f15cbb5e0539fe99ba92d444af9cdbc656b613"
 dependencies = [
  "heck 0.4.0",
  "proc-macro2",
@@ -2513,9 +2503,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-runtime"
-version = "0.6.0"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dc343e974f76c0f5471da85f87510bb54dfc9a7664f3e649af58f49887965e43"
+checksum = "7bad3a8ce06d4e71a52efef175446c8eb7e9109b6f988782fdc6a234526f226a"
 dependencies = [
  "gtk",
  "http",
@@ -2532,9 +2522,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-runtime-wry"
-version = "0.6.0"
+version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0cd6fe3f8dc12a9c409ee6da19379636525e0ff8da12897c04dc1e76b8c8ff62"
+checksum = "0c2cbc41ea88305f3e5dc133cc5c717c6913a15f121f99e7a238a0135dac083e"
 dependencies = [
  "cocoa",
  "gtk",
@@ -2551,9 +2541,9 @@ dependencies = [
 
 [[package]]
 name = "tauri-utils"
-version = "1.0.0-rc.8"
+version = "1.0.0-rc.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2a636fa13c9210cc19243e3efee408fe0c09a3de820c329c61fecb25dbf1e643"
+checksum = "b09e7ec7933a833f3b64e932a9d32d94705687aa5caa3cacf43222876a6d7e24"
 dependencies = [
  "brotli",
  "ctor",
@@ -2652,9 +2642,9 @@ checksum = "cda74da7e1a664f795bb1f8a87ec406fb89a02522cf6e50620d016add6dbbf5c"
 
 [[package]]
 name = "tokio"
-version = "1.18.2"
+version = "1.19.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4903bf0427cf68dddd5aa6a93220756f8be0c34fcfa9f5e6191e103e15a31395"
+checksum = "c51a52ed6686dd62c320f9b89299e9dfb46f730c7a48e635c19f21d116cb1439"
 dependencies = [
  "bytes",
  "memchr",
@@ -3233,9 +3223,9 @@ dependencies = [
 
 [[package]]
 name = "wry"
-version = "0.17.0"
+version = "0.18.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "38425583b1f8c16c074fa4f962f7f0ddd5cb2f6b241a494a26db5eca3ccd4fd7"
+checksum = "138e84a6f7f0ef90004a244a6dd4125b5fb78074b48c4369ab52b3cac68a863e"
 dependencies = [
  "block",
  "cocoa",
