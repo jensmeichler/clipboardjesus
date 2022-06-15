@@ -40,7 +40,7 @@
     "@angular/cli": "14.0.2",
     "@angular/compiler-cli": "14.0.1",
     "@compodoc/compodoc": "1.1.19",
-    "@tauri-apps/cli": "1.0.0-rc.15",
+    "@tauri-apps/cli": "1.0.0-rc.16",
     "@types/marked": "4.0.3",
     "@types/node": "16.11.41",
     "@typescript-eslint/eslint-plugin": "5.28.0",
