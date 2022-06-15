@@ -10,7 +10,7 @@ saved previously.
 
 ## Web app [![🚀 Azure deployment](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml) [![🔥 Github pages deployment](https://github.com/jensmeichler/clipboardjesus/actions/workflows/dev-deployment.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/dev-deployment.yml)
 
-You can visit the app at [www.clipboardjesus.com](https://www.clipboardjesus.com) or [clipboardjesus.de](https://clipboardjesus.de).
+You can visit the app at [clipboardjesus.com](https://www.clipboardjesus.com) or [clipboardjesus.de](https://www.clipboardjesus.de).
 For getting the latest features visit the beta version of the Clip#board at [jensmeichler.github.io/clipboardjesus](https://jensmeichler.github.io/clipboardjesus).
 
 Remember that you have to give the browser access to your clipboard.
@@ -55,8 +55,8 @@ Clip#board offers continuous delivery. That means that every push will deploy th
 
 Each push to the main branch triggers the deployment action for production environment.
 The production version of Clip#board is hostet on Azure (as a static website).
-You can reach it at [www.clipboardjesus.com](https://www.clipboardjesus.com)
-or at [clipboardjesus.de](https://clipboardjesus.de)
+You can reach it at [clipboardjesus.com](https://www.clipboardjesus.com)
+or at [clipboardjesus.de](https://www.clipboardjesus.de)
 
 #### Desktop app [![🔖 Publish tauri app](https://github.com/jensmeichler/clipboardjesus/actions/workflows/release.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/release.yml)
 
