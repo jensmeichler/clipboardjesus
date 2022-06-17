@@ -47,7 +47,6 @@ export class AppComponent implements OnInit {
   logoReplacedEasterEggCount = 0;
 
   initialized = false;
-  accessible = false;
 
   constructor(
     private readonly dialog: MatDialog,
@@ -65,9 +64,6 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // No user interaction while "splash screen"
-    setTimeout(() => this.accessible = true, 2000);
-
     this.route.queryParams.subscribe(params => {
       if (this.initialized) return;
 

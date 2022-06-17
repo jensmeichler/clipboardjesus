@@ -30,8 +30,6 @@
   filter: blur(0);
   &.loading {
     filter: blur(80px);
-  }
-  &.inaccessible {
     pointer-events: none;
   }
 }

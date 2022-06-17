@@ -11,6 +11,8 @@ export class HighlightColorDirective {
   private _cursorY = 0;
   private _radEffectWidth = 0;
 
+  private _scrollTimeOuts: number[] = [];
+
   @Input()
   set cbHighlightColor(value: string | undefined) {
     this._cbHighlightColor = value;
@@ -41,13 +43,15 @@ export class HighlightColorDirective {
     if (this.settings.animationsDisabled) return;
     if (!this.cbHighlightedItem) return;
 
-    for (let i = 0; i < 6; i++) {
-      setTimeout(() => {
-        if (!this.cbHighlightedItem) return;
-        const scrolled = scrolledPosition();
-        this._cursorX = event.pageX - this.cbHighlightedItem.posX + scrolled.left;
-        this._cursorY = event.pageY - this.cbHighlightedItem.posY + scrolled.top;
-      }, i * 50);
+    for (let i = 0; i < 10; i++) {
+      this._scrollTimeOuts.push(
+        setTimeout(() => {
+          if (!this.cbHighlightedItem) return;
+          const scrolled = scrolledPosition();
+          this._cursorX = event.pageX - this.cbHighlightedItem.posX + scrolled.left;
+          this._cursorY = event.pageY - this.cbHighlightedItem.posY + scrolled.top;
+        }, i * 30)
+      );
     }
   }
 
@@ -60,6 +64,9 @@ export class HighlightColorDirective {
   onMouseMove(event: MouseEvent): void {
     if (this.settings.animationsDisabled) return;
     if (!this.cbHighlightedItem) return;
+
+    this._scrollTimeOuts.forEach(timer => clearTimeout(timer));
+    this._scrollTimeOuts = [];
 
     if (event.which !== 1) {
       const scrolled = scrolledPosition();
