@@ -6,6 +6,25 @@
 }
 
 .app {
+  height: 100%;
+  ::ng-deep {
+    mat-tab-group {
+      height: 100%;
+      .mat-tab-body-wrapper {
+        height: 100%;
+        mat-tab-body {
+          height: 100%;
+          .mat-tab-body-content {
+            height: 100%;
+            cb-tab {
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+
   transition: filter ease-in-out 2s;
   transition-delay: .3s;
   filter: blur(0);

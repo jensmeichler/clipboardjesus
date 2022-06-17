@@ -94,7 +94,9 @@ html, body {
   // noinspection CssInvalidPropertyValue
   overflow: overlay;
 }
-// Desktop app on linux can't handle overflow overlay
+.macos .mat-tab-group .mat-tab-body.mat-tab-body-active {
+  overflow: auto;
+}
 .linux .mat-tab-group .mat-tab-body.mat-tab-body-active {
   overflow: scroll;
 }
