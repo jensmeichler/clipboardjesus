@@ -42,7 +42,7 @@
     "@compodoc/compodoc": "1.1.19",
     "@tauri-apps/cli": "1.0.5",
     "@types/marked": "4.0.3",
-    "@types/node": "16.11.45",
+    "@types/node": "16.11.49",
     "@typescript-eslint/eslint-plugin": "5.33.1",
     "@typescript-eslint/parser": "5.33.1",
     "angular-cli-ghpages": "1.0.3",
