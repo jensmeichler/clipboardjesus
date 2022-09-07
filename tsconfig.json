@@ -25,7 +25,7 @@
       "dom"
     ],
     "paths": {
-      "@clipboardjesus/*": ["app/*"],
+      "@clipboardjesus/*": ["app/*"]
     }
   },
   "angularCompilerOptions": {
