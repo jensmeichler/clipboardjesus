@@ -64,7 +64,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe(async params => {
       if (this.initialized) return;
       const tabIndex = params['tab'];
       const sharedTab = params['params'];
@@ -90,12 +90,8 @@ export class AppComponent implements OnInit {
         }
 
         // Clear the query params and initialize the app from localstorage
-        this.router.navigate(
-          ['.'],
-          {relativeTo: this.route}
-        ).then(() => {
-          window.location.reload();
-        });
+        await this.router.navigate(['.'], {relativeTo: this.route});
+        this.reloadApp();
       } else {
         // Hack for fade in animation on startup
         setTimeout(() => this.initialized = true);
@@ -287,14 +283,25 @@ export class AppComponent implements OnInit {
     })
   }
 
+  /**
+   * Saves the current tab into the file system when no item is selected.
+   * When one or more items are selected the method will save
+   * the current selection as a tab into the file system.
+   */
   saveTabOrSelection(): void {
     this.dataService.saveTabOrSelection();
   }
 
+  /**
+   * Delete the currently selected items.
+   */
   deleteSelectedItems(): void {
     this.dataService.deleteSelectedItems();
   }
 
+  /**
+   * Opens a dialog to create a new note.
+   */
   openNewNoteDialog(): void {
     this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
@@ -304,6 +311,9 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens a dialog to create a new note list.
+   */
   openNewNoteListDialog(): void {
     this.dialog.open(EditNoteListDialogComponent, {
       width: 'var(--width-edit-dialog)',
@@ -313,6 +323,9 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens a dialog to create a new task list.
+   */
   openNewTaskListDialog(): void {
     this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
@@ -322,25 +335,34 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Opens the dialog to edit the currently visited tab.
+   */
   openEditTabDialog(): void {
     this.dialog.open(EditTabDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: this.dataService.tabs[this.dataService.selectedTabIndex],
       disableClose: true,
-    }).afterClosed().subscribe((tab) => {
+    }).afterClosed().subscribe(async (tab) => {
       if (tab) {
         this.dataService.cacheData();
-        this.dataService.updateAppTitle();
+        await this.dataService.updateAppTitle();
       } else {
         this.dataService.tabs[this.dataService.selectedTabIndex] = this.cache.fetch(this.dataService.selectedTabIndex)!;
       }
     });
   }
 
+  /**
+   * Opens a dialog which will delete all items if submitted.
+   */
   clearAllForever(): void {
     this.bottomSheet.open(DeleteDialogComponent);
   }
 
+  /**
+   * Opens the about-dialog.
+   */
   showAboutDialog(): void {
     this.dialog.open(AboutDialogComponent);
   }
@@ -349,7 +371,9 @@ export class AppComponent implements OnInit {
     window.location.reload();
   }
 
-  /** Easter egg 🐰 */
+  /**
+   * Easter egg 🐰
+   */
   replaceLogo(event: CdkDragEnd): void {
     let question = 'Hmmpf...';
     let answer: string | undefined = 'Okay.. sorry';
