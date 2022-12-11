@@ -430,7 +430,7 @@ export class DataService {
     return this.getSelectedItems();
   }
 
-  setFromTabJson(tab: Tab, skipCache?: boolean): void {
+  setFromTabJson(tab: Partial<Tab>, skipCache?: boolean): void {
     tab.notes?.forEach(note => {
       this.tab.notes ??= [];
       if (!this.tab.notes.some(curr => DataService.compareNote(note, curr))) {

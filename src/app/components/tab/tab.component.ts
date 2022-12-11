@@ -97,20 +97,45 @@ export class TabComponent {
     const data: DataTransferItem | undefined = event.dataTransfer?.items[0];
     if (data?.kind === 'file') {
       const file = data.getAsFile()!;
-      if (file.name.endsWith('notes.json')) {
-        file.text().then(text => {
-          const tab = JSON.parse(text) as Tab;
+      if (file.name.endsWith('.notes.json')) {
+        file.text().then(notesJson => {
+          const tab = JSON.parse(notesJson) as Tab;
           this.dataService.setFromTabJson(tab);
           this.dataService.cacheData();
         })
-      } else if (file.name.endsWith('boards.json')) {
-        file.text().then(text => {
+      } else if (file.name.endsWith('.boards.json')) {
+        file.text().then(boardsJson => {
           if (this.dataService.itemsCount || this.dataService.tabs.length > 1) {
-            this.bottomSheet.open(ImportDialogComponent, {data: text});
+            this.bottomSheet.open(ImportDialogComponent, {data: boardsJson});
           } else {
-            this.dataService.tabs = JSON.parse(text) as Tab[];
+            this.dataService.tabs = JSON.parse(boardsJson) as Tab[];
             this.dataService.cacheAllData();
           }
+        })
+      } else if (file.name.endsWith('.cwl')) {
+        //TODO: temp solution to keep backward compatibility.
+        // Remove after Henri moved all his cwl data.
+        file.text().then(cwlXml => {
+          const getString = (src: string, tag: string): string => src
+            .match(new RegExp(`<${tag}>.*?</${tag}>`, 'dms'))?.[0]
+            .replace(`<${tag}>`, '')
+            .replace(`</${tag}>`, '')!;
+          const notes: Note[] = cwlXml.match(/<Note>.*?<\/Note>/dms)?.map(match => {
+            const content = getString(match, 'Text');
+            const posX = +getString(match, 'Location.X').trim();
+            const posY = +getString(match, 'Location.Y').trim();
+
+            return {
+              content,
+              posX,
+              posY,
+              backgroundColor: '#212121',
+              foregroundColor: '#FFFFFF',
+            }
+          }) ?? [];
+
+          this.dataService.setFromTabJson({notes});
+          this.dataService.cacheData();
         })
       } else if (file.type.startsWith('text') || file.type.startsWith('application')) {
         file.text().then(text => {
