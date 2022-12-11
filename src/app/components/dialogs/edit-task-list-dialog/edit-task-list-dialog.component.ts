@@ -44,6 +44,9 @@ export class EditTaskListDialogComponent {
   }
 
   submit(): void {
+    if (!this.data.header?.trim()) {
+      this.data.header = undefined;
+    }
     this.dialogRef.close(this.data);
   }
 

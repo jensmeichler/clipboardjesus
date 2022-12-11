@@ -1,7 +1,9 @@
 import {DraggableNote} from "./draggable-note.model";
+import {sessionIdAutoIncrement} from "../functions";
 
 export class DraggableNoteBase implements DraggableNote {
-  public id: string;
+  id: string;
+  connectedTo?: string;
 
   constructor(
     id: string | null,
@@ -10,10 +12,8 @@ export class DraggableNoteBase implements DraggableNote {
     public posZ?: number,
     public selected?: boolean,
   ) {
-    if (!id) {
-      this.id = new Date().toISOString();
-    } else {
-      this.id = id;
-    }
+    this.id = !id
+      ? new Date().toISOString() + sessionIdAutoIncrement()
+      : id;
   }
 }

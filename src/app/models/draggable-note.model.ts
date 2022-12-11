@@ -4,4 +4,5 @@ export interface DraggableNote {
   posY: number;
   posZ?: number;
   selected?: boolean;
+  connectedTo?: string;
 }

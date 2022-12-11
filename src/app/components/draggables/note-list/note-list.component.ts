@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {Note, NoteList, TaskList} from "@clipboardjesus/models";
+import {DraggableNote, Note, NoteList, TaskList} from "@clipboardjesus/models";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {DataService, ClipboardService} from "@clipboardjesus/services";
 import {EditNoteDialogComponent, EditNoteListDialogComponent} from "@clipboardjesus/components";
@@ -158,6 +158,11 @@ export class NoteListComponent implements OnInit {
     this.noteList.backgroundColor = item.backgroundColor;
     this.noteList.backgroundColorGradient = item.backgroundColorGradient;
     this.noteList.foregroundColor = item.foregroundColor;
+    this.dataService.cacheData();
+  }
+
+  connectTo(item: DraggableNote): void {
+    this.noteList.connectedTo = item.id;
     this.dataService.cacheData();
   }
 

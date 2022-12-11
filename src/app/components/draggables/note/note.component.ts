@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {htmlRegex} from "@clipboardjesus/const";
-import {Note, NoteList, TaskList} from "@clipboardjesus/models";
+import {DraggableNote, Note, NoteList, TaskList} from "@clipboardjesus/models";
 import {DataService, HashyService} from "@clipboardjesus/services";
 import {EditNoteDialogComponent} from "@clipboardjesus/components";
 import {ClipboardService} from "@clipboardjesus/services";
@@ -167,6 +167,11 @@ export class NoteComponent implements OnInit {
     this.note.backgroundColor = item.backgroundColor;
     this.note.backgroundColorGradient = item.backgroundColorGradient;
     this.note.foregroundColor = item.foregroundColor;
+    this.dataService.cacheData();
+  }
+
+  connectTo(item: DraggableNote): void {
+    this.note.connectedTo = item.id;
     this.dataService.cacheData();
   }
 

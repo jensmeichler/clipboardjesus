@@ -421,16 +421,16 @@ export class AppComponent implements OnInit {
       case 10:
         question = 'Congratulations.. you won the idiot award';
         answer = undefined;
-        const idiotAward: Note = {
-          id: 'easter_egg',
-          posX: 0,
-          posY: 160,
-          posZ: 100,
-          backgroundColor: '#FFDA0054',
-          foregroundColor: '#FEE858',
-          header: 'Idiot award',
-          content: '( ︶︿︶)_🖕'
-        }
+        const idiotAward = new Note(
+          'easter_egg',
+          0,
+          160,
+          '( ︶︿︶)_🖕',
+          'Idiot award',
+          100
+        );
+        idiotAward.backgroundColor = '#FFDA0054';
+        idiotAward.foregroundColor = '#FEE858';
         this.dataService.addNote(idiotAward);
         break;
     }

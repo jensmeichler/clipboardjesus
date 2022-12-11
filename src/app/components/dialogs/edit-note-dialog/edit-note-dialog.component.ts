@@ -10,8 +10,7 @@ export class EditNoteDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<EditNoteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Note,
-  ) {
-  }
+  ) {}
 
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent): void {
@@ -25,6 +24,9 @@ export class EditNoteDialogComponent {
   }
 
   submit(): void {
+    if (!this.data.header?.trim()) {
+      this.data.header = undefined;
+    }
     this.dialogRef.close(this.data);
   }
 

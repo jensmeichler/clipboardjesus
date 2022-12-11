@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from "@angular/material/menu";
-import {Image} from "@clipboardjesus/models";
+import {DraggableNote, Image} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
 import {_blank} from "@clipboardjesus/const";
 
@@ -106,6 +106,11 @@ export class ImageComponent implements OnInit {
 
   moveToTab(index: number): void {
     this.dataService.moveImageToTab(index, this.image);
+  }
+
+  connectTo(item: DraggableNote): void {
+    this.image.connectedTo = item.id;
+    this.dataService.cacheData();
   }
 
   showContextMenu(event: MouseEvent): void {

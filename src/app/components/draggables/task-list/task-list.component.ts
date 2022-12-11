@@ -2,7 +2,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {Note, TaskItem, TaskList} from "@clipboardjesus/models";
+import {DraggableNote, Note, TaskItem, TaskList} from "@clipboardjesus/models";
 import {DataService, StringParserService} from "@clipboardjesus/services";
 import {EditTaskListDialogComponent} from "@clipboardjesus/components";
 
@@ -196,6 +196,11 @@ export class TaskListComponent implements OnInit {
     this.taskList.backgroundColor = item.backgroundColor;
     this.taskList.backgroundColorGradient = item.backgroundColorGradient;
     this.taskList.foregroundColor = item.foregroundColor;
+    this.dataService.cacheData();
+  }
+
+  connectTo(item: DraggableNote): void {
+    this.taskList.connectedTo = item.id;
     this.dataService.cacheData();
   }
 
