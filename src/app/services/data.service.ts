@@ -588,12 +588,7 @@ export class DataService {
   }
 
   selectNextItem(revert: boolean): void {
-    const selectables: DraggableNote[] = [
-      ...(this.tab.notes ?? []),
-      ...(this.tab.taskLists ?? []),
-      ...(this.tab.images ?? []),
-      ...(this.tab.noteLists ?? [])
-    ].sort((a, b) => (a.posZ ?? 0) - (b.posZ ?? 0));
+    const selectables: DraggableNote[] = this.getCurrentTabItems();
 
     const selectedIndizes = selectables
       .filter(x => x.selected)
@@ -614,27 +609,30 @@ export class DataService {
     }
   }
 
+  /**
+   * Gets all items ordered by index.
+   */
+  getCurrentTabItems(): DraggableNote[] {
+    return [
+      ...(this.tab.notes ?? []),
+      ...(this.tab.taskLists ?? []),
+      ...(this.tab.images ?? []),
+      ...(this.tab.noteLists ?? [])
+    ].sort((a, b) => (a.posZ ?? 0) - (b.posZ ?? 0))
+  }
+
   private defineIndex(item: DraggableNote): void {
     item.posZ ??= this.getNextIndex();
   }
 
   private reArrangeIndices(): void {
     let i = 1;
-    this.getOrderedItems().forEach(item => item.posZ = i++);
+    this.getCurrentTabItems().forEach(item => item.posZ = i++);
   }
 
   private getNextIndex(): number {
-    const items = this.getOrderedItems();
+    const items = this.getCurrentTabItems();
     const highestIndex = items[items.length - 1]?.posZ;
     return highestIndex ? highestIndex + 1 : 1;
-  }
-
-  private getOrderedItems(): DraggableNote[] {
-    return [
-      ...(this.tab.notes ?? []),
-      ...(this.tab.taskLists ?? []),
-      ...(this.tab.images ?? []),
-      ...(this.tab.noteLists ?? [])
-    ].sort((a, b) => (a.posZ ?? 0) - (b.posZ ?? 0));
   }
 }

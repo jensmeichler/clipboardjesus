@@ -28,10 +28,10 @@ export class SmallNoteComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.note) {
-      throw new Error('SmallNoteComponent.note input is necessary!')
+      throw new Error('SmallNoteComponent.note input is necessary!');
     }
     if (!this.noteList) {
-      throw new Error('SmallNoteComponent.noteList input is necessary!')
+      throw new Error('SmallNoteComponent.noteList input is necessary!');
     }
   }
 

@@ -32,7 +32,7 @@ export class TaskListComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.taskList) {
-      throw new Error('TaskListComponent.taskList input is necessary!')
+      throw new Error('TaskListComponent.taskList input is necessary!');
     }
   }
 

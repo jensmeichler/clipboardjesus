@@ -32,7 +32,7 @@ export class ImageComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.image) {
-      throw new Error('ImageComponent.image input is necessary!')
+      throw new Error('ImageComponent.image input is necessary!');
     }
   }
 

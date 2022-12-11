@@ -30,7 +30,7 @@ export class NoteListComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.noteList) {
-      throw new Error('NoteListComponent.noteList input is necessary!')
+      throw new Error('NoteListComponent.noteList input is necessary!');
     }
   }
 

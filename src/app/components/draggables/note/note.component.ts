@@ -45,7 +45,7 @@ export class NoteComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.note) {
-      throw new Error('NoteComponent.note input is necessary!')
+      throw new Error('NoteComponent.note input is necessary!');
     }
 
     this.updateMarkdown();
