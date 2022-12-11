@@ -181,10 +181,12 @@
       <mat-icon>font_download</mat-icon>
       {{ 'SWITCH_FONT' | translate }}
     </button>
+
     <button [matMenuTriggerFor]="languageMenu" mat-menu-item [attr.aria-label]="'SWITCH_LANGUAGE' | translate">
       <mat-icon>translate</mat-icon>
       {{ 'SWITCH_LANGUAGE' | translate }}
     </button>
+
     <button *ngIf="settings.animationsDisabled" (click)="settings.animationsDisabled = false" mat-menu-item
             [attr.aria-label]="'ENABLE_ANIMATIONS' | translate">
       <mat-icon>animation</mat-icon>
@@ -195,6 +197,20 @@
       <mat-icon>motion_photos_off</mat-icon>
       {{ 'DISABLE_ANIMATIONS' | translate }}
     </button>
+
+    <button *ngIf="settings.dblClickMode" (click)="settings.dblClickMode = false" mat-menu-item
+            [attr.aria-label]="'DISABLE_DBL_CLICK_MODE' | translate" matTooltipPosition="left"
+            [matTooltip]="'DISABLE_DBL_CLICK_MODE_TOOLTIP' | translate">
+      <mat-icon>mouse</mat-icon>
+      {{ 'DISABLE_DBL_CLICK_MODE' | translate }}
+    </button>
+    <button *ngIf="!settings.dblClickMode" (click)="settings.dblClickMode = true" mat-menu-item
+            [attr.aria-label]="'ENABLE_DBL_CLICK_MODE' | translate" matTooltipPosition="left"
+            [matTooltip]="'ENABLE_DBL_CLICK_MODE_TOOLTIP' | translate">
+      <mat-icon>mouse</mat-icon>
+      {{ 'ENABLE_DBL_CLICK_MODE' | translate }}
+    </button>
+
     <ng-container *ngIf="settings.isTauri">
       <button *ngIf="!settings.alwaysOnTop" (click)="settings.alwaysOnTop = true" mat-menu-item
               [attr.aria-label]="'ENABLE_ALWAYS_ON_TOP' | translate">
@@ -207,26 +223,31 @@
         {{ 'DISABLE_ALWAYS_ON_TOP' | translate }}
       </button>
     </ng-container>
+
     <a href="https://github.com/jensmeichler/clipboardjesus/issues/new/choose"
        mat-menu-item [target]="dataService._blank"
        [attr.aria-label]="'REPORT_BUG' | translate">
       <mat-icon>bug_report</mat-icon>
       {{ 'REPORT_BUG' | translate }}
     </a>
+
     <a href="https://github.com/jensmeichler/clipboardjesus/commits" mat-menu-item [target]="dataService._blank"
        [attr.aria-label]="'VIEW_LAST_CHANGES' | translate">
       <mat-icon>published_with_changes</mat-icon>
       {{ 'VIEW_LAST_CHANGES' | translate }}
     </a>
+
     <a href="https://github.com/sponsors/jensmeichler" mat-menu-item [target]="dataService._blank"
        [attr.aria-label]="'DONATE_TO_THE_DEVELOPER' | translate">
       <mat-icon class="heart">favorite</mat-icon>
       {{ 'DONATE_TO_THE_DEVELOPER' | translate }}
     </a>
+
     <button (click)="showAboutDialog()" mat-menu-item [attr.aria-label]="'ABOUT_CLIPBOARD' | translate">
       <mat-icon>info</mat-icon>
       {{ 'ABOUT_CLIPBOARD' | translate }}
     </button>
+
     <button (click)="reloadApp()" mat-menu-item [attr.aria-label]="'RELOAD_APP' | translate">
       <mat-icon>cached</mat-icon>
       {{ 'RELOAD_APP' | translate }}

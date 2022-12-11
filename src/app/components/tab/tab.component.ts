@@ -1,6 +1,6 @@
 import {Component, ElementRef, HostListener, Input} from '@angular/core';
 import {DraggableNote, Image, Note, Tab} from "@clipboardjesus/models";
-import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
+import {DataService, HashyService, ClipboardService, SettingsService} from "@clipboardjesus/services";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {ImportDialogComponent} from "@clipboardjesus/components";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
@@ -13,19 +13,21 @@ import {CdkDragEnd} from "@angular/cdk/drag-drop";
 export class TabComponent {
   @Input() tab?: Tab;
 
-  startCursorPosX = 0;
-  startCursorPosY = 0;
-  endCursorPosX = 0;
-  endCursorPosY = 0;
-  mouseDown = false;
-  mouseMoveEvent: OmitThisParameter<(event: MouseEvent) => void>;
+  protected startCursorPosX = 0;
+  protected startCursorPosY = 0;
+  protected endCursorPosX = 0;
+  protected endCursorPosY = 0;
+  protected mouseDown = false;
+  private mouseMoveEvent: OmitThisParameter<(event: MouseEvent) => void>;
+  private clickedLast200ms = false;
 
   constructor(
     private readonly hashy: HashyService,
     private readonly elementRef: ElementRef,
     private readonly bottomSheet: MatBottomSheet,
     public readonly dataService: DataService,
-    private readonly clipboard: ClipboardService
+    private readonly clipboard: ClipboardService,
+    private readonly settings: SettingsService,
   ) {
     this.mouseMoveEvent = this.onMouseMove.bind(this);
   }
@@ -76,14 +78,31 @@ export class TabComponent {
       if (this.dataService.selectedItemsCount) {
         this.dataService.clearSelection();
       } else {
-        const clipboardText = await this.clipboard.get();
-        if (!clipboardText) {
-          //TODO: localize
-          this.hashy.show('Your clipboard is empty', 3000);
+        if (!this.settings.dblClickMode) {
+          const clipboardText = await this.clipboard.get();
+          if (!clipboardText) {
+            //TODO: localize
+            this.hashy.show('Your clipboard is empty', 3000);
+          } else {
+            this.dataService.addNote(
+              new Note(event.pageX, event.pageY, clipboardText)
+            );
+          }
         } else {
-          this.dataService.addNote(
-            new Note(event.pageX, event.pageY, clipboardText)
-          );
+          if (this.clickedLast200ms) {
+            const clipboardText = await this.clipboard.get();
+            if (!clipboardText) {
+              //TODO: localize
+              this.hashy.show('Your clipboard is empty', 3000);
+            } else {
+              this.dataService.addNote(
+                new Note(event.pageX, event.pageY, clipboardText)
+              );
+            }
+          } else {
+            this.clickedLast200ms = true;
+            setTimeout(() => this.clickedLast200ms = false, 200);
+          }
         }
       }
     }

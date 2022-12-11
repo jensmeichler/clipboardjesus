@@ -15,12 +15,13 @@ export class SettingsService {
   isBeta: boolean;
 
   private storageKeys = {
-    animationsDisabled: 'animations_disabled',
-    language: 'language',
-    fontFamily: 'font-family',
-    fontStyle: 'font-style',
-    lastLoadedFile: 'file-path',
-    alwaysOnTop: 'always-on-top'
+    animationsDisabled: 'CB_DISABLE_ANIMATIONS',
+    language: 'CB_LANG',
+    fontFamily: 'CB_FONT_FAMILY',
+    fontStyle: 'CB_FONT_STYLE',
+    lastLoadedFile: 'CB_LAST_LOADED_FILE',
+    alwaysOnTop: 'CB_ALWAYS_ON_TOP',
+    dblClickMode: 'CB_DBL_CLICK_MODE',
   };
 
   private _alwaysOnTop!: boolean;
@@ -98,6 +99,17 @@ export class SettingsService {
     }
   }
 
+  private _dblClickMode!: boolean;
+  get dblClickMode(): boolean { return this._dblClickMode; }
+  set dblClickMode(value: boolean) {
+    this._dblClickMode = value;
+    if (value) {
+      localStorage.setItem(this.storageKeys.fontStyle, TRUE);
+    } else {
+      localStorage.removeItem(this.storageKeys.fontStyle);
+    }
+  }
+
   constructor(private readonly translate: TranslateService) {
     this.lastLoadedFilePath = localStorage.getItem(this.storageKeys.lastLoadedFile) ?? undefined;
     this.alwaysOnTop = localStorage.getItem(this.storageKeys.alwaysOnTop) === TRUE;
@@ -105,6 +117,7 @@ export class SettingsService {
     this.language = localStorage.getItem(this.storageKeys.language) ?? 'en';
     this.fontFamily = localStorage.getItem(this.storageKeys.fontFamily) as Font ?? 'Roboto';
     this.fontStyle = localStorage.getItem(this.storageKeys.fontStyle) ?? 'normal';
+    this.dblClickMode = localStorage.getItem(this.storageKeys.dblClickMode) === TRUE;
 
     this.isBeta = !isTauri && !window.location.href.includes('clipboardjesus.com');
     this.isWindows = navigator.platform.indexOf('Win') > -1;
