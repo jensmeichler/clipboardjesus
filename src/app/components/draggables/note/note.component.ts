@@ -15,7 +15,7 @@ import {marked, Renderer} from 'marked';
   styleUrls: ['./note.component.scss']
 })
 export class NoteComponent implements OnInit {
-  @Input() note: Note = {} as Note;
+  @Input() note!: Note;
 
   rippleDisabled = false;
 
@@ -37,14 +37,17 @@ export class NoteComponent implements OnInit {
     private readonly hashy: HashyService,
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
-  ) {
-  }
+  ) {}
 
   get canInteract(): boolean {
     return this.movedPx < 5;
   }
 
   ngOnInit(): void {
+    if (!this.note) {
+      throw new Error('NoteComponent.note input is necessary!')
+    }
+
     this.updateMarkdown();
     if (this.note.code !== false
       && this.note.content

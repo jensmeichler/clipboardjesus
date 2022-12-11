@@ -1,16 +1,17 @@
-import {DraggableNote} from "@clipboardjesus/models";
+import {DraggableNoteBase} from "./draggable-note-base.model";
 
-export class Image implements DraggableNote {
+export class Image extends DraggableNoteBase {
   source: string;
-  posX: number;
-  posY: number;
-  posZ?: number;
-  selected?: boolean;
 
-  constructor(posX: number, posY: number, source: string, posZ?: number) {
-    this.posX = posX;
-    this.posY = posY;
-    this.posZ = posZ;
+  constructor(
+    id: string | null,
+    posX: number,
+    posY: number,
+    source: string,
+    posZ?: number
+  ) {
+    super(id, posX, posY, posZ);
+
     this.source = source;
   }
 }

@@ -4,6 +4,7 @@
   "label": "Welcome",
   "notes": [
     {
+      "id": "welcome_note_1",
       "foregroundColor": "#ffffff",
       "backgroundColor": "#212121",
       "posX": 0,
@@ -14,6 +15,7 @@
       "code": false
     },
     {
+      "id": "welcome_note_2",
       "foregroundColor": "#ffffff",
       "backgroundColor": "#212121",
       "posX": 735,
@@ -25,8 +27,10 @@
   ],
   "noteLists": [
     {
+      "id": "welcome_note_3",
       "notes": [
         {
+          "id": "welcome_note_3_1",
           "foregroundColor": "#000000",
           "backgroundColor": "#ffffff",
           "posX": 0,
@@ -34,6 +38,7 @@
           "content": "When you click me, I am saved to your clipboard 💥"
         },
         {
+          "id": "welcome_note_3_2",
           "foregroundColor": "#000000",
           "backgroundColor": "#ffffff",
           "posX": 0,
@@ -41,6 +46,7 @@
           "content": "You can just add new notes from your clipboard by pressing the ➕ button"
         },
         {
+          "id": "welcome_note_3_3",
           "foregroundColor": "#000000",
           "backgroundColor": "#ffffff",
           "posX": 0,
@@ -58,6 +64,7 @@
   ],
   "taskLists": [
     {
+      "id": "welcome_note_4",
       "items": [
         {
           "checked": true,

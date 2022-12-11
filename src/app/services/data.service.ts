@@ -257,7 +257,7 @@ export class DataService {
       tab.images?.forEach(image => this.addImage(image));
       tab.noteLists?.forEach(noteList => this.addNoteList(noteList));
     } catch {
-      this.addNote(new Note(10, 61, clipboardText));
+      this.addNote(new Note(null, 10, 61, clipboardText));
     }
 
     this.cacheData();

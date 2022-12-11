@@ -85,7 +85,7 @@ export class TabComponent {
             this.hashy.show('Your clipboard is empty', 3000);
           } else {
             this.dataService.addNote(
-              new Note(event.pageX, event.pageY, clipboardText)
+              new Note(null, event.pageX, event.pageY, clipboardText)
             );
           }
         } else {
@@ -96,7 +96,7 @@ export class TabComponent {
               this.hashy.show('Your clipboard is empty', 3000);
             } else {
               this.dataService.addNote(
-                new Note(event.pageX, event.pageY, clipboardText)
+                new Note(null, event.pageX, event.pageY, clipboardText)
               );
             }
           } else {
@@ -143,14 +143,7 @@ export class TabComponent {
             const content = getString(match, 'Text');
             const posX = +getString(match, 'Location.X').trim();
             const posY = +getString(match, 'Location.Y').trim();
-
-            return {
-              content,
-              posX,
-              posY,
-              backgroundColor: '#212121',
-              foregroundColor: '#FFFFFF',
-            }
+            return new Note(null, posX, posY, content);
           }) ?? [];
 
           this.dataService.setFromTabJson({notes});
@@ -158,7 +151,7 @@ export class TabComponent {
         })
       } else if (file.type.startsWith('text') || file.type.startsWith('application')) {
         file.text().then(text => {
-          this.dataService.addNote(new Note(posX, posY, text, file.name));
+          this.dataService.addNote(new Note(null, posX, posY, text, file.name));
         })
       } else {
         //TODO: localize
@@ -167,11 +160,11 @@ export class TabComponent {
     } else if (data?.kind === 'string') {
       const draggedUrl = event.dataTransfer?.getData('text/uri-list');
       if (draggedUrl) {
-        const newImage = new Image(posX, posY, draggedUrl);
+        const newImage = new Image(null, posX, posY, draggedUrl);
         this.dataService.addImage(newImage);
       } else {
         const draggedText = event.dataTransfer?.getData('text');
-        const newNote = new Note(posX, posY, draggedText);
+        const newNote = new Note(null, posX, posY, draggedText);
         this.dataService.addNote(newNote);
       }
     }

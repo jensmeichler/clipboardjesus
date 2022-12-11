@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Note, NoteList, TaskList} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
 import {MatMenuTrigger} from "@angular/material/menu";
@@ -10,9 +10,9 @@ import {MatDialog} from "@angular/material/dialog";
   templateUrl: './small-note.component.html',
   styleUrls: ['./small-note.component.css']
 })
-export class SmallNoteComponent {
-  @Input() note: Note = new Note(0, 0);
-  @Input() noteList?: NoteList;
+export class SmallNoteComponent implements OnInit {
+  @Input() note!: Note;
+  @Input() noteList!: NoteList;
 
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
@@ -24,7 +24,15 @@ export class SmallNoteComponent {
     private readonly dialog: MatDialog,
     private readonly clipboard: ClipboardService,
     public readonly dataService: DataService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    if (!this.note) {
+      throw new Error('SmallNoteComponent.note input is necessary!')
+    }
+    if (!this.noteList) {
+      throw new Error('SmallNoteComponent.noteList input is necessary!')
+    }
   }
 
   async copy(): Promise<void> {

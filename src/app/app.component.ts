@@ -305,7 +305,7 @@ export class AppComponent implements OnInit {
   openNewNoteDialog(): void {
     this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: new Note(this.newDraggablePositionX, this.newDraggablePositionY, ''),
+      data: new Note(null, this.newDraggablePositionX, this.newDraggablePositionY, ''),
     }).afterClosed().subscribe((note) => {
       if (note) this.dataService.addNote(note);
     });
@@ -317,7 +317,7 @@ export class AppComponent implements OnInit {
   openNewNoteListDialog(): void {
     this.dialog.open(EditNoteListDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: new NoteList(this.newDraggablePositionX, this.newDraggablePositionY),
+      data: new NoteList(null, this.newDraggablePositionX, this.newDraggablePositionY),
     }).afterClosed().subscribe((noteList) => {
       if (noteList) this.dataService.addNoteList(noteList);
     });
@@ -329,7 +329,7 @@ export class AppComponent implements OnInit {
   openNewTaskListDialog(): void {
     this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: new TaskList(this.newDraggablePositionX, this.newDraggablePositionY),
+      data: new TaskList(null, this.newDraggablePositionX, this.newDraggablePositionY),
     }).afterClosed().subscribe((taskList) => {
       if (taskList) this.dataService.addTaskList(taskList);
     });
@@ -422,6 +422,7 @@ export class AppComponent implements OnInit {
         question = 'Congratulations.. you won the idiot award';
         answer = undefined;
         const idiotAward: Note = {
+          id: 'easter_egg',
           posX: 0,
           posY: 160,
           posZ: 100,

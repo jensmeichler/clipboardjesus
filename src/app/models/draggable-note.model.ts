@@ -1,4 +1,5 @@
 export interface DraggableNote {
+  id: string;
   posX: number;
   posY: number;
   posZ?: number;

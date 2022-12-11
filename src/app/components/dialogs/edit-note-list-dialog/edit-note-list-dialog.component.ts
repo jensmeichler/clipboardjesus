@@ -18,7 +18,7 @@ export class EditNoteListDialogComponent {
     const noteContent = (event.value || '').trim();
 
     if (noteContent) {
-      const newNote = new Note(0, 0, noteContent);
+      const newNote = new Note(null, 0, 0, noteContent);
       this.data.notes.push(newNote);
     }
 

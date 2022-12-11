@@ -1,22 +1,24 @@
 import {colorRegex} from "@clipboardjesus/const";
-import {DraggableNote} from "@clipboardjesus/models";
+import {DraggableNoteBase} from "./draggable-note-base.model";
 
-export class Note implements DraggableNote {
+export class Note extends DraggableNoteBase {
   content?;
   header?: string;
   foregroundColor: string = '#ffffff';
   backgroundColor: string = '#212121';
   backgroundColorGradient?: string;
-  posX: number;
-  posY: number;
-  posZ?: number;
-  selected?: boolean;
   code?: boolean;
 
-  constructor(posX: number, posY: number, content?: string, header?: string, posZ?: number) {
-    this.posX = posX;
-    this.posY = posY;
-    this.posZ = posZ;
+  constructor(
+    id: string | null,
+    posX: number,
+    posY: number,
+    content?: string,
+    header?: string,
+    posZ?: number
+  ) {
+    super(id, posX, posY, posZ);
+
     this.header = header;
     this.content = content;
 
