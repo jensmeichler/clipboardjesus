@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1670803836488,
+  "timestamp": 1670804258020,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -124,9 +124,9 @@
     "/assets/fonts/woff2/victor-mono/VictorMono-BoldItalic.woff2": "df8763adbb6b7bcc90495a87a36fbfaebceca6d9",
     "/assets/fonts/woff2/victor-mono/VictorMono-Italic.woff2": "d22165b238c9eac6eb0ff01538cd847db4bbb4f3",
     "/assets/fonts/woff2/victor-mono/VictorMono-Regular.woff2": "06c61bb1b1a694fc3deb4887479568697ea8a225",
-    "/assets/i18n/de.json": "f121d75e1017edfd5b80c3fdc20e070c848a05f7",
-    "/assets/i18n/en.json": "31c458ebb1c0cedb1049eeab79588bc5d1017d78",
-    "/assets/i18n/ua.json": "11181814d52e70b75890a8a67eff485c9e442d33",
+    "/assets/i18n/de.json": "04cefd7e70aa1abf82301922a188011b530d6f96",
+    "/assets/i18n/en.json": "299100718cbf25e4090690160896c24eb6cfff3b",
+    "/assets/i18n/ua.json": "47dff65519d270af1ef6b32cd66f373aaad4e3d9",
     "/assets/icons/apple-touch-icon.png": "5cec0227be3a3c6d4c5faf1f02d321c0697c0493",
     "/assets/icons/icon-128x128.png": "ca7df51e87f597188ae2202c3dc3a63ca306b4fc",
     "/assets/icons/icon-144x144.png": "80f3c2dacc3477b071069ff63d6bee8a9324c07c",
