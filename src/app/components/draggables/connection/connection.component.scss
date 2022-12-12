@@ -10,15 +10,28 @@
   position: absolute;
   animation: connection-animation ease-in-out .6s;
 
-  border-radius: var(--border-radius);
-
-  border-left: 4px solid var(--color-primary);
+  border-left: 3px solid var(--color-primary);
   &.top-left-to-bottom-right {
-    border-bottom: 4px solid var(--color-primary);
+    border-bottom: 3px solid var(--color-primary);
+    border-bottom-left-radius: var(--border-radius);
   }
   &.bottom-left-to-top-right {
-    border-top: 4px solid var(--color-primary);
+    border-top: 3px solid var(--color-primary);
+    border-top-left-radius: var(--border-radius);
   }
+}
+
+.note-bubble {
+  position: absolute;
+  animation: connection-animation ease-in-out .6s;
+
+  height: 9px;
+  width: 9px;
+  margin-top: -3px;
+  margin-left: -3px;
+  border-radius: 50%;
+
+  background: var(--color-primary);
 }
 
 @keyframes connection-animation {

@@ -27,4 +27,13 @@
        [style.height.px]="to.posY - from.posY"
        [style.width.px]="from.posX - to.posX"
   ></div>
+
+  <div class="note-bubble"
+       [style.top.px]="from.posY"
+       [style.left.px]="from.posX"
+  ></div>
+  <div class="note-bubble"
+       [style.top.px]="to.posY"
+       [style.left.px]="to.posX"
+  ></div>
 </ng-container>
