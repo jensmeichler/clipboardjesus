@@ -7,6 +7,12 @@ import {HashyService} from "@clipboardjesus/services";
   styleUrls: ['./hashy-animated.component.scss']
 })
 export class HashyAnimatedComponent {
-  @Input() showAlways = false;
-  constructor(public readonly hashy: HashyService) {}
+  @Input()
+  protected showAlways = false;
+  protected christmas: boolean;
+
+  constructor(public readonly hashy: HashyService) {
+    const date = new Date();
+    this.christmas = date.getMonth() === 11 && date.getDate() <= 27;
+  }
 }
