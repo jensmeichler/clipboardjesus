@@ -20,15 +20,15 @@ Cypress.Commands.add('dataCy', (dataCy) => {
 // noinspection JSCheckFunctionSignatures
 Cypress.Commands.add('lang', (lang) => {
   if (lang === 'en') return;
-  window.localStorage.setItem('language', lang);
+  window.localStorage.setItem('CB_LANG', lang);
 })
 
 // noinspection JSCheckFunctionSignatures
 Cypress.Commands.add('clean', () => {
   const cleanWindow = {
-    index:0,
-    color:"#131313",
-    label:""
+    index: 0,
+    color: "#131313",
+    label: ""
   }
   window.localStorage.setItem(`clipboard_data_0`, JSON.stringify(cleanWindow));
 })
