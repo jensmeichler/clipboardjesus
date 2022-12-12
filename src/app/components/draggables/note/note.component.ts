@@ -2,7 +2,7 @@ import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {htmlRegex} from "@clipboardjesus/const";
-import {Note, NoteList, TaskList} from "@clipboardjesus/models";
+import {DraggableNote, Note, NoteList, TaskList} from "@clipboardjesus/models";
 import {DataService, HashyService} from "@clipboardjesus/services";
 import {EditNoteDialogComponent} from "@clipboardjesus/components";
 import {ClipboardService} from "@clipboardjesus/services";
@@ -15,7 +15,7 @@ import {marked, Renderer} from 'marked';
   styleUrls: ['./note.component.scss']
 })
 export class NoteComponent implements OnInit {
-  @Input() note: Note = {} as Note;
+  @Input() note!: Note;
 
   rippleDisabled = false;
 
@@ -37,14 +37,17 @@ export class NoteComponent implements OnInit {
     private readonly hashy: HashyService,
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
-  ) {
-  }
+  ) {}
 
   get canInteract(): boolean {
     return this.movedPx < 5;
   }
 
   ngOnInit(): void {
+    if (!this.note) {
+      throw new Error('NoteComponent.note input is necessary!');
+    }
+
     this.updateMarkdown();
     if (this.note.code !== false
       && this.note.content
@@ -164,6 +167,11 @@ export class NoteComponent implements OnInit {
     this.note.backgroundColor = item.backgroundColor;
     this.note.backgroundColorGradient = item.backgroundColorGradient;
     this.note.foregroundColor = item.foregroundColor;
+    this.dataService.cacheData();
+  }
+
+  connectTo(item: DraggableNote | undefined): void {
+    this.note.connectedTo = item?.id;
     this.dataService.cacheData();
   }
 

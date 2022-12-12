@@ -1,5 +1,5 @@
-import {Component, Input, ViewChild} from '@angular/core';
-import {Note, NoteList, TaskList} from "@clipboardjesus/models";
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {DraggableNote, Note, NoteList, TaskList} from "@clipboardjesus/models";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {DataService, ClipboardService} from "@clipboardjesus/services";
 import {EditNoteDialogComponent, EditNoteListDialogComponent} from "@clipboardjesus/components";
@@ -11,8 +11,8 @@ import {MatMenuTrigger} from "@angular/material/menu";
   templateUrl: './note-list.component.html',
   styleUrls: ['./note-list.component.scss']
 })
-export class NoteListComponent {
-  @Input() noteList = {} as NoteList;
+export class NoteListComponent implements OnInit {
+  @Input() noteList!: NoteList;
 
   mouseDown = false;
   movedPx = 0;
@@ -26,7 +26,12 @@ export class NoteListComponent {
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
     private readonly clipboard: ClipboardService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    if (!this.noteList) {
+      throw new Error('NoteListComponent.noteList input is necessary!');
+    }
   }
 
   get canInteract(): boolean {
@@ -76,14 +81,14 @@ export class NoteListComponent {
     if (!this.canInteract) return;
     const clipboardText = await this.clipboard.get();
     if (!clipboardText) return;
-    this.noteList.notes.push(new Note(0, 0, clipboardText));
+    this.noteList.notes.push(new Note(null, 0, 0, clipboardText));
     this.dataService.cacheData();
   }
 
   openNewNoteDialog(): void {
     this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: new Note(0, 0),
+      data: new Note(null, 0, 0),
     }).afterClosed().subscribe((addedNote: Note) => {
       if (!addedNote) return;
       this.noteList.notes.push(addedNote);
@@ -153,6 +158,11 @@ export class NoteListComponent {
     this.noteList.backgroundColor = item.backgroundColor;
     this.noteList.backgroundColorGradient = item.backgroundColorGradient;
     this.noteList.foregroundColor = item.foregroundColor;
+    this.dataService.cacheData();
+  }
+
+  connectTo(item: DraggableNote | undefined): void {
+    this.noteList.connectedTo = item?.id;
     this.dataService.cacheData();
   }
 

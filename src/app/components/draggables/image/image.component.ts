@@ -1,6 +1,6 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from "@angular/material/menu";
-import {Image} from "@clipboardjesus/models";
+import {DraggableNote, Image} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
 import {_blank} from "@clipboardjesus/const";
 
@@ -9,8 +9,8 @@ import {_blank} from "@clipboardjesus/const";
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.scss']
 })
-export class ImageComponent {
-  @Input() image: Image = {} as Image;
+export class ImageComponent implements OnInit {
+  @Input() image!: Image;
 
   imageLoaded = false;
 
@@ -27,7 +27,13 @@ export class ImageComponent {
   constructor(
     private readonly hashy: HashyService,
     private readonly clipboard: ClipboardService,
-    public readonly dataService: DataService) {
+    public readonly dataService: DataService
+  ) {}
+
+  ngOnInit(): void {
+    if (!this.image) {
+      throw new Error('ImageComponent.image input is necessary!');
+    }
   }
 
   get canInteract(): boolean {
@@ -100,6 +106,11 @@ export class ImageComponent {
 
   moveToTab(index: number): void {
     this.dataService.moveImageToTab(index, this.image);
+  }
+
+  connectTo(item: DraggableNote | undefined): void {
+    this.image.connectedTo = item?.id;
+    this.dataService.cacheData();
   }
 
   showContextMenu(event: MouseEvent): void {

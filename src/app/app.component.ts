@@ -305,7 +305,7 @@ export class AppComponent implements OnInit {
   openNewNoteDialog(): void {
     this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: new Note(this.newDraggablePositionX, this.newDraggablePositionY, ''),
+      data: new Note(null, this.newDraggablePositionX, this.newDraggablePositionY, ''),
     }).afterClosed().subscribe((note) => {
       if (note) this.dataService.addNote(note);
     });
@@ -317,7 +317,7 @@ export class AppComponent implements OnInit {
   openNewNoteListDialog(): void {
     this.dialog.open(EditNoteListDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: new NoteList(this.newDraggablePositionX, this.newDraggablePositionY),
+      data: new NoteList(null, this.newDraggablePositionX, this.newDraggablePositionY),
     }).afterClosed().subscribe((noteList) => {
       if (noteList) this.dataService.addNoteList(noteList);
     });
@@ -329,7 +329,7 @@ export class AppComponent implements OnInit {
   openNewTaskListDialog(): void {
     this.dialog.open(EditTaskListDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: new TaskList(this.newDraggablePositionX, this.newDraggablePositionY),
+      data: new TaskList(null, this.newDraggablePositionX, this.newDraggablePositionY),
     }).afterClosed().subscribe((taskList) => {
       if (taskList) this.dataService.addTaskList(taskList);
     });
@@ -421,15 +421,16 @@ export class AppComponent implements OnInit {
       case 10:
         question = 'Congratulations.. you won the idiot award';
         answer = undefined;
-        const idiotAward: Note = {
-          posX: 0,
-          posY: 160,
-          posZ: 100,
-          backgroundColor: '#FFDA0054',
-          foregroundColor: '#FEE858',
-          header: 'Idiot award',
-          content: '( ︶︿︶)_🖕'
-        }
+        const idiotAward = new Note(
+          'easter_egg',
+          0,
+          160,
+          '( ︶︿︶)_🖕',
+          'Idiot award',
+          100
+        );
+        idiotAward.backgroundColor = '#FFDA0054';
+        idiotAward.foregroundColor = '#FEE858';
         this.dataService.addNote(idiotAward);
         break;
     }

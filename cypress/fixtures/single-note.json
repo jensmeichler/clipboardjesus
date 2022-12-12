@@ -3,6 +3,7 @@
   "color": "#131313",
   "notes": [
     {
+      "id": "single_note_cypress",
       "foregroundColor": "#ffffff",
       "backgroundColor": "#212121",
       "posX": 58,

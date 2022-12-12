@@ -65,29 +65,34 @@
       <mat-icon>check</mat-icon>
       {{ 'SELECT' | translate }}
     </button>
+
     <button *ngIf="noteList.selected" (click)="select()" mat-menu-item
             [attr.aria-label]="'REMOVE_SELECTION' | translate">
       <mat-icon>close</mat-icon>
       {{ 'REMOVE_SELECTION' | translate }}
     </button>
+
     <ng-container *ngIf="!dataService.selectedItemsCount">
       <button (click)="edit()" mat-menu-item
               [attr.aria-label]="'EDIT' | translate">
         <mat-icon>edit</mat-icon>
         {{ 'EDIT' | translate }}
       </button>
+
       <button (click)="delete()" mat-menu-item
               [attr.aria-label]="'DELETE' | translate">
         <mat-icon>delete</mat-icon>
         {{ 'DELETE' | translate }}
       </button>
     </ng-container>
+
     <ng-container *ngIf="!dataService.selectedItemsCount">
       <button [matMenuTriggerFor]="movement" mat-menu-item
               [attr.aria-label]="'MOVE' | translate">
         <mat-icon>auto_awesome_motion</mat-icon>
         {{ 'MOVE' | translate }}
       </button>
+
       <ng-container *ngIf="dataService.tabs.length > 1">
         <button [matMenuTriggerFor]="tabs" mat-menu-item
                 [attr.aria-label]="'SEND_TO_TAB' | translate">
@@ -95,13 +100,23 @@
           {{ 'SEND_TO_TAB' | translate }}
         </button>
       </ng-container>
+
       <ng-container *ngIf="dataService.getColorizedObjects(noteList).length > 1">
-        <button [matMenuTriggerFor]="items" mat-menu-item
+        <button [matMenuTriggerFor]="coloredItems" mat-menu-item
                 [attr.aria-label]="'COPY_COLOR_FROM' | translate">
           <mat-icon>colorize</mat-icon>
           {{ 'COPY_COLOR_FROM' | translate }}
         </button>
       </ng-container>
+
+      <ng-container *ngIf="dataService.itemsCount > 1">
+        <button [matMenuTriggerFor]="connectableItems" mat-menu-item
+                [attr.aria-label]="'CONNECT_TO' | translate">
+          <mat-icon>cable</mat-icon>
+          {{ 'CONNECT_TO' | translate }}
+        </button>
+      </ng-container>
+
       <ng-container *ngIf="dataService.getColorizedObjects(noteList).length === 1">
         <button (click)="copyColorFrom(dataService.getColorizedObjects(noteList)[0])" mat-menu-item
                 [attr.aria-label]="'COPY_OTHER_COLOR' | translate">
@@ -109,6 +124,7 @@
           {{ 'COPY_OTHER_COLOR' | translate }}
         </button>
       </ng-container>
+
       <button (click)="openNewNoteDialog()" mat-menu-item
               [attr.aria-label]="'ADD_NOTE' | translate">
         <mat-icon>add</mat-icon>
@@ -161,7 +177,7 @@
   </div>
 </mat-menu>
 
-<mat-menu #items="matMenu">
+<mat-menu #coloredItems="matMenu">
   <ng-container *ngFor="let item of dataService.getColorizedObjects(noteList)">
     <button (click)="copyColorFrom(item)" *ngIf="noteList !== item" [style.background]="item.backgroundColorGradient
                 ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
@@ -177,4 +193,51 @@
       </ng-container>
     </button>
   </ng-container>
+</mat-menu>
+
+<mat-menu #connectableItems="matMenu">
+  <ng-container *ngFor="let item of dataService.tab.notes">
+    <button (click)="connectTo(item)" [style.background]="item.backgroundColorGradient
+                ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
+                : item.backgroundColor"
+            [style.color]="item.foregroundColor"
+            mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate">
+      <mat-icon>note</mat-icon>
+      {{item.header ?? item.content?.trim()?.substring(0, 20)}}
+    </button>
+  </ng-container>
+  <ng-container *ngFor="let item of dataService.tab.noteLists">
+    <button (click)="connectTo(item)" *ngIf="noteList !== item" [style.background]="item.backgroundColorGradient
+                ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
+                : item.backgroundColor"
+            [style.color]="item.foregroundColor"
+            mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate">
+      <mat-icon>sticky_note_2</mat-icon>
+      {{item.header ?? item.notes[0].content?.trim()?.substring(0, 20)}}
+    </button>
+  </ng-container>
+  <ng-container *ngFor="let item of dataService.tab.taskLists">
+    <button (click)="connectTo(item)" [style.background]="item.backgroundColorGradient
+                ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
+                : item.backgroundColor"
+            [style.color]="item.foregroundColor"
+            mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate">
+      <mat-icon>list</mat-icon>
+      {{item.header ?? item.items[0].value?.trim()?.substring(0, 20)}}
+    </button>
+  </ng-container>
+  <ng-container *ngFor="let item of dataService.tab.images">
+    <button (click)="connectTo(item)"
+            mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate"
+            [style.background]="'#212121'">
+      <mat-icon>link</mat-icon>
+      {{item.source?.trim()?.substring(0, 20)}}
+    </button>
+  </ng-container>
+  <button (click)="connectTo(undefined)"
+          mat-menu-item [attr.aria-label]="'CONNECT_TO_NOTHING' | translate"
+          [style.background]="'#212121'">
+    <mat-icon>link_off</mat-icon>
+    {{'CONNECT_TO_NOTHING' | translate}}
+  </button>
 </mat-menu>

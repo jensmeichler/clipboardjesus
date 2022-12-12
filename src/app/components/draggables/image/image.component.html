@@ -38,11 +38,13 @@
     <mat-icon>check</mat-icon>
     {{ 'SELECT' | translate }}
   </button>
+
   <button *ngIf="image.selected" (click)="select()" mat-menu-item
           [attr.aria-label]="'REMOVE_SELECTION' | translate">
     <mat-icon>close</mat-icon>
     {{ 'REMOVE_SELECTION' | translate }}
   </button>
+
   <ng-container *ngIf="!dataService.selectedItemsCount">
     <button (click)="delete($event, true)" mat-menu-item
             [attr.aria-label]="'DELETE' | translate">
@@ -50,12 +52,14 @@
       {{ 'DELETE' | translate }}
     </button>
   </ng-container>
+
   <ng-container *ngIf="!dataService.selectedItemsCount">
     <button [matMenuTriggerFor]="movement" mat-menu-item
             [attr.aria-label]="'MOVE' | translate">
       <mat-icon>auto_awesome_motion</mat-icon>
       {{ 'MOVE' | translate }}
     </button>
+
     <ng-container *ngIf="dataService.tabs.length > 1">
       <button [matMenuTriggerFor]="tabs" mat-menu-item
               [attr.aria-label]="'SEND_TO_TAB' | translate">
@@ -63,11 +67,21 @@
         {{ 'SEND_TO_TAB' | translate }}
       </button>
     </ng-container>
+
+    <ng-container *ngIf="dataService.itemsCount > 1">
+      <button [matMenuTriggerFor]="connectableItems" mat-menu-item
+              [attr.aria-label]="'CONNECT_TO' | translate">
+        <mat-icon>cable</mat-icon>
+        {{ 'CONNECT_TO' | translate }}
+      </button>
+    </ng-container>
+
     <button (click)="open()" mat-menu-item
             [attr.aria-label]="'OPEN_LINK' | translate">
       <mat-icon>open_in_new</mat-icon>
       {{ 'OPEN_LINK' | translate }}
     </button>
+
     <button (click)="copy()" mat-menu-item
             [attr.aria-label]="'COPY_LINK' | translate">
       <mat-icon>content_copy</mat-icon>
@@ -107,4 +121,51 @@
       {{tab.label ? tab.label : '#Board ' + (tab.index + 1)}}
     </button>
   </ng-container>
+</mat-menu>
+
+<mat-menu #connectableItems="matMenu">
+  <ng-container *ngFor="let item of dataService.tab.notes">
+    <button (click)="connectTo(item)" [style.background]="item.backgroundColorGradient
+                ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
+                : item.backgroundColor"
+            [style.color]="item.foregroundColor"
+            mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate">
+      <mat-icon>note</mat-icon>
+      {{item.header ?? item.content?.trim()?.substring(0, 20)}}
+    </button>
+  </ng-container>
+  <ng-container *ngFor="let item of dataService.tab.noteLists">
+    <button (click)="connectTo(item)" [style.background]="item.backgroundColorGradient
+                ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
+                : item.backgroundColor"
+            [style.color]="item.foregroundColor"
+            mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate">
+      <mat-icon>sticky_note_2</mat-icon>
+      {{item.header ?? item.notes[0].content?.trim()?.substring(0, 20)}}
+    </button>
+  </ng-container>
+  <ng-container *ngFor="let item of dataService.tab.taskLists">
+    <button (click)="connectTo(item)" [style.background]="item.backgroundColorGradient
+                ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
+                : item.backgroundColor"
+            [style.color]="item.foregroundColor"
+            mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate">
+      <mat-icon>list</mat-icon>
+      {{item.header ?? item.items[0].value?.trim()?.substring(0, 20)}}
+    </button>
+  </ng-container>
+  <ng-container *ngFor="let item of dataService.tab.images">
+    <button (click)="connectTo(item)" *ngIf="image !== item"
+            mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate"
+            [style.background]="'#212121'">
+      <mat-icon>link</mat-icon>
+      {{item.source?.trim()?.substring(0, 20)}}
+    </button>
+  </ng-container>
+  <button (click)="connectTo(undefined)"
+          mat-menu-item [attr.aria-label]="'CONNECT_TO_NOTHING' | translate"
+          [style.background]="'#212121'">
+    <mat-icon>link_off</mat-icon>
+    {{'CONNECT_TO_NOTHING' | translate}}
+  </button>
 </mat-menu>

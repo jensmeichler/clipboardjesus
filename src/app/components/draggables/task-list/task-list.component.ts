@@ -1,8 +1,8 @@
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {Note, TaskItem, TaskList} from "@clipboardjesus/models";
+import {DraggableNote, Note, TaskItem, TaskList} from "@clipboardjesus/models";
 import {DataService, StringParserService} from "@clipboardjesus/services";
 import {EditTaskListDialogComponent} from "@clipboardjesus/components";
 
@@ -11,8 +11,8 @@ import {EditTaskListDialogComponent} from "@clipboardjesus/components";
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.scss']
 })
-export class TaskListComponent {
-  @Input() taskList: TaskList = {} as TaskList;
+export class TaskListComponent implements OnInit {
+  @Input() taskList!: TaskList;
 
   mouseDown = false;
   movedPx = 0;
@@ -28,7 +28,12 @@ export class TaskListComponent {
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
     public readonly stringParser: StringParserService
-  ) {
+  ) {}
+
+  ngOnInit(): void {
+    if (!this.taskList) {
+      throw new Error('TaskListComponent.taskList input is necessary!');
+    }
   }
 
   get canInteract(): boolean {
@@ -191,6 +196,11 @@ export class TaskListComponent {
     this.taskList.backgroundColor = item.backgroundColor;
     this.taskList.backgroundColorGradient = item.backgroundColorGradient;
     this.taskList.foregroundColor = item.foregroundColor;
+    this.dataService.cacheData();
+  }
+
+  connectTo(item: DraggableNote | undefined): void {
+    this.taskList.connectedTo = item?.id;
     this.dataService.cacheData();
   }
 

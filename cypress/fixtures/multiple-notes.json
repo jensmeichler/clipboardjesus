@@ -3,6 +3,7 @@
   "color": "#131313",
   "notes": [
     {
+      "id": "multiple_notes_cypress_1",
       "foregroundColor": "#ffffff",
       "backgroundColor": "#8312ce",
       "posX": 339,
@@ -11,6 +12,7 @@
       "content": "purple"
     },
     {
+      "id": "multiple_notes_cypress_2",
       "foregroundColor": "#ffffff",
       "backgroundColor": "#1ea427",
       "posX": 52,
@@ -19,6 +21,7 @@
       "content": "green"
     },
     {
+      "id": "multiple_notes_cypress_3",
       "foregroundColor": "#ffffff",
       "backgroundColor": "#1999b3",
       "posX": 147,

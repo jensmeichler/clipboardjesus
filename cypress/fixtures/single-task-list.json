@@ -3,6 +3,7 @@
   "color": "#131313",
   "taskLists": [
     {
+      "id": "single_task_list_cypress",
       "items": [
         {
           "checked": false,

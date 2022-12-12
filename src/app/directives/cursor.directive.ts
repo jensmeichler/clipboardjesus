@@ -15,7 +15,9 @@ export class CursorDirective {
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(event: any): void {
-    if (this.settings.animationsDisabled) return;
+    if (this.settings.animationsDisabled) {
+      return;
+    }
 
     if (!this.position) {
       this.position = document.getElementById('position')!;
@@ -50,9 +52,9 @@ export class CursorDirective {
 
       this.position!.style.bottom = '0';
       if (elem.style.transform) {
-        const splitted = elem.style.transform.split('(')[1].split(', ');
-        const translateX = CursorDirective.convertPxToInt(splitted[0]);
-        const translateY = CursorDirective.convertPxToInt(splitted[1]);
+        const split = elem.style.transform.split('(')[1].split(', ');
+        const translateX = CursorDirective.convertPxToInt(split[0]);
+        const translateY = CursorDirective.convertPxToInt(split[1]);
         this.setText(`${tag}: { X: ${translateX + posX} | Y: ${translateY + posY} | Z: ${posZ} }`);
       } else {
         this.setText(`${tag}: { X: ${posX} | Y: ${posY} | Z: ${posZ} }`);
