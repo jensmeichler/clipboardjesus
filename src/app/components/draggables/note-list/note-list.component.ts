@@ -161,8 +161,8 @@ export class NoteListComponent implements OnInit {
     this.dataService.cacheData();
   }
 
-  connectTo(item: DraggableNote): void {
-    this.noteList.connectedTo = item.id;
+  connectTo(item: DraggableNote | undefined): void {
+    this.noteList.connectedTo = item?.id;
     this.dataService.cacheData();
   }
 

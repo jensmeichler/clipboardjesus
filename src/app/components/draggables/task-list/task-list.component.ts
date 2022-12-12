@@ -199,8 +199,8 @@ export class TaskListComponent implements OnInit {
     this.dataService.cacheData();
   }
 
-  connectTo(item: DraggableNote): void {
-    this.taskList.connectedTo = item.id;
+  connectTo(item: DraggableNote | undefined): void {
+    this.taskList.connectedTo = item?.id;
     this.dataService.cacheData();
   }
 

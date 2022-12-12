@@ -108,8 +108,8 @@ export class ImageComponent implements OnInit {
     this.dataService.moveImageToTab(index, this.image);
   }
 
-  connectTo(item: DraggableNote): void {
-    this.image.connectedTo = item.id;
+  connectTo(item: DraggableNote | undefined): void {
+    this.image.connectedTo = item?.id;
     this.dataService.cacheData();
   }
 
