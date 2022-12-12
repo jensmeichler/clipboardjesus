@@ -162,7 +162,7 @@
       {{item.source.trim().substring(0, 20)}}
     </button>
   </ng-container>
-  <button (click)="connectTo(undefined)"
+  <button *ngIf="image.connectedTo"  (click)="connectTo(undefined)"
           mat-menu-item [attr.aria-label]="'CONNECT_TO_NOTHING' | translate"
           [style.background]="'#212121'">
     <mat-icon>link_off</mat-icon>

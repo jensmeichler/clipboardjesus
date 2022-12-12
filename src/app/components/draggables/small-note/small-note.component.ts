@@ -36,7 +36,9 @@ export class SmallNoteComponent implements OnInit {
   }
 
   async copy(): Promise<void> {
-    if (!this.note?.content) return;
+    if (!this.note?.content) {
+      return;
+    }
     await this.clipboard.set(this.note.content);
     this.hashy.show('COPIED_TO_CLIPBOARD', 600);
   }
@@ -56,13 +58,17 @@ export class SmallNoteComponent implements OnInit {
   }
 
   delete(): void {
-    if (!this.note || !this.noteList) return;
+    if (!this.note || !this.noteList) {
+      return;
+    }
     this.noteList.notes = this.noteList.notes.filter(x => x !== this.note);
     this.dataService.cacheData();
   }
 
   copyColorFrom(item: Note | TaskList): void {
-    if (!this.note) return;
+    if (!this.note) {
+      return;
+    }
     this.note.backgroundColor = item.backgroundColor;
     this.note.backgroundColorGradient = item.backgroundColorGradient;
     this.note.foregroundColor = item.foregroundColor;
@@ -70,7 +76,9 @@ export class SmallNoteComponent implements OnInit {
   }
 
   showContextMenu(event: MouseEvent): void {
-    if (this.dataService.selectedItemsCount) return;
+    if (this.dataService.selectedItemsCount) {
+      return;
+    }
     event.preventDefault();
     event.stopPropagation();
     this.rightClickPosX = event.clientX;

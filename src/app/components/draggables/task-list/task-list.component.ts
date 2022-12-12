@@ -122,12 +122,16 @@ export class TaskListComponent implements OnInit {
   }
 
   delete(): void {
-    if (!this.canInteract) return;
+    if (!this.canInteract) {
+      return;
+    }
     this.dataService.deleteTaskList(this.taskList);
   }
 
   startEditItem(item: TaskItem): void {
-    if (!this.canInteract) return;
+    if (!this.canInteract) {
+      return;
+    }
     this.itemToEdit = item;
   }
 
@@ -141,7 +145,9 @@ export class TaskListComponent implements OnInit {
   }
 
   toggleSubTask(item: TaskItem): void {
-    if (!this.canInteract) return;
+    if (!this.canInteract) {
+      return;
+    }
     item.isSubTask = !item.isSubTask;
     this.dataService.cacheData();
   }
@@ -168,7 +174,9 @@ export class TaskListComponent implements OnInit {
   }
 
   deleteItem(item: TaskItem): void {
-    if (!this.canInteract) return;
+    if (!this.canInteract) {
+      return;
+    }
     this.taskList.items = this.taskList.items.filter(x => x !== item);
     this.dataService.cacheData();
   }

@@ -27,7 +27,9 @@ export class SettingsService {
   private _alwaysOnTop!: boolean;
   get alwaysOnTop(): boolean { return this._alwaysOnTop; }
   set alwaysOnTop(value: boolean) {
-    if (!isTauri) return;
+    if (!isTauri) {
+      return;
+    }
     this._alwaysOnTop = value;
     (async () => await tauri.appWindow.setAlwaysOnTop(value))();
     if (value) {

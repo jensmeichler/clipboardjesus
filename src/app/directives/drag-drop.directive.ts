@@ -29,7 +29,9 @@ export class DragDropDirective {
 
   @HostListener("dragleave")
   onDragLeave(): void {
-    if (this._hoveredSection === 0) return;
+    if (this._hoveredSection === 0) {
+      return;
+    }
     this._hoveredSection--;
   }
 

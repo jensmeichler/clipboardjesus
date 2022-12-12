@@ -41,7 +41,9 @@ export class CursorDirective {
     let isDraggableNote = false;
 
     event.composedPath().forEach((elem: any) => {
-      if (!['CB-NOTE', 'CB-NOTE-LIST', 'CB-TASK-LIST', 'CB-IMAGE'].includes(elem.tagName)) return;
+      if (!['CB-NOTE', 'CB-NOTE-LIST', 'CB-TASK-LIST', 'CB-IMAGE'].includes(elem.tagName)) {
+        return;
+      }
 
       const tag = elem.tagName.substring(3);
 
@@ -68,14 +70,18 @@ export class CursorDirective {
 
   @HostListener('document:mouseleave')
   onWindowLeave(): void {
-    if (this.settings.animationsDisabled) return;
+    if (this.settings.animationsDisabled) {
+      return;
+    }
 
     this.position!.style.bottom = '-22px';
     this.cursor.style.display = 'none';
   }
 
   private setText(value: string): void {
-    if (value === this.text) return;
+    if (value === this.text) {
+      return;
+    }
     if (this.position) this.position.innerText = value;
     this.text = value;
   }

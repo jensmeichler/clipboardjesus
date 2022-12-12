@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {SaveAsDialogComponent} from "@clipboardjesus/components";
 import {
@@ -21,9 +21,10 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {_blank, isTauri} from "@clipboardjesus/const";
 import {dialog} from "@tauri-apps/api";
 import welcomeTab from '../../assets/screens/welcome.json';
+import {Subject, takeUntil} from "rxjs";
 
 @Injectable({providedIn: 'root'})
-export class DataService {
+export class DataService implements OnDestroy {
   /**
    * @returns '_blank' or '_tauri' according to the platform you are on.
    * */
@@ -46,6 +47,8 @@ export class DataService {
 
   private colorizedObjects: (Note | TaskList | NoteList)[] = [];
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private readonly dialog: MatDialog,
     private readonly hashy: HashyService,
@@ -57,13 +60,9 @@ export class DataService {
     private readonly clipboard: ClipboardService,
     storageService: StorageService
   ) {
-    for (let i = 0; i < 20; i++) {
-      const tab = this.cache.fetch(i);
-      if (tab) {
-        tab.index = i;
-        this.tabs.push(tab);
-      }
-    }
+    cache.getJsonFromAll().forEach((tab) =>
+      this.tabs.push(tab)
+    );
 
     if (!this.tabs.length) {
       this.addWelcomePage();
@@ -72,10 +71,10 @@ export class DataService {
     this._selectedTabIndex = 0;
     this.setColorizedObjects();
 
-    storageService.onTabChanged.subscribe(({tab, index}) =>
+    storageService.onTabChanged.pipe(takeUntil(this.destroy$)).subscribe(({tab, index}) =>
       this.tabs[index] = tab
     );
-    storageService.onTabDeleted.subscribe((index) =>
+    storageService.onTabDeleted.pipe(takeUntil(this.destroy$)).subscribe((index) =>
       this.removeTab(index)
     );
   }
@@ -85,16 +84,18 @@ export class DataService {
    */
   async updateAppTitle(): Promise<void> {
     const appTitle = document.getElementById('title');
-    if (!appTitle) return;
+    if (!appTitle) {
+      return;
+    }
 
     const tab = this.tabs[this._selectedTabIndex];
     const tabName = tab.label ?? `#Board ${this._selectedTabIndex+1}`;
     appTitle.innerText = `Clip#board | ${tabName}`;
 
     await this.router.navigate([], {
-        relativeTo: this.activatedRoute,
-        queryParams: { tab: tab.label ? tabName : (tab.index+1) }
-      });
+      relativeTo: this.activatedRoute,
+      queryParams: { tab: tab.label ? tabName : (tab.index+1) }
+    });
   }
 
   /**
@@ -142,7 +143,9 @@ export class DataService {
   }
 
   private static compareColors(left: Note | TaskList | NoteList, right: Note | TaskList | NoteList): boolean {
-    if (!left || !right) return false;
+    if (!left || !right) {
+      return false;
+    }
     return left.backgroundColor === right.backgroundColor
       && left.backgroundColorGradient === right.backgroundColorGradient
       && left.foregroundColor === right.foregroundColor
@@ -152,7 +155,9 @@ export class DataService {
    * Stores the current tab into the change history and loads the last state of the tab.
    */
   undo(): void {
-    if (!this.cache.undo(this.selectedTabIndex)) return;
+    if (!this.cache.undo(this.selectedTabIndex)) {
+      return;
+    }
     this.tab = this.cache.fetch(this.selectedTabIndex)!;
   }
 
@@ -160,7 +165,9 @@ export class DataService {
    * Stores the current tab into the change history and loads the last undone state of the tab.
    */
   redo(): void {
-    if (!this.cache.redo(this.selectedTabIndex)) return;
+    if (!this.cache.redo(this.selectedTabIndex)) {
+      return;
+    }
     this.tab = this.cache.fetch(this.selectedTabIndex)!;
   }
 
@@ -236,7 +243,9 @@ export class DataService {
 
   async canImportItemsFromClipboard(): Promise<boolean> {
     const clipboardText = await this.clipboard.get();
-    if (!clipboardText) return false;
+    if (!clipboardText) {
+      return false;
+    }
 
     try {
       const tab: Tab = JSON.parse(clipboardText);
@@ -248,7 +257,9 @@ export class DataService {
 
   async importItemsFromClipboard(): Promise<boolean> {
     const clipboardText = await this.clipboard.get();
-    if (!clipboardText) return false;
+    if (!clipboardText) {
+      return false;
+    }
 
     try {
       const tab: Tab = JSON.parse(clipboardText);
@@ -328,8 +339,9 @@ export class DataService {
   }
 
   moveLastTabToFirstPosition(): void {
-    for (let i = this.tabs.length - 1; i; i--)
-    this.reArrangeTab(i, i - 1);
+    for (let i = this.tabs.length - 1; i; i--) {
+      this.reArrangeTab(i, i - 1);
+    }
   }
 
   clearSelection(): void {
@@ -426,7 +438,9 @@ export class DataService {
   }
 
   getAsJson(ignoreSelection?: boolean): Tab {
-    if (ignoreSelection || !this.selectedItemsCount) return this.tab;
+    if (ignoreSelection || !this.selectedItemsCount) {
+      return this.tab;
+    }
     return this.getSelectedItems();
   }
 
@@ -483,7 +497,9 @@ export class DataService {
     const json = this.cache.getJsonFromAll();
     const contents = JSON.stringify(json);
     if (isTauri) {
-      fileName = fileName ? `${fileName.replace('.boards.json', '')}.boards.json` : undefined;
+      fileName = fileName
+        ? `${fileName.replace('.boards.json', '')}.boards.json`
+        : undefined;
       await this.fileAccessService.write(contents, fileName);
     } else {
       const savedAs = this.fileService.save(contents, 'boards.json', fileName);
@@ -582,8 +598,12 @@ export class DataService {
   }
 
   selectNextTab(revert: boolean): void {
-    if (this.selectedTabIndex === 0 && revert) return;
-    if (this.selectedTabIndex === (this.tabs.length - 1) && !revert) return;
+    if (this.selectedTabIndex === 0 && revert) {
+      return;
+    }
+    if (this.selectedTabIndex === (this.tabs.length - 1) && !revert) {
+      return;
+    }
     this.selectedTabIndex = revert ? this.selectedTabIndex - 1 : this.selectedTabIndex + 1;
   }
 
@@ -634,5 +654,10 @@ export class DataService {
     const items = this.getCurrentTabItems();
     const highestIndex = items[items.length - 1]?.posZ;
     return highestIndex ? highestIndex + 1 : 1;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

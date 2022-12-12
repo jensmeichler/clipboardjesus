@@ -60,7 +60,9 @@ export class NoteComponent implements OnInit {
     const renderer = new Renderer();
 
     renderer.link = (href: string | null, title: string | null, text: string) => {
-      if (!title) return `<a href="${href}" target="${_blank}">${text}</a>`;
+      if (!title) {
+        return `<a href="${href}" target="${_blank}">${text}</a>`;
+      }
       return `<a title="${title}" href="${href}" target="${_blank}">${text}</a>`;
     };
     renderer.options.breaks = true;

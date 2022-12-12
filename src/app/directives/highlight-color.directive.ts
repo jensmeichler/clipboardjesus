@@ -40,13 +40,16 @@ export class HighlightColorDirective {
 
   @HostListener('wheel', ['$event'])
   onScroll(event: any): void {
-    if (this.settings.animationsDisabled) return;
-    if (!this.cbHighlightedItem) return;
+    if (this.settings.animationsDisabled || !this.cbHighlightedItem) {
+      return;
+    }
 
     for (let i = 0; i < 10; i++) {
       this._scrollTimeOuts.push(
         setTimeout(() => {
-          if (!this.cbHighlightedItem) return;
+          if (!this.cbHighlightedItem) {
+            return;
+          }
           const scrolled = scrolledPosition();
           this._cursorX = event.pageX - this.cbHighlightedItem.posX + scrolled.left;
           this._cursorY = event.pageY - this.cbHighlightedItem.posY + scrolled.top;
@@ -62,8 +65,9 @@ export class HighlightColorDirective {
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
-    if (this.settings.animationsDisabled) return;
-    if (!this.cbHighlightedItem) return;
+    if (this.settings.animationsDisabled || !this.cbHighlightedItem) {
+      return;
+    }
 
     this._scrollTimeOuts.forEach(timer => clearTimeout(timer));
     this._scrollTimeOuts = [];

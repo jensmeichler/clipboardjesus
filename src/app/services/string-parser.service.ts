@@ -17,7 +17,9 @@ export class StringParserService {
    * @param text The source text.
    */
   convert(text?: string): string {
-    if (!text) return '';
+    if (!text) {
+      return '';
+    }
 
     const placeholder = '{#0#}';
     let linkList: string[] = [];

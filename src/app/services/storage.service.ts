@@ -11,7 +11,9 @@ export class StorageService {
   constructor() {
     window.addEventListener('storage', ({oldValue, newValue, key}) => {
       const indexString = key?.split('_').reverse()[0];
-      if (indexString === undefined) return;
+      if (indexString === undefined) {
+        return;
+      }
       const index = +indexString;
 
       if (newValue) {
@@ -33,7 +35,9 @@ export class StorageService {
   fetchTab(index: number): Tab | undefined {
     const key = `clipboard_data_${index}`;
     const content = localStorage.getItem(key);
-    if (!content) return;
+    if (!content) {
+      return;
+    }
     return JSON.parse(content) as Tab;
   }
 

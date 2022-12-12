@@ -78,9 +78,13 @@ export class NoteListComponent implements OnInit {
   }
 
   async addFromClipboard(): Promise<void> {
-    if (!this.canInteract) return;
+    if (!this.canInteract) {
+      return;
+    }
     const clipboardText = await this.clipboard.get();
-    if (!clipboardText) return;
+    if (!clipboardText) {
+      return;
+    }
     this.noteList.notes.push(new Note(null, 0, 0, clipboardText));
     this.dataService.cacheData();
   }
@@ -90,14 +94,18 @@ export class NoteListComponent implements OnInit {
       width: 'var(--width-edit-dialog)',
       data: new Note(null, 0, 0),
     }).afterClosed().subscribe((addedNote: Note) => {
-      if (!addedNote) return;
+      if (!addedNote) {
+        return;
+      }
       this.noteList.notes.push(addedNote);
       this.dataService.cacheData();
     });
   }
 
   edit(): void {
-    if (!this.canInteract) return;
+    if (!this.canInteract) {
+      return;
+    }
     let noteList = JSON.parse(JSON.stringify(this.noteList));
     this.dialog.open(EditNoteListDialogComponent, {
       width: 'var(--width-edit-dialog)',
@@ -112,7 +120,9 @@ export class NoteListComponent implements OnInit {
   }
 
   delete(): void {
-    if (!this.canInteract) return;
+    if (!this.canInteract) {
+      return;
+    }
     this.dataService.deleteNoteList(this.noteList);
   }
 
@@ -132,12 +142,16 @@ export class NoteListComponent implements OnInit {
   }
 
   editNote(noteToEdit: Note): void {
-    if (!this.canInteract) return;
+    if (!this.canInteract) {
+      return;
+    }
     this.dialog.open(EditNoteDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: {...noteToEdit},
     }).afterClosed().subscribe((editedNote) => {
-      if (!editedNote) return;
+      if (!editedNote) {
+        return;
+      }
       const index = this.noteList.notes.indexOf(noteToEdit);
       this.noteList.notes[index] = editedNote;
       this.dataService.cacheData();
@@ -145,7 +159,9 @@ export class NoteListComponent implements OnInit {
   }
 
   deleteNote(note: Note): void {
-    if (!this.canInteract) return;
+    if (!this.canInteract) {
+      return;
+    }
     this.noteList.notes = this.noteList.notes.filter(x => x !== note);
     this.dataService.cacheData();
   }

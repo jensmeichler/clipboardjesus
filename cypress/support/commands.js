@@ -19,7 +19,9 @@ Cypress.Commands.add('dataCy', (dataCy) => {
 
 // noinspection JSCheckFunctionSignatures
 Cypress.Commands.add('lang', (lang) => {
-  if (lang === 'en') return;
+  if (lang === 'en') {
+    return;
+  }
   window.localStorage.setItem('CB_LANG', lang);
 })
 

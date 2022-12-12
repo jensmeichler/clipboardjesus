@@ -65,7 +65,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(async params => {
-      if (this.initialized) return;
+      if (this.initialized) {
+        return;
+      }
       const tabIndex = params['tab'];
       const sharedTab = params['params'];
 
@@ -253,7 +255,9 @@ export class AppComponent implements OnInit {
       }]
     };
     return dialog.open(options).then(async (path) => {
-      if (typeof path !== 'string') return;
+      if (typeof path !== 'string') {
+        return;
+      }
 
       const contents = await this.fileAccessService.read(path);
       if (contents) {

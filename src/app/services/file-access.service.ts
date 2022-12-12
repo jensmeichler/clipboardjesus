@@ -20,7 +20,9 @@ export class FileAccessService {
    * @returns The file contents as string or undefined if __TAURI__ was not provided
    */
   async read(path: string): Promise<string | undefined> {
-    if (!isTauri) return;
+    if (!isTauri) {
+      return;
+    }
     try {
       const contents = await fs.readTextFile(path);
       this.settings.lastLoadedFilePath = path;
@@ -37,7 +39,9 @@ export class FileAccessService {
    * @returns {false} if __TAURI__ is not specified or save file was not done successfully
    */
   async write(contents: string, path?: string): Promise<boolean> {
-    if (!isTauri) return false;
+    if (!isTauri) {
+      return false;
+    }
     path ??= this.settings.lastLoadedFilePath;
     if (!path) {
       return false;
