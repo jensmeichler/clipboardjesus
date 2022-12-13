@@ -8,22 +8,42 @@
 
 .note-connection {
   position: absolute;
-  animation: connection-animation ease-in-out .6s;
+  animation: connection-animation cubic-bezier(0.21, 0.88, 0.58, 1.2) .4s;
 
-  border-left: 3px solid var(--color-primary);
+  border-left-width: 3px;
+  border-left-style: solid;
+  border-left-color: var(--color-primary);
+  &.highlight {
+    border-left-color: var(--color-secondary);
+
+    // The highlighted line should cover the non highlighted
+    z-index: 1;
+  }
+
   &.top-left-to-bottom-right {
-    border-bottom: 3px solid var(--color-primary);
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+    border-bottom-color: var(--color-primary);
+    &.highlight {
+      border-bottom-color: var(--color-secondary);
+    }
     border-bottom-left-radius: var(--border-radius);
   }
+
   &.bottom-left-to-top-right {
-    border-top: 3px solid var(--color-primary);
+    border-top-width: 3px;
+    border-top-style: solid;
+    border-top-color: var(--color-primary);
+    &.highlight {
+      border-top-color: var(--color-secondary);
+    }
     border-top-left-radius: var(--border-radius);
   }
 }
 
 .note-bubble {
   position: absolute;
-  animation: connection-animation ease-in-out .6s;
+  animation: connection-animation ease-in-out .2s;
 
   height: 9px;
   width: 9px;
@@ -32,6 +52,9 @@
   border-radius: 50%;
 
   background: var(--color-primary);
+  &.highlight {
+    background: var(--color-secondary);
+  }
 }
 
 @keyframes connection-animation {
