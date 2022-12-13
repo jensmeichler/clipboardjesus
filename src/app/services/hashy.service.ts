@@ -23,8 +23,21 @@ export class HashyService {
    * @param dismissAction The action that will be called if the snackbar expires
    * (after the amount of {@link milliseconds} exceeded).
    */
-  show(text: string, milliseconds: number, button?: string, buttonAction?: Function, dismissAction?: Function): void {
-    combineLatest([this.translate.get(text), button ? this.translate.get(button) : of(undefined)])
+  show(
+    text: string | { text: string, interpolateParams: Object },
+    milliseconds: number,
+    button?: string,
+    buttonAction?: Function,
+    dismissAction?: Function
+  ): void {
+    const hasParams = typeof text !== 'string';
+    const snackbarText = hasParams ? text.text : text;
+    const interpolateParams = hasParams ? text.interpolateParams : undefined;
+
+    combineLatest([
+      this.translate.get(snackbarText, interpolateParams),
+      button ? this.translate.get(button) : of(undefined)
+    ])
       .subscribe(([translatedText, translatedButton]) => {
         this.showHashy.next(true);
 

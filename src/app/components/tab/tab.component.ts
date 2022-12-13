@@ -90,8 +90,7 @@ export class TabComponent {
         if (!this.settings.dblClickMode) {
           const clipboardText = await this.clipboard.get();
           if (!clipboardText) {
-            //TODO: localize
-            this.hashy.show('Your clipboard is empty', 3000);
+            this.hashy.show('CLIPBOARD_EMPTY', 3000);
           } else {
             this.dataService.addNote(
               new Note(null, event.pageX, event.pageY, clipboardText)
@@ -101,8 +100,7 @@ export class TabComponent {
           if (this.clickedLast200ms) {
             const clipboardText = await this.clipboard.get();
             if (!clipboardText) {
-              //TODO: localize
-              this.hashy.show('Your clipboard is empty', 3000);
+              this.hashy.show('CLIPBOARD_EMPTY', 3000);
             } else {
               this.dataService.addNote(
                 new Note(null, event.pageX, event.pageY, clipboardText)
@@ -163,8 +161,11 @@ export class TabComponent {
           this.dataService.addNote(new Note(null, posX, posY, text, file.name));
         })
       } else {
-        //TODO: localize
-        this.hashy.show('Type ' + file.type.toUpperCase() + ' is not supported', 4000, 'OK');
+        this.hashy.show(
+          {text: 'FILE_TYPE_NOT_SUPPORTED', interpolateParams: {type: file.type.toUpperCase()}},
+          4000,
+          'OK'
+        );
       }
     } else if (data?.kind === 'string') {
       const draggedUrl = event.dataTransfer?.getData('text/uri-list');

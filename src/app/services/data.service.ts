@@ -503,8 +503,11 @@ export class DataService implements OnDestroy {
       await this.fileAccessService.write(contents, fileName);
     } else {
       const savedAs = this.fileService.save(contents, 'boards.json', fileName);
-      //TODO: localize
-      this.hashy.show('Saved all tabs as ' + savedAs, 3000, 'OK');
+      this.hashy.show(
+        {text: 'SAVED_TABS_AS', interpolateParams: {savedAs}},
+        3000,
+        'OK'
+      );
     }
   }
 
@@ -512,8 +515,11 @@ export class DataService implements OnDestroy {
     const json = this.getAsJson();
     this.removeAllSelections();
     const savedAs = this.fileService.save(JSON.stringify(json), 'notes.json', filename);
-    //TODO: localize
-    this.hashy.show('Saved as ' + savedAs, 3000, 'OK');
+    this.hashy.show(
+      {text: 'SAVED_TAB_AS', interpolateParams: {savedAs}},
+      3000,
+      'OK'
+    );
     this.cacheData();
   }
 
