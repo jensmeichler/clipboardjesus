@@ -5,5 +5,4 @@ import {Component} from '@angular/core';
   templateUrl: './hashy.component.html',
   styleUrls: ['./hashy.component.scss']
 })
-export class HashyComponent {
-}
+export class HashyComponent {}

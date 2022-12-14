@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
 import {getTimeStamp} from "@clipboardjesus/const";
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root',
+})
 export class FileService {
   /**
    * Saves the content into the download folder of the user.
@@ -16,6 +18,12 @@ export class FileService {
     return filename;
   }
 
+  /**
+   * Starts the download of the given content into the download folder of the user.
+   * @param content
+   * @param filename
+   * @private
+   */
   private static saveText(content: string, filename: string): void {
     const a = document.createElement("a");
     const blob = new Blob([content], {type: "application/json"});

@@ -23,7 +23,9 @@ import welcomeTab from '../../assets/screens/welcome.json';
 import {Subject, takeUntil} from "rxjs";
 import {Location} from '@angular/common';
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root',
+})
 export class DataService implements OnDestroy {
   /**
    * @returns '_blank' or '_tauri' according to the platform you are on.
@@ -107,6 +109,9 @@ export class DataService implements OnDestroy {
       + (this.tab.noteLists?.length ?? 0);
   }
 
+  /**
+   * @returns The total count of all items on the currently selected tab which are selected.
+   */
   get selectedItemsCount(): number {
     return (this.tab.notes?.filter(x => x.selected).length ?? 0)
       + (this.tab.taskLists?.filter(x => x.selected).length ?? 0)
@@ -178,22 +183,43 @@ export class DataService implements OnDestroy {
     if (recreatedTab) this.addTab(recreatedTab);
   }
 
-  getColorizedObjects(excludedItem: Note | TaskList): (Note | TaskList)[] {
+  /**
+   * Gets all draggable items where the user can specify a background color.
+   * This method is mainly used get colors which can be copied to another item.
+   * @param excludedItem
+   */
+  getColorizedObjects(excludedItem: Note | TaskList | NoteList): (Note | TaskList | NoteList)[] {
     return this.colorizedObjects.filter(item => !DataService.compareColors(excludedItem, item));
   }
 
+  /**
+   * Sets the selected property to {@link true} for all selectable items.
+   * __Will just be applied for the currently selected tab!__
+   */
   selectAll(): void {
     this.editAllItems(item => item.selected = true);
   }
 
+  /**
+   * Sets the selected property to {@link undefined} for all selectable items.
+   * __Will just be applied for the currently selected tab!__
+   */
   removeAllSelections(): void {
     this.editAllItems(item => item.selected = undefined);
   }
 
+  /**
+   * Applies the provided action to all items on the currently selected tab.
+   * @param action
+   */
   editAllSelectedItems(action: (item: DraggableNote) => void): void {
     this.editAllItems(x => x.selected ? action(x) : {})
   }
 
+  /**
+   * Executes the provided {@link action} for all draggable items of the currently selected tab.
+   * @param action
+   */
   editAllItems(action: (item: DraggableNote) => void): void {
     this.tab.notes?.forEach(action);
     this.tab.taskLists?.forEach(action);
@@ -201,18 +227,30 @@ export class DataService implements OnDestroy {
     this.tab.noteLists?.forEach(action);
   }
 
-  filterAllItems(action: (item: DraggableNote) => boolean): void {
-    this.tab.notes = this.tab.notes?.filter(action);
-    this.tab.taskLists = this.tab.taskLists?.filter(action);
-    this.tab.images = this.tab.images?.filter(action);
-    this.tab.noteLists = this.tab.noteLists?.filter(action);
+  /**
+   * Removes all items from the currently selected tab which do not meet the provided {@link condition}.
+   * @param condition
+   */
+  filterAllItems(condition: (item: DraggableNote) => boolean): void {
+    this.tab.notes = this.tab.notes?.filter(condition);
+    this.tab.taskLists = this.tab.taskLists?.filter(condition);
+    this.tab.images = this.tab.images?.filter(condition);
+    this.tab.noteLists = this.tab.noteLists?.filter(condition);
   }
 
+  /**
+   * Save the tab and update the change history.
+   * Updates the colorized objects array.
+   */
   cacheData(): void {
     this.cache.save(this.selectedTabIndex, this.getAsJson(true));
     this.setColorizedObjects();
   }
 
+  /**
+   * Save all tabs and update the change history for each.
+   * Updates the colorized objects array.
+   */
   cacheAllData(): void {
     const currentTabIndex = this.selectedTabIndex;
     this.tabs.forEach(tab => {
@@ -223,8 +261,15 @@ export class DataService implements OnDestroy {
     this.setColorizedObjects();
   }
 
+  /**
+   * Adds a new tab at the end and navigates towards it.
+   * The provided index of the tab will be overwritten.
+   * @param tab
+   */
   addTab(tab?: Tab): void {
-    if (tab) tab.index = this.tabs.length;
+    if (tab) {
+      tab.index = this.tabs.length;
+    }
     const newTab: Tab = tab ?? {
       index: this.tabs.length,
       color: '#131313'
@@ -234,12 +279,19 @@ export class DataService implements OnDestroy {
     this.selectedTabIndex = newTab.index;
   }
 
+  /**
+   * Applies the welcome page from the welcome page json.
+   * Replaces a tutorial for the app.
+   */
   addWelcomePage(): void {
     this._selectedTabIndex = 0;
     this.tab = welcomeTab;
     this.cache.save(0, welcomeTab);
   }
 
+  /**
+   * @returns Whether the clipboard contains text which can be parsed to draggable items.
+   */
   async canImportItemsFromClipboard(): Promise<boolean> {
     const clipboardText = await this.clipboard.get();
     if (!clipboardText) {
@@ -254,6 +306,11 @@ export class DataService implements OnDestroy {
     }
   }
 
+  /**
+   * Imports all draggable items which can be parsed from the clipboard of the user.
+   * If the clipboard is not parsable to a tab then a note with the clipboard text will be created.
+   * __This method can cost some performance, so be carefully using it.__
+   */
   async importItemsFromClipboard(): Promise<boolean> {
     const clipboardText = await this.clipboard.get();
     if (!clipboardText) {
@@ -274,6 +331,10 @@ export class DataService implements OnDestroy {
     return true;
   }
 
+  /**
+   * Sets the correct index property for all tabs.
+   * @private
+   */
   private rearrangeTabIndices(): void {
     let i = 0;
     this.tabs.forEach(tab => tab.index = i++);
@@ -343,16 +404,25 @@ export class DataService implements OnDestroy {
     }
   }
 
+  /**
+   * Removes the selection of all items on the currently selected tab.
+   */
   clearSelection(): void {
     this.editAllItems(item => item.selected = false);
     this.cacheData();
   }
 
+  /**
+   * Deletes all selected items on the currently selected tab.
+   */
   deleteSelectedItems(): void {
     this.filterAllItems(item => !item.selected)
     this.cacheData();
   }
 
+  /**
+   * Removes all tabs and creates a fresh new one.
+   */
   clearCache(): void {
     for (let i = 0; i < 20; i++) {
       this.cache.remove(i);
@@ -362,6 +432,10 @@ export class DataService implements OnDestroy {
     this.addTab();
   }
 
+  /**
+   * Adds the provided {@link note} to the tab.
+   * @param note
+   */
   addNote(note: Note): void {
     this.defineIndex(note);
     this.tab.notes ??= [];
@@ -369,6 +443,10 @@ export class DataService implements OnDestroy {
     this.cacheData();
   }
 
+  /**
+   * Adds the provided {@link noteList} to the tab.
+   * @param noteList
+   */
   addNoteList(noteList: NoteList): void {
     this.defineIndex(noteList);
     this.tab.noteLists ??= [];
@@ -376,6 +454,10 @@ export class DataService implements OnDestroy {
     this.cacheData();
   }
 
+  /**
+   * Adds the provided {@link taskList} to the tab.
+   * @param taskList
+   */
   addTaskList(taskList: TaskList): void {
     this.defineIndex(taskList);
     this.tab.taskLists ??= [];
@@ -383,6 +465,10 @@ export class DataService implements OnDestroy {
     this.cacheData();
   }
 
+  /**
+   * Adds the provided {@link image} to the tab.
+   * @param image
+   */
   addImage(image: Image): void {
     this.defineIndex(image);
     this.tab.images ??= [];
@@ -390,6 +476,12 @@ export class DataService implements OnDestroy {
     this.cacheData();
   }
 
+  /**
+   * Deletes the provided {@link note} and removes all connections from other items.
+   * @param note
+   * @param skipIndexing Use this property when you do not want the indexes to be calculated again.
+   *  This is sometimes needed when you want to replace a {@link Note}.
+   */
   deleteNote(note: Note, skipIndexing?: boolean): void {
     this.disconnectAll(note);
     this.tab.notes = this.tab.notes?.filter(x => x !== note);
@@ -399,6 +491,12 @@ export class DataService implements OnDestroy {
     }
   }
 
+  /**
+   * Deletes the provided {@link taskList} and removes all connections from other items.
+   * @param taskList
+   * @param skipIndexing Use this property when you do not want the indexes to be calculated again.
+   *  This is sometimes needed when you want to replace a {@link TaskList}.
+   */
   deleteTaskList(taskList: TaskList, skipIndexing?: boolean): void {
     this.disconnectAll(taskList);
     this.tab.taskLists = this.tab.taskLists?.filter(x => x !== taskList);
@@ -408,6 +506,12 @@ export class DataService implements OnDestroy {
     }
   }
 
+  /**
+   * Deletes the provided {@link noteList} and removes all connections from other items.
+   * @param noteList
+   * @param skipIndexing Use this property when you do not want the indexes to be calculated again.
+   *  This is sometimes needed when you want to replace a {@link NoteList}.
+   */
   deleteNoteList(noteList: NoteList, skipIndexing?: boolean): void {
     this.disconnectAll(noteList);
     this.tab.noteLists = this.tab.noteLists?.filter(x => x !== noteList);
@@ -417,6 +521,10 @@ export class DataService implements OnDestroy {
     }
   }
 
+  /**
+   * Deletes the provided {@link image} and removes all connections from other items.
+   * @param image
+   */
   deleteImage(image: Image): void {
     this.disconnectAll(image);
     this.tab.images = this.tab.images?.filter(x => x !== image);
@@ -424,6 +532,10 @@ export class DataService implements OnDestroy {
     this.cacheData();
   }
 
+  /**
+   * Clones the tab with just the selected items on it.
+   * @returns A clone of the currently selected tab with the currently selected items from that.
+   */
   getSelectedItems(): Tab {
     const tab = JSON.parse(JSON.stringify(this.tab)) as Tab;
 
@@ -440,6 +552,11 @@ export class DataService implements OnDestroy {
     return tab;
   }
 
+  /**
+   * Gets the currently selected items if any is selected.
+   * If nothing is selected it gets the complete tab.
+   * @param ignoreSelection
+   */
   getAsJson(ignoreSelection?: boolean): Tab {
     if (ignoreSelection || !this.selectedItemsCount) {
       return this.tab;
@@ -447,6 +564,11 @@ export class DataService implements OnDestroy {
     return this.getSelectedItems();
   }
 
+  /**
+   * Sets all items from the provided {@link tab} onto the currently selected tab.
+   * @param tab
+   * @param skipCache
+   */
   setFromTabJson(tab: Partial<Tab>, skipCache?: boolean): void {
     tab.notes?.forEach(note => {
       this.tab.notes ??= [];
@@ -473,10 +595,16 @@ export class DataService implements OnDestroy {
       }
     });
 
-    if (!skipCache) this.cacheData();
+    if (!skipCache) {
+      this.cacheData();
+    }
     this.reArrangeIndices();
   }
 
+  /**
+   * Opens the save as dialog where the user can specify the filename.
+   * In the desktop version this will open an open-file-dialog.
+   */
   async saveAllAs(): Promise<void> {
     if (isTauri) {
       return dialog.save().then(async (path) => {
@@ -491,11 +619,17 @@ export class DataService implements OnDestroy {
           right: 'var(--margin-edge)'
         }
       }).afterClosed().subscribe(async (filename) => {
-        if (filename) await this.saveAll(filename);
+        if (filename) {
+          await this.saveAll(filename);
+        }
       });
     }
   }
 
+  /**
+   * Saves all tabs into a json file (*.boards.json) and downloads that file.
+   * @param fileName
+   */
   async saveAll(fileName?: string): Promise<void> {
     const json = this.cache.getJsonFromAll();
     const contents = JSON.stringify(json);
@@ -503,7 +637,15 @@ export class DataService implements OnDestroy {
       fileName = fileName
         ? `${fileName.replace('.boards.json', '')}.boards.json`
         : undefined;
-      await this.fileAccessService.write(contents, fileName);
+      if (await this.fileAccessService.write(contents, fileName)) {
+        this.hashy.show(
+          {text: 'SAVED_TABS_AS', interpolateParams: {savedAs: fileName}},
+          5000,
+          'OK'
+        );
+      } else {
+        console.error(`Unable to access ${fileName}.`)
+      }
     } else {
       const savedAs = this.fileService.save(contents, 'boards.json', fileName);
       this.hashy.show(
@@ -514,6 +656,10 @@ export class DataService implements OnDestroy {
     }
   }
 
+  /**
+   * Saves the current tab (Or the currently selected items) into the download folder of the user.
+   * @param filename
+   */
   saveTabOrSelection(filename?: string): void {
     const json = this.getAsJson();
     this.removeAllSelections();
@@ -526,26 +672,48 @@ export class DataService implements OnDestroy {
     this.cacheData();
   }
 
+  /**
+   * Set the z-index of the provided {@link item} to the highest value among items on the tab.
+   * @param item
+   */
   bringToFront(item: DraggableNote): void {
     item.posZ = this.getNextIndex();
     this.reArrangeIndices();
   }
 
+  /**
+   * Set the z-index of the provided {@link item} to next value and update the other items.
+   * @param item
+   */
   bringForward(item: DraggableNote): void {
     item.posZ! += 1.5;
     this.reArrangeIndices();
   }
 
+  /**
+   * Set the z-index of the provided {@link item} to value before and update the other items.
+   * @param item
+   */
   sendBackward(item: DraggableNote): void {
     item.posZ! -= 1.5;
     this.reArrangeIndices();
   }
 
+  /**
+   * Set the z-index of the provided {@link item} to the lowest value among items on the tab.
+   * @param item
+   */
   flipToBack(item: DraggableNote): void {
     item.posZ = 0;
     this.reArrangeIndices();
   }
 
+  /**
+   * Removes the provided {@link note} from the current tab
+   * and creates it on the tab with the specified {@link index}.
+   * @param index
+   * @param note
+   */
   moveNoteToTab(index: number, note: Note): void {
     const otherTab = this.cache.fetch(index)!;
     otherTab.notes ??= [];
@@ -555,6 +723,12 @@ export class DataService implements OnDestroy {
     this.tabs[index] = otherTab;
   }
 
+  /**
+   * Removes the provided {@link noteList} from the current tab
+   * and creates it on the tab with the specified {@link index}.
+   * @param index
+   * @param noteList
+   */
   moveNoteListToTab(index: number, noteList: NoteList): void {
     const otherTab = this.cache.fetch(index)!;
     otherTab.noteLists ??= [];
@@ -564,6 +738,12 @@ export class DataService implements OnDestroy {
     this.tabs[index] = otherTab;
   }
 
+  /**
+   * Removes the provided {@link taskList} from the current tab
+   * and creates it on the tab with the specified {@link index}.
+   * @param index
+   * @param taskList
+   */
   moveTaskListToTab(index: number, taskList: TaskList): void {
     const otherTab = this.cache.fetch(index)!;
     otherTab.taskLists ??= [];
@@ -573,6 +753,12 @@ export class DataService implements OnDestroy {
     this.tabs[index] = otherTab;
   }
 
+  /**
+   * Removes the provided {@link image} from the current tab
+   * and creates it on the tab with the specified {@link index}.
+   * @param index
+   * @param image
+   */
   moveImageToTab(index: number, image: Image): void {
     const otherTab = this.cache.fetch(index)!;
     otherTab.images ??= [];
@@ -582,6 +768,9 @@ export class DataService implements OnDestroy {
     this.tabs[index] = otherTab;
   }
 
+  /**
+   * Sets the colorized objects array for the currently selected tab.
+   */
   setColorizedObjects(): void {
     this.colorizedObjects = [];
     this.tab.notes?.forEach(note => {
@@ -606,6 +795,10 @@ export class DataService implements OnDestroy {
     });
   }
 
+  /**
+   * Go to the next tab.
+   * @param revert
+   */
   selectNextTab(revert: boolean): void {
     if (this.selectedTabIndex === 0 && revert) {
       return;
@@ -616,6 +809,10 @@ export class DataService implements OnDestroy {
     this.selectedTabIndex = revert ? this.selectedTabIndex - 1 : this.selectedTabIndex + 1;
   }
 
+  /**
+   * Select the next draggable item.
+   * @param revert
+   */
   selectNextItem(revert: boolean): void {
     const selectables: DraggableNote[] = this.getCurrentTabItems();
 
@@ -650,6 +847,11 @@ export class DataService implements OnDestroy {
     ].sort((a, b) => (a.posZ ?? 0) - (b.posZ ?? 0))
   }
 
+  /**
+   * Gets a draggable note via the provided {@link id}.
+   * @param id
+   * @returns {@link undefined} if not existing.
+   */
   getCurrentTabItem(id: string): DraggableNote | undefined {
     return this.getCurrentTabItems().find(x => x.id === id);
   }
@@ -685,6 +887,11 @@ export class DataService implements OnDestroy {
     else to.connectedTo = to.connectedTo!.filter(id => id !== from.id);
   }
 
+  /**
+   * Removes all connections from the given {@link target}
+   * and the connections from other items towards it.
+   * @param target
+   */
   disconnectAll(target: DraggableNote): void {
     target.connectedTo?.forEach(id => {
       const item = this.getCurrentTabItem(id);
@@ -696,15 +903,28 @@ export class DataService implements OnDestroy {
     this.cacheData();
   }
 
+  /**
+   * Sets the z-index of the provided {@link item} to the next free index.
+   * @param item
+   * @private
+   */
   private defineIndex(item: DraggableNote): void {
     item.posZ ??= this.getNextIndex();
   }
 
+  /**
+   * Recalculates the z-index for all items of the currently selected tab.
+   * @private
+   */
   private reArrangeIndices(): void {
     let i = 1;
     this.getCurrentTabItems().forEach(item => item.posZ = i++);
   }
 
+  /**
+   * @returns The next free index.
+   * @private
+   */
   private getNextIndex(): number {
     const items = this.getCurrentTabItems();
     const highestIndex = items[items.length - 1]?.posZ;

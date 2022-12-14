@@ -3,10 +3,11 @@ import {Clipboard} from "@angular/cdk/clipboard";
 import {isTauri} from "@clipboardjesus/const";
 import {clipboard} from "@tauri-apps/api";
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root',
+})
 export class ClipboardService {
-  constructor(private readonly clipboard: Clipboard) {
-  }
+  constructor(private readonly clipboard: Clipboard) {}
 
   /**
    * Copies the provided text to the clipboard.

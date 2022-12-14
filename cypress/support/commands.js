@@ -22,7 +22,7 @@ Cypress.Commands.add('lang', (lang) => {
   if (lang === 'en') {
     return;
   }
-  window.localStorage.setItem('CB_LANG', lang);
+  window.localStorage.setItem('clipboard_lang', lang);
 })
 
 // noinspection JSCheckFunctionSignatures

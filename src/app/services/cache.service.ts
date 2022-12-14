@@ -2,7 +2,9 @@ import {Injectable} from '@angular/core';
 import {Tab} from "@clipboardjesus/models";
 import {RedoService, StorageService} from "@clipboardjesus/services";
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root',
+})
 export class CacheService {
   redoPossible = this.redoService.redoPossible;
   undoPossible = this.redoService.undoPossible;
@@ -10,8 +12,8 @@ export class CacheService {
 
   constructor(
     private readonly redoService: RedoService,
-    private readonly storageService: StorageService) {
-  }
+    private readonly storageService: StorageService
+  ) {}
 
   /**
    * Read the last state of the tab and write it into the localstorage.

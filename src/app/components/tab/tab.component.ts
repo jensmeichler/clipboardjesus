@@ -13,7 +13,6 @@ import {CdkDragEnd} from "@angular/cdk/drag-drop";
 export class TabComponent {
   @Input() tab?: Tab;
 
-
   startCursorPosX = 0;
   startCursorPosY = 0;
   endCursorPosX = 0;
@@ -33,6 +32,11 @@ export class TabComponent {
     this.mouseMoveEvent = this.onMouseMove.bind(this);
   }
 
+  /**
+   * Sets the properties which are needed to show the selection border.
+   * Also attaches the mouse move event listener to update the border.
+   * @param event
+   */
   onMouseDown(event: MouseEvent): void {
     if (!this.mouseDown) {
       if (event.button === 0) {
@@ -47,11 +51,21 @@ export class TabComponent {
     }
   }
 
+  /**
+   * Updates the cursor position.
+   * Just runs, when the user is dragging on the background.
+   * @param event
+   */
   onMouseMove(event: MouseEvent): void {
     this.endCursorPosX = event.pageX;
     this.endCursorPosY = event.pageY;
   }
 
+  /**
+   * When the user made a border around any item, set the selected property for this.
+   * Includes some extra logic when the user for example pressed some modifiers while dragging.
+   * @param event
+   */
   async onMouseUp(event: MouseEvent): Promise<void> {
     const cursorMoved = this.mouseDown && (Math.abs(event.pageX - this.startCursorPosX) > 5
       || Math.abs(event.pageY - this.startCursorPosY) > 5);
@@ -109,6 +123,11 @@ export class TabComponent {
     this.resetCursors();
   }
 
+  /**
+   * Add any file that is dropped onto the app.
+   * Create notes when it was a text file, import file when it was a notes.json, etc.
+   * @param event
+   */
   dropFile(event: DragEvent): void {
     const posX = event.pageX;
     const posY = event.pageY;
@@ -170,6 +189,12 @@ export class TabComponent {
     }
   }
 
+  /**
+   * When the user has moved a draggable, save the position of it.
+   * When the user has more than on item selected, move all these.
+   * @param event
+   * @param item
+   */
   saveItemPosition(event: CdkDragEnd, item: DraggableNote): void {
     event.source._dragRef.reset();
 
@@ -206,6 +231,10 @@ export class TabComponent {
     this.resetCursors();
   }
 
+  /**
+   * Reset the cursor properties which were needed for drawing a selection border.
+   * @private
+   */
   private resetCursors(): void {
     this.startCursorPosX = 0;
     this.startCursorPosY = 0;

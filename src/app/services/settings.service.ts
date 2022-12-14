@@ -6,7 +6,9 @@ import {isTauri} from "@clipboardjesus/const";
 const TRUE = 'True';
 type Font = 'Victor Mono' | 'Roboto';
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root',
+})
 export class SettingsService {
   isTauri: boolean;
   isWindows: boolean;
@@ -15,13 +17,13 @@ export class SettingsService {
   isBeta: boolean;
 
   private storageKeys = {
-    animationsDisabled: 'CB_DISABLE_ANIMATIONS',
-    language: 'CB_LANG',
-    fontFamily: 'CB_FONT_FAMILY',
-    fontStyle: 'CB_FONT_STYLE',
-    lastLoadedFile: 'CB_LAST_LOADED_FILE',
-    alwaysOnTop: 'CB_ALWAYS_ON_TOP',
-    dblClickMode: 'CB_DBL_CLICK_MODE',
+    animationsDisabled: 'clipboard_disable_animations',
+    language: 'clipboard_lang',
+    fontFamily: 'clipboard_font_family',
+    fontStyle: 'clipboard_font_style',
+    lastLoadedFile: 'clipboard_last_loaded_file',
+    alwaysOnTop: 'clipboard_always_on_top',
+    dblClickMode: 'clipboard_dbl_click_mode',
   };
 
   private _alwaysOnTop!: boolean;

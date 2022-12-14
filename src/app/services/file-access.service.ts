@@ -4,13 +4,14 @@ import {HashyService, SettingsService} from "@clipboardjesus/services";
 import {isTauri} from "@clipboardjesus/const";
 import {fs} from "@tauri-apps/api";
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root',
+})
 export class FileAccessService {
   constructor(
     private readonly hashy: HashyService,
     private readonly settings: SettingsService
-  ) {
-  }
+  ) {}
 
   /**
    * Reads the file contents from the given Path.
@@ -50,7 +51,6 @@ export class FileAccessService {
     const file: FsTextFileOption = {path, contents};
     try {
       await fs.writeFile(file);
-      this.hashy.show(`Saved as ${file.path}`, 5000, 'OK');
       return true;
     } catch {
       return false;

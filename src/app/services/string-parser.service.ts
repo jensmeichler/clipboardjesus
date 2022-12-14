@@ -1,7 +1,9 @@
 import {Injectable} from '@angular/core';
 import {_blank, hyperlinkRegex} from '@clipboardjesus/const';
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root',
+})
 export class StringParserService {
   /**
    * Determines whether the text contains an accessible link.

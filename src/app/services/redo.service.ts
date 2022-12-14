@@ -3,7 +3,9 @@ import {Tab} from "@clipboardjesus/models";
 import {BehaviorSubject, Subject, takeUntil} from "rxjs";
 import {StorageService} from "@clipboardjesus/services/storage.service";
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root',
+})
 export class RedoService implements OnDestroy {
   possibleUndos: Tab[][] = [];
   possibleRedos: Tab[][] = [];

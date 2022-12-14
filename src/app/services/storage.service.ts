@@ -3,7 +3,9 @@ import {Tab} from "@clipboardjesus/models";
 
 export const TAB_DELETION_FLAG = 'tab_deletion_from_other_tab';
 
-@Injectable({providedIn: 'root'})
+@Injectable({
+  providedIn: 'root',
+})
 export class StorageService {
   onTabChanged = new EventEmitter<{tab: Tab, index: number}>();
   onTabDeleted = new EventEmitter<number>();
