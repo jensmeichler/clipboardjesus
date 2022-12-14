@@ -27,8 +27,9 @@ export class ImageComponent implements OnInit {
   constructor(
     private readonly hashy: HashyService,
     private readonly clipboard: ClipboardService,
-    public readonly dataService: DataService
-  ) {}
+    public readonly dataService: DataService,
+  ) {
+  }
 
   ngOnInit(): void {
     if (!this.image) {

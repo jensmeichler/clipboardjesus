@@ -27,8 +27,9 @@ export class TaskListComponent implements OnInit {
   constructor(
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
-    public readonly stringParser: StringParserService
-  ) {}
+    public readonly stringParser: StringParserService,
+  ) {
+  }
 
   ngOnInit(): void {
     if (!this.taskList) {

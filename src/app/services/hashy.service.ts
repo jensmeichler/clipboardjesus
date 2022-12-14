@@ -12,8 +12,9 @@ export class HashyService {
   constructor(
     private readonly snackBar: MatSnackBar,
     private readonly appRef: ApplicationRef,
-    private readonly translate: TranslateService
-  ) {}
+    private readonly translate: TranslateService,
+  ) {
+  }
 
   /**
    * Opens a snackbar in the bottom left corner of the app.

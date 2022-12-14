@@ -20,7 +20,7 @@ export class EditTabDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<EditTabDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Tab,
-    public readonly dataService: DataService
+    public readonly dataService: DataService,
   ) {
     this.notesCount = dataService.tab.notes?.length.toString() ?? '0';
     this.noteListsCount = dataService.tab.noteLists?.length.toString() ?? '0';

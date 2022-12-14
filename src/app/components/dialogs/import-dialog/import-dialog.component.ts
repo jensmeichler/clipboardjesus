@@ -12,7 +12,8 @@ export class ImportDialogComponent {
   constructor(
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: string,
     private readonly bottomSheetRef: MatBottomSheetRef<ImportDialogComponent>,
-    private readonly dataService: DataService) {
+    private readonly dataService: DataService,
+  ) {
   }
 
   import(): void {

@@ -7,7 +7,8 @@ import {clipboard} from "@tauri-apps/api";
   providedIn: 'root',
 })
 export class ClipboardService {
-  constructor(private readonly clipboard: Clipboard) {}
+  constructor(private readonly clipboard: Clipboard) {
+  }
 
   /**
    * Copies the provided text to the clipboard.

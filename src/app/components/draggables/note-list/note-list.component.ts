@@ -25,8 +25,9 @@ export class NoteListComponent implements OnInit {
   constructor(
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
-    private readonly clipboard: ClipboardService
-  ) {}
+    private readonly clipboard: ClipboardService,
+  ) {
+  }
 
   ngOnInit(): void {
     if (!this.noteList) {

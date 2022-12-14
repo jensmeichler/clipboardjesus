@@ -23,8 +23,9 @@ export class SmallNoteComponent implements OnInit {
     private readonly hashy: HashyService,
     private readonly dialog: MatDialog,
     private readonly clipboard: ClipboardService,
-    public readonly dataService: DataService
-  ) {}
+    public readonly dataService: DataService,
+  ) {
+  }
 
   ngOnInit(): void {
     if (!this.note) {

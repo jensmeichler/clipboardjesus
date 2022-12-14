@@ -37,7 +37,8 @@ export class NoteComponent implements OnInit {
     private readonly hashy: HashyService,
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
-  ) {}
+  ) {
+  }
 
   get canInteract(): boolean {
     return this.movedPx < 5;
