@@ -17,11 +17,11 @@ import {
   ClipboardService,
   StorageService
 } from "@clipboardjesus/services";
-import {ActivatedRoute, Router} from "@angular/router";
 import {_blank, isTauri} from "@clipboardjesus/const";
 import {dialog} from "@tauri-apps/api";
 import welcomeTab from '../../assets/screens/welcome.json';
 import {Subject, takeUntil} from "rxjs";
+import {Location} from '@angular/common';
 
 @Injectable({providedIn: 'root'})
 export class DataService implements OnDestroy {
@@ -34,7 +34,7 @@ export class DataService implements OnDestroy {
   get selectedTabIndex(): number { return this._selectedTabIndex; }
   set selectedTabIndex(index: number) {
     this._selectedTabIndex = index;
-    (async () => await this.updateAppTitle())();
+    this.updateAppTitle();
   }
 
   tabs: Tab[] = [];
@@ -54,10 +54,9 @@ export class DataService implements OnDestroy {
     private readonly hashy: HashyService,
     private readonly cache: CacheService,
     private readonly fileService: FileService,
-    private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute,
     private readonly fileAccessService: FileAccessService,
     private readonly clipboard: ClipboardService,
+    private readonly location: Location,
     storageService: StorageService
   ) {
     cache.getJsonFromAll().forEach((tab) =>
@@ -80,9 +79,10 @@ export class DataService implements OnDestroy {
   }
 
   /**
-   * Writes the current selected tab into the app title.
+   * Writes the current selected tab into the app title
+   * and updates the query params.
    */
-  async updateAppTitle(): Promise<void> {
+  updateAppTitle(): void {
     const appTitle = document.getElementById('title');
     if (!appTitle) {
       return;
@@ -92,10 +92,9 @@ export class DataService implements OnDestroy {
     const tabName = tab.label ?? `#Board ${this._selectedTabIndex+1}`;
     appTitle.innerText = `Clip#board | ${tabName}`;
 
-    await this.router.navigate([], {
-      relativeTo: this.activatedRoute,
-      queryParams: { tab: tab.label ? tabName : (tab.index+1) }
-    });
+    //TODO: replaceState drops some warnings while routing...
+    const tabParam = tab.label ? tabName : (tab.index+1);
+    this.location.replaceState('', `?tab=${tabParam}`);
   }
 
   /**

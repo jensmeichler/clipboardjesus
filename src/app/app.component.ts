@@ -347,10 +347,10 @@ export class AppComponent implements OnInit {
       width: 'var(--width-edit-dialog)',
       data: this.dataService.tabs[this.dataService.selectedTabIndex],
       disableClose: true,
-    }).afterClosed().subscribe(async (tab) => {
+    }).afterClosed().subscribe((tab) => {
       if (tab) {
         this.dataService.cacheData();
-        await this.dataService.updateAppTitle();
+        this.dataService.updateAppTitle();
       } else {
         this.dataService.tabs[this.dataService.selectedTabIndex] = this.cache.fetch(this.dataService.selectedTabIndex)!;
       }
