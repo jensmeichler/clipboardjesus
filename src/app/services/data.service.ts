@@ -95,6 +95,8 @@ export class DataService implements OnDestroy {
     appTitle.innerText = `Clip#board | ${tabName}`;
 
     //TODO: replaceState drops some warnings while routing...
+    // The right way would be not to fool angular while setting the href manually.
+    // When the route changes, the app title should change and not the other way around.
     const tabParam = tab.label ? tabName : (tab.index+1);
     this.location.replaceState('', `?tab=${tabParam}`);
   }
