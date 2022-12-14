@@ -8,7 +8,7 @@ saved previously.
 
 # Release versions
 
-## Web app [![🚀 Azure deployment](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml) [![🔥 Github pages deployment](https://github.com/jensmeichler/clipboardjesus/actions/workflows/dev-deployment.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/dev-deployment.yml)
+## Web app [![🚀 Azure deployment](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml/badge.svg?branch=main)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml) [![🔥 Github pages deployment](https://github.com/jensmeichler/clipboardjesus/actions/workflows/dev-deployment.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/dev-deployment.yml)
 
 You can visit the app at [clipboardjesus.com](https://www.clipboardjesus.com) or [clipboardjesus.de](https://www.clipboardjesus.de).
 For getting the latest features visit the beta version of the Clip#board at [jensmeichler.github.io/clipboardjesus](https://jensmeichler.github.io/clipboardjesus).
@@ -51,7 +51,7 @@ Clip#board offers continuous delivery. That means that every push will deploy th
 
 ### Production environment
 
-#### Web app [![🚀 Azure deployment](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml/badge.svg)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml)
+#### Web app [![🚀 Azure deployment](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml/badge.svg?branch=main)](https://github.com/jensmeichler/clipboardjesus/actions/workflows/deployment.yml)
 
 Each push to the main branch triggers the deployment action for production environment.
 The production version of Clip#board is hostet on Azure (as a static website).
