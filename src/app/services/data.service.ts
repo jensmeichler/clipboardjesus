@@ -27,10 +27,7 @@ import {Location} from '@angular/common';
   providedIn: 'root',
 })
 export class DataService implements OnDestroy {
-  /**
-   * @returns '_blank' or '_tauri' according to the platform you are on.
-   * */
-  get _blank(): string { return _blank; };
+  _blank = _blank;
 
   private _selectedTabIndex = 0;
   get selectedTabIndex(): number { return this._selectedTabIndex; }
