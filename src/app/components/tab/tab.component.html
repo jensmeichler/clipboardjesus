@@ -6,10 +6,12 @@
        ? 'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + tab.color + ', #131313)'
        : '#131313'"
      data-cy="tab">
-  <ng-container *ngFor="let from of allItems">
-    <cb-connection *ngIf="from.connectedTo && getItemViaId(from.connectedTo) as to"
-                   [from]="from" [to]="to"
-    ></cb-connection>
+  <ng-container *ngFor="let from of dataService.getCurrentTabItems()">
+    <ng-container *ngIf="from.connectedTo">
+      <cb-connection *ngFor="let toId of from.connectedTo"
+                     [from]="from" [to]="dataService.getCurrentTabItem(toId)!"
+      ></cb-connection>
+    </ng-container>
   </ng-container>
 
   <cb-note *ngFor="let note of tab.notes"

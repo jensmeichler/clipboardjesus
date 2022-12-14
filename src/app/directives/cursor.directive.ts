@@ -35,7 +35,7 @@ export class CursorDirective {
       this.cursor.style.animationDuration = '2s';
       this.cursor.style.animationDelay = '2s';
       this.cursor.style.animationIterationCount = 'infinite';
-    }, 200);
+    }, 200) as unknown as number;
 
     this.moving = true;
     let isDraggableNote = false;

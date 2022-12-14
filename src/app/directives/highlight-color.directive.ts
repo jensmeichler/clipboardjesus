@@ -53,7 +53,7 @@ export class HighlightColorDirective {
           const scrolled = scrolledPosition();
           this._cursorX = event.pageX - this.cbHighlightedItem.posX + scrolled.left;
           this._cursorY = event.pageY - this.cbHighlightedItem.posY + scrolled.top;
-        }, i * 30)
+        }, i * 30) as unknown as number
       );
     }
   }

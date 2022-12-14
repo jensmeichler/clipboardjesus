@@ -8,8 +8,9 @@ import {HashyService} from "@clipboardjesus/services";
 })
 export class HashyAnimatedComponent {
   @Input()
-  protected showAlways = false;
-  protected christmas: boolean;
+  showAlways = false;
+  
+  christmas: boolean;
 
   constructor(public readonly hashy: HashyService) {
     const date = new Date();

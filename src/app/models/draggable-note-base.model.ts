@@ -3,7 +3,7 @@ import {sessionIdAutoIncrement} from "../functions";
 
 export class DraggableNoteBase implements DraggableNote {
   id: string;
-  connectedTo?: string;
+  connectedTo?: string[];
 
   constructor(
     id: string | null,

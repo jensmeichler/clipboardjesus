@@ -13,20 +13,12 @@ import {CdkDragEnd} from "@angular/cdk/drag-drop";
 export class TabComponent {
   @Input() tab?: Tab;
 
-  get allItems(): DraggableNote[] {
-    return [
-      ...(this.tab?.notes ?? []),
-      ...(this.tab?.noteLists ?? []),
-      ...(this.tab?.taskLists ?? []),
-      ...(this.tab?.images ?? []),
-    ]
-  }
 
-  protected startCursorPosX = 0;
-  protected startCursorPosY = 0;
-  protected endCursorPosX = 0;
-  protected endCursorPosY = 0;
-  protected mouseDown = false;
+  startCursorPosX = 0;
+  startCursorPosY = 0;
+  endCursorPosX = 0;
+  endCursorPosY = 0;
+  mouseDown = false;
   private readonly mouseMoveEvent: OmitThisParameter<(event: MouseEvent) => void>;
   private clickedLast200ms = false;
 
@@ -139,8 +131,6 @@ export class TabComponent {
           }
         })
       } else if (file.name.endsWith('.cwl')) {
-        //TODO: temp solution to keep backward compatibility.
-        // Remove after Henri moved all his cwl data.
         file.text().then(cwlXml => {
           const getString = (src: string, tag: string): string => src
             .match(new RegExp(`<${tag}>.*?</${tag}>`, 'dms'))?.[0]
@@ -209,10 +199,6 @@ export class TabComponent {
     }
 
     this.dataService.cacheData();
-  }
-
-  getItemViaId(id: string): DraggableNote | undefined {
-    return this.allItems.find(x => x.id === id);
   }
 
   @HostListener('document:mouseleave')

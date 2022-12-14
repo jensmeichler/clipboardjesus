@@ -178,8 +178,11 @@ export class NoteListComponent implements OnInit {
   }
 
   connectTo(item: DraggableNote | undefined): void {
-    this.noteList.connectedTo = item?.id;
-    this.dataService.cacheData();
+    if (item === undefined) {
+      this.dataService.disconnectAll(this.noteList);
+    } else {
+      this.dataService.connect(this.noteList, item);
+    }
   }
 
   showContextMenu(event: MouseEvent): void {

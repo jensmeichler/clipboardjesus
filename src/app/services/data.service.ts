@@ -392,6 +392,7 @@ export class DataService implements OnDestroy {
   }
 
   deleteNote(note: Note, skipIndexing?: boolean): void {
+    this.disconnectAll(note);
     this.tab.notes = this.tab.notes?.filter(x => x !== note);
     if (!skipIndexing) {
       this.reArrangeIndices();
@@ -400,6 +401,7 @@ export class DataService implements OnDestroy {
   }
 
   deleteTaskList(taskList: TaskList, skipIndexing?: boolean): void {
+    this.disconnectAll(taskList);
     this.tab.taskLists = this.tab.taskLists?.filter(x => x !== taskList);
     if (!skipIndexing) {
       this.reArrangeIndices();
@@ -408,6 +410,7 @@ export class DataService implements OnDestroy {
   }
 
   deleteNoteList(noteList: NoteList, skipIndexing?: boolean): void {
+    this.disconnectAll(noteList);
     this.tab.noteLists = this.tab.noteLists?.filter(x => x !== noteList);
     if (!skipIndexing) {
       this.reArrangeIndices();
@@ -416,6 +419,7 @@ export class DataService implements OnDestroy {
   }
 
   deleteImage(image: Image): void {
+    this.disconnectAll(image);
     this.tab.images = this.tab.images?.filter(x => x !== image);
     this.reArrangeIndices();
     this.cacheData();
@@ -645,6 +649,52 @@ export class DataService implements OnDestroy {
       ...(this.tab.images ?? []),
       ...(this.tab.noteLists ?? [])
     ].sort((a, b) => (a.posZ ?? 0) - (b.posZ ?? 0))
+  }
+
+  getCurrentTabItem(id: string): DraggableNote | undefined {
+    return this.getCurrentTabItems().find(x => x.id === id);
+  }
+
+  /**
+   * Updates the connectedTo array of both objects.
+   * Adds a connection when there was no before.
+   * Removes the connection when they were connected before.
+   * @param from
+   * @param to
+   */
+  connect(from: DraggableNote, to: DraggableNote): void {
+    if (!from.connectedTo?.includes(to.id)) {
+      DataService.addConnection(from, to);
+    } else {
+      DataService.removeConnection(from, to);
+    }
+
+    this.cacheData();
+  }
+
+  private static addConnection(from: DraggableNote, to: DraggableNote): void {
+    if (from.connectedTo === undefined) from.connectedTo = [to.id];
+    else from.connectedTo.push(to.id);
+    if (to.connectedTo === undefined) to.connectedTo = [from.id];
+    else to.connectedTo.push(from.id);
+  }
+
+  private static removeConnection(from: DraggableNote, to: DraggableNote): void {
+    if (from.connectedTo!.length === 1) from.connectedTo = undefined;
+    else from.connectedTo = from.connectedTo!.filter(id => id !== to.id);
+    if (to.connectedTo!.length === 1) to.connectedTo = undefined;
+    else to.connectedTo = to.connectedTo!.filter(id => id !== from.id);
+  }
+
+  disconnectAll(target: DraggableNote): void {
+    target.connectedTo?.forEach(id => {
+      const item = this.getCurrentTabItem(id);
+      if (item) {
+        DataService.removeConnection(target, item);
+      }
+    })
+    target.connectedTo = undefined;
+    this.cacheData();
   }
 
   private defineIndex(item: DraggableNote): void {

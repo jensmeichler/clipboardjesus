@@ -173,8 +173,11 @@ export class NoteComponent implements OnInit {
   }
 
   connectTo(item: DraggableNote | undefined): void {
-    this.note.connectedTo = item?.id;
-    this.dataService.cacheData();
+    if (item === undefined) {
+      this.dataService.disconnectAll(this.note);
+    } else {
+      this.dataService.connect(this.note, item);
+    }
   }
 
   showContextMenu(event: MouseEvent): void {

@@ -208,8 +208,11 @@ export class TaskListComponent implements OnInit {
   }
 
   connectTo(item: DraggableNote | undefined): void {
-    this.taskList.connectedTo = item?.id;
-    this.dataService.cacheData();
+    if (item === undefined) {
+      this.dataService.disconnectAll(this.taskList);
+    } else {
+      this.dataService.connect(this.taskList, item);
+    }
   }
 
   showContextMenu(event: MouseEvent): void {

@@ -109,8 +109,11 @@ export class ImageComponent implements OnInit {
   }
 
   connectTo(item: DraggableNote | undefined): void {
-    this.image.connectedTo = item?.id;
-    this.dataService.cacheData();
+    if (item === undefined) {
+      this.dataService.disconnectAll(this.image);
+    } else {
+      this.dataService.connect(this.image, item);
+    }
   }
 
   showContextMenu(event: MouseEvent): void {
