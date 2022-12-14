@@ -1,6 +1,9 @@
 name: 🏗 Build application
 
-on: push
+on:
+  push:
+    branches:
+      - develop
 
 jobs:
   web:

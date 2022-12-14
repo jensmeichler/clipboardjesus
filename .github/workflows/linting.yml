@@ -1,6 +1,9 @@
 name: 👕 Lint source files
 
-on: push
+on:
+  push:
+    branches:
+      - develop
 
 jobs:
   lint:
