@@ -21,46 +21,6 @@
       "posZ": 4,
       "content": "/*\n * Enable code highlighting ❗\n */\nwriteAwesomeness(): void {\n    var minValue = 9000;\n    console.log(`Over ${minValue}`);\n}",
       "code": true
-    },
-    {
-      "id": "welcome_note_3",
-      "foregroundColor": "#ffffff",
-      "backgroundColor": "#7b1ea2",
-      "posX": 290,
-      "posY": 748,
-      "posZ": 5,
-      "content": "Connect notes",
-      "connectedTo": ["welcome_note_5"]
-    },
-    {
-      "id": "welcome_note_4",
-      "foregroundColor": "#ffffff",
-      "backgroundColor": "#7b1ea2",
-      "posX": 841,
-      "posY": 640,
-      "posZ": 5,
-      "content": "Select notes with\n[CTRL] / [CMD] click\nto see the connections",
-      "connectedTo": ["welcome_note_5"]
-    },
-    {
-      "id": "welcome_note_5",
-      "foregroundColor": "#e5fff3",
-      "backgroundColor": "#51b384",
-      "posX": 519,
-      "posY": 695,
-      "posZ": 6,
-      "content": "# Build mind maps 🎇",
-      "connectedTo": ["welcome_note_3", "welcome_note_4", "welcome_note_6"]
-    },
-    {
-      "id": "welcome_note_6",
-      "foregroundColor": "#ffffff",
-      "backgroundColor": "#7b1ea2",
-      "posX": 655,
-      "posY": 833,
-      "posZ": 5,
-      "content": "Right click on note and select \"Connect to\"",
-      "connectedTo": ["welcome_note_5"]
     }
   ],
   "noteLists": [
