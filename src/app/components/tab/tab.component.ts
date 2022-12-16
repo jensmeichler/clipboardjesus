@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input
+} from '@angular/core';
 import {DraggableNote, Image, Note, Tab} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService, SettingsService} from "@clipboardjesus/services";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
@@ -31,6 +39,7 @@ export class TabComponent {
     public readonly dataService: DataService,
     private readonly clipboard: ClipboardService,
     private readonly settings: SettingsService,
+    private readonly cdr: ChangeDetectorRef,
   ) {
     this.mouseMoveEvent = this.onMouseMove.bind(this);
   }
@@ -62,6 +71,7 @@ export class TabComponent {
   onMouseMove(event: MouseEvent): void {
     this.endCursorPosX = event.pageX;
     this.endCursorPosY = event.pageY;
+    this.cdr.markForCheck();
   }
 
   /**
