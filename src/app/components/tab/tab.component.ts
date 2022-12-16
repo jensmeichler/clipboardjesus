@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, Input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Input} from '@angular/core';
 import {DraggableNote, Image, Note, Tab} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService, SettingsService} from "@clipboardjesus/services";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
@@ -8,10 +8,13 @@ import {CdkDragEnd} from "@angular/cdk/drag-drop";
 @Component({
   selector: 'cb-tab',
   templateUrl: './tab.component.html',
-  styleUrls: ['./tab.component.scss']
+  styleUrls: ['./tab.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TabComponent {
   @Input() tab?: Tab;
+
+  draggableChanged = new EventEmitter<void>();
 
   startCursorPosX = 0;
   startCursorPosY = 0;
@@ -120,6 +123,7 @@ export class TabComponent {
       }
     }
 
+    this.draggableChanged.emit();
     this.resetCursors();
   }
 
@@ -223,6 +227,7 @@ export class TabComponent {
       }
     }
 
+    this.draggableChanged.emit();
     this.dataService.cacheData();
   }
 

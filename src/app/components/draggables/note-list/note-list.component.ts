@@ -1,4 +1,12 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {DraggableNote, Note, NoteList, TaskList} from "@clipboardjesus/models";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {DataService, ClipboardService} from "@clipboardjesus/services";
@@ -9,10 +17,12 @@ import {MatMenuTrigger} from "@angular/material/menu";
 @Component({
   selector: 'cb-note-list',
   templateUrl: './note-list.component.html',
-  styleUrls: ['./note-list.component.scss']
+  styleUrls: ['./note-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NoteListComponent implements OnInit {
   @Input() noteList!: NoteList;
+  @Input() changed?: EventEmitter<void> | undefined;
 
   mouseDown = false;
   movedPx = 0;
@@ -26,12 +36,13 @@ export class NoteListComponent implements OnInit {
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
     private readonly clipboard: ClipboardService,
+    private readonly cdr: ChangeDetectorRef,
   ) {
   }
 
   ngOnInit(): void {
     if (!this.noteList) {
-      throw new Error('NoteListComponent.noteList input is necessary!');
+      throw new Error('NoteListComponent.noteList is necessary!');
     }
   }
 
@@ -41,6 +52,7 @@ export class NoteListComponent implements OnInit {
 
   select(): void {
     this.noteList.selected = !this.noteList.selected;
+    this.changed?.emit();
   }
 
   onMouseDown(event: MouseEvent): void {
@@ -87,6 +99,7 @@ export class NoteListComponent implements OnInit {
       return;
     }
     this.noteList.notes.push(new Note(null, 0, 0, clipboardText));
+    this.cdr.markForCheck();
     this.dataService.cacheData();
   }
 
@@ -99,6 +112,7 @@ export class NoteListComponent implements OnInit {
         return;
       }
       this.noteList.notes.push(addedNote);
+      this.cdr.markForCheck();
       this.dataService.cacheData();
     });
   }
@@ -155,6 +169,7 @@ export class NoteListComponent implements OnInit {
       }
       const index = this.noteList.notes.indexOf(noteToEdit);
       this.noteList.notes[index] = editedNote;
+      this.cdr.markForCheck();
       this.dataService.cacheData();
     });
   }
@@ -175,6 +190,7 @@ export class NoteListComponent implements OnInit {
     this.noteList.backgroundColor = item.backgroundColor;
     this.noteList.backgroundColorGradient = item.backgroundColorGradient;
     this.noteList.foregroundColor = item.foregroundColor;
+    this.cdr.markForCheck();
     this.dataService.cacheData();
   }
 

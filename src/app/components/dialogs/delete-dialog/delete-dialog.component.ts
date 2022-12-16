@@ -1,11 +1,12 @@
-import {Component, HostListener} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener} from '@angular/core';
 import {MatBottomSheetRef} from "@angular/material/bottom-sheet";
 import {DataService} from "@clipboardjesus/services";
 
 @Component({
   selector: 'cb-delete-dialog',
   templateUrl: './delete-dialog.component.html',
-  styleUrls: ['./delete-dialog.component.scss']
+  styleUrls: ['./delete-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeleteDialogComponent {
   constructor(

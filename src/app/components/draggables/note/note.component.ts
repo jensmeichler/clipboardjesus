@@ -1,4 +1,13 @@
-import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {htmlRegex} from "@clipboardjesus/const";
@@ -12,10 +21,12 @@ import {marked, Renderer} from 'marked';
 @Component({
   selector: 'cb-note',
   templateUrl: './note.component.html',
-  styleUrls: ['./note.component.scss']
+  styleUrls: ['./note.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NoteComponent implements OnInit {
   @Input() note!: Note;
+  @Input() changed?: EventEmitter<void> | undefined;
 
   rippleDisabled = false;
 
@@ -37,6 +48,7 @@ export class NoteComponent implements OnInit {
     private readonly hashy: HashyService,
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
+    private readonly cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -46,7 +58,7 @@ export class NoteComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.note) {
-      throw new Error('NoteComponent.note input is necessary!');
+      throw new Error('NoteComponent.note is necessary!');
     }
 
     this.updateMarkdown();
@@ -55,6 +67,8 @@ export class NoteComponent implements OnInit {
       && htmlRegex.test(this.note.content)) {
       this.note.code = true;
     }
+
+    this.cdr.markForCheck();
   }
 
   private updateMarkdown(): void {
@@ -75,10 +89,13 @@ export class NoteComponent implements OnInit {
     }
 
     this.parsedMarkdownContent = marked.parse(this.note.content ?? '', {renderer});
+
+    this.cdr.markForCheck();
   }
 
   select(): void {
     this.note.selected = !this.note.selected;
+    this.changed?.emit();
   }
 
   onMouseDown(event: MouseEvent): void {

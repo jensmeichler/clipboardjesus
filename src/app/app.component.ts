@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
@@ -33,6 +33,7 @@ import {dialog} from "@tauri-apps/api";
   selector: 'cb-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
   @ViewChild(MatMenuTrigger)
@@ -48,6 +49,8 @@ export class AppComponent implements OnInit {
 
   initialized = false;
 
+  christmas: boolean;
+
   constructor(
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
@@ -61,6 +64,8 @@ export class AppComponent implements OnInit {
     public readonly settings: SettingsService,
     private readonly fileAccessService: FileAccessService,
   ) {
+    const date = new Date();
+    this.christmas = date.getMonth() === 11 && date.getDate() <= 27;
   }
 
   ngOnInit(): void {

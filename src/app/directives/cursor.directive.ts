@@ -1,4 +1,4 @@
-import {Directive, HostListener} from '@angular/core';
+import {Directive, HostListener, NgZone} from '@angular/core';
 import {SettingsService} from "@clipboardjesus/services";
 
 @Directive({selector: '[cbCursor]'})
@@ -9,12 +9,16 @@ export class CursorDirective {
   timer?: number;
   text?: string;
 
-  constructor(private readonly settings: SettingsService) {
+  constructor(private readonly settings: SettingsService, zone: NgZone) {
     this.cursor = document.getElementById('cursor')!;
+
+    zone.runOutsideAngular(() => {
+      // Don't trigger change detection on mouse move
+      document.addEventListener('mousemove', this.onMouseMove.bind(this));
+    });
   }
 
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(event: any): void {
+  onMouseMove(event: MouseEvent): void {
     if (this.settings.animationsDisabled) {
       return;
     }

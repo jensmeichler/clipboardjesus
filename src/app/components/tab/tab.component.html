@@ -10,53 +10,62 @@
     <ng-container *ngIf="from.connectedTo">
       <cb-connection *ngFor="let toId of from.connectedTo"
                      [from]="from" [to]="dataService.getCurrentTabItem(toId)!"
+                     [changed]="draggableChanged"
       ></cb-connection>
     </ng-container>
   </ng-container>
 
-  <cb-note *ngFor="let note of tab.notes"
-           cdkDrag class="draggable-note"
-           [class.draggable-note-selected]="note.selected"
-           (cdkDragEnded)="saveItemPosition($event, note)"
-           (mousedown)="$event.stopPropagation()"
-           [style.top.px]="note.posY - 49"
-           [style.left.px]="note.posX"
-           [style.zIndex]="note.posZ"
-           [note]="note"
+  <cb-note
+    *ngFor="let note of tab.notes"
+    cdkDrag class="draggable-note"
+    [class.draggable-note-selected]="note.selected"
+    (cdkDragEnded)="saveItemPosition($event, note)"
+    (mousedown)="$event.stopPropagation()"
+    [style.top.px]="note.posY - 49"
+    [style.left.px]="note.posX"
+    [style.zIndex]="note.posZ"
+    [note]="note"
+    [changed]="draggableChanged"
   ></cb-note>
   <div cdkDropListGroup>
-    <cb-task-list *ngFor="let taskList of tab.taskLists"
-                  cdkDrag class="draggable-note"
-                  [class.draggable-note-selected]="taskList.selected"
-                  (cdkDragEnded)="saveItemPosition($event, taskList)"
-                  (mousedown)="$event.stopPropagation()"
-                  [style.top.px]="taskList.posY - 49"
-                  [style.left.px]="taskList.posX"
-                  [style.zIndex]="taskList.posZ"
-                  [taskList]="taskList"
+    <cb-task-list
+      *ngFor="let taskList of tab.taskLists"
+      cdkDrag class="draggable-note"
+      [class.draggable-note-selected]="taskList.selected"
+      (cdkDragEnded)="saveItemPosition($event, taskList)"
+      (mousedown)="$event.stopPropagation()"
+      [style.top.px]="taskList.posY - 49"
+      [style.left.px]="taskList.posX"
+      [style.zIndex]="taskList.posZ"
+      [taskList]="taskList"
+      [changed]="draggableChanged"
     ></cb-task-list>
   </div>
   <div cdkDropListGroup>
-    <cb-note-list *ngFor="let noteList of tab.noteLists"
-                  cdkDrag class="draggable-note"
-                  [class.draggable-note-selected]="noteList.selected"
-                  (cdkDragEnded)="saveItemPosition($event, noteList)"
-                  (mousedown)="$event.stopPropagation()"
-                  [style.top.px]="noteList.posY - 49"
-                  [style.left.px]="noteList.posX"
-                  [style.zIndex]="noteList.posZ"
-                  [noteList]="noteList"
+    <cb-note-list
+      *ngFor="let noteList of tab.noteLists"
+      cdkDrag class="draggable-note"
+      [class.draggable-note-selected]="noteList.selected"
+      (cdkDragEnded)="saveItemPosition($event, noteList)"
+      (mousedown)="$event.stopPropagation()"
+      [style.top.px]="noteList.posY - 49"
+      [style.left.px]="noteList.posX"
+      [style.zIndex]="noteList.posZ"
+      [noteList]="noteList"
+      [changed]="draggableChanged"
     ></cb-note-list>
   </div>
-  <cb-image *ngFor="let image of tab.images"
-            cdkDrag class="draggable-note"
-            [class.draggable-note-selected]="image.selected"
-            (cdkDragEnded)="saveItemPosition($event, image)"
-            (mousedown)="$event.stopPropagation()"
-            [style.top.px]="image.posY - 49"
-            [style.left.px]="image.posX"
-            [style.zIndex]="image.posZ"
-            [image]="image"
+  <cb-image
+    *ngFor="let image of tab.images"
+    cdkDrag class="draggable-note"
+    [class.draggable-note-selected]="image.selected"
+    (cdkDragEnded)="saveItemPosition($event, image)"
+    (mousedown)="$event.stopPropagation()"
+    [style.top.px]="image.posY - 49"
+    [style.left.px]="image.posX"
+    [style.zIndex]="image.posZ"
+    [image]="image"
+    [changed]="draggableChanged"
   ></cb-image>
 
   <ng-container *ngIf="mouseDown">

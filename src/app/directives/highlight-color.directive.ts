@@ -40,7 +40,7 @@ export class HighlightColorDirective {
   }
 
   @HostListener('wheel', ['$event'])
-  onScroll(event: any): void {
+  onScroll(event: WheelEvent): void {
     if (this.settings.animationsDisabled || !this.cbHighlightedItem) {
       return;
     }

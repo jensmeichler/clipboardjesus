@@ -1,5 +1,13 @@
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {DraggableNote, Note, TaskItem, TaskList} from "@clipboardjesus/models";
@@ -9,10 +17,12 @@ import {EditTaskListDialogComponent} from "@clipboardjesus/components";
 @Component({
   selector: 'cb-task-list',
   templateUrl: './task-list.component.html',
-  styleUrls: ['./task-list.component.scss']
+  styleUrls: ['./task-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskListComponent implements OnInit {
   @Input() taskList!: TaskList;
+  @Input() changed?: EventEmitter<void> | undefined;
 
   mouseDown = false;
   movedPx = 0;
@@ -28,12 +38,13 @@ export class TaskListComponent implements OnInit {
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
     public readonly stringParser: StringParserService,
+    private readonly cdr: ChangeDetectorRef,
   ) {
   }
 
   ngOnInit(): void {
     if (!this.taskList) {
-      throw new Error('TaskListComponent.taskList input is necessary!');
+      throw new Error('TaskListComponent.taskList is necessary!');
     }
   }
 
@@ -43,6 +54,7 @@ export class TaskListComponent implements OnInit {
 
   select(): void {
     this.taskList.selected = !this.taskList.selected;
+    this.changed?.emit();
   }
 
   onMouseDown(event: MouseEvent): void {
@@ -86,40 +98,43 @@ export class TaskListComponent implements OnInit {
       this.taskList.items.push(newItem);
       this.itemToEdit = newItem;
 
+      this.cdr.markForCheck();
       this.dataService.cacheData();
     }
   }
 
   addItemAfter(parent: TaskItem): void {
-    if (this.canInteract) {
-      let newItem = new TaskItem('');
-      newItem.isSubTask = parent.isSubTask;
-
-      transferArrayItem(
-        [newItem],
-        this.taskList.items,
-        0,
-        this.taskList.items.indexOf(parent) + 1,
-      );
-
-      this.itemToEdit = newItem;
+    if (!this.canInteract) {
+      return;
     }
+
+    let newItem = new TaskItem('');
+    newItem.isSubTask = parent.isSubTask;
+    transferArrayItem(
+      [newItem],
+      this.taskList.items,
+      0,
+      this.taskList.items.indexOf(parent) + 1,
+    );
+    this.itemToEdit = newItem;
+    this.cdr.markForCheck();
   }
 
   edit(): void {
-    if (this.canInteract) {
-      let taskList = JSON.parse(JSON.stringify(this.taskList));
-      this.dialog.open(EditTaskListDialogComponent, {
-        width: 'var(--width-edit-dialog)',
-        data: taskList,
-        disableClose: true,
-      }).afterClosed().subscribe((editedTaskList: TaskList) => {
-        if (editedTaskList) {
-          this.dataService.deleteTaskList(this.taskList, true);
-          this.dataService.addTaskList(editedTaskList);
-        }
-      });
+    if (!this.canInteract) {
+      return;
     }
+    let taskList = JSON.parse(JSON.stringify(this.taskList));
+    this.dialog.open(EditTaskListDialogComponent, {
+      width: 'var(--width-edit-dialog)',
+      data: taskList,
+      disableClose: true,
+    }).afterClosed().subscribe((editedTaskList: TaskList) => {
+      if (editedTaskList) {
+        this.dataService.deleteTaskList(this.taskList, true);
+        this.dataService.addTaskList(editedTaskList);
+      }
+    });
   }
 
   delete(): void {
@@ -134,14 +149,18 @@ export class TaskListComponent implements OnInit {
       return;
     }
     this.itemToEdit = item;
+    this.cdr.markForCheck();
   }
 
   endEditItem(item: TaskItem): void {
     const index = this.taskList.items.indexOf(item);
     this.taskList.items[index] = item;
     this.itemToEdit = undefined;
-    if (!item.value) this.deleteItem(item);
+    if (!item.value) {
+      this.deleteItem(item);
+    }
 
+    this.cdr.markForCheck();
     this.dataService.cacheData();
   }
 
@@ -150,6 +169,7 @@ export class TaskListComponent implements OnInit {
       return;
     }
     item.isSubTask = !item.isSubTask;
+    this.cdr.markForCheck();
     this.dataService.cacheData();
   }
 
@@ -179,6 +199,7 @@ export class TaskListComponent implements OnInit {
       return;
     }
     this.taskList.items = this.taskList.items.filter(x => x !== item);
+    this.cdr.markForCheck();
     this.dataService.cacheData();
   }
 
@@ -205,6 +226,7 @@ export class TaskListComponent implements OnInit {
     this.taskList.backgroundColor = item.backgroundColor;
     this.taskList.backgroundColorGradient = item.backgroundColorGradient;
     this.taskList.foregroundColor = item.foregroundColor;
+    this.cdr.markForCheck();
     this.dataService.cacheData();
   }
 

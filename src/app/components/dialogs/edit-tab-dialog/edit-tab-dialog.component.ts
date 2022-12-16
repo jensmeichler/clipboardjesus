@@ -1,4 +1,4 @@
-import {Component, HostListener, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Tab} from "@clipboardjesus/models";
 import {DataService} from "@clipboardjesus/services";
@@ -6,7 +6,8 @@ import {DataService} from "@clipboardjesus/services";
 @Component({
   selector: 'cb-edit-tab-dialog',
   templateUrl: './edit-tab-dialog.component.html',
-  styleUrls: ['./edit-tab-dialog.component.scss']
+  styleUrls: ['./edit-tab-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditTabDialogComponent {
   notesCount: string;

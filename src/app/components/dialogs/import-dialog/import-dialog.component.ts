@@ -1,4 +1,4 @@
-import {Component, HostListener, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener, Inject} from '@angular/core';
 import {MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef} from "@angular/material/bottom-sheet";
 import {Tab} from "@clipboardjesus/models";
 import {DataService} from "@clipboardjesus/services";
@@ -6,7 +6,8 @@ import {DataService} from "@clipboardjesus/services";
 @Component({
   selector: 'cb-import-dialog',
   templateUrl: './import-dialog.component.html',
-  styleUrls: ['./import-dialog.component.scss']
+  styleUrls: ['./import-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImportDialogComponent {
   constructor(

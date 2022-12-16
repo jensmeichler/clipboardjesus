@@ -1,11 +1,12 @@
-import {Component, HostListener} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
 import {DataService, SettingsService} from "@clipboardjesus/services";
 
 @Component({
   selector: 'cb-about-dialog',
   templateUrl: './about-dialog.component.html',
-  styleUrls: ['./about-dialog.component.scss']
+  styleUrls: ['./about-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutDialogComponent {
   constructor(
