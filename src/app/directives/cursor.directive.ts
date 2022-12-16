@@ -1,4 +1,4 @@
-import {Directive, HostListener, NgZone} from '@angular/core';
+import {ChangeDetectorRef, Directive, HostListener, NgZone} from '@angular/core';
 import {SettingsService} from "@clipboardjesus/services";
 
 @Directive({selector: '[cbCursor]'})
@@ -9,7 +9,11 @@ export class CursorDirective {
   timer?: number;
   text?: string;
 
-  constructor(private readonly settings: SettingsService, zone: NgZone) {
+  constructor(
+    private readonly settings: SettingsService,
+    private readonly cdr: ChangeDetectorRef,
+    zone: NgZone,
+  ) {
     this.cursor = document.getElementById('cursor')!;
 
     zone.runOutsideAngular(() => {
@@ -69,6 +73,8 @@ export class CursorDirective {
 
     if (!isDraggableNote) {
       this.position!.style.bottom = '-22px';
+    } else {
+      this.cdr.markForCheck();
     }
   }
 
