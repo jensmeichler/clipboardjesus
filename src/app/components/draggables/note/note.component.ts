@@ -153,6 +153,7 @@ export class NoteComponent implements OnInit {
         if (editedNote) {
           this.dataService.deleteNote(this.note, true);
           this.dataService.addNote(editedNote);
+          this.cdr.markForCheck();
         }
       });
       this.rippleDisabled = false;

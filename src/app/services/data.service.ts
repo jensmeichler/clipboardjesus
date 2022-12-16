@@ -894,7 +894,7 @@ export class DataService implements OnDestroy {
   disconnectAll(target: DraggableNote): void {
     target.connectedTo?.forEach(id => {
       const item = this.getCurrentTabItem(id);
-      if (item) {
+      if (item?.connectedTo?.length) {
         DataService.removeConnection(target, item);
       }
     })

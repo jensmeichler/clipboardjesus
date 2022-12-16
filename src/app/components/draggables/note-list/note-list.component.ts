@@ -130,6 +130,7 @@ export class NoteListComponent implements OnInit {
       if (editedNoteList) {
         this.dataService.deleteNoteList(this.noteList, true);
         this.dataService.addNoteList(editedNoteList);
+        this.cdr.markForCheck();
       }
     });
   }

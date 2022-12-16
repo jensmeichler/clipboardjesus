@@ -54,6 +54,7 @@ export class SmallNoteComponent implements OnInit {
       if (editedNote) {
         Object.assign(this.note, editedNote);
         this.dataService.cacheData();
+        this.cdr.markForCheck();
       }
     });
   }

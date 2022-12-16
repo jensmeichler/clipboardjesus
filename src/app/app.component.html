@@ -30,7 +30,11 @@
           </ng-container>
         </ng-container>
       </ng-template>
-      <cb-tab (contextmenu)="showContextMenu($event)" [tab]="tab"></cb-tab>
+      <cb-tab
+        (contextmenu)="showContextMenu($event)"
+        [tab]="tab"
+        [draggableChanged]="draggableChanged"
+      ></cb-tab>
     </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
