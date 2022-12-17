@@ -1,4 +1,12 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {MatMenuTrigger} from "@angular/material/menu";
 import {DraggableNote, Image} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
@@ -7,10 +15,12 @@ import {_blank} from "@clipboardjesus/const";
 @Component({
   selector: 'cb-image',
   templateUrl: './image.component.html',
-  styleUrls: ['./image.component.scss']
+  styleUrls: ['./image.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageComponent implements OnInit {
   @Input() image!: Image;
+  @Input() changed?: EventEmitter<void> | undefined;
 
   imageLoaded = false;
 
@@ -28,12 +38,13 @@ export class ImageComponent implements OnInit {
     private readonly hashy: HashyService,
     private readonly clipboard: ClipboardService,
     public readonly dataService: DataService,
+    private readonly cdr: ChangeDetectorRef,
   ) {
   }
 
   ngOnInit(): void {
     if (!this.image) {
-      throw new Error('ImageComponent.image input is necessary!');
+      throw new Error('ImageComponent.image is necessary!');
     }
   }
 
@@ -42,11 +53,13 @@ export class ImageComponent implements OnInit {
   }
 
   onImageLoaded(): void {
-    this.imageLoaded = true
+    this.imageLoaded = true;
+    this.cdr.markForCheck();
   }
 
   select(): void {
     this.image.selected = !this.image.selected;
+    this.changed?.emit();
   }
 
   onMouseDown(event: MouseEvent): void {
@@ -107,6 +120,7 @@ export class ImageComponent implements OnInit {
 
   moveToTab(index: number): void {
     this.dataService.moveImageToTab(index, this.image);
+    this.cdr.markForCheck();
   }
 
   connectTo(item: DraggableNote | undefined): void {
@@ -115,6 +129,8 @@ export class ImageComponent implements OnInit {
     } else {
       this.dataService.connect(this.image, item);
     }
+    this.cdr.markForCheck();
+    this.dataService.cacheData();
   }
 
   showContextMenu(event: MouseEvent): void {

@@ -1,11 +1,12 @@
-import {Component, HostListener, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, HostListener, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Note, NoteList} from "@clipboardjesus/models";
 import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
   selector: 'cb-edit-note-list-dialog',
-  templateUrl: './edit-note-list-dialog.component.html'
+  templateUrl: './edit-note-list-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditNoteListDialogComponent {
   constructor(

@@ -12,12 +12,12 @@ export class DragDropDirective {
   }
 
   @HostListener("dragover", ["$event"])
-  onDragOver(event: any): void {
+  onDragOver(event: MouseEvent): void {
     event.preventDefault();
   }
 
   @HostListener("dragenter", ["$event"])
-  onDragEnter(event: any): void {
+  onDragEnter(event: MouseEvent): void {
     event.preventDefault();
     this._hoveredSection++;
   }
@@ -36,7 +36,7 @@ export class DragDropDirective {
   }
 
   @HostListener("drop", ["$event"])
-  onDrop(event: any): void {
+  onDrop(event: MouseEvent): void {
     event.preventDefault();
     event.stopPropagation();
     this._hoveredSection = 0;

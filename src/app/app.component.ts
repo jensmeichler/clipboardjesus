@@ -1,4 +1,11 @@
-import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostListener,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
@@ -28,11 +35,13 @@ import {
 import {TranslateService} from "@ngx-translate/core";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
 import {dialog} from "@tauri-apps/api";
+import {take} from "rxjs";
 
 @Component({
   selector: 'cb-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
   @ViewChild(MatMenuTrigger)
@@ -42,11 +51,20 @@ export class AppComponent implements OnInit {
   newDraggablePositionX = 0;
   newDraggablePositionY = 0;
 
+  draggableChanged = new EventEmitter<void>();
+
   canPasteItems = false;
-
   logoReplacedEasterEggCount = 0;
-
   initialized = false;
+  christmas: boolean;
+
+  set tabIndex(value: number) {
+    this.draggableChanged.emit();
+    this.dataService.selectedTabIndex = value;
+  }
+  get tabIndex(): number {
+    return this.dataService.selectedTabIndex;
+  }
 
   constructor(
     private readonly dialog: MatDialog,
@@ -61,10 +79,12 @@ export class AppComponent implements OnInit {
     public readonly settings: SettingsService,
     private readonly fileAccessService: FileAccessService,
   ) {
+    const date = new Date();
+    this.christmas = date.getMonth() === 11 && date.getDate() <= 27;
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(async params => {
+    this.route.queryParams.pipe(take(2)).subscribe(async (params) => {
       if (this.initialized) {
         return;
       }
@@ -99,6 +119,8 @@ export class AppComponent implements OnInit {
         setTimeout(() => this.initialized = true);
       }
     });
+
+    this.draggableChanged.emit();
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -113,34 +135,42 @@ export class AppComponent implements OnInit {
         case 'Delete':
         case 'Backspace':
           this.deleteSelectedItems();
+          this.draggableChanged.emit();
           return;
         case 'ArrowUp':
           this.dataService.editAllSelectedItems(x => x.posY--);
+          this.draggableChanged.emit();
           this.dataService.cacheData();
           return;
         case 'ArrowDown':
           this.dataService.editAllSelectedItems(x => x.posY++);
+          this.draggableChanged.emit();
           this.dataService.cacheData();
           return;
         case 'ArrowLeft':
           this.dataService.editAllSelectedItems(x => x.posX--);
+          this.draggableChanged.emit();
           this.dataService.cacheData();
           return;
         case 'ArrowRight':
           this.dataService.editAllSelectedItems(x => x.posX++);
+          this.draggableChanged.emit();
           this.dataService.cacheData();
           return;
         case 'Escape':
           this.dataService.removeAllSelections();
+          this.draggableChanged.emit();
           return;
         case 'c':
           if (ctrl) {
             await this.copySelectedItems();
+            this.draggableChanged.emit();
           }
           return;
         case 'x':
           if (ctrl) {
             await this.cutSelectedItems();
+            this.draggableChanged.emit();
           }
           return;
       }
@@ -164,6 +194,7 @@ export class AppComponent implements OnInit {
           return;
         case 'v':
           await this.dataService.importItemsFromClipboard();
+          this.draggableChanged.emit();
           return;
         case 'z':
           if (event.shiftKey) {
@@ -171,13 +202,16 @@ export class AppComponent implements OnInit {
           } else {
             this.dataService.undo();
           }
+          this.draggableChanged.emit();
           return;
         case 'y':
           this.dataService.redo();
+          this.draggableChanged.emit();
           return;
         case 'a':
           this.dataService.selectAll();
           event.preventDefault();
+          this.draggableChanged.emit();
           return;
         case 's':
           if (event.shiftKey) {
@@ -191,11 +225,13 @@ export class AppComponent implements OnInit {
           this.dataService.selectNextTab(true);
           event.preventDefault();
           event.stopPropagation();
+          this.draggableChanged.emit();
           return;
         case 'ArrowRight':
           this.dataService.selectNextTab(false);
           event.preventDefault();
           event.stopPropagation();
+          this.draggableChanged.emit();
           return;
       }
     }
@@ -205,16 +241,19 @@ export class AppComponent implements OnInit {
         this.dataService.selectNextItem(event.shiftKey);
         event.preventDefault();
         event.stopPropagation();
+        this.draggableChanged.emit();
         return;
       case 'PageUp':
         this.dataService.selectNextTab(true);
         event.preventDefault();
         event.stopPropagation();
+        this.draggableChanged.emit();
         return;
       case 'PageDown':
         this.dataService.selectNextTab(false);
         event.preventDefault();
         event.stopPropagation();
+        this.draggableChanged.emit();
         return;
     }
   }
@@ -223,6 +262,7 @@ export class AppComponent implements OnInit {
     const selectedItems = this.dataService.getSelectedItems();
     await this.clipboard.set(JSON.stringify(selectedItems));
     this.dataService.removeAllSelections();
+    this.draggableChanged.emit();
   }
 
   async cutSelectedItems(): Promise<void> {
@@ -230,6 +270,7 @@ export class AppComponent implements OnInit {
     await this.clipboard.set(JSON.stringify(selectedItems));
     this.dataService.deleteSelectedItems();
     this.dataService.removeAllSelections();
+    this.draggableChanged.emit();
   }
 
   async shareTab(): Promise<void> {
@@ -294,6 +335,7 @@ export class AppComponent implements OnInit {
    */
   saveTabOrSelection(): void {
     this.dataService.saveTabOrSelection();
+    this.draggableChanged.emit();
   }
 
   /**
@@ -301,6 +343,7 @@ export class AppComponent implements OnInit {
    */
   deleteSelectedItems(): void {
     this.dataService.deleteSelectedItems();
+    this.draggableChanged.emit();
   }
 
   /**
@@ -311,7 +354,10 @@ export class AppComponent implements OnInit {
       width: 'var(--width-edit-dialog)',
       data: new Note(null, this.newDraggablePositionX, this.newDraggablePositionY, ''),
     }).afterClosed().subscribe((note) => {
-      if (note) this.dataService.addNote(note);
+      if (note) {
+        this.dataService.addNote(note);
+        this.draggableChanged.emit();
+      }
     });
   }
 
@@ -323,7 +369,10 @@ export class AppComponent implements OnInit {
       width: 'var(--width-edit-dialog)',
       data: new NoteList(null, this.newDraggablePositionX, this.newDraggablePositionY),
     }).afterClosed().subscribe((noteList) => {
-      if (noteList) this.dataService.addNoteList(noteList);
+      if (noteList) {
+        this.dataService.addNoteList(noteList);
+        this.draggableChanged.emit();
+      }
     });
   }
 
@@ -335,7 +384,10 @@ export class AppComponent implements OnInit {
       width: 'var(--width-edit-dialog)',
       data: new TaskList(null, this.newDraggablePositionX, this.newDraggablePositionY),
     }).afterClosed().subscribe((taskList) => {
-      if (taskList) this.dataService.addTaskList(taskList);
+      if (taskList) {
+        this.dataService.addTaskList(taskList);
+        this.draggableChanged.emit();
+      }
     });
   }
 
@@ -345,7 +397,10 @@ export class AppComponent implements OnInit {
   openEditTabDialog(): void {
     this.dialog.open(EditTabDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: this.dataService.tabs[this.dataService.selectedTabIndex],
+      data: {
+        tab: this.dataService.tabs[this.dataService.selectedTabIndex],
+        changeFn: () => this.draggableChanged.emit(),
+      },
       disableClose: true,
     }).afterClosed().subscribe((tab) => {
       if (tab) {
@@ -354,6 +409,7 @@ export class AppComponent implements OnInit {
       } else {
         this.dataService.tabs[this.dataService.selectedTabIndex] = this.cache.fetch(this.dataService.selectedTabIndex)!;
       }
+      this.draggableChanged.emit();
     });
   }
 
@@ -362,6 +418,7 @@ export class AppComponent implements OnInit {
    */
   clearAllForever(): void {
     this.bottomSheet.open(DeleteDialogComponent);
+    this.draggableChanged.emit();
   }
 
   /**
@@ -436,6 +493,7 @@ export class AppComponent implements OnInit {
         idiotAward.backgroundColor = '#FFDA0054';
         idiotAward.foregroundColor = '#FEE858';
         this.dataService.addNote(idiotAward);
+        this.draggableChanged.emit();
         break;
     }
     this.hashy.show(question, 5000, answer, undefined, () => {

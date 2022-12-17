@@ -1,17 +1,29 @@
-import {Component, ElementRef, HostListener, Input} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input, OnInit
+} from '@angular/core';
 import {DraggableNote, Image, Note, Tab} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService, SettingsService} from "@clipboardjesus/services";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {ImportDialogComponent} from "@clipboardjesus/components";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
+import {Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'cb-tab',
   templateUrl: './tab.component.html',
-  styleUrls: ['./tab.component.scss']
+  styleUrls: ['./tab.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TabComponent {
+export class TabComponent implements OnInit {
   @Input() tab?: Tab;
+  @Input() draggableChanged?: EventEmitter<void> | undefined;
+  @Input() connectionsChanged?: EventEmitter<void> | undefined;
 
   startCursorPosX = 0;
   startCursorPosY = 0;
@@ -21,6 +33,8 @@ export class TabComponent {
   private readonly mouseMoveEvent: OmitThisParameter<(event: MouseEvent) => void>;
   private clickedLast200ms = false;
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private readonly hashy: HashyService,
     private readonly elementRef: ElementRef,
@@ -28,8 +42,15 @@ export class TabComponent {
     public readonly dataService: DataService,
     private readonly clipboard: ClipboardService,
     private readonly settings: SettingsService,
+    private readonly cdr: ChangeDetectorRef,
   ) {
     this.mouseMoveEvent = this.onMouseMove.bind(this);
+  }
+
+  ngOnInit(): void {
+    this.draggableChanged?.pipe(takeUntil(this.destroy$)).subscribe(() =>
+      this.cdr.markForCheck()
+    );
   }
 
   /**
@@ -59,6 +80,7 @@ export class TabComponent {
   onMouseMove(event: MouseEvent): void {
     this.endCursorPosX = event.pageX;
     this.endCursorPosY = event.pageY;
+    this.cdr.markForCheck();
   }
 
   /**
@@ -120,6 +142,7 @@ export class TabComponent {
       }
     }
 
+    this.draggableChanged?.emit();
     this.resetCursors();
   }
 
@@ -223,6 +246,7 @@ export class TabComponent {
       }
     }
 
+    this.draggableChanged?.emit();
     this.dataService.cacheData();
   }
 

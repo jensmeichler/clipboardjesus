@@ -27,7 +27,7 @@ export class StringParserService {
     let linkList: string[] = [];
 
     while (hyperlinkRegex.test(text)) {
-      const link: any = hyperlinkRegex.exec(text)![0];
+      const link: string = hyperlinkRegex.exec(text)![0];
       linkList.push(link);
       text = text.replace(link, placeholder);
     }
