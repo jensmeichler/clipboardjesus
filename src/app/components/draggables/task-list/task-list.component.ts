@@ -238,7 +238,7 @@ export class TaskListComponent implements OnInit {
     } else {
       this.dataService.connect(this.taskList, item);
     }
-    this.cdr.markForCheck();
+    this.changed?.emit();
     this.dataService.cacheData();
   }
 

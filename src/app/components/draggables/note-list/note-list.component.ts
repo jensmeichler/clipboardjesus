@@ -202,7 +202,7 @@ export class NoteListComponent implements OnInit {
     } else {
       this.dataService.connect(this.noteList, item);
     }
-    this.cdr.markForCheck();
+    this.changed?.emit();
     this.dataService.cacheData();
   }
 

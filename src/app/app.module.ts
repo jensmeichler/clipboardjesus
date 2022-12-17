@@ -30,6 +30,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {HttpClient} from "@angular/common/http";
 import {
   AboutDialogComponent,
+  ConnectionComponent,
   DeleteDialogComponent,
   EditNoteDialogComponent,
   EditTabDialogComponent,
@@ -53,7 +54,6 @@ import {
   DragDropDirective,
   HighlightColorDirective
 } from '@clipboardjesus/directives';
-import { ConnectionComponent } from './components/draggables/connection/connection.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

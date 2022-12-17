@@ -199,7 +199,7 @@ export class NoteComponent implements OnInit {
     } else {
       this.dataService.connect(this.note, item);
     }
-    this.cdr.markForCheck();
+    this.changed?.emit();
     this.dataService.cacheData();
   }
 

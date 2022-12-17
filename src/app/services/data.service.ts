@@ -66,7 +66,6 @@ export class DataService implements OnDestroy {
       this.addWelcomePage();
     }
 
-    this._selectedTabIndex = 0;
     this.setColorizedObjects();
 
     storageService.onTabChanged.pipe(takeUntil(this.destroy$)).subscribe(({tab, index}) =>

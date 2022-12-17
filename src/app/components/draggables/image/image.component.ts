@@ -129,7 +129,7 @@ export class ImageComponent implements OnInit {
     } else {
       this.dataService.connect(this.image, item);
     }
-    this.cdr.markForCheck();
+    this.changed?.emit();
     this.dataService.cacheData();
   }
 
