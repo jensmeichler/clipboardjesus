@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.pipe(take(1)).subscribe(async (params) => {
+    this.route.queryParams.pipe(take(2)).subscribe(async (params) => {
       if (this.initialized) {
         return;
       }

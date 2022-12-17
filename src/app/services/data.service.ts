@@ -94,6 +94,7 @@ export class DataService implements OnDestroy {
     //TODO: replaceState drops some warnings while routing...
     // The right way would be not to fool angular while setting the href manually.
     // When the route changes, the app title should change and not the other way around.
+    // Currently it's working that way because of the subscription onto the queryParams in the app component.
     const tabParam = tab.label ? tabName : (tab.index+1);
     this.location.replaceState('', `?tab=${tabParam}`);
   }
