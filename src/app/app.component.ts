@@ -275,7 +275,8 @@ export class AppComponent implements OnInit {
 
   async shareTab(): Promise<void> {
     const params = JSON.stringify(this.dataService.getAsJson(true));
-    await this.clipboard.set(`https://www.clipboardjesus.com/?params=${btoa(params)}`);
+    const route = window.location.href.split('?')[0];
+    await this.clipboard.set(`${route}?params=${btoa(params)}`);
     this.hashy.show('COPIED_URL_TO_CLIPBOARD', 3000, 'OK');
   }
 
