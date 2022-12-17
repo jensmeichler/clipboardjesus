@@ -54,12 +54,17 @@ export class AppComponent implements OnInit {
   draggableChanged = new EventEmitter<void>();
 
   canPasteItems = false;
-
   logoReplacedEasterEggCount = 0;
-
   initialized = false;
-
   christmas: boolean;
+
+  set tabIndex(value: number) {
+    this.draggableChanged.emit();
+    this.dataService.selectedTabIndex = value;
+  }
+  get tabIndex(): number {
+    return this.dataService.selectedTabIndex;
+  }
 
   constructor(
     private readonly dialog: MatDialog,
@@ -392,7 +397,10 @@ export class AppComponent implements OnInit {
   openEditTabDialog(): void {
     this.dialog.open(EditTabDialogComponent, {
       width: 'var(--width-edit-dialog)',
-      data: this.dataService.tabs[this.dataService.selectedTabIndex],
+      data: {
+        tab: this.dataService.tabs[this.dataService.selectedTabIndex],
+        changeFn: () => this.draggableChanged.emit(),
+      },
       disableClose: true,
     }).afterClosed().subscribe((tab) => {
       if (tab) {

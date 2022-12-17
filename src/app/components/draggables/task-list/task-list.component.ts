@@ -221,6 +221,7 @@ export class TaskListComponent implements OnInit {
 
   moveToTab(index: number): void {
     this.dataService.moveTaskListToTab(index, this.taskList);
+    this.cdr.markForCheck();
   }
 
   copyColorFrom(item: Note | TaskList): void {
@@ -237,6 +238,8 @@ export class TaskListComponent implements OnInit {
     } else {
       this.dataService.connect(this.taskList, item);
     }
+    this.cdr.markForCheck();
+    this.dataService.cacheData();
   }
 
   showContextMenu(event: MouseEvent): void {

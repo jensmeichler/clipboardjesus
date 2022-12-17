@@ -23,6 +23,7 @@ import {Subject, takeUntil} from "rxjs";
 export class TabComponent implements OnInit {
   @Input() tab?: Tab;
   @Input() draggableChanged?: EventEmitter<void> | undefined;
+  @Input() connectionsChanged?: EventEmitter<void> | undefined;
 
   startCursorPosX = 0;
   startCursorPosY = 0;
@@ -47,11 +48,9 @@ export class TabComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.draggableChanged?.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      if (this.tab?.index === this.dataService.tab.index) {
-        this.cdr.markForCheck();
-      }
-    });
+    this.draggableChanged?.pipe(takeUntil(this.destroy$)).subscribe(() =>
+      this.cdr.markForCheck()
+    );
   }
 
   /**

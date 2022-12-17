@@ -120,6 +120,7 @@ export class ImageComponent implements OnInit {
 
   moveToTab(index: number): void {
     this.dataService.moveImageToTab(index, this.image);
+    this.cdr.markForCheck();
   }
 
   connectTo(item: DraggableNote | undefined): void {
@@ -128,6 +129,8 @@ export class ImageComponent implements OnInit {
     } else {
       this.dataService.connect(this.image, item);
     }
+    this.cdr.markForCheck();
+    this.dataService.cacheData();
   }
 
   showContextMenu(event: MouseEvent): void {

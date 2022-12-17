@@ -182,12 +182,14 @@ export class NoteComponent implements OnInit {
 
   moveToTab(index: number): void {
     this.dataService.moveNoteToTab(index, this.note);
+    this.cdr.markForCheck();
   }
 
   copyColorFrom(item: Note | TaskList | NoteList): void {
     this.note.backgroundColor = item.backgroundColor;
     this.note.backgroundColorGradient = item.backgroundColorGradient;
     this.note.foregroundColor = item.foregroundColor;
+    this.cdr.markForCheck();
     this.dataService.cacheData();
   }
 
@@ -197,6 +199,8 @@ export class NoteComponent implements OnInit {
     } else {
       this.dataService.connect(this.note, item);
     }
+    this.cdr.markForCheck();
+    this.dataService.cacheData();
   }
 
   showContextMenu(event: MouseEvent): void {

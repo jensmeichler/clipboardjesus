@@ -18,15 +18,25 @@ export class EditTabDialogComponent {
   green = '#69f0ae';
   reset = '#131313';
 
+  tab: Tab;
+  changeFn: () => void;
+
   constructor(
     public dialogRef: MatDialogRef<EditTabDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Tab,
+    @Inject(MAT_DIALOG_DATA) public data: { tab: Tab, changeFn: () => void },
     public readonly dataService: DataService,
   ) {
+    this.tab = data.tab;
+    this.changeFn = data.changeFn;
     this.notesCount = dataService.tab.notes?.length.toString() ?? '0';
     this.noteListsCount = dataService.tab.noteLists?.length.toString() ?? '0';
     this.taskListsCount = dataService.tab.taskLists?.length.toString() ?? '0';
     this.imagesCount = dataService.tab.images?.length.toString() ?? '0';
+  }
+
+  changeColorTo(color: string): void {
+    this.tab.color = color;
+    this.changeFn();
   }
 
   deleteNotes(): void {

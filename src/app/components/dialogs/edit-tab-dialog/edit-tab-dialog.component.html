@@ -1,5 +1,5 @@
 <div [style.padding.px]="16"
-     [style.background]="'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + data.color + ', #131313)'"
+     [style.background]="'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + tab.color + ', #131313)'"
      data-cy="edit-tab-dialog">
   <h1 cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane" class="flex-container"
@@ -8,30 +8,30 @@
       <span>{{ 'EDIT_TAB' | translate }}</span>
     </span>
     <a>
-      <mat-icon (click)="data.color = green" [style.color]="green" class="color-button" matTooltipPosition="above"
+      <mat-icon (click)="changeColorTo(green)" [style.color]="green" class="color-button" matTooltipPosition="above"
                 [matTooltip]="'SET_COLOR_TO' | translate : { color: green }"
                 [attr.aria-label]="'SET_COLOR_TO' | translate : { color: green }">
         color_lens
       </mat-icon>
-      <mat-icon (click)="data.color = purple" [style.color]="purple" class="color-button" matTooltipPosition="above"
+      <mat-icon (click)="changeColorTo(purple)" [style.color]="purple" class="color-button" matTooltipPosition="above"
                 [matTooltip]="'SET_COLOR_TO' | translate : { color: purple }"
                 [attr.aria-label]="'SET_COLOR_TO' | translate : { color: purple }">
         color_lens
       </mat-icon>
-      <mat-icon (click)="data.color = reset" [style.color]="reset" class="color-button" matTooltipPosition="above"
+      <mat-icon (click)="changeColorTo(reset)" [style.color]="reset" class="color-button" matTooltipPosition="above"
                 [matTooltip]="'RESET_COLOR' | translate"
                 [attr.aria-label]="'RESET_COLOR' | translate">
         format_color_reset
       </mat-icon>
-      <input [(ngModel)]="data.color" type="color"
-             [matTooltip]="(data.color !== '#131313' ? 'EDIT_BACKGROUND_COLOR' : 'ADD_BACKGROUND_COLOR') | translate"
+      <input [(ngModel)]="tab.color" type="color" (change)="changeFn()"
+             [matTooltip]="(tab.color !== '#131313' ? 'EDIT_BACKGROUND_COLOR' : 'ADD_BACKGROUND_COLOR') | translate"
              matTooltipPosition="above" style="margin: 0 5px">
     </a>
   </h1>
   <div mat-dialog-content style="margin: 0; padding: 0">
     <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>{{ 'HEADER' | translate }}</mat-label>
-      <input cdkFocusInitial [(ngModel)]="data.label" matInput>
+      <input cdkFocusInitial [(ngModel)]="tab.label" matInput (change)="changeFn()">
     </mat-form-field>
 
     <div class="flex-container">
