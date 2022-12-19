@@ -1,7 +1,7 @@
 <ng-container *ngIf="to">
   <div class="note-connection top-left-to-bottom-right"
        [class.highlight]="from.selected || to.selected"
-       *ngIf="from.posY < to.posY && from.posX < to.posX"
+       *ngIf="from.posY <= to.posY && from.posX <= to.posX"
        [style.top.px]="from.posY"
        [style.left.px]="from.posX"
        [style.height.px]="to.posY - from.posY"
@@ -9,7 +9,7 @@
   ></div>
   <div class="note-connection bottom-left-to-top-right"
        [class.highlight]="from.selected || to.selected"
-       *ngIf="from.posY > to.posY && from.posX < to.posX"
+       *ngIf="from.posY > to.posY && from.posX <= to.posX"
        [style.top.px]="to.posY"
        [style.left.px]="from.posX"
        [style.height.px]="from.posY - to.posY"
@@ -25,7 +25,7 @@
   ></div>
   <div class="note-connection bottom-left-to-top-right"
        [class.highlight]="from.selected || to.selected"
-       *ngIf="from.posY < to.posY && from.posX > to.posX"
+       *ngIf="from.posY <= to.posY && from.posX > to.posX"
        [style.top.px]="from.posY"
        [style.left.px]="to.posX"
        [style.height.px]="to.posY - from.posY"
