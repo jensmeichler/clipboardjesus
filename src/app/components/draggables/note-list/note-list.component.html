@@ -16,17 +16,17 @@
   <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="noteList.notes" cdkDropList role="menu">
    <span *ngFor="let note of noteList.notes" class="note-within-list" style="margin: 0" cdkDrag>
      <cb-small-note [note]="note" [noteList]="noteList"></cb-small-note>
-      <span>
-        <button (click)="editNote(note)" class="item-button" mat-icon-button
-                [attr.aria-label]="'EDIT' | translate">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button (click)="deleteNote(note)" class="item-button" mat-icon-button style="margin-right: -8px"
-                [attr.aria-label]="'DELETE' | translate">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </span>
-    </span>
+     <span>
+       <button (click)="editNote(note)" class="item-button" mat-icon-button
+               [attr.aria-label]="'EDIT' | translate">
+         <mat-icon>edit</mat-icon>
+       </button>
+       <button (click)="deleteNote(note)" class="item-button" mat-icon-button style="margin-right: -8px"
+               [attr.aria-label]="'DELETE' | translate">
+         <mat-icon>delete</mat-icon>
+       </button>
+     </span>
+   </span>
   </mat-card-content>
 
   <mat-card-actions align="end">

@@ -6,7 +6,9 @@
     height: 34px;
     line-height: 34px;
     padding: 0 8px;
-    transition: all ease-in-out 100ms;
+    // mat-menu-item defined the transition as inline style elements
+    // so we need to set this value as !important
+    transition: all ease-in-out .18s !important;
     &:hover {
       box-shadow: var(--shadow-light);
     }
@@ -31,7 +33,6 @@
       line-height: 34px;
       padding: 0 8px;
       transition: all ease-in-out 100ms;
-      box-shadow: var(--shadow-strong);
     }
   }
   .cdk-drag-placeholder {
