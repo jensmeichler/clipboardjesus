@@ -29,24 +29,24 @@
       "notes": [
         {
           "id": "welcome_note_3_1",
-          "foregroundColor": "#000000",
-          "backgroundColor": "#ffffff",
+          "foregroundColor": "#ffffff",
+          "backgroundColor": "#212121",
           "posX": 0,
           "posY": 0,
           "content": "When you click me, I am saved to your clipboard 💥"
         },
         {
           "id": "welcome_note_list_3_2",
-          "foregroundColor": "#000000",
-          "backgroundColor": "#ffffff",
+          "foregroundColor": "#ffffff",
+          "backgroundColor": "#212121",
           "posX": 0,
           "posY": 0,
           "content": "You can just add new notes from your clipboard by pressing the ➕ button"
         },
         {
           "id": "welcome_note_list_3_3",
-          "foregroundColor": "#000000",
-          "backgroundColor": "#ffffff",
+          "foregroundColor": "#ffffff",
+          "backgroundColor": "#212121",
           "posX": 0,
           "posY": 0,
           "content": "It's also possible to order notes using drag drop ⚡"
