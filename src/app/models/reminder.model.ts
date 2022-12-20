@@ -1,4 +1,4 @@
 export interface Reminder {
-  date: Date | null;
-  time: Date | null;
+  date: string | null;
+  time: string | null;
 }

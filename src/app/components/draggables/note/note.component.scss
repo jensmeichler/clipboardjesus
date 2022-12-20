@@ -1,8 +1,23 @@
-:host::ng-deep .markdown {
-  filter: var(--drop-shadow-light);
-  &>p:last-child {
-    margin-bottom: 0;
+:host {
+  ::ng-deep .markdown {
+    filter: var(--drop-shadow-light);
+    &>p:last-child {
+      margin-bottom: 0;
+    }
   }
+
+  &:has(.overdue)::after {
+    content: '❗';
+    position: absolute;
+    top: 32px;
+    right: -32px;
+    font-size: 3rem;
+    border-radius: 50%;
+  }
+}
+
+.nearly-overdue {
+  box-shadow: var(--shadow-overdue);
 }
 
 .mat-card-content {

@@ -34,6 +34,10 @@ export class ImageComponent implements OnInit {
   rightClickPosX = 0;
   rightClickPosY = 0;
 
+  get canInteract(): boolean {
+    return this.movedPx < 5;
+  }
+
   constructor(
     private readonly hashy: HashyService,
     private readonly clipboard: ClipboardService,
@@ -46,10 +50,6 @@ export class ImageComponent implements OnInit {
     if (!this.image) {
       throw new Error('ImageComponent.image is necessary!');
     }
-  }
-
-  get canInteract(): boolean {
-    return this.movedPx < 5;
   }
 
   onImageLoaded(): void {
