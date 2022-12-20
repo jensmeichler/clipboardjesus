@@ -33,6 +33,6 @@ export class EditNoteDialogComponent {
   }
 
   cancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 }

@@ -23,6 +23,6 @@ export class AboutDialogComponent {
   }
 
   cancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 }

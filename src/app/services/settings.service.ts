@@ -58,7 +58,9 @@ export class SettingsService {
     this._animationsDisabled = value;
     if (value) {
       const cursor = document.getElementById('cursor');
-      if (cursor) cursor.style.display = 'none';
+      if (cursor) {
+        cursor.style.display = 'none';
+      }
       localStorage.setItem(this.storageKeys.animationsDisabled, TRUE);
     } else {
       localStorage.removeItem(this.storageKeys.animationsDisabled);

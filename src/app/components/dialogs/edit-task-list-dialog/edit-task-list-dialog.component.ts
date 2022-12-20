@@ -52,6 +52,6 @@ export class EditTaskListDialogComponent {
   }
 
   cancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 }

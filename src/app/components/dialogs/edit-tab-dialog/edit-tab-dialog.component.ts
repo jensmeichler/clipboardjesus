@@ -14,6 +14,7 @@ export class EditTabDialogComponent {
   noteListsCount: string;
   taskListsCount: string;
   imagesCount: string;
+
   purple = '#7b1ea2';
   green = '#69f0ae';
   reset = '#131313';
@@ -41,22 +42,26 @@ export class EditTabDialogComponent {
 
   deleteNotes(): void {
     this.notesCount = '0';
-    this.dataService.tab.notes = []
+    this.dataService.tab.notes = [];
+    this.changeFn();
   }
 
   deleteNoteLists(): void {
     this.noteListsCount = '0';
-    this.dataService.tab.noteLists = []
+    this.dataService.tab.noteLists = [];
+    this.changeFn();
   }
 
   deleteTaskLists(): void {
     this.taskListsCount = '0';
-    this.dataService.tab.taskLists = []
+    this.dataService.tab.taskLists = [];
+    this.changeFn();
   }
 
   deleteImages(): void {
     this.imagesCount = '0';
-    this.dataService.tab.images = []
+    this.dataService.tab.images = [];
+    this.changeFn();
   }
 
   moveToRight(): void {
@@ -83,7 +88,7 @@ export class EditTabDialogComponent {
   }
 
   cancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   private reArrangeTab(targetIndex: number): void {

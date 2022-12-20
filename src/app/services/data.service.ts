@@ -606,11 +606,10 @@ export class DataService implements OnDestroy {
    */
   async saveAllAs(): Promise<void> {
     if (isTauri) {
-      return dialog.save().then(async (path) => {
-        const jsonString = JSON.stringify(this.getAsJson(true));
-        const fileName = `${path.replace('.boards.json', '')}.boards.json`;
-        await this.fileAccessService.write(jsonString, fileName);
-      })
+      const path = await dialog.save();
+      const jsonString = JSON.stringify(this.getAsJson(true));
+      const fileName = `${path.replace('.boards.json', '')}.boards.json`;
+      await this.fileAccessService.write(jsonString, fileName);
     } else {
       this.dialog.open(SaveAsDialogComponent, {
         position: {
@@ -618,9 +617,10 @@ export class DataService implements OnDestroy {
           right: 'var(--margin-edge)'
         }
       }).afterClosed().subscribe(async (filename) => {
-        if (filename) {
-          await this.saveAll(filename);
+        if (!filename) {
+          return;
         }
+        await this.saveAll(filename);
       });
     }
   }

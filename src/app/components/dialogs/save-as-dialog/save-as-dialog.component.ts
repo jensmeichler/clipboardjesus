@@ -18,7 +18,7 @@ export class SaveAsDialogComponent {
   }
 
   cancel(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   @HostListener('keydown', ['$event'])
