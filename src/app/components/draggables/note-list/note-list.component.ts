@@ -32,6 +32,10 @@ export class NoteListComponent implements OnInit {
   rightClickPosX = 0;
   rightClickPosY = 0;
 
+  get canInteract(): boolean {
+    return this.movedPx < 5;
+  }
+
   constructor(
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
@@ -44,10 +48,6 @@ export class NoteListComponent implements OnInit {
     if (!this.noteList) {
       throw new Error('NoteListComponent.noteList is necessary!');
     }
-  }
-
-  get canInteract(): boolean {
-    return this.movedPx < 5;
   }
 
   select(): void {

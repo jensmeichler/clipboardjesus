@@ -3,6 +3,8 @@
           (mousedown)="onMouseDown($event)"
           (mousemove)="onMouseMove()"
           (mouseup)="onMouseUp($event)"
+          [class.nearly-overdue]="nearlyOverdue"
+          [class.overdue]="overdue"
           [class.docked-left]="note.posX === 0"
           [class.docked-top]="note.posY === 49"
           [matRippleDisabled]="rippleDisabled"

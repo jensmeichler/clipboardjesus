@@ -5,7 +5,9 @@ import {
   ElementRef,
   EventEmitter,
   Input,
+  OnChanges, OnDestroy,
   OnInit,
+  SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
@@ -24,7 +26,7 @@ import {marked, Renderer} from 'marked';
   styleUrls: ['./note.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoteComponent implements OnInit {
+export class NoteComponent implements OnInit, OnChanges, OnDestroy {
   @Input() note!: Note;
   @Input() changed?: EventEmitter<void> | undefined;
 
@@ -43,6 +45,15 @@ export class NoteComponent implements OnInit {
 
   parsedMarkdownContent = '';
 
+  overdue = false;
+  nearlyOverdue = false;
+
+  timers: number[] = [];
+
+  get canInteract(): boolean {
+    return this.movedPx < 5;
+  }
+
   constructor(
     private readonly clipboard: ClipboardService,
     private readonly hashy: HashyService,
@@ -50,10 +61,6 @@ export class NoteComponent implements OnInit {
     public readonly dataService: DataService,
     private readonly cdr: ChangeDetectorRef,
   ) {
-  }
-
-  get canInteract(): boolean {
-    return this.movedPx < 5;
   }
 
   ngOnInit(): void {
@@ -69,6 +76,62 @@ export class NoteComponent implements OnInit {
     }
 
     this.cdr.markForCheck();
+  }
+
+  /**
+   * Marks the note when a reminder is overdue.
+   * @param changes
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    const note = changes['note']?.currentValue as Note | undefined;
+    const reminder = note?.reminder;
+    if (!reminder) {
+      return;
+    }
+
+    this.disposeTimers();
+
+    const now = new Date();
+    let then: Date;
+
+    if (reminder.date && reminder.time) {
+      then = new Date(`${reminder.date}T${reminder.time}:00`);
+    } else if (reminder.date) {
+      then = new Date(`${reminder.date}T${now.getHours()}:${now.getMinutes()}:00`);
+    } else if (reminder.time) {
+      then = new Date(`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}T${reminder.time}:00`);
+    } else {
+      this.note.reminder = undefined;
+      return;
+    }
+
+    const minutesUntilOverdue = (then!.getTime() - now.getTime()) / 1000 / 60;
+    const minutesUntilReminder = minutesUntilOverdue - (reminder.before ?? 0);
+
+    this.nearlyOverdue = minutesUntilReminder <= 0;
+    this.overdue = minutesUntilOverdue <= 0;
+
+    if (!this.overdue) {
+      this.timers.push(
+        setTimeout(() => {
+          this.overdue = true;
+          this.cdr.markForCheck();
+          }, minutesUntilOverdue * 60 * 1000)
+      );
+    }
+    if (!this.nearlyOverdue) {
+      this.timers.push(
+        setTimeout(() => {
+          this.nearlyOverdue = true;
+          this.cdr.markForCheck();
+        }, minutesUntilReminder * 60 * 1000)
+      );
+    }
+  }
+
+  private disposeTimers(): void {
+    this.timers.forEach(timer => clearTimeout(timer));
+    this.timers = [];
   }
 
   private updateMarkdown(): void {
@@ -214,5 +277,9 @@ export class NoteComponent implements OnInit {
     }
     this.rippleDisabled = false;
     this.mouseDown = false;
+  }
+
+  ngOnDestroy(): void {
+    this.disposeTimers();
   }
 }
