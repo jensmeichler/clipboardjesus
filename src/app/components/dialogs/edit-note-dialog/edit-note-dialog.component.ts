@@ -1,16 +1,20 @@
-import {ChangeDetectionStrategy, Component, HostListener, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Note} from "@clipboardjesus/models";
 
 @Component({
   selector: 'cb-edit-note-dialog',
   templateUrl: './edit-note-dialog.component.html',
+  styleUrls: ['./edit-note-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditNoteDialogComponent {
+  suppressTooltip = false;
+
   constructor(
     public dialogRef: MatDialogRef<EditNoteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Note,
+    private cdr: ChangeDetectorRef,
   ) {
   }
 
@@ -23,6 +27,17 @@ export class EditNoteDialogComponent {
     }
 
     event.stopPropagation();
+  }
+
+  toggleReminder(): void {
+    this.suppressTooltip = true;
+    setTimeout(() => {
+      this.suppressTooltip = false;
+      this.cdr.markForCheck();
+    }, 100);
+    this.data.reminder = !this.data.reminder
+      ? { date: null, time: null }
+      : undefined;
   }
 
   submit(): void {

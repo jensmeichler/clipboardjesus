@@ -1,0 +1,29 @@
+.form-group-wrapper {
+  display: flex;
+  gap: 20px;
+
+  .mat-form-field {
+    width: 100%;
+    min-width: 20px;
+  }
+
+  &.animate {
+    animation: form-field-grow 0.3s ease-in-out;
+  }
+}
+
+@keyframes form-field-grow {
+  0% {
+    height: 0;
+    opacity: 0;
+  }
+  50% {
+    height: 70px;
+    opacity: 0;
+    transform: scaleY(.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
