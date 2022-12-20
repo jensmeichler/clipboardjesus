@@ -78,9 +78,6 @@ export class TabComponent implements OnInit {
    * @param event
    */
   onMouseMove(event: MouseEvent): void {
-    if (this.mouseDown) {
-      console.log('mousemove')
-    }
     this.endCursorPosX = event.pageX;
     this.endCursorPosY = event.pageY;
     this.cdr.markForCheck();

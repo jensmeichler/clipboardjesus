@@ -5,6 +5,17 @@
   }
 }
 
+.tab-header {
+  margin-left: 8px;
+  margin-right: 4px;
+  &.warning {
+    color: var(--color-secondary);
+  }
+  &.error {
+    color: var(--color-warn);
+  }
+}
+
 .app {
   height: 100%;
   ::ng-deep {

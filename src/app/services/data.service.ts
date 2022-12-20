@@ -40,6 +40,50 @@ export class DataService implements OnDestroy {
   get tab(): Tab { return this.tabs[this.selectedTabIndex]; }
   set tab(tab: Tab) { this.tabs[this.selectedTabIndex] = tab; }
 
+  private _tabsWithErrors: {[key: number]: string[]} = {};
+  hasError(tabIndex: number): boolean {
+    return Object.keys(this._tabsWithErrors).includes(tabIndex.toString());
+  }
+  setError(noteId: string) {
+    const tab = this.tabs.find(t => t.notes?.some(n => n.id === noteId));
+    this._tabsWithErrors[tab!.index] ??= [];
+    this._tabsWithErrors[tab!.index].push(noteId);
+  }
+  removeError(noteId: string) {
+    const tab = this.tabs.find(t => t.notes?.some(n => n.id === noteId));
+    if (!tab) {
+      return;
+    }
+    const indexes = this._tabsWithErrors[tab.index]?.filter(x => x !== noteId);
+    if (indexes?.length) {
+      this._tabsWithErrors[tab.index] = indexes;
+    } else {
+      delete this._tabsWithErrors[tab.index];
+    }
+  }
+
+  private _tabsWithWarnings: {[key: number]: string[]} = {};
+  hasWarning(tabIndex: number): boolean {
+    return Object.keys(this._tabsWithWarnings).includes(tabIndex.toString());
+  }
+  setWarning(noteId: string) {
+    const tab = this.tabs.find(t => t.notes?.some(n => n.id === noteId));
+    this._tabsWithWarnings[tab!.index] ??= [];
+    this._tabsWithWarnings[tab!.index].push(noteId);
+  }
+  removeWarning(noteId: string) {
+    const tab = this.tabs.find(t => t.notes?.some(n => n.id === noteId));
+    if (!tab) {
+      return;
+    }
+    const indexes = this._tabsWithWarnings[tab.index]?.filter(x => x !== noteId);
+    if (indexes?.length) {
+      this._tabsWithWarnings[tab.index] = indexes;
+    } else {
+      delete this._tabsWithWarnings[tab.index];
+    }
+  }
+
   redoPossible = this.cache.redoPossible;
   undoPossible = this.cache.undoPossible;
   restorePossible = this.cache.restorePossible;
@@ -483,6 +527,8 @@ export class DataService implements OnDestroy {
    */
   deleteNote(note: Note, skipIndexing?: boolean): void {
     this.disconnectAll(note);
+    this.removeError(note.id);
+    this.removeWarning(note.id);
     this.tab.notes = this.tab.notes?.filter(x => x !== note);
     if (!skipIndexing) {
       this.reArrangeIndices();

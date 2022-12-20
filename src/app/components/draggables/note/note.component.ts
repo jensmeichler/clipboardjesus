@@ -111,20 +111,35 @@ export class NoteComponent implements OnInit, OnChanges, OnDestroy {
     this.nearlyOverdue = minutesUntilReminder <= 0;
     this.overdue = minutesUntilOverdue <= 0;
 
-    if (!this.overdue) {
+    const setOverdue = () => {
+      this.dataService.setError(this.note.id);
+      this.overdue = true;
+      this.cdr.markForCheck();
+    }
+    if (this.overdue) {
+      setOverdue();
+    } else {
       this.timers.push(
-        setTimeout(() => {
-          this.overdue = true;
-          this.cdr.markForCheck();
-          }, minutesUntilOverdue * 60 * 1000)
+        setTimeout(
+          () => setOverdue(),
+          minutesUntilOverdue * 60 * 1000
+        )
       );
     }
-    if (!this.nearlyOverdue) {
+
+    const setNearlyOverdue = () => {
+      this.dataService.setWarning(this.note.id);
+      this.nearlyOverdue = true;
+      this.cdr.markForCheck();
+    }
+    if (this.nearlyOverdue) {
+      setNearlyOverdue();
+    } else {
       this.timers.push(
-        setTimeout(() => {
-          this.nearlyOverdue = true;
-          this.cdr.markForCheck();
-        }, minutesUntilReminder * 60 * 1000)
+        setTimeout(
+          () => setNearlyOverdue(),
+          minutesUntilReminder * 60 * 1000
+        )
       );
     }
   }

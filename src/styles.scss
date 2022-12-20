@@ -7,9 +7,10 @@
   --color-primary: #7b1ea2;
   --color-primary-opacity: #7B1EA267;
   --color-secondary: #69f0ae;
+  --color-warn: red;
   --shadow-light: 0 0 8px #131313a8;
   --shadow-strong: 0 0 16px black;
-  --shadow-overdue: 0 0 32px red;
+  --shadow-overdue: 0 0 32px var(--color-warn);
   --width-edit-dialog: 50vw;
   --margin-edge: 24px;
   --font-style: normal;
