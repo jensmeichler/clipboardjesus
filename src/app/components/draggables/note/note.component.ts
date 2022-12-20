@@ -5,7 +5,7 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnChanges,
+  OnChanges, OnDestroy,
   OnInit,
   SimpleChanges,
   ViewChild
@@ -26,7 +26,7 @@ import {marked, Renderer} from 'marked';
   styleUrls: ['./note.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoteComponent implements OnInit, OnChanges {
+export class NoteComponent implements OnInit, OnChanges, OnDestroy {
   @Input() note!: Note;
   @Input() changed?: EventEmitter<void> | undefined;
 
@@ -47,6 +47,8 @@ export class NoteComponent implements OnInit, OnChanges {
 
   overdue = false;
   nearlyOverdue = false;
+
+  timers: number[] = [];
 
   get canInteract(): boolean {
     return this.movedPx < 5;
@@ -87,6 +89,8 @@ export class NoteComponent implements OnInit, OnChanges {
       return;
     }
 
+    this.disposeTimers();
+
     const now = new Date();
     let then: Date;
 
@@ -101,13 +105,33 @@ export class NoteComponent implements OnInit, OnChanges {
       return;
     }
 
-    const minutesUntilReminder = (then!.getTime() - now.getTime()) / 1000 / 60;
+    const minutesUntilOverdue = (then!.getTime() - now.getTime()) / 1000 / 60;
+    const minutesUntilReminder = minutesUntilOverdue - (reminder.before ?? 0);
 
-    this.nearlyOverdue = minutesUntilReminder < (reminder.before ?? 0);
-    if (minutesUntilReminder < 0) {
-      this.overdue = true;
-      this.cdr.markForCheck();
+    this.nearlyOverdue = minutesUntilReminder <= 0;
+    this.overdue = minutesUntilOverdue <= 0;
+
+    if (!this.overdue) {
+      this.timers.push(
+        setTimeout(() => {
+          this.overdue = true;
+          this.cdr.markForCheck();
+          }, minutesUntilOverdue * 60 * 1000)
+      );
     }
+    if (!this.nearlyOverdue) {
+      this.timers.push(
+        setTimeout(() => {
+          this.nearlyOverdue = true;
+          this.cdr.markForCheck();
+        }, minutesUntilReminder * 60 * 1000)
+      );
+    }
+  }
+
+  private disposeTimers(): void {
+    this.timers.forEach(timer => clearTimeout(timer));
+    this.timers = [];
   }
 
   private updateMarkdown(): void {
@@ -253,5 +277,9 @@ export class NoteComponent implements OnInit, OnChanges {
     }
     this.rippleDisabled = false;
     this.mouseDown = false;
+  }
+
+  ngOnDestroy(): void {
+    this.disposeTimers();
   }
 }
