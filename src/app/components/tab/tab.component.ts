@@ -78,6 +78,9 @@ export class TabComponent implements OnInit {
    * @param event
    */
   onMouseMove(event: MouseEvent): void {
+    if (this.mouseDown) {
+      console.log('mousemove')
+    }
     this.endCursorPosX = event.pageX;
     this.endCursorPosY = event.pageY;
     this.cdr.markForCheck();
@@ -91,8 +94,6 @@ export class TabComponent implements OnInit {
   async onMouseUp(event: MouseEvent): Promise<void> {
     const cursorMoved = this.mouseDown && (Math.abs(event.pageX - this.startCursorPosX) > 5
       || Math.abs(event.pageY - this.startCursorPosY) > 5);
-
-    this.elementRef.nativeElement.removeEventListener('mousemove', this.mouseMoveEvent)
 
     if (cursorMoved) {
       if (!(event.ctrlKey || event.metaKey || event.shiftKey)) {
@@ -265,5 +266,6 @@ export class TabComponent implements OnInit {
     this.endCursorPosX = 0;
     this.endCursorPosY = 0;
     this.mouseDown = false;
+    this.elementRef.nativeElement.removeEventListener('mousemove', this.mouseMoveEvent)
   }
 }
