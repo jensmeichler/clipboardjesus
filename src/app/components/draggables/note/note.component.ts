@@ -103,7 +103,7 @@ export class NoteComponent implements OnInit, OnChanges {
 
     const minutesUntilReminder = (then!.getTime() - now.getTime()) / 1000 / 60;
 
-    this.nearlyOverdue = minutesUntilReminder < 10;
+    this.nearlyOverdue = minutesUntilReminder < (reminder.before ?? 0);
     if (minutesUntilReminder < 0) {
       this.overdue = true;
       this.cdr.markForCheck();

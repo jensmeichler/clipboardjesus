@@ -35,9 +35,7 @@ export class EditNoteDialogComponent {
       this.suppressTooltip = false;
       this.cdr.markForCheck();
     }, 100);
-    this.data.reminder = !this.data.reminder
-      ? { date: null, time: null }
-      : undefined;
+    this.data.reminder = !this.data.reminder ? {} : undefined;
   }
 
   submit(): void {

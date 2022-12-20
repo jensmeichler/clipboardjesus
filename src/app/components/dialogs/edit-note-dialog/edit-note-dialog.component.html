@@ -35,12 +35,17 @@
   <div mat-dialog-content style="margin: 0; padding: 0">
     <div class="form-group-wrapper animate" *ngIf="data.reminder">
       <mat-form-field color="accent">
-        <mat-label>{{ 'REMINDER_TIME' | translate }}</mat-label>
+        <mat-label>{{ 'REMINDER_DATE' | translate }}</mat-label>
         <input matInput [(ngModel)]="data.reminder.date" type="date">
       </mat-form-field>
       <mat-form-field color="accent">
         <mat-label>{{ 'REMINDER_TIME' | translate }}</mat-label>
         <input matInput [(ngModel)]="data.reminder.time" type="time">
+      </mat-form-field>
+      <mat-form-field color="accent">
+        <mat-label>{{ 'REMINDER_WARN_BEFORE' | translate }}</mat-label>
+        <input matInput [(ngModel)]="data.reminder.before" type="number">
+        <span style="margin-left: 6px" matSuffix>m</span>
       </mat-form-field>
     </div>
 
