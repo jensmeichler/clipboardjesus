@@ -72,8 +72,8 @@ export class AppComponent implements OnInit {
     private readonly clipboard: ClipboardService,
     public readonly dataService: DataService,
     public readonly hashy: HashyService,
-    private readonly route: ActivatedRoute,
     private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
     private readonly cache: CacheService,
     private readonly translate: TranslateService,
     public readonly settings: SettingsService,
@@ -84,21 +84,13 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.pipe(take(2)).subscribe(async (params) => {
+    this.activatedRoute.queryParams.pipe(take(2)).subscribe(async (params) => {
       if (this.initialized) {
         return;
       }
-      const tabIndex = params['tab'];
-      const sharedTab = params['params'];
 
-      if (tabIndex) {
-        const index = this.dataService.tabs
-          .find(x => x.label ? x.label === tabIndex : (x.index+1) == tabIndex)?.index;
-        if (index !== undefined) {
-          this.dataService.selectedTabIndex = index;
-        }
-        this.initialized = true;
-      } else if (sharedTab) {
+      const sharedTab = params['params'];
+      if (sharedTab) {
         const tab = JSON.parse(atob(sharedTab));
         if (typeof tab !== 'string') {
           if (this.dataService.tabs.length === 1
@@ -112,7 +104,7 @@ export class AppComponent implements OnInit {
         }
 
         // Clear the query params and initialize the app from localstorage
-        await this.router.navigate(['.'], {relativeTo: this.route});
+        await this.router.navigate(['.'], {relativeTo: this.activatedRoute});
         this.reloadApp();
       } else {
         // Hack for fade in animation on startup

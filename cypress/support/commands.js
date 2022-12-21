@@ -1,5 +1,5 @@
 // noinspection JSCheckFunctionSignatures
-Cypress.Commands.add('seed', (data) => {
+Cypress.Commands.add('seed', (data, tabIndex) => {
   if (Array.isArray(data)) {
     let i = 0;
     data.forEach(tab => {
@@ -9,6 +9,9 @@ Cypress.Commands.add('seed', (data) => {
   } else {
     const json = JSON.stringify(data);
     window.localStorage.setItem(`clipboard_data_0`, json);
+  }
+  if (tabIndex) {
+    window.localStorage.setItem(`clipboard_tab`, tabIndex.toString());
   }
 })
 

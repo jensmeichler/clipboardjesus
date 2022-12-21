@@ -10,6 +10,13 @@ export class StorageService {
   onTabChanged = new EventEmitter<{tab: Tab, index: number}>();
   onTabDeleted = new EventEmitter<number>();
 
+  get selectedTabIndex(): number {
+    return +(localStorage.getItem('clipboard_tab') ?? 0);
+  }
+  set selectedTabIndex(index: number) {
+    localStorage.setItem('clipboard_tab', index.toString());
+  }
+
   constructor() {
     window.addEventListener('storage', ({oldValue, newValue, key}) => {
       const indexString = key?.split('_').reverse()[0];

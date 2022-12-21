@@ -21,7 +21,6 @@ import {_blank, isTauri} from "@clipboardjesus/const";
 import {dialog} from "@tauri-apps/api";
 import welcomeTab from '../../assets/screens/welcome.json';
 import {Subject, takeUntil} from "rxjs";
-import {Location} from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -29,10 +28,14 @@ import {Location} from '@angular/common';
 export class DataService implements OnDestroy {
   _blank = _blank;
 
-  private _selectedTabIndex = 0;
-  get selectedTabIndex(): number { return this._selectedTabIndex; }
+  private _selectedTabIndex?: number;
+  get selectedTabIndex(): number {
+    this._selectedTabIndex ??= this.storageService.selectedTabIndex;
+    return this._selectedTabIndex;
+  }
   set selectedTabIndex(index: number) {
     this._selectedTabIndex = index;
+    this.storageService.selectedTabIndex = index;
     this.updateAppTitle();
   }
 
@@ -99,8 +102,7 @@ export class DataService implements OnDestroy {
     private readonly fileService: FileService,
     private readonly fileAccessService: FileAccessService,
     private readonly clipboard: ClipboardService,
-    private readonly location: Location,
-    storageService: StorageService
+    private readonly storageService: StorageService
   ) {
     cache.getJsonFromAll().forEach((tab) =>
       this.tabs.push(tab)
@@ -130,16 +132,9 @@ export class DataService implements OnDestroy {
       return;
     }
 
-    const tab = this.tabs[this._selectedTabIndex];
-    const tabName = tab.label ?? `#Board ${this._selectedTabIndex+1}`;
+    const tab = this.tabs[this.selectedTabIndex];
+    const tabName = tab.label ?? `#Board ${this.selectedTabIndex+1}`;
     appTitle.innerText = `Clip#board | ${tabName}`;
-
-    //TODO: replaceState drops some warnings while routing...
-    // The right way would be not to fool angular while setting the href manually.
-    // When the route changes, the app title should change and not the other way around.
-    // Currently it's working that way because of the subscription onto the queryParams in the app component.
-    const tabParam = tab.label ? tabName : (tab.index+1);
-    this.location.replaceState('', `?tab=${tabParam}`);
   }
 
   /**

@@ -5,8 +5,8 @@ import {dataCy} from "../../support/selectors";
 
 describe('Switch tabs', () => {
   beforeEach(() => {
-    cy.seed([singleNoteTab, multipleNotesTab, singleTaskListTab]);
-    cy.visit('/?tab=2');
+    cy.seed([singleNoteTab, multipleNotesTab, singleTaskListTab], 1);
+    cy.visit('/');
   })
 
   it('should have 3 tabs and the second tab opened', () => {
