@@ -41,7 +41,8 @@ import {take} from "rxjs";
   selector: 'cb-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [DataService]
 })
 export class AppComponent implements OnInit {
   @ViewChild(MatMenuTrigger)

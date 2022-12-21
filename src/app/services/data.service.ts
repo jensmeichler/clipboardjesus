@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {ChangeDetectorRef, Injectable, OnDestroy} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {SaveAsDialogComponent} from "@clipboardjesus/components";
 import {
@@ -22,9 +22,7 @@ import {dialog} from "@tauri-apps/api";
 import welcomeTab from '../../assets/screens/welcome.json';
 import {Subject, takeUntil} from "rxjs";
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class DataService implements OnDestroy {
   _blank = _blank;
 
@@ -102,7 +100,8 @@ export class DataService implements OnDestroy {
     private readonly fileService: FileService,
     private readonly fileAccessService: FileAccessService,
     private readonly clipboard: ClipboardService,
-    private readonly storageService: StorageService
+    private readonly storageService: StorageService,
+    private readonly cdr: ChangeDetectorRef,
   ) {
     cache.getJsonFromAll().forEach((tab) =>
       this.tabs.push(tab)
@@ -114,12 +113,14 @@ export class DataService implements OnDestroy {
 
     this.setColorizedObjects();
 
-    storageService.onTabChanged.pipe(takeUntil(this.destroy$)).subscribe(({tab, index}) =>
-      this.tabs[index] = tab
-    );
-    storageService.onTabDeleted.pipe(takeUntil(this.destroy$)).subscribe((index) =>
-      this.removeTab(index)
-    );
+    storageService.onTabChanged.pipe(takeUntil(this.destroy$)).subscribe(({tab, index}) => {
+        this.tabs[index] = tab;
+        this.cdr.markForCheck();
+      });
+    storageService.onTabDeleted.pipe(takeUntil(this.destroy$)).subscribe((index) => {
+      this.removeTab(index);
+      this.cdr.markForCheck();
+    });
   }
 
   /**
