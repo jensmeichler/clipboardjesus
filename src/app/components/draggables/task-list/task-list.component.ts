@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
-import {DraggableNote, Note, TaskItem, TaskList} from "@clipboardjesus/models";
+import {Colored, DraggableNote, TaskItem, TaskList} from "@clipboardjesus/models";
 import {DataService, StringParserService} from "@clipboardjesus/services";
 import {EditTaskListDialogComponent} from "@clipboardjesus/components";
 
@@ -224,7 +224,7 @@ export class TaskListComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
-  copyColorFrom(item: Note | TaskList): void {
+  copyColorFrom(item: Colored): void {
     this.taskList.backgroundColor = item.backgroundColor;
     this.taskList.backgroundColorGradient = item.backgroundColorGradient;
     this.taskList.foregroundColor = item.foregroundColor;

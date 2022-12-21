@@ -7,7 +7,7 @@ import {
   Note,
   Tab,
   TaskList,
-  NoteList
+  NoteList, Colored
 } from "@clipboardjesus/models";
 import {
   CacheService,
@@ -35,6 +35,7 @@ export class DataService implements OnDestroy {
     this._selectedTabIndex = index;
     this.storageService.selectedTabIndex = index;
     this.updateAppTitle();
+    this.cdr.markForCheck();
   }
 
   tabs: Tab[] = [];
@@ -89,7 +90,7 @@ export class DataService implements OnDestroy {
   undoPossible = this.cache.undoPossible;
   restorePossible = this.cache.restorePossible;
 
-  private colorizedObjects: (Note | TaskList | NoteList)[] = [];
+  private colorizedObjects: Colored[] = [];
 
   private destroy$ = new Subject<void>();
 
@@ -185,7 +186,7 @@ export class DataService implements OnDestroy {
       && left.posY === right.posY;
   }
 
-  private static compareColors(left: Note | TaskList | NoteList, right: Note | TaskList | NoteList): boolean {
+  private static compareColors(left: Colored, right: Colored): boolean {
     if (!left || !right) {
       return false;
     }
@@ -219,7 +220,9 @@ export class DataService implements OnDestroy {
    */
   restoreTab(): void {
     const recreatedTab = this.cache.recreate();
-    if (recreatedTab) this.addTab(recreatedTab);
+    if (recreatedTab) {
+      this.addTab(recreatedTab);
+    }
   }
 
   /**
@@ -227,7 +230,7 @@ export class DataService implements OnDestroy {
    * This method is mainly used get colors which can be copied to another item.
    * @param excludedItem
    */
-  getColorizedObjects(excludedItem: Note | TaskList | NoteList): (Note | TaskList | NoteList)[] {
+  getColorizedObjects(excludedItem: Colored): Colored[] {
     return this.colorizedObjects.filter(item => !DataService.compareColors(excludedItem, item));
   }
 

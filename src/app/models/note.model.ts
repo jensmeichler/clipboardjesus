@@ -1,8 +1,9 @@
 import {colorRegex} from "@clipboardjesus/const";
 import {DraggableNoteBase} from "./draggable-note-base.model";
-import {Reminder} from "@clipboardjesus/models/reminder.model";
+import {Colored} from "./colored.model";
+import {Reminder} from "./reminder.model";
 
-export class Note extends DraggableNoteBase {
+export class Note extends DraggableNoteBase implements Colored {
   foregroundColor: string = '#ffffff';
   backgroundColor: string = '#212121';
   backgroundColorGradient?: string;

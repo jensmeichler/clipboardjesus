@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {DraggableNote, Note, NoteList, TaskList} from "@clipboardjesus/models";
+import {Colored, DraggableNote, Note, NoteList} from "@clipboardjesus/models";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {DataService, ClipboardService} from "@clipboardjesus/services";
 import {EditNoteDialogComponent, EditNoteListDialogComponent} from "@clipboardjesus/components";
@@ -188,7 +188,7 @@ export class NoteListComponent implements OnInit {
     this.cdr.markForCheck();
   }
 
-  copyColorFrom(item: Note | TaskList | NoteList): void {
+  copyColorFrom(item: Colored): void {
     this.noteList.backgroundColor = item.backgroundColor;
     this.noteList.backgroundColorGradient = item.backgroundColorGradient;
     this.noteList.foregroundColor = item.foregroundColor;

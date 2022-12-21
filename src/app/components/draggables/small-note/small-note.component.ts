@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {Note, NoteList, TaskList} from "@clipboardjesus/models";
+import {Colored, Note, NoteList} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {EditNoteDialogComponent} from "@clipboardjesus/components";
@@ -68,7 +68,7 @@ export class SmallNoteComponent implements OnInit {
     this.dataService.cacheData();
   }
 
-  copyColorFrom(item: Note | TaskList): void {
+  copyColorFrom(item: Colored): void {
     if (!this.note) {
       return;
     }

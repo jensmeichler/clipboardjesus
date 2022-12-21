@@ -13,7 +13,7 @@ import {
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {htmlRegex} from "@clipboardjesus/const";
-import {DraggableNote, Note, NoteList, TaskList} from "@clipboardjesus/models";
+import {Colored, DraggableNote, Note} from "@clipboardjesus/models";
 import {DataService, HashyService} from "@clipboardjesus/services";
 import {EditNoteDialogComponent} from "@clipboardjesus/components";
 import {ClipboardService} from "@clipboardjesus/services";
@@ -263,7 +263,7 @@ export class NoteComponent implements OnInit, OnChanges, OnDestroy {
     this.cdr.markForCheck();
   }
 
-  copyColorFrom(item: Note | TaskList | NoteList): void {
+  copyColorFrom(item: Colored): void {
     this.note.backgroundColor = item.backgroundColor;
     this.note.backgroundColorGradient = item.backgroundColorGradient;
     this.note.foregroundColor = item.foregroundColor;
