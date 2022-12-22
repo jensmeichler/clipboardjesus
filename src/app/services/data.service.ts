@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Injectable, OnDestroy} from '@angular/core';
+import {EventEmitter, Injectable, OnDestroy} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {SaveAsDialogComponent} from "@clipboardjesus/components";
 import {
@@ -7,7 +7,8 @@ import {
   Note,
   Tab,
   TaskList,
-  NoteList, Colored
+  NoteList,
+  Colored
 } from "@clipboardjesus/models";
 import {
   CacheService,
@@ -22,9 +23,13 @@ import {dialog} from "@tauri-apps/api";
 import welcomeTab from '../../assets/screens/welcome.json';
 import {Subject, takeUntil} from "rxjs";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DataService implements OnDestroy {
   _blank = _blank;
+
+  changeDetectionRequired = new EventEmitter<void>();
 
   private _selectedTabIndex?: number;
   get selectedTabIndex(): number {
@@ -35,10 +40,11 @@ export class DataService implements OnDestroy {
     this._selectedTabIndex = index;
     this.storageService.selectedTabIndex = index;
     this.updateAppTitle();
-    this.cdr.markForCheck();
+    this.changeDetectionRequired.emit();
   }
 
   tabs: Tab[] = [];
+  get tabIndexes() { return this.tabs.map(x => x.index.toString()); }
   get tab(): Tab { return this.tabs[this.selectedTabIndex]; }
   set tab(tab: Tab) { this.tabs[this.selectedTabIndex] = tab; }
 
@@ -102,7 +108,6 @@ export class DataService implements OnDestroy {
     private readonly fileAccessService: FileAccessService,
     private readonly clipboard: ClipboardService,
     private readonly storageService: StorageService,
-    private readonly cdr: ChangeDetectorRef,
   ) {
     cache.getJsonFromAll().forEach((tab) =>
       this.tabs.push(tab)
@@ -116,11 +121,11 @@ export class DataService implements OnDestroy {
 
     storageService.onTabChanged.pipe(takeUntil(this.destroy$)).subscribe(({tab, index}) => {
         this.tabs[index] = tab;
-        this.cdr.markForCheck();
+      this.changeDetectionRequired.emit();
       });
     storageService.onTabDeleted.pipe(takeUntil(this.destroy$)).subscribe((index) => {
       this.removeTab(index);
-      this.cdr.markForCheck();
+      this.changeDetectionRequired.emit();
     });
   }
 
@@ -426,7 +431,6 @@ export class DataService implements OnDestroy {
   reArrangeTab(sourceIndex: number, targetIndex: number): void {
     const sourceTabCopy: Tab = JSON.parse(JSON.stringify(this.tabs[sourceIndex]));
     const targetTabCopy: Tab = JSON.parse(JSON.stringify(this.tabs[targetIndex]));
-    this.cache.remove(targetIndex);
 
     sourceTabCopy.index = targetIndex;
     targetTabCopy.index = sourceIndex;
@@ -434,10 +438,9 @@ export class DataService implements OnDestroy {
     this.tabs[targetIndex] = sourceTabCopy;
     this.tabs[sourceIndex] = targetTabCopy;
 
-    this.cache.save(targetIndex, sourceTabCopy)
-    this.cache.save(sourceIndex, targetTabCopy)
-
-    this.selectedTabIndex = targetIndex;
+    this.cache.save(sourceIndex, targetTabCopy);
+    this.cache.save(targetIndex, sourceTabCopy);
+    this.cache.switchHistory(sourceIndex, targetIndex);
   }
 
   moveLastTabToFirstPosition(): void {

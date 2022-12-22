@@ -40,6 +40,15 @@ export class CacheService {
   }
 
   /**
+   * Switches the undo and redo information from the provided tabs
+   * @param left The index of the tab.
+   * @param right The index of the other tab.
+   */
+  switchHistory(left: number, right: number): void {
+    this.redoService.switchHistory(left, right);
+  }
+
+  /**
    * Save the tab and update the change history.
    * @param index The index of the tab.
    * @param tab The content to save.

@@ -94,5 +94,6 @@ export class EditTabDialogComponent {
   private reArrangeTab(targetIndex: number): void {
     const sourceIndex = this.dataService.selectedTabIndex;
     this.dataService.reArrangeTab(sourceIndex, targetIndex);
+    this.dataService.selectedTabIndex = targetIndex;
   }
 }

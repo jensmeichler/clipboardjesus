@@ -97,6 +97,23 @@ export class RedoService implements OnDestroy {
   }
 
   /**
+   * Switches the undo and redo information from the provided tabs
+   * @param left The index of the tab.
+   * @param right The index of the other tab.
+   */
+  switchHistory(left: number, right: number): void {
+    const leftUndos = this.possibleUndos[left].map(x => ({...x, index: right}));
+    const rightUndos = this.possibleUndos[right].map(x => ({...x, index: left}));
+    const leftRedos = this.possibleRedos[left].map(x => ({...x, index: right}));
+    const rightRedos = this.possibleRedos[right].map(x => ({...x, index: left}));
+
+    this.possibleUndos[left] = rightUndos;
+    this.possibleUndos[right] = leftUndos;
+    this.possibleRedos[left] = rightRedos;
+    this.possibleRedos[right] = leftRedos;
+  }
+
+  /**
    * Store a deleted tab into the history.
    * @param index The index of the deleted tab.
    */

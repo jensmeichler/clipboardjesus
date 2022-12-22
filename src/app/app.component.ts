@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   HostListener,
@@ -33,7 +34,7 @@ import {
   ClipboardService
 } from "@clipboardjesus/services";
 import {TranslateService} from "@ngx-translate/core";
-import {CdkDragEnd} from "@angular/cdk/drag-drop";
+import {CdkDragDrop, CdkDragEnd} from "@angular/cdk/drag-drop";
 import {dialog} from "@tauri-apps/api";
 import {take} from "rxjs";
 
@@ -41,8 +42,7 @@ import {take} from "rxjs";
   selector: 'cb-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [DataService]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
   @ViewChild(MatMenuTrigger)
@@ -79,9 +79,11 @@ export class AppComponent implements OnInit {
     private readonly translate: TranslateService,
     public readonly settings: SettingsService,
     private readonly fileAccessService: FileAccessService,
+    cdr: ChangeDetectorRef,
   ) {
     const date = new Date();
     this.christmas = date.getMonth() === 11 && date.getDate() <= 27;
+    dataService.changeDetectionRequired.subscribe(() => cdr.markForCheck());
   }
 
   ngOnInit(): void {
@@ -101,6 +103,7 @@ export class AppComponent implements OnInit {
           } else {
             this.dataService.addTab(tab);
             this.dataService.moveLastTabToFirstPosition();
+            this.dataService.selectedTabIndex = 0;
           }
         }
 
@@ -114,6 +117,36 @@ export class AppComponent implements OnInit {
     });
 
     this.draggableChanged.emit();
+  }
+
+  dropTab(event: CdkDragDrop<Tab[]>): void {
+    let from = +event.previousContainer.id;
+    const to = +event.container.id;
+    const curr = this.dataService.selectedTabIndex;
+
+    if (from === curr) {
+      // Moving currently selected tab
+      this.dataService.selectedTabIndex = to;
+    } else if (from < curr && to >= curr) {
+      // Moving tab from left to right (over currently selected tab)
+      this.dataService.selectedTabIndex--;
+    } else if (from > curr && to <= curr) {
+      // Moving tab from right to left (over currently selected tab)
+      this.dataService.selectedTabIndex++;
+    }
+
+    while (from < to) {
+      // Moving tab from left to right
+      this.dataService.reArrangeTab(from, ++from);
+    }
+    while (from > to) {
+      // Moving tab from right to left
+      this.dataService.reArrangeTab(from, --from);
+    }
+  }
+
+  getAllListConnections(index: number): string[] {
+    return this.dataService.tabs.filter(x => x.index !== index).map(x => `${x.index}`);
   }
 
   @HostListener('document:keydown', ['$event'])

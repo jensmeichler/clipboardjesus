@@ -5,14 +5,17 @@
   }
 }
 
-.tab-header {
-  margin-left: 8px;
-  margin-right: 4px;
-  &.warning {
-    color: var(--color-secondary);
-  }
-  &.error {
-    color: var(--color-warn);
+.tab-header-container {
+  display: inline-flex;
+  align-items: center;
+
+  .tab-header {
+    &.warning {
+      color: var(--color-secondary);
+    }
+    &.error {
+      color: var(--color-warn);
+    }
   }
 }
 
@@ -103,17 +106,8 @@
 .tab-button {
   width: 20px;
   transform: scale(.8);
-  animation: grow .6s;
-  &:first-child {
+  &.first {
     margin-left: 8px;
-  }
-}
-
-@keyframes grow {
-  from {
-    transform: scale(0);
-    margin-left: 0;
-    margin-right: -20px;
   }
 }
 
