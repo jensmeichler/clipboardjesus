@@ -1,5 +1,14 @@
+.edit-dialog-content {
+  padding: 16px;
+  background-color: #161616;
+}
+
 .color-button {
-  filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white) drop-shadow(-1px 1px 0 white) drop-shadow(1px -1px 0 white);
+  filter:
+    drop-shadow(1px 1px 0 white)
+    drop-shadow(-1px -1px 0 white)
+    drop-shadow(-1px 1px 0 white)
+    drop-shadow(1px -1px 0 white);
   transform: translateY(4px);
   margin-right: 5px;
 }

@@ -1,6 +1,4 @@
-<div [style.padding.px]="16"
-     [style.background]="'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + tab.color + ', #131313)'"
-     data-cy="edit-tab-dialog">
+<article class="edit-dialog-content" data-cy="edit-tab-dialog">
   <h1 cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane" class="flex-container"
       mat-dialog-title>
@@ -31,60 +29,13 @@
   <div mat-dialog-content style="margin: 0; padding: 0">
     <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>{{ 'HEADER' | translate }}</mat-label>
-      <input cdkFocusInitial [(ngModel)]="tab.label" matInput (change)="changeFn()">
+      <input cdkFocusInitial [(ngModel)]="tab.label" matInput (input)="changeFn()">
     </mat-form-field>
 
-    <div class="flex-container">
-      <mat-form-field color="accent" [style.width]="'100%'">
-        <mat-label>{{ 'NOTES' | translate }}</mat-label>
-        <input [value]="notesCount" disabled matInput type="number">
-        <mat-icon matSuffix>note</mat-icon>
-      </mat-form-field>
-      <button (click)="deleteNotes()" mat-flat-button
-              style="height: 53px; transform: translateY(-9px); background: transparent"
-              [attr.aria-label]="'DELETE' | translate">
-        <mat-icon>delete_forever</mat-icon>
-      </button>
-    </div>
-
-    <div class="flex-container">
-      <mat-form-field color="accent" [style.width]="'100%'">
-        <mat-label>{{ 'NOTE_LISTS' | translate }}</mat-label>
-        <input [value]="noteListsCount" disabled matInput type="number">
-        <mat-icon matSuffix>sticky_note_2</mat-icon>
-      </mat-form-field>
-      <button (click)="deleteNoteLists()" mat-flat-button
-              style="height: 53px; transform: translateY(-9px); background: transparent"
-              [attr.aria-label]="'DELETE' | translate">
-        <mat-icon>delete_forever</mat-icon>
-      </button>
-    </div>
-
-    <div class="flex-container">
-      <mat-form-field color="accent" [style.width]="'100%'">
-        <mat-label>{{ 'TASK_LISTS' | translate }}</mat-label>
-        <input [value]="taskListsCount" disabled matInput type="number">
-        <mat-icon matSuffix>list</mat-icon>
-      </mat-form-field>
-      <button (click)="deleteTaskLists()" mat-flat-button
-              style="height: 53px; transform: translateY(-9px); background: transparent"
-              [attr.aria-label]="'DELETE' | translate">
-        <mat-icon>delete_forever</mat-icon>
-      </button>
-    </div>
-
-    <div class="flex-container">
-      <mat-form-field color="accent" [style.width]="'100%'">
-        <mat-label>{{ 'IMAGES' | translate }}</mat-label>
-        <input [value]="imagesCount" disabled matInput type="number">
-        <mat-icon matSuffix>image</mat-icon>
-      </mat-form-field>
-      <button (click)="deleteImages()" mat-flat-button
-              style="height: 53px; transform: translateY(-9px); background: transparent"
-              [attr.aria-label]="'DELETE' | translate">
-        <mat-icon>delete_forever</mat-icon>
-      </button>
-    </div>
+    <mat-form-field color="accent" [style.width]="'100%'">
+      <mat-label>{{ 'BACKGROUND_URL' | translate }}</mat-label>
+      <input cdkFocusInitial [(ngModel)]="tab.url" matInput (input)="changeFn()">
+    </mat-form-field>
 
     <div class="flex-container" style="padding: 8px">
       <button (click)="moveToLeft()" [disabled]="dataService.selectedTabIndex < 1"
@@ -103,4 +54,4 @@
     <button mat-button (click)="cancel()">{{ 'CANCEL' | translate }}</button>
     <button mat-button (click)="submit()" class="ok-button">{{ 'OK' | translate }}</button>
   </div>
-</div>
+</article>

@@ -2,7 +2,7 @@
      (mousedown)="onMouseDown($event)"
      (mouseup)="onMouseUp($event)"
      (drop)="dropFile($event)"
-     [style.background]="tab.color !== '#131313'
+     [style.background]="tab.url ? 'url('+tab.url+') no-repeat center center' : tab.color !== '#131313'
        ? 'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + tab.color + ', #131313)'
        : '#131313'"
      data-cy="tab">

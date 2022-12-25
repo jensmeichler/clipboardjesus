@@ -7,6 +7,7 @@ export interface Tab {
   index: number,
   label?: string;
   color: string;
+  url?: string;
   notes?: Note[];
   noteLists?: NoteList[];
   taskLists?: TaskList[];
