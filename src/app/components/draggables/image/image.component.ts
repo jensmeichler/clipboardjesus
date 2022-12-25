@@ -106,8 +106,9 @@ export class ImageComponent implements OnInit {
   }
 
   copy(): void {
-    this.clipboard.set(this.image.source);
-    this.hashy.show('COPIED_URL_TO_CLIPBOARD', 600);
+    this.clipboard.set(this.image.source).then(() =>
+      this.hashy.show('COPIED_URL_TO_CLIPBOARD', 600)
+    );
   }
 
   delete(event: MouseEvent, force?: boolean): void {

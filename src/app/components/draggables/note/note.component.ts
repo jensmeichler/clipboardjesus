@@ -215,8 +215,9 @@ export class NoteComponent implements OnInit, OnChanges, OnDestroy {
 
   copy(): void {
     if (this.note.content && !this.rippleDisabled && this.canInteract) {
-      this.clipboard.set(this.note.content);
-      this.hashy.show('COPIED_TO_CLIPBOARD', 600);
+      this.clipboard.set(this.note.content).then(() =>
+        this.hashy.show('COPIED_TO_CLIPBOARD', 600)
+      );
     }
   }
 

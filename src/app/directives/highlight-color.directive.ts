@@ -1,4 +1,4 @@
-import {Directive, HostBinding, HostListener, Input} from '@angular/core';
+import {ChangeDetectorRef, Directive, HostBinding, HostListener, Input} from '@angular/core';
 import {DraggableNote} from "@clipboardjesus/models";
 import {SettingsService} from "@clipboardjesus/services";
 import {scrolledPosition} from "@clipboardjesus/const";
@@ -12,17 +12,20 @@ export class HighlightColorDirective {
   private _radEffectWidth = 0;
 
   private _scrollTimeOuts: number[] = [];
+  private _moveInterval?: number;
 
   @Input()
   set cbHighlightColor(value: string | undefined) {
     this._cbHighlightColor = value;
-    this.onMouseLeave();
+    this._radEffectWidth = 0;
   }
 
   @Input() cbHighlightedItem?: DraggableNote;
 
-  constructor(private readonly settings: SettingsService) {
-  }
+  constructor(
+    private readonly settings: SettingsService,
+    protected readonly cdr: ChangeDetectorRef,
+  ) {}
 
   @HostBinding('style.transition') transition = 'filter ease-in-out .18s';
 
@@ -59,9 +62,21 @@ export class HighlightColorDirective {
     }
   }
 
-  @HostListener('mouseleave')
-  onMouseLeave(): void {
-    this._radEffectWidth = 0;
+  @HostListener('mouseleave', ['$event'])
+  onMouseLeave(event: MouseEvent): void {
+    this.setCursorPosition(event);
+    this._moveInterval = setInterval(() => {
+      this._radEffectWidth -= 5;
+      this.cdr.markForCheck();
+      if (this._radEffectWidth <= 0) {
+        clearInterval(this._moveInterval);
+      }
+    }, 10);
+  }
+
+  @HostListener('mouseenter')
+  onMouseEnter(): void {
+    clearInterval(this._moveInterval);
   }
 
   @HostListener('mousemove', ['$event'])
@@ -74,9 +89,8 @@ export class HighlightColorDirective {
     this._scrollTimeOuts = [];
 
     if (event.which !== 1) {
-      const scrolled = scrolledPosition();
-      this._cursorX = event.pageX - this.cbHighlightedItem.posX + scrolled.left;
-      this._cursorY = event.pageY - this.cbHighlightedItem.posY + scrolled.top;
+      // When the left mouse button is clicked, the user is probably dragging the object
+      this.setCursorPosition(event);
     }
 
     const maxEffectWidth = 120;
@@ -87,5 +101,14 @@ export class HighlightColorDirective {
         ? newEffectWith
         : maxEffectWidth;
     }
+  }
+
+  private setCursorPosition(event: MouseEvent): void {
+    if (!this.cbHighlightedItem) {
+      return;
+    }
+    const scrolled = scrolledPosition();
+    this._cursorX = event.pageX - this.cbHighlightedItem.posX + scrolled.left;
+    this._cursorY = event.pageY - this.cbHighlightedItem.posY + scrolled.top;
   }
 }
