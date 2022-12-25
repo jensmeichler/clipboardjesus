@@ -4,11 +4,11 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit
 } from '@angular/core';
 import {DraggableNote} from "@clipboardjesus/models";
-import {Subject} from "rxjs";
+import {takeUntil} from "rxjs";
+import {DisposableComponent} from "@clipboardjesus/components";
 
 @Component({
   selector: 'cb-connection',
@@ -16,14 +16,13 @@ import {Subject} from "rxjs";
   styleUrls: ['./connection.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConnectionComponent implements OnInit, OnDestroy {
+export class ConnectionComponent extends DisposableComponent implements OnInit {
   @Input() from!: DraggableNote;
   @Input() to!: DraggableNote;
-  @Input() changed?: EventEmitter<void> | undefined;
-
-  private destroy$ = new Subject<void>();
+  @Input() changed?: EventEmitter<void>;
 
   constructor(private readonly cdr: ChangeDetectorRef) {
+    super();
   }
 
   ngOnInit(): void {
@@ -34,14 +33,11 @@ export class ConnectionComponent implements OnInit, OnDestroy {
       throw new Error('ConnectionComponent.to is necessary!');
     }
     if (this.changed) {
-      this.changed.subscribe(() => this.cdr.markForCheck());
+      this.changed.pipe(takeUntil(this.destroy$)).subscribe(() =>
+        this.cdr.markForCheck()
+      );
     } else {
       console.warn('ConnectionComponent.changed must be set in order to update the view!');
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

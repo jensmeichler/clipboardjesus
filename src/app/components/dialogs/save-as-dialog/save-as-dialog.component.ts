@@ -10,8 +10,7 @@ import {MatDialogRef} from "@angular/material/dialog";
 export class SaveAsDialogComponent {
   filename: string = '';
 
-  constructor(private readonly dialogRef: MatDialogRef<SaveAsDialogComponent>) {
-  }
+  constructor(private readonly dialogRef: MatDialogRef<SaveAsDialogComponent>) {}
 
   save(): void {
     this.dialogRef.close(this.filename);

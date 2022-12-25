@@ -28,7 +28,7 @@ import {marked, Renderer} from 'marked';
 })
 export class NoteComponent implements OnInit, OnChanges, OnDestroy {
   @Input() note!: Note;
-  @Input() changed?: EventEmitter<void> | undefined;
+  @Input() changed?: EventEmitter<void>;
 
   rippleDisabled = false;
 

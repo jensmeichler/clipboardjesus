@@ -14,8 +14,7 @@ export class ImportDialogComponent {
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: string,
     private readonly bottomSheetRef: MatBottomSheetRef<ImportDialogComponent>,
     private readonly dataService: DataService,
-  ) {
-  }
+  ) {}
 
   import(): void {
     this.dataService.clearCache();

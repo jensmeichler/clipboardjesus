@@ -10,9 +10,9 @@ import {
 import {DraggableNote, Image, Note, Tab} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService, SettingsService} from "@clipboardjesus/services";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
-import {ImportDialogComponent} from "@clipboardjesus/components";
+import {DisposableComponent, ImportDialogComponent} from "@clipboardjesus/components";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
-import {Subject, takeUntil} from "rxjs";
+import {takeUntil} from "rxjs";
 
 @Component({
   selector: 'cb-tab',
@@ -20,7 +20,7 @@ import {Subject, takeUntil} from "rxjs";
   styleUrls: ['./tab.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TabComponent implements OnInit {
+export class TabComponent extends DisposableComponent implements OnInit {
   @Input() tab?: Tab;
   @Input() draggableChanged?: EventEmitter<void> | undefined;
   @Input() connectionsChanged?: EventEmitter<void> | undefined;
@@ -33,8 +33,6 @@ export class TabComponent implements OnInit {
   private readonly mouseMoveEvent: OmitThisParameter<(event: MouseEvent) => void>;
   private clickedLast200ms = false;
 
-  private destroy$ = new Subject<void>();
-
   constructor(
     private readonly hashy: HashyService,
     private readonly elementRef: ElementRef,
@@ -44,6 +42,8 @@ export class TabComponent implements OnInit {
     private readonly settings: SettingsService,
     private readonly cdr: ChangeDetectorRef,
   ) {
+    super();
+
     this.mouseMoveEvent = this.onMouseMove.bind(this);
   }
 

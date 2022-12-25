@@ -1,12 +1,13 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Tab} from "@clipboardjesus/models";
-import {BehaviorSubject, Subject, takeUntil} from "rxjs";
+import {BehaviorSubject, takeUntil} from "rxjs";
 import {StorageService} from "@clipboardjesus/services/storage.service";
+import {DisposableService} from "@clipboardjesus/services/disposable.service";
 
 @Injectable({
   providedIn: 'root',
 })
-export class RedoService implements OnDestroy {
+export class RedoService extends DisposableService {
   possibleUndos: Tab[][] = [];
   possibleRedos: Tab[][] = [];
   possibleRestores: Tab[] = [];
@@ -15,9 +16,9 @@ export class RedoService implements OnDestroy {
   redoPossible = new BehaviorSubject<boolean>(false);
   restorePossible = new BehaviorSubject<boolean>(false);
 
-  private destroy$ = new Subject<void>();
-
   constructor(private readonly storageService: StorageService) {
+    super();
+
     for (let i = 0; i < 20; i++) {
       // Initialize the arrays.
       this.possibleUndos.push([]);
@@ -142,10 +143,5 @@ export class RedoService implements OnDestroy {
     } else if (this.possibleRedos[index].length && !this.redoPossible.getValue()) {
       this.redoPossible.next(true);
     }
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

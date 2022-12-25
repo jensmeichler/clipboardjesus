@@ -13,8 +13,7 @@ export class AboutDialogComponent {
     public dialogRef: MatDialogRef<AboutDialogComponent>,
     public dataService: DataService,
     public settings: SettingsService
-  ) {
-  }
+  ) {}
 
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent): void {

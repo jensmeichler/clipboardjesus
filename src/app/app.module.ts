@@ -46,7 +46,8 @@ import {
   SmallNoteComponent,
   HashyComponent,
   HashyAnimatedComponent,
-  SignatureComponent
+  SignatureComponent,
+  DisposableComponent
 } from '@clipboardjesus/components';
 import {
   AutofocusDirective,
@@ -84,6 +85,7 @@ export function createTranslateLoader(http: HttpClient) {
     SignatureComponent,
     HashyComponent,
     ConnectionComponent,
+    DisposableComponent,
   ],
   imports: [
     BrowserModule,
@@ -136,5 +138,4 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

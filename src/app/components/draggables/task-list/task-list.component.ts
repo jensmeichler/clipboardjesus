@@ -22,7 +22,7 @@ import {EditTaskListDialogComponent} from "@clipboardjesus/components";
 })
 export class TaskListComponent implements OnInit {
   @Input() taskList!: TaskList;
-  @Input() changed?: EventEmitter<void> | undefined;
+  @Input() changed?: EventEmitter<void>;
 
   mouseDown = false;
   movedPx = 0;

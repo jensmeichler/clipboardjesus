@@ -1,4 +1,4 @@
-import {EventEmitter, Injectable, OnDestroy} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {SaveAsDialogComponent} from "@clipboardjesus/components";
 import {
@@ -21,12 +21,13 @@ import {
 import {_blank, isTauri} from "@clipboardjesus/const";
 import {dialog} from "@tauri-apps/api";
 import welcomeTab from '../../assets/screens/welcome.json';
-import {Subject, takeUntil} from "rxjs";
+import {takeUntil} from "rxjs";
+import {DisposableService} from './disposable.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DataService implements OnDestroy {
+export class DataService extends DisposableService {
   _blank = _blank;
 
   changeDetectionRequired = new EventEmitter<void>();
@@ -98,8 +99,6 @@ export class DataService implements OnDestroy {
 
   private colorizedObjects: Colored[] = [];
 
-  private destroy$ = new Subject<void>();
-
   constructor(
     private readonly dialog: MatDialog,
     private readonly hashy: HashyService,
@@ -109,6 +108,8 @@ export class DataService implements OnDestroy {
     private readonly clipboard: ClipboardService,
     private readonly storageService: StorageService,
   ) {
+    super();
+
     cache.getJsonFromAll().forEach((tab) =>
       this.tabs.push(tab)
     );
@@ -989,10 +990,5 @@ export class DataService implements OnDestroy {
     const items = this.getCurrentTabItems();
     const highestIndex = items[items.length - 1]?.posZ;
     return highestIndex ? highestIndex + 1 : 1;
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

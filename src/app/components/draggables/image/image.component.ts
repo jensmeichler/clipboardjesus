@@ -20,7 +20,7 @@ import {_blank} from "@clipboardjesus/const";
 })
 export class ImageComponent implements OnInit {
   @Input() image!: Image;
-  @Input() changed?: EventEmitter<void> | undefined;
+  @Input() changed?: EventEmitter<void>;
 
   imageLoaded = false;
 

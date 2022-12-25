@@ -15,8 +15,7 @@ export class EditNoteDialogComponent {
     public dialogRef: MatDialogRef<EditNoteDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Note,
     private cdr: ChangeDetectorRef,
-  ) {
-  }
+  ) {}
 
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent): void {

@@ -11,8 +11,8 @@ import {DataService} from "@clipboardjesus/services";
 export class DeleteDialogComponent {
   constructor(
     private readonly bottomSheetRef: MatBottomSheetRef<DeleteDialogComponent>,
-    private readonly dataService: DataService) {
-  }
+    private readonly dataService: DataService,
+  ) {}
 
   deleteAll(): void {
     this.dataService.clearCache();

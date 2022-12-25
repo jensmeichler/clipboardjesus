@@ -12,8 +12,7 @@ export class EditTaskListDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<EditTaskListDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: TaskList,
-  ) {
-  }
+  ) {}
 
   addItem(event: MatChipInputEvent): void {
     const item = (event.value || '').trim();

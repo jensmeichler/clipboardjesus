@@ -12,8 +12,7 @@ export class EditNoteListDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<EditNoteListDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: NoteList,
-  ) {
-  }
+  ) {}
 
   addNote(event: MatChipInputEvent): void {
     const noteContent = (event.value || '').trim();

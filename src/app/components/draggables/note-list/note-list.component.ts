@@ -22,7 +22,7 @@ import {MatMenuTrigger} from "@angular/material/menu";
 })
 export class NoteListComponent implements OnInit {
   @Input() noteList!: NoteList;
-  @Input() changed?: EventEmitter<void> | undefined;
+  @Input() changed?: EventEmitter<void>;
 
   mouseDown = false;
   movedPx = 0;
