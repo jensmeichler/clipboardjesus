@@ -434,9 +434,22 @@ export class DataService implements OnDestroy {
 
     sourceTabCopy.index = targetIndex;
     targetTabCopy.index = sourceIndex;
-
     this.tabs[targetIndex] = sourceTabCopy;
     this.tabs[sourceIndex] = targetTabCopy;
+
+    // Switch the warnings and errors of tabs, because they are saved with the tabIndex as key
+    const sourceWarnings = [...(this._tabsWithWarnings[sourceIndex] ?? [])];
+    const sourceErrors = [...(this._tabsWithErrors[sourceIndex] ?? [])];
+    const targetWarnings = [...(this._tabsWithWarnings[targetIndex] ?? [])];
+    const targetErrors = [...(this._tabsWithErrors[targetIndex] ?? [])];
+    if (targetWarnings.length) this._tabsWithWarnings[sourceIndex] = targetWarnings;
+    else delete this._tabsWithWarnings[sourceIndex];
+    if (targetErrors.length) this._tabsWithErrors[sourceIndex] = targetErrors;
+    else delete this._tabsWithErrors[sourceIndex];
+    if (sourceWarnings.length) this._tabsWithWarnings[targetIndex] = sourceWarnings;
+    else delete this._tabsWithWarnings[targetIndex];
+    if (sourceErrors.length) this._tabsWithErrors[targetIndex] = sourceErrors;
+    else delete this._tabsWithErrors[targetIndex];
 
     this.cache.save(sourceIndex, targetTabCopy);
     this.cache.save(targetIndex, sourceTabCopy);
