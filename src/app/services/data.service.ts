@@ -877,14 +877,14 @@ export class DataService extends DisposableService {
   selectNextItem(revert: boolean): void {
     const selectables: DraggableNote[] = this.getCurrentTabItems();
 
-    const selectedIndizes = selectables
+    const selectedIndexes = selectables
       .filter(x => x.selected)
       .map(x => selectables.indexOf(x));
 
-    if (selectedIndizes.length === 0) {
+    if (selectedIndexes.length === 0) {
       selectables[0].selected = true;
-    } else if (selectedIndizes.length === 1) {
-      const oldIndex = selectedIndizes[0];
+    } else if (selectedIndexes.length === 1) {
+      const oldIndex = selectedIndexes[0];
       const newIndex = revert
         ? oldIndex === 0 ? selectables.length - 1 : oldIndex - 1
         : selectables.length - 1 === oldIndex ? 0 : oldIndex + 1;
