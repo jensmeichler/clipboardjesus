@@ -4,15 +4,13 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
-  ViewChild
+  OnInit
 } from '@angular/core';
 import {Colored, DraggableNote, Note, NoteList} from "@clipboardjesus/models";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {DataService, ClipboardService} from "@clipboardjesus/services";
-import {EditNoteDialogComponent, EditNoteListDialogComponent} from "@clipboardjesus/components";
+import {DraggableComponent, EditNoteDialogComponent, EditNoteListDialogComponent} from "@clipboardjesus/components";
 import {MatDialog} from "@angular/material/dialog";
-import {MatMenuTrigger} from "@angular/material/menu";
 
 @Component({
   selector: 'cb-note-list',
@@ -20,21 +18,9 @@ import {MatMenuTrigger} from "@angular/material/menu";
   styleUrls: ['./note-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoteListComponent implements OnInit {
+export class NoteListComponent extends DraggableComponent implements OnInit {
   @Input() noteList!: NoteList;
   @Input() changed?: EventEmitter<void>;
-
-  mouseDown = false;
-  movedPx = 0;
-
-  @ViewChild(MatMenuTrigger)
-  contextMenu!: MatMenuTrigger;
-  rightClickPosX = 0;
-  rightClickPosY = 0;
-
-  get canInteract(): boolean {
-    return this.movedPx < 5;
-  }
 
   constructor(
     private readonly dialog: MatDialog,
@@ -42,6 +28,7 @@ export class NoteListComponent implements OnInit {
     private readonly clipboard: ClipboardService,
     private readonly cdr: ChangeDetectorRef,
   ) {
+    super();
   }
 
   ngOnInit(): void {
@@ -53,20 +40,6 @@ export class NoteListComponent implements OnInit {
   select(): void {
     this.noteList.selected = !this.noteList.selected;
     this.changed?.emit();
-  }
-
-  onMouseDown(event: MouseEvent): void {
-    if (event.button !== 2) {
-      this.mouseDown = true;
-    }
-  }
-
-  onMouseMove(): void {
-    if (this.mouseDown) {
-      this.movedPx++;
-    } else {
-      this.movedPx = 0;
-    }
   }
 
   onMouseUp(event: MouseEvent): void {
@@ -204,17 +177,5 @@ export class NoteListComponent implements OnInit {
     }
     this.changed?.emit();
     this.dataService.cacheData();
-  }
-
-  showContextMenu(event: MouseEvent): void {
-    if (this.canInteract) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      this.rightClickPosX = event.clientX;
-      this.rightClickPosY = event.clientY;
-      this.contextMenu.openMenu();
-    }
-    this.mouseDown = false;
   }
 }

@@ -5,14 +5,12 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
-  ViewChild
+  OnInit
 } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {MatMenuTrigger} from "@angular/material/menu";
 import {Colored, DraggableNote, TaskItem, TaskList} from "@clipboardjesus/models";
 import {DataService, StringParserService} from "@clipboardjesus/services";
-import {EditTaskListDialogComponent} from "@clipboardjesus/components";
+import {DraggableComponent, EditTaskListDialogComponent} from "@clipboardjesus/components";
 
 @Component({
   selector: 'cb-task-list',
@@ -20,23 +18,11 @@ import {EditTaskListDialogComponent} from "@clipboardjesus/components";
   styleUrls: ['./task-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TaskListComponent implements OnInit {
+export class TaskListComponent extends DraggableComponent implements OnInit {
   @Input() taskList!: TaskList;
   @Input() changed?: EventEmitter<void>;
 
-  mouseDown = false;
-  movedPx = 0;
-
   itemToEdit?: TaskItem;
-
-  @ViewChild(MatMenuTrigger)
-  contextMenu!: MatMenuTrigger;
-  rightClickPosX = 0;
-  rightClickPosY = 0;
-
-  get canInteract(): boolean {
-    return this.movedPx < 5;
-  }
 
   constructor(
     private readonly dialog: MatDialog,
@@ -44,6 +30,7 @@ export class TaskListComponent implements OnInit {
     public readonly stringParser: StringParserService,
     private readonly cdr: ChangeDetectorRef,
   ) {
+    super();
   }
 
   ngOnInit(): void {
@@ -55,20 +42,6 @@ export class TaskListComponent implements OnInit {
   select(): void {
     this.taskList.selected = !this.taskList.selected;
     this.changed?.emit();
-  }
-
-  onMouseDown(event: MouseEvent): void {
-    if (event.button !== 2) {
-      this.mouseDown = true;
-    }
-  }
-
-  onMouseMove(): void {
-    if (this.mouseDown) {
-      this.movedPx++;
-    } else {
-      this.movedPx = 0;
-    }
   }
 
   onMouseUp(event: MouseEvent): void {
@@ -240,17 +213,5 @@ export class TaskListComponent implements OnInit {
     }
     this.changed?.emit();
     this.dataService.cacheData();
-  }
-
-  showContextMenu(event: MouseEvent): void {
-    if (this.canInteract) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      this.rightClickPosX = event.clientX;
-      this.rightClickPosY = event.clientY;
-      this.contextMenu.openMenu();
-    }
-    this.mouseDown = false;
   }
 }

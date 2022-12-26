@@ -4,13 +4,12 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnInit,
-  ViewChild
+  OnInit
 } from '@angular/core';
-import {MatMenuTrigger} from "@angular/material/menu";
 import {DraggableNote, Image} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
 import {_blank} from "@clipboardjesus/const";
+import {DraggableComponent} from "@clipboardjesus/components";
 
 @Component({
   selector: 'cb-image',
@@ -18,25 +17,11 @@ import {_blank} from "@clipboardjesus/const";
   styleUrls: ['./image.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ImageComponent implements OnInit {
+export class ImageComponent extends DraggableComponent implements OnInit {
   @Input() image!: Image;
   @Input() changed?: EventEmitter<void>;
 
   imageLoaded = false;
-
-  rippleDisabled = false;
-
-  mouseDown = false;
-  movedPx = 0;
-
-  @ViewChild(MatMenuTrigger)
-  contextMenu!: MatMenuTrigger;
-  rightClickPosX = 0;
-  rightClickPosY = 0;
-
-  get canInteract(): boolean {
-    return this.movedPx < 5;
-  }
 
   constructor(
     private readonly hashy: HashyService,
@@ -44,6 +29,7 @@ export class ImageComponent implements OnInit {
     public readonly dataService: DataService,
     private readonly cdr: ChangeDetectorRef,
   ) {
+    super();
   }
 
   ngOnInit(): void {
@@ -60,20 +46,6 @@ export class ImageComponent implements OnInit {
   select(): void {
     this.image.selected = !this.image.selected;
     this.changed?.emit();
-  }
-
-  onMouseDown(event: MouseEvent): void {
-    if (event.button !== 2) {
-      this.mouseDown = true;
-    }
-  }
-
-  onMouseMove(): void {
-    if (this.mouseDown) {
-      this.movedPx++;
-    } else {
-      this.movedPx = 0;
-    }
   }
 
   onMouseUp(event: MouseEvent): void {
@@ -132,19 +104,5 @@ export class ImageComponent implements OnInit {
     }
     this.changed?.emit();
     this.dataService.cacheData();
-  }
-
-  showContextMenu(event: MouseEvent): void {
-    if (this.canInteract) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      this.rightClickPosX = event.clientX;
-      this.rightClickPosY = event.clientY;
-      this.contextMenu.openMenu();
-    }
-
-    this.rippleDisabled = false;
-    this.mouseDown = false;
   }
 }

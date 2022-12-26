@@ -5,17 +5,17 @@ import {
   ElementRef,
   EventEmitter,
   Input,
-  OnChanges, OnDestroy,
+  OnChanges,
+  OnDestroy,
   OnInit,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {MatMenuTrigger} from "@angular/material/menu";
 import {htmlRegex} from "@clipboardjesus/const";
 import {Colored, DraggableNote, Note} from "@clipboardjesus/models";
 import {DataService, HashyService} from "@clipboardjesus/services";
-import {EditNoteDialogComponent} from "@clipboardjesus/components";
+import {EditNoteDialogComponent, DraggableComponent} from "@clipboardjesus/components";
 import {ClipboardService} from "@clipboardjesus/services";
 import {_blank} from "@clipboardjesus/const";
 import {marked, Renderer} from 'marked';
@@ -26,19 +26,9 @@ import {marked, Renderer} from 'marked';
   styleUrls: ['./note.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NoteComponent implements OnInit, OnChanges, OnDestroy {
+export class NoteComponent extends DraggableComponent implements OnInit, OnChanges, OnDestroy {
   @Input() note!: Note;
   @Input() changed?: EventEmitter<void>;
-
-  rippleDisabled = false;
-
-  mouseDown = false;
-  movedPx = 0;
-
-  @ViewChild(MatMenuTrigger)
-  contextMenu!: MatMenuTrigger;
-  rightClickPosX = 0;
-  rightClickPosY = 0;
 
   @ViewChild('code')
   codeElement?: ElementRef;
@@ -50,10 +40,6 @@ export class NoteComponent implements OnInit, OnChanges, OnDestroy {
 
   timers: number[] = [];
 
-  get canInteract(): boolean {
-    return this.movedPx < 5;
-  }
-
   constructor(
     private readonly clipboard: ClipboardService,
     private readonly hashy: HashyService,
@@ -61,6 +47,7 @@ export class NoteComponent implements OnInit, OnChanges, OnDestroy {
     public readonly dataService: DataService,
     private readonly cdr: ChangeDetectorRef,
   ) {
+    super();
   }
 
   ngOnInit(): void {
@@ -176,20 +163,6 @@ export class NoteComponent implements OnInit, OnChanges, OnDestroy {
     this.changed?.emit();
   }
 
-  onMouseDown(event: MouseEvent): void {
-    if (event.button !== 2) {
-      this.mouseDown = true;
-    }
-  }
-
-  onMouseMove(): void {
-    if (this.mouseDown) {
-      this.movedPx++;
-    } else {
-      this.movedPx = 0;
-    }
-  }
-
   onMouseUp(event: MouseEvent): void {
     if (this.mouseDown && this.canInteract) {
       switch (event.button) {
@@ -280,19 +253,6 @@ export class NoteComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.changed?.emit();
     this.dataService.cacheData();
-  }
-
-  showContextMenu(event: MouseEvent): void {
-    if (this.canInteract) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      this.rightClickPosX = event.clientX;
-      this.rightClickPosY = event.clientY;
-      this.contextMenu.openMenu();
-    }
-    this.rippleDisabled = false;
-    this.mouseDown = false;
   }
 
   ngOnDestroy(): void {

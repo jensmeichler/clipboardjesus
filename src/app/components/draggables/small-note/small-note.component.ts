@@ -24,8 +24,7 @@ export class SmallNoteComponent implements OnInit {
     private readonly clipboard: ClipboardService,
     public readonly dataService: DataService,
     private readonly cdr: ChangeDetectorRef,
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     if (!this.note) {
