@@ -669,6 +669,11 @@ export class DataService extends DisposableService {
   async saveAllAs(): Promise<void> {
     if (isTauri) {
       const path = await dialog.save();
+      if (!path) {
+        // User canceled the dialog.
+        return;
+      }
+
       const jsonString = JSON.stringify(this.getAsJson(true));
       const fileName = `${path.replace('.boards.json', '')}.boards.json`;
       await this.fileAccessService.write(jsonString, fileName);

@@ -38,7 +38,7 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
   overdue = false;
   nearlyOverdue = false;
 
-  timers: number[] = [];
+  timers: NodeJS.Timeout[] = [];
 
   constructor(
     private readonly clipboard: ClipboardService,

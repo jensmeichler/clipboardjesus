@@ -12,7 +12,7 @@ export class HighlightColorDirective {
   private _radEffectWidth = 0;
 
   private _scrollTimeOuts: number[] = [];
-  private _moveInterval?: number;
+  private _moveInterval?: NodeJS.Timeout;
 
   @Input()
   set cbHighlightColor(value: string | undefined) {
