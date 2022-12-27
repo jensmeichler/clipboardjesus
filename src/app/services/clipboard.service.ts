@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {Clipboard} from "@angular/cdk/clipboard";
 import {isTauri} from "@clipboardjesus/const";
 import {clipboard} from "@tauri-apps/api";
 
@@ -7,9 +6,6 @@ import {clipboard} from "@tauri-apps/api";
   providedIn: 'root',
 })
 export class ClipboardService {
-  constructor(private readonly clipboard: Clipboard) {
-  }
-
   /**
    * Copies the provided text to the clipboard.
    * This function uses the __TAURI__ api if it was provided.
@@ -19,7 +15,7 @@ export class ClipboardService {
     if (isTauri) {
       await clipboard.writeText(text);
     } else {
-      this.clipboard.copy(text);
+      await navigator.clipboard.writeText(text);
     }
   }
 
