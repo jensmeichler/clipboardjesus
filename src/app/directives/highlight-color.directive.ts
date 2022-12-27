@@ -1,4 +1,10 @@
-import {ChangeDetectorRef, Directive, HostBinding, HostListener, Input} from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  HostBinding,
+  HostListener,
+  Input
+} from '@angular/core';
 import {DraggableNote} from "@clipboardjesus/models";
 import {SettingsService} from "@clipboardjesus/services";
 import {scrolledPosition} from "@clipboardjesus/const";
@@ -44,7 +50,7 @@ export class HighlightColorDirective {
 
   @HostListener('wheel', ['$event'])
   onScroll(event: WheelEvent): void {
-    if (this.settings.animationsDisabled || !this.cbHighlightedItem) {
+    if (!this.animationPredicate()) {
       return;
     }
 
@@ -64,6 +70,10 @@ export class HighlightColorDirective {
 
   @HostListener('mouseleave', ['$event'])
   onMouseLeave(event: MouseEvent): void {
+    if (!this.animationPredicate()) {
+      return;
+    }
+
     this.setCursorPosition(event);
     this._moveInterval = setInterval(() => {
       this._radEffectWidth -= 5;
@@ -76,12 +86,16 @@ export class HighlightColorDirective {
 
   @HostListener('mouseenter')
   onMouseEnter(): void {
+    if (!this.animationPredicate()) {
+      return;
+    }
+
     clearInterval(this._moveInterval);
   }
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent): void {
-    if (this.settings.animationsDisabled || !this.cbHighlightedItem) {
+    if (!this.animationPredicate()) {
       return;
     }
 
@@ -110,5 +124,9 @@ export class HighlightColorDirective {
     const scrolled = scrolledPosition();
     this._cursorX = event.pageX - this.cbHighlightedItem.posX + scrolled.left;
     this._cursorY = event.pageY - this.cbHighlightedItem.posY + scrolled.top;
+  }
+
+  private animationPredicate(): boolean {
+    return this.cbHighlightedItem !== undefined && !this.settings.animationsDisabled;
   }
 }

@@ -225,7 +225,7 @@
             [style.color]="item.foregroundColor"
             mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate">
       <mat-icon>{{note.connectedTo?.includes(item.id) ? 'close' : 'sticky_note_2'}}</mat-icon>
-      {{item.header ?? item.notes[0].content?.trim()?.substring(0, 20)}}
+      {{item.header ?? item.notes[0]?.content?.trim()?.substring(0, 20)}}
     </button>
   </ng-container>
   <ng-container *ngFor="let item of dataService.tab.taskLists">
