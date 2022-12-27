@@ -11,8 +11,7 @@ export class FileAccessService {
   constructor(
     private readonly hashy: HashyService,
     private readonly settings: SettingsService,
-  ) {
-  }
+  ) {}
 
   /**
    * Reads the file contents from the given Path.
