@@ -38,8 +38,8 @@
     </mat-form-field>
     <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>{{ 'NOTES' | translate }}</mat-label>
-      <mat-chip-list #chipList>
-        <mat-chip
+      <mat-chip-grid #chipList>
+        <mat-chip-row
           *ngFor="let item of data.notes"
           [value]="item"
           (removed)="removeNote(item)">
@@ -47,12 +47,12 @@
           <button matChipRemove [attr.aria-label]="'CANCEL' | translate">
             <mat-icon>cancel</mat-icon>
           </button>
-        </mat-chip>
+        </mat-chip-row>
         <input cdkFocusInitial
                [placeholder]="'NEW_NOTE' | translate"
                [matChipInputFor]="chipList"
                (matChipInputTokenEnd)="addNote($event)">
-      </mat-chip-list>
+      </mat-chip-grid>
       <mat-hint>{{ 'NOTES_HINT' | translate }}</mat-hint>
     </mat-form-field>
   </div>

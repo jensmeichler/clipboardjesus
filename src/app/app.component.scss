@@ -22,13 +22,13 @@
 .app {
   height: 100%;
   ::ng-deep {
-    mat-tab-group {
+    .mat-mdc-tab-group {
       height: 100%;
-      .mat-tab-body-wrapper {
+      .mat-mdc-tab-body-wrapper {
         height: 100%;
-        mat-tab-body {
+        .mat-mdc-tab-body {
           height: 100%;
-          .mat-tab-body-content {
+          .mat-mdc-tab-body-content {
             height: 100%;
             cb-tab {
               height: 100%;

@@ -4,7 +4,7 @@
      [class.macos]="settings.isMacos"
      [class.linux]="settings.isLinux"
      [class.tauri]="settings.isTauri">
-  <mat-tab-group animationDuration="0" [(selectedIndex)]="tabIndex">
+  <mat-tab-group animationDuration="0" mat-stretch-tabs="false" [(selectedIndex)]="tabIndex">
     <mat-tab *ngFor="let tab of dataService.tabs; let i = index">
       <ng-template mat-tab-label>
         <div class="tab-header-container"

@@ -1,7 +1,7 @@
-:host ::ng-deep .mat-card-content {
+:host ::ng-deep .mat-mdc-card-content {
   display: flex;
   flex-direction: column;
-  .mat-menu-item {
+  .mat-mdc-menu-item {
     border-radius: 8px;
     height: 34px;
     line-height: 34px;
@@ -27,7 +27,7 @@
 ::ng-deep {
   .cdk-drag-preview {
     white-space: nowrap;
-    .mat-menu-item {
+    .mat-mdc-menu-item {
       border-radius: 8px;
       height: 34px;
       line-height: 34px;

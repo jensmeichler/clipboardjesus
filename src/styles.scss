@@ -66,48 +66,54 @@ html, body {
   }
 }
 
-.mat-card {
+.mat-mdc-card {
   background: var(--color-note);
   border-radius: var(--border-radius) !important;
   transition: all ease-in-out .2s;
-  .mat-card-content {
+  .mat-mdc-card-content {
     white-space: nowrap;
   }
-  .mat-card-title {
+  .mat-mdc-card-title {
     filter: var(--drop-shadow-medium);
     margin-bottom: 1rem;
   }
 }
 
-.mat-tab-group {
-  .mat-tab-header {
+.mat-mdc-tab-group {
+  .mat-mdc-tab-header {
     width: calc(100vw - 180px - 32px);
     border: none;
+    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
     .mat-tab-label:last-child {
       min-width: 0;
     }
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   .mat-tab-body-wrapper {
     border-top: 1px solid var(--color-transparency-light);
   }
 }
 
-.windows .mat-tab-group .mat-tab-body.mat-tab-body-active {
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+.windows .mat-mdc-tab-group .mat-mdc-tab-body.mat-tab-body-active {
   // noinspection CssInvalidPropertyValue
   overflow: overlay;
 }
-.macos .mat-tab-group .mat-tab-body.mat-tab-body-active {
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+.macos .mat-mdc-tab-group .mat-mdc-tab-body.mat-tab-body-active {
   overflow: auto;
 }
-.linux .mat-tab-group .mat-tab-body.mat-tab-body-active {
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+.linux .mat-mdc-tab-group .mat-mdc-tab-body.mat-tab-body-active {
   overflow: scroll;
 }
 
-.mat-chip.mat-standard-chip {
+.mat-mdc-chip.mat-mdc-standard-chip {
   background-color: #00000047;
   border-radius: var(--border-radius);
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of menu that may no longer apply for the MDC version.*/
 .mat-menu-submenu-icon {
   color: currentColor;
 }
@@ -122,54 +128,59 @@ html, body {
   border-radius: var(--border-radius);
 }
 
-.mat-button-base {
+.mat-mdc-button-base {
   border-radius: var(--border-radius) !important;
 }
 
-.mat-dialog-container,
+.mat-mdc-dialog-container,
 .mat-bottom-sheet-container,
-.mat-menu-panel {
+.mat-mdc-menu-panel {
   background: var(--color-note);
   border-radius: var(--border-radius) !important;
 }
 
-.mat-checkbox {
+.mat-mdc-checkbox {
   filter: var(--drop-shadow-medium);
+  /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
   .mat-checkbox-frame {
     border-color: currentColor;
     border-radius: 4px;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
   .mat-checkbox-background {
     border-radius: 3px;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of checkbox that may no longer apply for the MDC version.*/
   &.mat-checkbox-checked .mat-checkbox-background {
     background-color: currentColor;
   }
 }
 
-.mat-menu-panel {
+.mat-mdc-menu-panel {
   min-height: 0 !important;
 }
 
-mat-dialog-container.mat-dialog-container {
+/* TODO(mdc-migration): The following rule targets internal classes of dialog that may no longer apply for the MDC version.*/
+mat-dialog-container.mat-mdc-dialog-container {
   padding: 0;
   box-shadow: var(--shadow-strong);
 }
 
-div.mat-menu-content:not(:empty) {
+div.mat-mdc-menu-content:not(:empty) {
   padding-top: 0;
   padding-bottom: 0;
 }
 
 button {
   filter: var(--drop-shadow-medium);
-  &.mat-menu-item,
+  &.mat-mdc-menu-item,
   &.mat-menu-item > mat-icon.mat-icon
   {
     color: inherit;
   }
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
 mat-card-title.flex-container,
 h1.flex-container,
 .flex-container {
@@ -182,7 +193,7 @@ h1.flex-container,
   background-color: var(--color-transparency-light)
 }
 
-.mat-icon-button {
+.mat-mdc-icon-button {
   transition: all ease-in-out .2s;
   &:hover {
     transform: scale(1.3);
@@ -194,15 +205,16 @@ a[href] {
   color: currentColor;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 .mat-form-field-label {
   color: currentColor;
 }
 
-.mat-snack-bar-container {
+.mat-mdc-snack-bar-container {
   background: var(--color-secondary);
   border: 4px solid #00000028;
   border-radius: 14px !important;
-  .mat-simple-snackbar {
+  .mat-mdc-simple-snack-bar {
     font-size: larger;
   }
 }
