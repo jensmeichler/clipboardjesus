@@ -12,13 +12,12 @@ import {
   ViewChild
 } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {htmlRegex} from "@clipboardjesus/const";
+import {_blank, htmlRegex} from "@clipboardjesus/const";
 import {Colored, DraggableNote, Note} from "@clipboardjesus/models";
-import {DataService, HashyService} from "@clipboardjesus/services";
-import {EditNoteDialogComponent, DraggableComponent} from "@clipboardjesus/components";
-import {ClipboardService} from "@clipboardjesus/services";
-import {_blank} from "@clipboardjesus/const";
+import {ClipboardService, DataService, HashyService} from "@clipboardjesus/services";
+import {DraggableComponent, EditNoteDialogComponent} from "@clipboardjesus/components";
 import {marked, Renderer} from 'marked';
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 
 @Component({
   selector: 'cb-note',
@@ -33,7 +32,7 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
   @ViewChild('code')
   codeElement?: ElementRef;
 
-  parsedMarkdownContent = '';
+  parsedMarkdown?: SafeHtml;
 
   overdue = false;
   nearlyOverdue = false;
@@ -46,6 +45,7 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
     private readonly dialog: MatDialog,
     public readonly dataService: DataService,
     private readonly cdr: ChangeDetectorRef,
+    private readonly sanitizer: DomSanitizer,
   ) {
     super();
   }
@@ -153,7 +153,9 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
       return text;
     }
 
-    this.parsedMarkdownContent = marked.parse(this.note.content ?? '', {renderer});
+    this.parsedMarkdown = this.sanitizer.bypassSecurityTrustHtml(
+      marked.parse(this.note.content ?? '', {renderer})
+    );
 
     this.cdr.markForCheck();
   }

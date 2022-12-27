@@ -17,7 +17,7 @@
     {{ note.header }}
   </mat-card-title>
   <mat-card-content *ngIf="!note.code" data-cy="note-content">
-    <div class="markdown" [innerHTML]="parsedMarkdownContent">
+    <div class="markdown" [innerHTML]="parsedMarkdown">
     </div>
   </mat-card-content>
   <mat-card-content *ngIf="note.code" data-cy="note-content">
