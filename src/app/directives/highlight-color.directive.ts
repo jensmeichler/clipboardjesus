@@ -12,12 +12,9 @@ import {scrolledPosition} from "@clipboardjesus/helpers";
 @Directive({selector: '[cbHighlightColor]'})
 export class HighlightColorDirective {
   private _cbHighlightColor?: string;
-
   private _cursorX = 0;
   private _cursorY = 0;
   private _radEffectWidth = 0;
-
-  private _scrollTimeOuts: number[] = [];
   private _moveInterval?: NodeJS.Timeout;
 
   @Input()
@@ -26,14 +23,16 @@ export class HighlightColorDirective {
     this._radEffectWidth = 0;
   }
 
-  @Input() cbHighlightedItem?: DraggableNote;
+  @Input()
+  cbHighlightedItem?: DraggableNote;
 
   constructor(
     private readonly settings: SettingsService,
     protected readonly cdr: ChangeDetectorRef,
   ) {}
 
-  @HostBinding('style.transition') transition = 'filter ease-in-out .18s';
+  @HostBinding('style.transition')
+  transition = 'filter ease-in-out .18s';
 
   @HostBinding('style.filter')
   get filter(): string {
@@ -50,22 +49,13 @@ export class HighlightColorDirective {
 
   @HostListener('wheel', ['$event'])
   onScroll(event: WheelEvent): void {
-    if (!this.animationPredicate()) {
+    if (!this.animationPredicate() || !this.cbHighlightedItem) {
       return;
     }
 
-    for (let i = 0; i < 10; i++) {
-      this._scrollTimeOuts.push(
-        setTimeout(() => {
-          if (!this.cbHighlightedItem) {
-            return;
-          }
-          const scrolled = scrolledPosition();
-          this._cursorX = event.pageX - this.cbHighlightedItem.posX + scrolled.left;
-          this._cursorY = event.pageY - this.cbHighlightedItem.posY + scrolled.top;
-        }, i * 30) as unknown as number
-      );
-    }
+    const scrolled = scrolledPosition();
+    this._cursorX = event.pageX - this.cbHighlightedItem.posX + scrolled.left;
+    this._cursorY = event.pageY - this.cbHighlightedItem.posY + scrolled.top;
   }
 
   @HostListener('mouseleave', ['$event'])
@@ -74,23 +64,33 @@ export class HighlightColorDirective {
       return;
     }
 
+    this.clearMoveTimeout();
     this.setCursorPosition(event);
+
     this._moveInterval = setInterval(() => {
       this._radEffectWidth -= 5;
       this.cdr.markForCheck();
       if (this._radEffectWidth <= 0) {
-        clearInterval(this._moveInterval);
+        this.clearMoveTimeout();
       }
     }, 10);
   }
 
-  @HostListener('mouseenter')
-  onMouseEnter(): void {
+  private clearMoveTimeout(): void {
+    if (this._moveInterval === undefined) {
+      return;
+    }
+    clearInterval(this._moveInterval);
+    this._moveInterval = undefined;
+  }
+
+  @HostListener('mouseenter', ['$event'])
+  onMouseEnter(event: MouseEvent): void {
     if (!this.animationPredicate()) {
       return;
     }
-
-    clearInterval(this._moveInterval);
+    this.clearMoveTimeout();
+    this.setCursorPosition(event);
   }
 
   @HostListener('mousemove', ['$event'])
@@ -99,10 +99,9 @@ export class HighlightColorDirective {
       return;
     }
 
-    this._scrollTimeOuts.forEach(timer => clearTimeout(timer));
-    this._scrollTimeOuts = [];
+    this.clearMoveTimeout();
 
-    if (event.which !== 1) {
+    if (event.buttons !== 1) {
       // When the left mouse button is clicked, the user is probably dragging the object
       this.setCursorPosition(event);
     }
