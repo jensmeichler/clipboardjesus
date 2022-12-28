@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {window as tauri} from "@tauri-apps/api";
-import {isTauri} from "@clipboardjesus/const";
+import {isTauri} from "@clipboardjesus/helpers";
 
 const TRUE = 'True';
 type Font = 'Victor Mono' | 'Roboto';

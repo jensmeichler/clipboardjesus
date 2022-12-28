@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {getTimeStamp} from "@clipboardjesus/const";
+import {getTimeStamp} from "@clipboardjesus/helpers";
 
 @Injectable({
   providedIn: 'root',

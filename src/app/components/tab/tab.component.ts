@@ -11,7 +11,7 @@ import {
 import {DraggableNote, Image, Note, Tab} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService, SettingsService} from "@clipboardjesus/services";
 import {DisposableComponent, ImportDialogComponent} from "@clipboardjesus/components";
-import {scrolledPosition} from "@clipboardjesus/const";
+import {scrolledPosition} from "@clipboardjesus/helpers";
 import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
 import {takeUntil} from "rxjs";

@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {DraggableNote} from "@clipboardjesus/models";
 import {SettingsService} from "@clipboardjesus/services";
-import {scrolledPosition} from "@clipboardjesus/const";
+import {scrolledPosition} from "@clipboardjesus/helpers";
 
 @Directive({selector: '[cbHighlightColor]'})
 export class HighlightColorDirective {

@@ -1,4 +1,4 @@
-import {colorRegex} from "@clipboardjesus/const";
+import {colorRegex} from "@clipboardjesus/helpers";
 import {DraggableNoteBase} from "./draggable-note-base.model";
 import {Colored} from "./colored.model";
 import {Reminder} from "./reminder.model";

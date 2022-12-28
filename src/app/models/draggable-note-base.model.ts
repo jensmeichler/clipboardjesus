@@ -1,5 +1,5 @@
 import {DraggableNote} from "./draggable-note.model";
-import {sessionIdAutoIncrement} from "../functions";
+import {sessionIdAutoIncrement} from "../helpers";
 
 export class DraggableNoteBase implements DraggableNote {
   id: string;

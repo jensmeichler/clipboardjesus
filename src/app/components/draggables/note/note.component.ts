@@ -12,13 +12,13 @@ import {
   ViewChild
 } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
-import {htmlRegex} from "@clipboardjesus/const";
+import {htmlRegex, getMarkdownRenderer} from "@clipboardjesus/helpers";
 import {Colored, DraggableNote, Note} from "@clipboardjesus/models";
 import {ClipboardService, DataService, HashyService} from "@clipboardjesus/services";
 import {DraggableComponent, EditNoteDialogComponent} from "@clipboardjesus/components";
-import {getMarkdownRenderer} from "@clipboardjesus/functions";
 import {marked} from 'marked';
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
+import {getReminderErrors} from "@clipboardjesus/helpers/get-reminder-errors";
 
 @Component({
   selector: 'cb-note',
@@ -79,25 +79,19 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
 
     this.disposeTimers();
 
-    const now = new Date();
-    let then: Date;
+    const errorObj = getReminderErrors(reminder);
 
-    if (reminder.date && reminder.time) {
-      then = new Date(`${reminder.date}T${reminder.time}:00`);
-    } else if (reminder.date) {
-      then = new Date(`${reminder.date}T${now.getHours()}:${now.getMinutes()}:00`);
-    } else if (reminder.time) {
-      then = new Date(`${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}T${reminder.time}:00`);
-    } else {
+    if (!errorObj) {
       this.note.reminder = undefined;
       return;
     }
 
-    const minutesUntilOverdue = (then!.getTime() - now.getTime()) / 1000 / 60;
-    const minutesUntilReminder = minutesUntilOverdue - (reminder.before ?? 0);
+    this.nearlyOverdue = errorObj.warn;
+    this.overdue = errorObj.error;
 
-    this.nearlyOverdue = minutesUntilReminder <= 0;
-    this.overdue = minutesUntilOverdue <= 0;
+    const maxTimeOutValue = 2147483648;
+    const errorTimeoutValue = errorObj.minutesUntilError * 60 * 1000;
+    const warningTimeoutValue = errorObj.minutesUntilWarning * 60 * 1000;
 
     const setOverdue = () => {
       this.dataService.setError(this.note.id);
@@ -106,11 +100,11 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
     }
     if (this.overdue) {
       setOverdue();
-    } else {
+    } else if (maxTimeOutValue > errorTimeoutValue) {
       this.timers.push(
         setTimeout(
           () => setOverdue(),
-          minutesUntilOverdue * 60 * 1000
+          errorTimeoutValue
         )
       );
     }
@@ -122,11 +116,11 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
     }
     if (this.nearlyOverdue) {
       setNearlyOverdue();
-    } else {
+    } else if (maxTimeOutValue > warningTimeoutValue) {
       this.timers.push(
         setTimeout(
           () => setNearlyOverdue(),
-          minutesUntilReminder * 60 * 1000
+          warningTimeoutValue
         )
       );
     }

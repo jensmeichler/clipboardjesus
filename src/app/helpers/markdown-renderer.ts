@@ -1,5 +1,5 @@
 import {Renderer} from "marked";
-import {_blank} from "@clipboardjesus/const";
+import {_blank} from "@clipboardjesus/helpers";
 
 export function getMarkdownRenderer(): Renderer {
   const renderer = new Renderer();

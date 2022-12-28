@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {_blank, hyperlinkRegex} from '@clipboardjesus/const';
+import {_blank, hyperlinkRegex} from '@clipboardjesus/helpers';
 
 @Injectable({
   providedIn: 'root',

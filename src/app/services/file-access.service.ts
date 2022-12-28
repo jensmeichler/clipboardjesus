@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {FsTextFileOption} from "@tauri-apps/api/fs";
 import {HashyService, SettingsService} from "@clipboardjesus/services";
-import {isTauri} from "@clipboardjesus/const";
+import {isTauri} from "@clipboardjesus/helpers";
 import {fs} from "@tauri-apps/api";
 
 @Injectable({

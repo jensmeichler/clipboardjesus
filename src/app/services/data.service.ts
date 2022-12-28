@@ -18,7 +18,7 @@ import {
   ClipboardService,
   StorageService
 } from "@clipboardjesus/services";
-import {_blank, isTauri} from "@clipboardjesus/const";
+import {_blank, isTauri} from "@clipboardjesus/helpers";
 import {dialog} from "@tauri-apps/api";
 import welcomeTab from '../../assets/screens/welcome.json';
 import {takeUntil} from "rxjs";

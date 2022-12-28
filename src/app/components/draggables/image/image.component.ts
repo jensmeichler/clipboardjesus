@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {DraggableNote, Image} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
-import {_blank} from "@clipboardjesus/const";
+import {_blank} from "@clipboardjesus/helpers";
 import {DraggableComponent} from "@clipboardjesus/components";
 
 @Component({

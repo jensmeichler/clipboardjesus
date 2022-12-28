@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {isTauri} from "@clipboardjesus/const";
+import {isTauri} from "@clipboardjesus/helpers";
 import {clipboard} from "@tauri-apps/api";
 
 @Injectable({
