@@ -5,12 +5,14 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
-  Input, OnInit
+  Input,
+  OnInit
 } from '@angular/core';
 import {DraggableNote, Image, Note, Tab} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService, SettingsService} from "@clipboardjesus/services";
-import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {DisposableComponent, ImportDialogComponent} from "@clipboardjesus/components";
+import {scrolledPosition} from "@clipboardjesus/const";
+import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
 import {takeUntil} from "rxjs";
 
@@ -31,6 +33,7 @@ export class TabComponent extends DisposableComponent implements OnInit {
   endCursorPosY = 0;
   mouseDown = false;
   private readonly mouseMoveEvent: OmitThisParameter<(event: MouseEvent) => void>;
+  private readonly mouseUpEvent: OmitThisParameter<(event: MouseEvent) => void>;
   private clickedLast200ms = false;
 
   constructor(
@@ -44,7 +47,8 @@ export class TabComponent extends DisposableComponent implements OnInit {
   ) {
     super();
 
-    this.mouseMoveEvent = this.onMouseMove.bind(this);
+    this.mouseMoveEvent = this.docMouseMove.bind(this);
+    this.mouseUpEvent = this.docMouseUp.bind(this);
   }
 
   ngOnInit(): void {
@@ -58,17 +62,19 @@ export class TabComponent extends DisposableComponent implements OnInit {
    * Also attaches the mouse move event listener to update the border.
    * @param event
    */
-  onMouseDown(event: MouseEvent): void {
+  tabMouseDown(event: MouseEvent): void {
     if (!this.mouseDown) {
       if (event.button === 0) {
         this.mouseDown = true;
-        this.startCursorPosX = event.pageX;
-        this.startCursorPosY = event.pageY;
-        this.endCursorPosX = event.pageX;
-        this.endCursorPosY = event.pageY;
+        const scrolled = scrolledPosition();
+        this.startCursorPosX = event.pageX + scrolled.left;
+        this.startCursorPosY = event.pageY + scrolled.top;
+        this.endCursorPosX = event.pageX + scrolled.left;
+        this.endCursorPosY = event.pageY + scrolled.top;
       }
 
-      this.elementRef.nativeElement.addEventListener('mousemove', this.mouseMoveEvent)
+      document.addEventListener('mousemove', this.mouseMoveEvent);
+      document.addEventListener('mouseup', this.mouseUpEvent);
     }
   }
 
@@ -77,9 +83,10 @@ export class TabComponent extends DisposableComponent implements OnInit {
    * Just runs, when the user is dragging on the background.
    * @param event
    */
-  onMouseMove(event: MouseEvent): void {
-    this.endCursorPosX = event.pageX;
-    this.endCursorPosY = event.pageY;
+  async docMouseMove(event: MouseEvent): Promise<void> {
+    const scrolled = scrolledPosition();
+    this.endCursorPosX = event.pageX + scrolled.left;
+    this.endCursorPosY = event.pageY + scrolled.top;
     this.cdr.markForCheck();
   }
 
@@ -88,9 +95,13 @@ export class TabComponent extends DisposableComponent implements OnInit {
    * Includes some extra logic when the user for example pressed some modifiers while dragging.
    * @param event
    */
-  async onMouseUp(event: MouseEvent): Promise<void> {
-    const cursorMoved = this.mouseDown && (Math.abs(event.pageX - this.startCursorPosX) > 5
-      || Math.abs(event.pageY - this.startCursorPosY) > 5);
+  async docMouseUp(event: MouseEvent): Promise<void> {
+    const scrolled = scrolledPosition();
+    const currentPosX = event.pageX + scrolled.left;
+    const currentPosY = event.pageY + scrolled.top;
+    const movedX = Math.abs(currentPosX - this.startCursorPosX);
+    const movedY = Math.abs(currentPosY - this.startCursorPosY);
+    const cursorMoved = this.mouseDown && (movedX > 5 || movedY > 5);
 
     if (cursorMoved) {
       if (!(event.ctrlKey || event.metaKey || event.shiftKey)) {
@@ -98,10 +109,10 @@ export class TabComponent extends DisposableComponent implements OnInit {
       }
 
       this.dataService.editAllItems(item => {
-        const itemInRangeX = item.posX >= this.startCursorPosX && item.posX <= event.pageX
-          || item.posX <= this.startCursorPosX && item.posX >= event.pageX;
-        const itemInRangeY = item.posY >= this.startCursorPosY && item.posY <= event.pageY
-          || item.posY <= this.startCursorPosY && item.posY >= event.pageY;
+        const itemInRangeX = item.posX >= this.startCursorPosX && item.posX <= currentPosX
+          || item.posX <= this.startCursorPosX && item.posX >= currentPosX;
+        const itemInRangeY = item.posY >= this.startCursorPosY && item.posY <= currentPosY
+          || item.posY <= this.startCursorPosY && item.posY >= currentPosY;
 
         if (itemInRangeX && itemInRangeY) {
           if (!item.selected) {
@@ -119,7 +130,7 @@ export class TabComponent extends DisposableComponent implements OnInit {
             this.hashy.show('CLIPBOARD_EMPTY', 3000);
           } else {
             this.dataService.addNote(
-              new Note(null, event.pageX, event.pageY, clipboardText)
+              new Note(null, currentPosX, currentPosY, clipboardText)
             );
           }
         } else {
@@ -129,7 +140,7 @@ export class TabComponent extends DisposableComponent implements OnInit {
               this.hashy.show('CLIPBOARD_EMPTY', 3000);
             } else {
               this.dataService.addNote(
-                new Note(null, event.pageX, event.pageY, clipboardText)
+                new Note(null, currentPosX, currentPosY, clipboardText)
               );
             }
           } else {
@@ -263,6 +274,7 @@ export class TabComponent extends DisposableComponent implements OnInit {
     this.endCursorPosX = 0;
     this.endCursorPosY = 0;
     this.mouseDown = false;
-    this.elementRef.nativeElement.removeEventListener('mousemove', this.mouseMoveEvent)
+    this.elementRef.nativeElement.removeEventListener('mousemove', this.mouseMoveEvent);
+    this.elementRef.nativeElement.removeEventListener('mouseup', this.mouseUpEvent);
   }
 }
