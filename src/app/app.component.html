@@ -104,6 +104,10 @@
         <mat-icon>list</mat-icon>
         {{ 'CREATE_TASK_LIST' | translate }}
       </button>
+      <button (click)="openNewImageDialog()" mat-menu-item [attr.aria-label]="'CREATE_IMAGE' | translate">
+        <mat-icon>image</mat-icon>
+        {{ 'CREATE_IMAGE' | translate }}
+      </button>
       <mat-divider
         *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
       </mat-divider>

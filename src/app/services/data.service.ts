@@ -585,12 +585,19 @@ export class DataService extends DisposableService {
   /**
    * Deletes the provided {@link image} and removes all connections from other items.
    * @param image
+   * @param skipIndexing Use this property when you do not want the indexes to be calculated again.
+   *  This is sometimes needed when you want to replace an {@link Image}.
    */
-  deleteImage(image: Image): void {
+  deleteImage(image: Image, skipIndexing?: boolean): void {
+
+    //TODO: Delete image from localStorage
+
     this.disconnectAll(image);
     this.tab.images = this.tab.images?.filter(x => x !== image);
-    this.reArrangeIndices();
-    this.cacheData();
+    if (!skipIndexing) {
+      this.reArrangeIndices();
+      this.cacheData();
+    }
   }
 
   /**

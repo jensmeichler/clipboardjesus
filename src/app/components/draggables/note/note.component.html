@@ -31,16 +31,19 @@
       <mat-icon *ngIf="!note.code">code</mat-icon>
       <mat-icon *ngIf="note.code">code_off</mat-icon>
     </button>
+
     <button (click)="edit($event, true)" (mousedown)="rippleDisabled=true"
             mat-icon-button [attr.aria-label]="'EDIT' | translate"
             data-cy="note-edit-btn">
       <mat-icon>edit</mat-icon>
     </button>
+
     <button (click)="delete($event)" (mousedown)="rippleDisabled=true"
             mat-icon-button [attr.aria-label]="'DELETE' | translate"
             data-cy="note-delete-btn">
       <mat-icon>delete</mat-icon>
     </button>
+
     <button (click)="showContextMenu($event)" (mousedown)="rippleDisabled=true"
             mat-icon-button [attr.aria-label]="'MORE' | translate"
             data-cy="note-more-btn">
@@ -156,16 +159,19 @@
       <mat-icon>flip_to_front</mat-icon>
       {{ 'BRING_TO_FRONT' | translate }}
     </button>
+
     <button (click)="dataService.bringForward(note)" mat-menu-item
             [attr.aria-label]="'BRING_FORWARD' | translate">
       <mat-icon>add_circle_outline</mat-icon>
       {{ 'BRING_FORWARD' | translate }}
     </button>
+
     <button (click)="dataService.sendBackward(note)" mat-menu-item
             [attr.aria-label]="'SEND_BACKWARD' | translate">
       <mat-icon>remove_circle_outline</mat-icon>
       {{ 'SEND_BACKWARD' | translate }}
     </button>
+
     <button (click)="dataService.flipToBack(note)" mat-menu-item
             [attr.aria-label]="'SEND_TO_BACK' | translate">
       <mat-icon>flip_to_back</mat-icon>
@@ -218,6 +224,7 @@
       {{DisplayValue.fromNote(item)}}
     </button>
   </ng-container>
+
   <ng-container *ngFor="let item of dataService.tab.noteLists">
     <button (click)="connectTo(item)" [style.background]="item.backgroundColorGradient
                 ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
@@ -228,6 +235,7 @@
       {{DisplayValue.fromNoteList(item)}}
     </button>
   </ng-container>
+
   <ng-container *ngFor="let item of dataService.tab.taskLists">
     <button (click)="connectTo(item)" [style.background]="item.backgroundColorGradient
                 ? 'linear-gradient(to bottom, ' + item.backgroundColor + ', ' + item.backgroundColorGradient
@@ -238,6 +246,7 @@
       {{DisplayValue.fromTaskList(item)}}
     </button>
   </ng-container>
+
   <ng-container *ngFor="let item of dataService.tab.images">
     <button (click)="connectTo(item)"
             mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate"
@@ -246,6 +255,7 @@
       {{DisplayValue.fromImage(item)}}
     </button>
   </ng-container>
+
   <button *ngIf="note.connectedTo" (click)="connectTo(undefined)"
           mat-menu-item [attr.aria-label]="'CONNECT_TO_NOTHING' | translate"
           [style.background]="'#212121'">

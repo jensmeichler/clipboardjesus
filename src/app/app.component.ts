@@ -11,19 +11,25 @@ import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {ActivatedRoute, Router} from "@angular/router";
+import {CdkDragDrop, CdkDragEnd} from "@angular/cdk/drag-drop";
+import {TranslateService} from "@ngx-translate/core";
+import {dialog} from "@tauri-apps/api";
+import {take} from "rxjs";
 import {
   AboutDialogComponent,
   DeleteDialogComponent,
   EditNoteDialogComponent,
   EditTabDialogComponent,
   EditTaskListDialogComponent,
-  EditNoteListDialogComponent
+  EditNoteListDialogComponent,
+  EditImageDialogComponent
 } from "@clipboardjesus/components";
 import {
   Note,
   Tab,
   TaskList,
-  NoteList
+  NoteList,
+  Image
 } from '@clipboardjesus/models';
 import {
   CacheService,
@@ -33,10 +39,6 @@ import {
   SettingsService,
   ClipboardService
 } from "@clipboardjesus/services";
-import {TranslateService} from "@ngx-translate/core";
-import {CdkDragDrop, CdkDragEnd} from "@angular/cdk/drag-drop";
-import {dialog} from "@tauri-apps/api";
-import {take} from "rxjs";
 
 @Component({
   selector: 'cb-root',
@@ -413,6 +415,21 @@ export class AppComponent implements OnInit {
     }).afterClosed().subscribe((taskList) => {
       if (taskList) {
         this.dataService.addTaskList(taskList);
+        this.draggableChanged.emit();
+      }
+    });
+  }
+
+  /**
+   * Opens a dialog to create a new image.
+   */
+  openNewImageDialog(): void {
+    this.dialog.open(EditImageDialogComponent, {
+      width: 'var(--width-edit-dialog)',
+      data: new Image(null, this.newDraggablePositionX, this.newDraggablePositionY, null),
+    }).afterClosed().subscribe((image) => {
+      if (image) {
+        this.dataService.addImage(image);
         this.draggableChanged.emit();
       }
     });
