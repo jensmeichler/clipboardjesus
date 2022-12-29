@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {DraggableNote, Image} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
-import {_blank} from "@clipboardjesus/helpers";
+import {_blank, DisplayValue} from "@clipboardjesus/helpers";
 import {DraggableComponent} from "@clipboardjesus/components";
 
 @Component({
@@ -22,6 +22,8 @@ export class ImageComponent extends DraggableComponent implements OnInit {
   @Input() changed?: EventEmitter<void>;
 
   imageLoaded = false;
+
+  DisplayValue = DisplayValue;
 
   constructor(
     private readonly hashy: HashyService,

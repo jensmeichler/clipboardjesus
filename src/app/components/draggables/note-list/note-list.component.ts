@@ -6,11 +6,12 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import {Colored, DraggableNote, Note, NoteList} from "@clipboardjesus/models";
+import {MatDialog} from "@angular/material/dialog";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
+import {Colored, DraggableNote, Note, NoteList} from "@clipboardjesus/models";
 import {DataService, ClipboardService} from "@clipboardjesus/services";
 import {DraggableComponent, EditNoteDialogComponent, EditNoteListDialogComponent} from "@clipboardjesus/components";
-import {MatDialog} from "@angular/material/dialog";
+import {DisplayValue} from '@clipboardjesus/helpers';
 
 @Component({
   selector: 'cb-note-list',
@@ -21,6 +22,8 @@ import {MatDialog} from "@angular/material/dialog";
 export class NoteListComponent extends DraggableComponent implements OnInit {
   @Input() noteList!: NoteList;
   @Input() changed?: EventEmitter<void>;
+
+  DisplayValue = DisplayValue;
 
   constructor(
     private readonly dialog: MatDialog,

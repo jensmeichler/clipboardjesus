@@ -11,6 +11,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {Colored, DraggableNote, TaskItem, TaskList} from "@clipboardjesus/models";
 import {DataService, StringParserService} from "@clipboardjesus/services";
 import {DraggableComponent, EditTaskListDialogComponent} from "@clipboardjesus/components";
+import {DisplayValue} from "@clipboardjesus/helpers";
 
 @Component({
   selector: 'cb-task-list',
@@ -23,6 +24,8 @@ export class TaskListComponent extends DraggableComponent implements OnInit {
   @Input() changed?: EventEmitter<void>;
 
   itemToEdit?: TaskItem;
+
+  DisplayValue = DisplayValue;
 
   constructor(
     private readonly dialog: MatDialog,

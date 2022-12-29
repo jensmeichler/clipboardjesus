@@ -131,7 +131,7 @@
             [style.color]="item.foregroundColor"
             mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate">
       <mat-icon>{{image.connectedTo?.includes(item.id) ? 'close' : 'note'}}</mat-icon>
-      {{item.header ?? item.content?.trim()?.substring(0, 20)}}
+      {{DisplayValue.fromNote(item)}}
     </button>
   </ng-container>
   <ng-container *ngFor="let item of dataService.tab.noteLists">
@@ -141,7 +141,7 @@
             [style.color]="item.foregroundColor"
             mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate">
       <mat-icon>{{image.connectedTo?.includes(item.id) ? 'close' : 'sticky_note_2'}}</mat-icon>
-      {{item.header ?? item.notes.length && item.notes[0].content?.trim()?.substring(0, 20)}}
+      {{DisplayValue.fromNoteList(item)}}
     </button>
   </ng-container>
   <ng-container *ngFor="let item of dataService.tab.taskLists">
@@ -151,7 +151,7 @@
             [style.color]="item.foregroundColor"
             mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate">
       <mat-icon>{{image.connectedTo?.includes(item.id) ? 'close' : 'list'}}</mat-icon>
-      {{item.header ?? item.items.length && item.items[0].value.trim().substring(0, 20)}}
+      {{DisplayValue.fromTaskList(item)}}
     </button>
   </ng-container>
   <ng-container *ngFor="let item of dataService.tab.images">
@@ -159,7 +159,7 @@
             mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate"
             [style.background]="'#212121'">
       <mat-icon>{{image.connectedTo?.includes(item.id) ? 'close' : 'link'}}</mat-icon>
-      {{item.source.trim().substring(0, 20)}}
+      {{DisplayValue.fromImage(item)}}
     </button>
   </ng-container>
   <button *ngIf="image.connectedTo"  (click)="connectTo(undefined)"

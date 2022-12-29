@@ -11,14 +11,14 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
+import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {MatDialog} from "@angular/material/dialog";
+import {marked} from 'marked';
 import {htmlRegex, getMarkdownRenderer} from "@clipboardjesus/helpers";
 import {Colored, DraggableNote, Note} from "@clipboardjesus/models";
 import {ClipboardService, DataService, HashyService} from "@clipboardjesus/services";
 import {DraggableComponent, EditNoteDialogComponent} from "@clipboardjesus/components";
-import {marked} from 'marked';
-import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
-import {getReminderErrors} from "@clipboardjesus/helpers/get-reminder-errors";
+import {getReminderErrors, DisplayValue} from "@clipboardjesus/helpers";
 
 @Component({
   selector: 'cb-note',
@@ -39,6 +39,8 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
   nearlyOverdue = false;
 
   timers: NodeJS.Timeout[] = [];
+
+  DisplayValue = DisplayValue;
 
   constructor(
     private readonly clipboard: ClipboardService,
