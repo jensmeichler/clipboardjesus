@@ -9,6 +9,7 @@ export const TAB_DELETION_FLAG = 'tab_deletion_from_other_tab';
 export class StorageService {
   onTabChanged = new EventEmitter<{tab: Tab, index: number}>();
   onTabDeleted = new EventEmitter<number>();
+  onImgStored = new EventEmitter<string>();
 
   get selectedTabIndex(): number {
     return +(localStorage.getItem('clipboard_tab') ?? 0);
@@ -72,5 +73,22 @@ export class StorageService {
     const key = `clipboard_data_${index}`;
     const content = JSON.stringify(tab);
     localStorage.setItem(key, content);
+  }
+
+  storeImage(id: string, base64: string | ArrayBuffer | null): void {
+    if (typeof base64 === 'string') {
+      localStorage.setItem(`clipboard_img_${id}`, base64);
+      this.onImgStored.emit(id);
+    } else {
+      console.error('failed to store image', id, base64);
+    }
+  }
+
+  fetchImage(id: string): string | null {
+    return localStorage.getItem(`clipboard_img_${id}`);
+  }
+
+  deleteImage(id: string): void {
+    localStorage.removeItem(`clipboard_img_${id}`);
   }
 }

@@ -33,12 +33,18 @@
   </ng-container>
   <ng-template #local>
     <img
-      *ngIf="loadedFromStorage"
+      *ngIf="loadedFromStorage; else loading"
       [src]="loadedFromStorage"
       class="animated"
       height="140"
       alt="loading failed"
       style="border-radius: 8px">
+    <ng-template #loading>
+      <div class="img-placeholder">
+        <mat-icon>loop</mat-icon>
+        <span>{{'LOAD_IMAGE' | translate}}</span>
+      </div>
+    </ng-template>
     <div class="img-button-group">
       <button (click)="showContextMenu($event)" (mousedown)="rippleDisabled=true"
               mat-icon-button [attr.aria-label]="'MORE' | translate">

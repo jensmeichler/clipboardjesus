@@ -1,17 +1,25 @@
-import {Component, HostListener, Inject} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inject} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Image} from "@clipboardjesus/models";
+import {StorageService} from "@clipboardjesus/services";
 
 @Component({
   selector: 'cb-edit-image-dialog',
   templateUrl: './edit-image-dialog.component.html',
-  styleUrls: ['./edit-image-dialog.component.css']
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditImageDialogComponent {
+  uploaded: string | null;
+  loadedFromUrl = false;
+
   constructor(
     public dialogRef: MatDialogRef<EditImageDialogComponent>,
+    private readonly storageService: StorageService,
     @Inject(MAT_DIALOG_DATA) public data: Image,
-  ) {}
+    private readonly cdr: ChangeDetectorRef,
+  ) {
+    this.uploaded = this.storageService.fetchImage(this.data.id);
+  }
 
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent): void {
@@ -22,6 +30,16 @@ export class EditImageDialogComponent {
     }
 
     event.stopPropagation();
+  }
+
+  onUrlLoaded(): void {
+    this.loadedFromUrl = true;
+    this.cdr.markForCheck();
+  }
+
+  removeImage(): void {
+    this.uploaded = null;
+    this.cdr.markForCheck();
   }
 
   async openFileDialog(): Promise<void> {
@@ -45,15 +63,15 @@ export class EditImageDialogComponent {
         reader.onerror = (error): void => reject(error);
       });
 
-    const fileBase64 = await toBase64(file);
-
-    localStorage.setItem(this.data.id, fileBase64);
-    this.data.source = null;
-
-    this.submit();
+    this.uploaded = await toBase64(file);
+    this.cdr.markForCheck();
   }
 
   submit(): void {
+    if (this.uploaded) {
+      this.data.source = null;
+      this.storageService.storeImage(this.data.id, this.uploaded);
+    }
     this.dialogRef.close(this.data);
   }
 

@@ -2,22 +2,61 @@
   <h1 mat-dialog-title class="flex-container"
       cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane">
-    <span>{{ 'EDIT_IMAGE' | translate }}</span>
+    <span>{{'EDIT_IMAGE' | translate}}</span>
+    <a class="flex-container">
+      <button (click)="openFileDialog()" mat-icon-button
+              style="margin-right: 10px" matTooltipPosition="above"
+              [matTooltip]="'UPLOAD_FILE' | translate"
+              [attr.aria-label]="'UPLOAD_FILE' | translate">
+        <mat-icon>file_upload</mat-icon>
+      </button>
+    </a>
   </h1>
   <div mat-dialog-content style="margin: 0; padding: 0">
     <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>{{ 'IMAGE_LINK' | translate }}</mat-label>
-      <input matInput [(ngModel)]="data.source">
+      <input matInput cbAutofocus
+             [(ngModel)]="data.source"
+             [disabled]="!!uploaded"
+             (input)="loadedFromUrl = false">
     </mat-form-field>
   </div>
 
-  <button (click)="openFileDialog()">OPEN FILE</button>
+  <a *ngIf="uploaded; else url" style="display: flex">
+    <img
+      [src]="uploaded"
+      class="animated"
+      height="140"
+      alt="loading failed"
+      style="border-radius: 8px">
+    <button (click)="removeImage()" mat-icon-button
+            style="margin-right: 10px" matTooltipPosition="above"
+            [matTooltip]="'DELETE' | translate"
+            [attr.aria-label]="'DELETE' | translate">
+      <mat-icon>close</mat-icon>
+    </button>
+  </a>
+  <ng-template #url>
+    <div *ngIf="!loadedFromUrl" class="img-placeholder">
+      <mat-icon>loop</mat-icon>
+      <span>{{'LOAD_IMAGE' | translate}}</span>
+    </div>
+    <img
+      (load)="onUrlLoaded()"
+      [class.hide]="!loadedFromUrl"
+      [src]="data.source"
+      alt="loading failed"
+      class="animated"
+      height="140"
+      style="border-radius: 8px">
+  </ng-template>
 
   <div class="dialog-button-group">
     <button mat-button (click)="cancel()">
       {{ 'CANCEL' | translate }}
     </button>
-    <button mat-button (click)="submit()" class="ok-button">
+    <button [disabled]="!data.source && !uploaded"
+            mat-button (click)="submit()" class="ok-button">
       {{ 'OK' | translate }}
     </button>
   </div>

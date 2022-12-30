@@ -8,9 +8,10 @@ import {
 } from '@angular/core';
 import {MatDialog} from "@angular/material/dialog";
 import {DraggableNote, Image} from "@clipboardjesus/models";
-import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
+import {DataService, HashyService, ClipboardService, StorageService} from "@clipboardjesus/services";
 import {_blank, DisplayValue} from "@clipboardjesus/helpers";
 import {DraggableComponent, EditImageDialogComponent} from "@clipboardjesus/components";
+import {take} from "rxjs";
 
 @Component({
   selector: 'cb-image',
@@ -32,6 +33,7 @@ export class ImageComponent extends DraggableComponent implements OnInit {
     private readonly clipboard: ClipboardService,
     public readonly dataService: DataService,
     private readonly dialog: MatDialog,
+    private readonly storageService: StorageService,
     private readonly cdr: ChangeDetectorRef,
   ) {
     super();
@@ -43,7 +45,16 @@ export class ImageComponent extends DraggableComponent implements OnInit {
     }
 
     if (this.image.source === null) {
-      this.loadedFromStorage = localStorage.getItem(this.image.id) ?? false;
+      this.loadedFromStorage = this.storageService.fetchImage(this.image.id) ?? false;
+      if (!this.loadedFromStorage) {
+        this.storageService.onImgStored.pipe(take(1)).subscribe((id) => {
+          if (id !== this.image.id) {
+            console.error('failed to fetch image from storage');
+          }
+          this.loadedFromStorage = this.storageService.fetchImage(this.image.id) ?? false;
+          this.cdr.markForCheck();
+        });
+      }
     }
   }
 
@@ -108,10 +119,12 @@ export class ImageComponent extends DraggableComponent implements OnInit {
       width: 'var(--width-edit-dialog)',
       data: image,
       disableClose: true,
+      autoFocus: false,
     }).afterClosed().subscribe((editedImage: Image) => {
       if (editedImage) {
+        const imageContent = this.storageService.fetchImage(this.image.id);
         this.dataService.deleteImage(this.image, true);
-        this.dataService.addImage(editedImage);
+        this.dataService.addImage(editedImage, imageContent ?? undefined);
         this.cdr.markForCheck();
       }
     });

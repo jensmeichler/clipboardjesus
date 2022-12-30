@@ -427,6 +427,7 @@ export class AppComponent implements OnInit {
     this.dialog.open(EditImageDialogComponent, {
       width: 'var(--width-edit-dialog)',
       data: new Image(null, this.newDraggablePositionX, this.newDraggablePositionY, null),
+      autoFocus: false,
     }).afterClosed().subscribe((image) => {
       if (image) {
         this.dataService.addImage(image);
