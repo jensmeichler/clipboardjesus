@@ -124,25 +124,28 @@ export class TabComponent extends DisposableComponent implements OnInit {
       if (this.dataService.selectedItemsCount) {
         this.dataService.clearSelection();
       } else {
-        if (!this.settings.dblClickMode) {
+        const addFromClipboard = async () => {
           const clipboardText = await this.clipboard.get();
           if (!clipboardText) {
-            this.hashy.show('CLIPBOARD_EMPTY', 3000);
+            const clipboardImage = await this.clipboard.getImage();
+            if (clipboardImage) {
+              const image = new Image(null, currentPosX, currentPosY, null);
+              this.dataService.addImage(image, clipboardImage);
+            } else {
+              this.hashy.show('CLIPBOARD_EMPTY', 3000);
+            }
           } else {
             this.dataService.addNote(
               new Note(null, currentPosX, currentPosY, clipboardText)
             );
           }
+        }
+
+        if (!this.settings.dblClickMode) {
+          await addFromClipboard();
         } else {
           if (this.clickedLast200ms) {
-            const clipboardText = await this.clipboard.get();
-            if (!clipboardText) {
-              this.hashy.show('CLIPBOARD_EMPTY', 3000);
-            } else {
-              this.dataService.addNote(
-                new Note(null, currentPosX, currentPosY, clipboardText)
-              );
-            }
+            await addFromClipboard();
           } else {
             this.clickedLast200ms = true;
             setTimeout(() => this.clickedLast200ms = false, 200);

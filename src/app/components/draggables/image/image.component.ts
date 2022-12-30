@@ -97,7 +97,15 @@ export class ImageComponent extends DraggableComponent implements OnInit {
     if (this.image.source) {
       window.open(this.image.source, _blank);
     } else {
-      //TODO: Download image content
+      const base64 = this.storageService.fetchImage(this.image.id);
+      if (base64) {
+        fetch(base64).then((response) => {
+          response.blob().then((blob) => {
+            const url = URL.createObjectURL(blob);
+            window.open(url, _blank);
+          });
+        });
+      }
     }
   }
 
@@ -108,7 +116,21 @@ export class ImageComponent extends DraggableComponent implements OnInit {
           this.hashy.show('COPIED_URL_TO_CLIPBOARD', 600)
         );
       } else {
-        //TODO: Copy image content to clipboard
+        const base64 = this.storageService.fetchImage(this.image.id);
+        if (base64) {
+          this.clipboard.setFile(base64).then((success) => {
+            if (success) {
+              this.hashy.show('COPIED_TO_CLIPBOARD', 600)
+            } else {
+              const type = base64.split(';')[0].split(':')[1].toUpperCase();
+              this.hashy.show(
+                {text: 'FILE_TYPE_NOT_SUPPORTED', interpolateParams: {type}},
+                4000,
+                'OK'
+              );
+            }
+          });
+        }
       }
     }
   }

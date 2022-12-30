@@ -34,11 +34,6 @@ export class HighlightColorDirective {
   @HostBinding('style.transition')
   transition = 'filter ease-in-out .18s';
 
-  @HostBinding('style.filter')
-  get filter(): string {
-    return this._radEffectWidth ? 'brightness(0.9)' : 'none';
-  }
-
   @HostBinding('style.background-image')
   get background(): string {
     return (this._cbHighlightColor ? `linear-gradient(to bottom, transparent, ${this._cbHighlightColor}), ` : '')
