@@ -27,6 +27,7 @@
   "COPY_N_ITEMS": "Copy {{n}} items",
   "COPY_OTHER_COLOR": "Copy other color",
   "COPY_VALUE": "Copy value",
+  "CREATE_IMAGE": "Create image",
   "CREATE_NOTE": "Create note",
   "CREATE_NOTE_LIST": "Create note list",
   "CREATE_TASK_LIST": "Create task list",

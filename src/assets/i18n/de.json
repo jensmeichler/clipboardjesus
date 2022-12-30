@@ -27,6 +27,7 @@
   "COPY_N_ITEMS": "{{n}} Elemente kopieren",
   "COPY_OTHER_COLOR": "Andere Farbe kopieren",
   "COPY_VALUE": "Wert kopieren",
+  "CREATE_IMAGE": "Bild erstellen",
   "CREATE_NOTE": "Notiz erstellen",
   "CREATE_NOTE_LIST": "Notizenliste erstellen",
   "CREATE_TASK_LIST": "Aufgabenliste erstellen",
