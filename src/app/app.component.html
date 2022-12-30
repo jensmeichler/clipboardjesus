@@ -118,11 +118,6 @@
         {{ 'CREATE_IMAGE' | translate }}
       </button>
 
-      <button (click)="openNewImageDialog()" mat-menu-item [attr.aria-label]="'CREATE_IMAGE' | translate">
-        <mat-icon>image</mat-icon>
-        {{ 'CREATE_IMAGE' | translate }}
-      </button>
-
       <mat-divider></mat-divider>
 
       <ng-container *ngIf="dataService.undoPossible | async">
