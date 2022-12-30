@@ -201,6 +201,8 @@ export class TabComponent extends DisposableComponent implements OnInit {
         file.text().then(text => {
           this.dataService.addNote(new Note(null, posX, posY, text, file.name));
         })
+      } else if (file.type.startsWith('image')) {
+        this.dataService.addImage(new Image(null, posX, posY, null), file);
       } else {
         this.hashy.show(
           {text: 'FILE_TYPE_NOT_SUPPORTED', interpolateParams: {type: file.type.toUpperCase()}},

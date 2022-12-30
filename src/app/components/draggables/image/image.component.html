@@ -12,19 +12,46 @@
           [cbHighlightedItem]="image"
           style="padding: 5px 5px 0 5px; min-height: 32px"
           data-cy="image">
-  <div *ngIf="!imageLoaded" class="image-link">
-    {{ image.source }}
-  </div>
-  <img (load)="onImageLoaded()" [class.hide]="!imageLoaded" [src]="image.source" alt="loading failed"
-       class="animated" height="140" style="border-radius: 8px">
-  <div class="img-button-group">
-    <button (mousedown)="rippleDisabled=true"
-            (mouseup)="showContextMenu($event)"
-            mat-icon-button
-            [attr.aria-label]="'MORE' | translate">
-      <mat-icon>more_vert</mat-icon>
-    </button>
-  </div>
+  <ng-container *ngIf="image.source !== null; else local">
+    <div *ngIf="!imageLoaded" class="image-link">
+      {{ image.source }}
+    </div>
+    <img
+      (load)="onImageLoaded()"
+      [class.hide]="!imageLoaded"
+      [src]="image.source"
+      alt="loading failed"
+      class="animated"
+      height="140"
+      style="border-radius: 8px">
+    <div class="img-button-group">
+      <button (click)="showContextMenu($event)" (mousedown)="rippleDisabled=true"
+              mat-icon-button [attr.aria-label]="'MORE' | translate">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+  </ng-container>
+  <ng-template #local>
+    <img
+      *ngIf="loadedFromStorage; else loading"
+      [src]="loadedFromStorage"
+      class="animated"
+      height="140"
+      alt="loading failed"
+      style="border-radius: 8px">
+    <ng-template #loading>
+      <div class="img-placeholder">
+        <mat-icon>loop</mat-icon>
+        <span>{{'LOAD_IMAGE' | translate}}</span>
+      </div>
+    </ng-template>
+    <div class="img-button-group">
+      <button (click)="showContextMenu($event)" (mousedown)="rippleDisabled=true"
+              mat-icon-button [attr.aria-label]="'MORE' | translate">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+  </ng-template>
 </mat-card>
 
 <div [matMenuTriggerFor]="contextMenu"
@@ -46,7 +73,13 @@
   </button>
 
   <ng-container *ngIf="!dataService.selectedItemsCount">
-    <button (click)="delete($event, true)" mat-menu-item
+    <button (click)="edit()" mat-menu-item
+            [attr.aria-label]="'EDIT' | translate">
+      <mat-icon>edit</mat-icon>
+      {{ 'EDIT' | translate }}
+    </button>
+
+    <button (click)="delete()" mat-menu-item
             [attr.aria-label]="'DELETE' | translate">
       <mat-icon>delete</mat-icon>
       {{ 'DELETE' | translate }}

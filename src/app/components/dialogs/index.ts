@@ -1,5 +1,6 @@
 export * from './about-dialog';
 export * from './delete-dialog';
+export * from './edit-image-dialog';
 export * from './edit-note-dialog';
 export * from './edit-tab-dialog';
 export * from './edit-note-list-dialog';

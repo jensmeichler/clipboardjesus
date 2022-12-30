@@ -276,17 +276,6 @@ export class DataService extends DisposableService {
   }
 
   /**
-   * Removes all items from the currently selected tab which do not meet the provided {@link condition}.
-   * @param condition
-   */
-  filterAllItems(condition: (item: DraggableNote) => boolean): void {
-    this.tab.notes = this.tab.notes?.filter(condition);
-    this.tab.taskLists = this.tab.taskLists?.filter(condition);
-    this.tab.images = this.tab.images?.filter(condition);
-    this.tab.noteLists = this.tab.noteLists?.filter(condition);
-  }
-
-  /**
    * Save the tab and update the change history.
    * Updates the colorized objects array.
    */
@@ -475,7 +464,16 @@ export class DataService extends DisposableService {
    * Deletes all selected items on the currently selected tab.
    */
   deleteSelectedItems(): void {
-    this.filterAllItems(item => !item.selected)
+    const notes = this.tab.notes?.filter(x => x.selected) ?? [];
+    const taskLists = this.tab.taskLists?.filter(x => x.selected) ?? [];
+    const images = this.tab.images?.filter(x => x.selected) ?? [];
+    const noteLists = this.tab.noteLists?.filter(x => x.selected) ?? [];
+
+    notes.forEach(x => this.deleteNote(x, true));
+    taskLists.forEach(x => this.deleteTaskList(x, true));
+    images.forEach(x => this.deleteImage(x, true));
+    noteLists.forEach(x => this.deleteNoteList(x, true));
+
     this.cacheData();
   }
 
@@ -527,8 +525,18 @@ export class DataService extends DisposableService {
   /**
    * Adds the provided {@link image} to the tab.
    * @param image
+   * @param file The file of the image. If provided, the image will be saved to the cache.
    */
-  addImage(image: Image): void {
+  addImage(image: Image, file?: File | string): void {
+    if (file) {
+      if (typeof file === 'string') {
+        this.storageService.storeImage(image.id, file);
+      } else {
+        const reader = new FileReader();
+        reader.onload = () => this.storageService.storeImage(image.id, reader.result);
+        reader.readAsDataURL(file);
+      }
+    }
     this.defineIndex(image);
     this.tab.images ??= [];
     this.tab.images.push(image);
@@ -585,12 +593,17 @@ export class DataService extends DisposableService {
   /**
    * Deletes the provided {@link image} and removes all connections from other items.
    * @param image
+   * @param skipIndexing Use this property when you do not want the indexes to be calculated again.
+   *  This is sometimes needed when you want to replace an {@link Image}.
    */
-  deleteImage(image: Image): void {
+  deleteImage(image: Image, skipIndexing?: boolean): void {
+    this.storageService.deleteImage(image.id);
     this.disconnectAll(image);
     this.tab.images = this.tab.images?.filter(x => x !== image);
-    this.reArrangeIndices();
-    this.cacheData();
+    if (!skipIndexing) {
+      this.reArrangeIndices();
+      this.cacheData();
+    }
   }
 
   /**
@@ -966,7 +979,6 @@ export class DataService extends DisposableService {
       }
     })
     target.connectedTo = undefined;
-    this.cacheData();
   }
 
   /**

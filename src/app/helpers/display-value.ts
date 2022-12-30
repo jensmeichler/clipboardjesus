@@ -14,6 +14,6 @@ export class DisplayValue {
   }
 
   static fromImage(item: Image): string {
-    return item.source.trim().substring(0, 20);
+    return item.source?.trim().substring(0, 20) ?? '📷';
   }
 }

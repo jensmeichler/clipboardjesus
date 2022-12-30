@@ -48,7 +48,8 @@ import {
   HashyAnimatedComponent,
   SignatureComponent,
   DisposableComponent,
-  DraggableComponent
+  DraggableComponent,
+  EditImageDialogComponent
 } from '@clipboardjesus/components';
 import {
   AutofocusDirective,
@@ -88,6 +89,7 @@ export function createTranslateLoader(http: HttpClient) {
     ConnectionComponent,
     DisposableComponent,
     DraggableComponent,
+    EditImageDialogComponent,
   ],
   imports: [
     BrowserModule,
