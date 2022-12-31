@@ -1,0 +1,28 @@
+.upload-button {
+  height: 100px;
+  width: 200px;
+  animation: default-animation .3s;
+  mat-icon {
+    transform: scale(2);
+  }
+}
+
+.img-container {
+  display: flex;
+  justify-content: center;
+  .img {
+    &:hover .round-button {
+      background: red;
+    }
+    .round-button {
+      position: absolute;
+      margin: -20px;
+      background: #33333390;
+      backdrop-filter: blur(6px);
+    }
+  }
+}
+
+.mat-dialog-content {
+  padding-bottom: 10px !important;
+}

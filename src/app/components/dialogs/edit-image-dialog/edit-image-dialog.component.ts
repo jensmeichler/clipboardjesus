@@ -6,6 +6,7 @@ import {StorageService} from "@clipboardjesus/services";
 @Component({
   selector: 'cb-edit-image-dialog',
   templateUrl: './edit-image-dialog.component.html',
+  styleUrls: ['./edit-image-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditImageDialogComponent {

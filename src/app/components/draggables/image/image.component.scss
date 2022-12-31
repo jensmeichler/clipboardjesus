@@ -23,3 +23,25 @@
   overflow-wrap: anywhere;
   filter: var(--drop-shadow-strong);
 }
+
+.img-placeholder {
+  height: 140px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  width: 220px;
+
+  mat-icon {
+    animation: rotate 8s infinite linear;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
