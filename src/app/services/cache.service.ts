@@ -13,8 +13,7 @@ export class CacheService {
   constructor(
     private readonly redoService: RedoService,
     private readonly storageService: StorageService,
-  ) {
-  }
+  ) {}
 
   /**
    * Read the last state of the tab and write it into the localstorage.

@@ -10,6 +10,11 @@
       <input matInput cbAutofocus
              [(ngModel)]="data.source"
              (input)="loadedFromUrl = false">
+      <button *ngIf="data.source"
+              matSuffix mat-icon-button aria-label="clear"
+              (click)="data.source = null; loadedFromUrl = false">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
 
     <section *ngIf="uploaded; else url" class="img-container">

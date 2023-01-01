@@ -1,6 +1,8 @@
 import {Directive, HostBinding, HostListener} from '@angular/core';
 
-@Directive({selector: '[cbDragDrop]'})
+@Directive({
+  selector: '[cbDragDrop]',
+})
 export class DragDropDirective {
   private _hoveredSection = 0;
 

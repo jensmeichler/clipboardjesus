@@ -9,7 +9,9 @@ import {DraggableNote} from "@clipboardjesus/models";
 import {SettingsService} from "@clipboardjesus/services";
 import {scrolledPosition} from "@clipboardjesus/helpers";
 
-@Directive({selector: '[cbHighlightColor]'})
+@Directive({
+  selector: '[cbHighlightColor]',
+})
 export class HighlightColorDirective {
   private _cbHighlightColor?: string;
   private _cursorX = 0;
@@ -30,9 +32,6 @@ export class HighlightColorDirective {
     private readonly settings: SettingsService,
     protected readonly cdr: ChangeDetectorRef,
   ) {}
-
-  @HostBinding('style.transition')
-  transition = 'filter ease-in-out .18s';
 
   @HostBinding('style.background-image')
   get background(): string {

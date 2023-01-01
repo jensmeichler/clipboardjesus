@@ -1,4 +1,4 @@
-.draggable-note {
+:host .draggable-note {
   position: absolute;
   animation: default-animation .12s;
   transition: box-shadow ease-in-out .18s;
@@ -11,6 +11,9 @@
   &.draggable-note-selected {
     z-index: 101 !important;
     box-shadow: 0 0 20px var(--color-secondary) !important;
+  }
+  &::ng-deep .mat-card {
+    backdrop-filter: blur(10px);
   }
 }
 
