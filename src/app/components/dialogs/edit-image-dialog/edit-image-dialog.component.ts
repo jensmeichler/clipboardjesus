@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inj
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Image} from "@clipboardjesus/models";
 import {StorageService} from "@clipboardjesus/services";
+import {toBase64} from "@clipboardjesus/helpers";
 
 @Component({
   selector: 'cb-edit-image-dialog',
@@ -12,6 +13,10 @@ import {StorageService} from "@clipboardjesus/services";
 export class EditImageDialogComponent {
   uploaded: string | null;
   loadedFromUrl = false;
+
+  get fileType(): string | null {
+    return this.uploaded?.split(';')[0].replace('data:', '') ?? null;
+  }
 
   constructor(
     public dialogRef: MatDialogRef<EditImageDialogComponent>,
@@ -56,14 +61,6 @@ export class EditImageDialogComponent {
       return;
     }
 
-    const toBase64 = (file: File): Promise<string> =>
-      new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (): void => resolve(reader.result as any);
-        reader.onerror = (error): void => reject(error);
-      });
-
     this.uploaded = await toBase64(file);
     this.cdr.markForCheck();
   }
@@ -72,6 +69,8 @@ export class EditImageDialogComponent {
     if (this.uploaded) {
       this.data.source = null;
       this.storageService.storeImage(this.data.id, this.uploaded);
+    } else {
+      this.storageService.deleteImage(this.data.id);
     }
     this.dialogRef.close(this.data);
   }

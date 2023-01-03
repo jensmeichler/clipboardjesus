@@ -2,7 +2,12 @@
   <h1 mat-dialog-title class="flex-container"
       cdkDrag cdkDragHandle
       cdkDragRootElement=".cdk-overlay-pane">
-    <span>{{'EDIT_IMAGE' | translate}}</span>
+      <span>{{'EDIT_IMAGE' | translate}}</span>
+      <span style="
+        color: var(--color-transparency-medium);
+        font-family: monospace;
+        font-size: medium;
+      ">{{fileType}}</span>
   </h1>
   <div mat-dialog-content style="margin: 0; padding: 0">
     <mat-form-field *ngIf="!uploaded" color="accent" [style.width]="'100%'">

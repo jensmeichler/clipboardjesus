@@ -1,3 +1,4 @@
+export * from './convert-file-to-base-64';
 export * from './display-value';
 export * from './get-reminder-errors';
 export * from './id-generator';
