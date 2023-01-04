@@ -37,6 +37,17 @@
   }
 }
 
+.file-icon {
+  padding: 42px;
+  transform: scale(3);
+}
+
+.img-card-header {
+  padding-top: 11px;
+  padding-right: 11px;
+  padding-left: 11px;
+}
+
 @keyframes rotate {
   from {
     transform: rotate(360deg);

@@ -13,8 +13,7 @@ export class NoteList extends DraggableNoteBase implements Colored {
     id: string | null,
     posX: number,
     posY: number,
-    posZ?: number
   ) {
-    super(id, posX, posY, posZ);
+    super(id, posX, posY);
   }
 }

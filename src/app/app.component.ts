@@ -533,8 +533,8 @@ export class AppComponent implements OnInit {
           160,
           '( ︶︿︶)_🖕',
           'Idiot award',
-          100
         );
+        idiotAward.posZ = 100;
         idiotAward.backgroundColor = '#FFDA0054';
         idiotAward.foregroundColor = '#FEE858';
         this.dataService.addNote(idiotAward);

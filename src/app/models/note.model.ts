@@ -15,10 +15,9 @@ export class Note extends DraggableNoteBase implements Colored {
     posY: number,
     public content?: string,
     public header?: string,
-    posZ?: number,
     public reminder?: Reminder,
   ) {
-    super(id, posX, posY, posZ);
+    super(id, posX, posY);
 
     if (content && colorRegex.test(content)) {
       this.backgroundColor = content;

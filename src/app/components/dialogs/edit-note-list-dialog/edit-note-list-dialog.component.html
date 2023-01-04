@@ -23,19 +23,23 @@
         <mat-label>{{ 'POSITION_X' | translate }}</mat-label>
         <input matInput [(ngModel)]="data.posX" type="number">
       </mat-form-field>
+
       <mat-form-field color="accent" [style.width]="'100%'" [style.minWidth]="'20px'">
         <mat-label>{{ 'POSITION_Y' | translate }}</mat-label>
         <input matInput [(ngModel)]="data.posY" type="number">
       </mat-form-field>
+
       <mat-form-field color="accent" [style.width]="'100%'" [style.minWidth]="'20px'">
         <mat-label>{{ 'POSITION_Z' | translate }}</mat-label>
         <input matInput [(ngModel)]="data.posZ" type="number">
       </mat-form-field>
     </div>
+
     <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>{{ 'HEADER' | translate }}</mat-label>
       <input matInput [(ngModel)]="data.header">
     </mat-form-field>
+
     <mat-form-field color="accent" [style.width]="'100%'">
       <mat-label>{{ 'NOTES' | translate }}</mat-label>
       <mat-chip-list #chipList>

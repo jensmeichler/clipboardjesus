@@ -12,13 +12,16 @@
           [cbHighlightedItem]="image"
           style="padding: 5px 5px 0 5px; min-height: 32px"
           data-cy="image">
+  <mat-card-title *ngIf="image.header" class="flex-container img-card-header">
+    {{ image.header }}
+  </mat-card-title>
   <ng-container *ngIf="image.source !== null; else local">
-    <div *ngIf="!imageLoaded" class="image-link">
+    <div *ngIf="!loadedFromUrlSuccess" class="image-link">
       {{ image.source }}
     </div>
     <img
-      (load)="onImageLoaded()"
-      [class.hide]="!imageLoaded"
+      (load)="onImageLoadedFromUrl()"
+      [class.hide]="!loadedFromUrlSuccess"
       [src]="image.source"
       alt="loading failed"
       class="animated"
@@ -32,13 +35,19 @@
     </div>
   </ng-container>
   <ng-template #local>
-    <img
-      *ngIf="loadedFromStorage; else loading"
-      [src]="loadedFromStorage"
-      class="animated"
-      height="140"
-      alt="loading failed"
-      style="border-radius: 8px">
+    <ng-container *ngIf="loadedFromStorage; else loading">
+      <mat-icon class="file-icon" *ngIf="!loadedFromStorageSuccess">
+        {{matIcon}}
+      </mat-icon>
+      <img
+        [src]="loadedFromStorage"
+        [class.hide]="!loadedFromStorageSuccess"
+        (load)="onImageLoadedFromStorage()"
+        class="animated"
+        height="140"
+        alt="loading failed"
+        style="border-radius: 8px">
+    </ng-container>
     <ng-template #loading>
       <div class="img-placeholder">
         <mat-icon>loop</mat-icon>

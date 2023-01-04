@@ -9,7 +9,7 @@ import {
 import {MatDialog} from "@angular/material/dialog";
 import {DraggableNote, Image} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService, StorageService} from "@clipboardjesus/services";
-import {_blank, DisplayValue} from "@clipboardjesus/helpers";
+import {_blank, DisplayValue, getMatIconFromFileType} from "@clipboardjesus/helpers";
 import {DraggableComponent, EditImageDialogComponent} from "@clipboardjesus/components";
 import {take} from "rxjs";
 
@@ -23,8 +23,20 @@ export class ImageComponent extends DraggableComponent implements OnInit {
   @Input() image!: Image;
   @Input() changed?: EventEmitter<void>;
 
-  imageLoaded = false;
+  loadedFromUrlSuccess = false;
+  loadedFromStorageSuccess = false;
   loadedFromStorage: string | false = false;
+
+  get matIcon(): string {
+    if (!this.loadedFromStorage) {
+      return 'image';
+    }
+
+    const fileType = this.loadedFromStorage
+      .split(';')[0]
+      .replace('data:', '');
+    return getMatIconFromFileType(fileType);
+  }
 
   DisplayValue = DisplayValue;
 
@@ -58,8 +70,13 @@ export class ImageComponent extends DraggableComponent implements OnInit {
     }
   }
 
-  onImageLoaded(): void {
-    this.imageLoaded = true;
+  onImageLoadedFromUrl(): void {
+    this.loadedFromUrlSuccess = true;
+    this.cdr.markForCheck();
+  }
+
+  onImageLoadedFromStorage(): void {
+    this.loadedFromStorageSuccess = true;
     this.cdr.markForCheck();
   }
 
@@ -122,12 +139,7 @@ export class ImageComponent extends DraggableComponent implements OnInit {
             if (success) {
               this.hashy.show('COPIED_TO_CLIPBOARD', 600)
             } else {
-              const type = base64.split(';')[0].split(':')[1].toUpperCase();
-              this.hashy.show(
-                {text: 'FILE_TYPE_NOT_SUPPORTED', interpolateParams: {type}},
-                4000,
-                'OK'
-              );
+              this.open();
             }
           });
         }

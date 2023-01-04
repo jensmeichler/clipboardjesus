@@ -1,3 +1,13 @@
+.form-group-wrapper {
+  display: flex;
+  gap: 20px;
+
+  .mat-form-field {
+    width: 100%;
+    min-width: 20px;
+  }
+}
+
 .upload-button {
   height: 100px;
   width: 200px;
@@ -10,6 +20,7 @@
 .img-container {
   display: flex;
   justify-content: center;
+  margin-top: 22px;
   .img {
     &:hover .round-button {
       background: red;

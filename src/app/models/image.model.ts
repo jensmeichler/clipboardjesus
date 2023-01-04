@@ -1,17 +1,13 @@
 import {DraggableNoteBase} from "./draggable-note-base.model";
 
 export class Image extends DraggableNoteBase {
-  source: string | null;
-
   constructor(
     id: string | null,
     posX: number,
     posY: number,
-    source: string | null,
-    posZ?: number
+    public source: string | null,
+    public header?: string
   ) {
-    super(id, posX, posY, posZ);
-
-    this.source = source;
+    super(id, posX, posY);
   }
 }

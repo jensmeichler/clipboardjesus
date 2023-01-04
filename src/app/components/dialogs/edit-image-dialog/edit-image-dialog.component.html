@@ -10,6 +10,28 @@
       ">{{fileType}}</span>
   </h1>
   <div mat-dialog-content style="margin: 0; padding: 0">
+    <div class="form-group-wrapper">
+      <mat-form-field color="accent">
+        <mat-label>{{ 'POSITION_X' | translate }}</mat-label>
+        <input matInput [(ngModel)]="data.posX" type="number">
+      </mat-form-field>
+
+      <mat-form-field color="accent">
+        <mat-label>{{ 'POSITION_Y' | translate }}</mat-label>
+        <input matInput [(ngModel)]="data.posY" type="number">
+      </mat-form-field>
+
+      <mat-form-field color="accent">
+        <mat-label>{{ 'POSITION_Z' | translate }}</mat-label>
+        <input matInput [(ngModel)]="data.posZ" type="number">
+      </mat-form-field>
+    </div>
+
+    <mat-form-field color="accent" [style.width]="'100%'">
+      <mat-label>{{ 'HEADER' | translate }}</mat-label>
+      <input data-cy="edit-note-dialog-header" matInput [(ngModel)]="data.header">
+    </mat-form-field>
+
     <mat-form-field *ngIf="!uploaded" color="accent" [style.width]="'100%'">
       <mat-label>{{ 'IMAGE_LINK' | translate }}</mat-label>
       <input matInput cbAutofocus
