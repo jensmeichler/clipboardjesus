@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inj
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Image} from "@clipboardjesus/models";
 import {StorageService} from "@clipboardjesus/services";
-import {toBase64} from "@clipboardjesus/helpers";
+import {getMatIconFromFileType, toBase64} from "@clipboardjesus/helpers";
 
 @Component({
   selector: 'cb-edit-image-dialog',
@@ -16,6 +16,14 @@ export class EditImageDialogComponent {
 
   get fileType(): string | null {
     return this.uploaded?.split(';')[0].replace('data:', '') ?? null;
+  }
+
+  get showPreview(): boolean {
+    return !!this.fileType?.startsWith('image/');
+  }
+
+  get matIcon(): string {
+    return getMatIconFromFileType(this.fileType);
   }
 
   constructor(

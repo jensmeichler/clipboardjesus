@@ -23,7 +23,7 @@
     </mat-form-field>
 
     <section *ngIf="uploaded; else url" class="img-container">
-      <a class="img">
+      <a class="img" *ngIf="showPreview; else icon">
         <img
           [src]="uploaded"
           class="animated"
@@ -36,6 +36,16 @@
           <mat-icon>close</mat-icon>
         </button>
       </a>
+      <ng-template #icon>
+        <a class="img file-type-icon">
+          <mat-icon class="icon">{{matIcon}}</mat-icon>
+          <button class="round-button"
+                  (click)="removeImage()" mat-icon-button
+                  [attr.aria-label]="'DELETE' | translate">
+            <mat-icon>close</mat-icon>
+          </button>
+        </a>
+      </ng-template>
     </section>
     <ng-template #url>
       <section class="img-container">

@@ -20,6 +20,15 @@
       background: #33333390;
       backdrop-filter: blur(6px);
     }
+    &.file-type-icon {
+      height: 130px;
+      .icon {
+        transform: translateY(54px) scale(6);
+      }
+      .round-button {
+        margin: -20px 0 0 20px;
+      }
+    }
   }
 }
 

@@ -1,5 +1,6 @@
 export * from './convert-file-to-base-64';
 export * from './display-value';
+export * from './get-mat-icon-from-file-type';
 export * from './get-reminder-errors';
 export * from './id-generator';
 export * from './markdown-renderer';
