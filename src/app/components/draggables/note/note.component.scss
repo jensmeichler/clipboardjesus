@@ -14,6 +14,21 @@
     font-size: 3rem;
     border-radius: 50%;
     z-index: -1;
+    animation: exclamation-mark-animation ease-in-out 1s;
+  }
+}
+
+@keyframes exclamation-mark-animation {
+  0% {
+    opacity: 0;
+    transform: rotate(30deg) scale(.3) translate(0, 0);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(-30deg) scale(1.5) translate(20px, -8px);
+  }
+  100% {
+    transform: rotate(0) scale(1) translate(0, 0);
   }
 }
 
