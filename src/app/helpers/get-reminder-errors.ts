@@ -1,12 +1,24 @@
 import {Reminder} from "@clipboardjesus/models";
 
+/**
+ * Result object which includes warnings and errors produced by the reminder.
+ */
 interface ReminderErrors {
+  /** Whether the reminder is nearly overdue. */
   warn: boolean,
+  /** Whether the reminder is overdue. */
   error: boolean,
+  /** The remaining time until the reminder is nearly overdue. */
   minutesUntilWarning: number,
+  /** The remaining time until the reminder is overdue. */
   minutesUntilError: number,
 }
 
+/**
+ * Get information about the reminder errors and warnings.
+ * @returns An error object if the reminder is overdue or nearly overdue.
+ *  The result will be {@link null} when reminder is not overdue or nearly overdue.
+ */
 export function getReminderErrors(reminder: Reminder): ReminderErrors | null {
   const now = new Date();
   let then: Date;

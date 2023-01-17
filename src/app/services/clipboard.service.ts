@@ -2,6 +2,9 @@ import {Injectable} from '@angular/core';
 import {isTauri} from "@clipboardjesus/helpers";
 import {clipboard} from "@tauri-apps/api";
 
+/**
+ * Provides the clipboard api for every supported environment.
+ */
 @Injectable({
   providedIn: 'root',
 })

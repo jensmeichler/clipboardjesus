@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {getTimeStamp} from "@clipboardjesus/helpers";
 
+/**
+ * Provides methods to save files.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -20,9 +23,6 @@ export class FileService {
 
   /**
    * Starts the download of the given content into the download folder of the user.
-   * @param content
-   * @param filename
-   * @private
    */
   private static saveText(content: string, filename: string): void {
     const a = document.createElement("a");

@@ -1,3 +1,6 @@
+/**
+ * Gets the material icon name from the file type.
+ */
 export function getMatIconFromFileType(fileType: string | null): string {
   switch (fileType) {
     // pdf documents

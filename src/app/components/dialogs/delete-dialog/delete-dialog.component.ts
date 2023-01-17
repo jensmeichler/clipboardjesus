@@ -2,6 +2,9 @@ import {ChangeDetectionStrategy, Component, HostListener} from '@angular/core';
 import {MatBottomSheetRef} from "@angular/material/bottom-sheet";
 import {DataService} from "@clipboardjesus/services";
 
+/**
+ * Dialog component for the delete-dialog.
+ */
 @Component({
   selector: 'cb-delete-dialog',
   templateUrl: './delete-dialog.component.html',
@@ -9,20 +12,35 @@ import {DataService} from "@clipboardjesus/services";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeleteDialogComponent {
+  /**
+   * Create an instance of the dialog.
+   */
   constructor(
+    /** Reference to the material bottom sheet. */
     private readonly bottomSheetRef: MatBottomSheetRef<DeleteDialogComponent>,
+    /** Reference to the data service. */
     private readonly dataService: DataService,
   ) {}
 
+  /**
+   * Confirm the dialog.
+   */
   deleteAll(): void {
     this.dataService.clearCache();
     this.bottomSheetRef.dismiss();
   }
 
+  /**
+   * Close the dialog.
+   */
   cancel(): void {
     this.bottomSheetRef.dismiss();
   }
 
+  /**
+   * Confirm the dialog when the user pressed enter.
+   * Close the dialog when the user pressed escape.
+   */
   @HostListener('document:keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent): void {
     if (event.key === 'Enter') {

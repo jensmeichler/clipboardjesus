@@ -40,6 +40,9 @@ import {
   ClipboardService
 } from "@clipboardjesus/services";
 
+/**
+ * The main component of the application.
+ */
 @Component({
   selector: 'cb-root',
   templateUrl: './app.component.html',
@@ -47,18 +50,28 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
+  /** The context menu binding. */
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
+  /** The x position for the context menu. */
   rightClickPosX = 0;
+  /** The y position for the context menu. */
   rightClickPosY = 0;
+  /** The x position for new draggable items to be created at. */
   newDraggablePositionX = 0;
+  /** The y position for new draggable items to be created at. */
   newDraggablePositionY = 0;
 
+  /** The event that fires when any of the visible draggable items is changed. */
   draggableChanged = new EventEmitter<void>();
 
+  /** Whether the current clipboard content can be pasted. */
   canPasteItems = false;
+  /** The current count for the idiot award Easter egg. */
   logoReplacedEasterEggCount = 0;
+  /** Whether the app is correctly initialized. */
   initialized = false;
+  /** Whether it's Christmas currently. */
   christmas: boolean;
 
   set tabIndex(value: number) {

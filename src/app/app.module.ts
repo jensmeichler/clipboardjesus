@@ -58,6 +58,7 @@ import {
   HighlightColorDirective
 } from '@clipboardjesus/directives';
 
+/** Create the translation loader for internationalization. */
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

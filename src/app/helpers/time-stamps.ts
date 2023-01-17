@@ -1,3 +1,7 @@
+/**
+ * Gets the current date in the following format:
+ * __yyyy-MM-dd_HH-mm-ss__
+ */
 export const getTimeStamp: () => string = () => {
   const setLeadingZero = (value: number): string => {
     return ('0' + value).slice(-2);

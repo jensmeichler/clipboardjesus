@@ -2,6 +2,9 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Inj
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {Note} from "@clipboardjesus/models";
 
+/**
+ * Dialog component for the edit-dialog a note.
+ */
 @Component({
   selector: 'cb-edit-note-dialog',
   templateUrl: './edit-note-dialog.component.html',
@@ -9,14 +12,27 @@ import {Note} from "@clipboardjesus/models";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditNoteDialogComponent {
+  /**
+   * Hack to not show the tooltip twice.
+   */
   suppressTooltip = false;
 
+  /**
+   * Create an instance of the dialog.
+   */
   constructor(
-    public dialogRef: MatDialogRef<EditNoteDialogComponent>,
+    /** The reference to the material dialog. */
+    public readonly dialogRef: MatDialogRef<EditNoteDialogComponent>,
+    /** The note to edit. */
     @Inject(MAT_DIALOG_DATA) public data: Note,
-    private cdr: ChangeDetectorRef,
+    /** The reference to the ChangeDetector for updating the view. */
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
+  /**
+   * Confirm the dialog when the user pressed enter.
+   * Close the dialog when the user pressed escape.
+   */
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent): void {
     if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
@@ -28,6 +44,9 @@ export class EditNoteDialogComponent {
     event.stopPropagation();
   }
 
+  /**
+   * Toggle the reminder form fields.
+   */
   toggleReminder(): void {
     this.suppressTooltip = true;
     setTimeout(() => {
@@ -37,6 +56,9 @@ export class EditNoteDialogComponent {
     this.data.reminder = !this.data.reminder ? {} : undefined;
   }
 
+  /**
+   * Confirm the dialog.
+   */
   submit(): void {
     if (!this.data.header?.trim()) {
       this.data.header = undefined;
@@ -44,6 +66,9 @@ export class EditNoteDialogComponent {
     this.dialogRef.close(this.data);
   }
 
+  /**
+   * Close the dialog.
+   */
   cancel(): void {
     this.dialogRef.close(false);
   }

@@ -3,12 +3,23 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {BehaviorSubject, combineLatest, of} from "rxjs";
 import {TranslateService} from "@ngx-translate/core";
 
+/**
+ * The service which handles the snackbar.
+ * The snackbar is combined with hashy (the mascot).
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class HashyService {
+  /** Whether hashy should be displayed. */
   showHashy = new BehaviorSubject(false);
 
+  /**
+   * The service which handles the snackbar.
+   * @param snackBar
+   * @param appRef
+   * @param translate
+   */
   constructor(
     private readonly snackBar: MatSnackBar,
     private readonly appRef: ApplicationRef,

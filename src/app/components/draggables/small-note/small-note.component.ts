@@ -5,6 +5,9 @@ import {MatMenuTrigger} from "@angular/material/menu";
 import {EditNoteDialogComponent} from "@clipboardjesus/components";
 import {MatDialog} from "@angular/material/dialog";
 
+/**
+ * The component which is contained in note lists.
+ */
 @Component({
   selector: 'cb-small-note',
   templateUrl: './small-note.component.html',
@@ -12,9 +15,12 @@ import {MatDialog} from "@angular/material/dialog";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SmallNoteComponent implements OnInit {
+  /** The note itself. */
   @Input() note!: Note;
+  /** The parent note list which contains this. */
   @Input() noteList!: NoteList;
 
+  /** The context menu binding. */
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
 
@@ -26,6 +32,9 @@ export class SmallNoteComponent implements OnInit {
     private readonly cdr: ChangeDetectorRef,
   ) {}
 
+  /**
+   * Validate the inputs.
+   */
   ngOnInit(): void {
     if (!this.note) {
       throw new Error('SmallNoteComponent.note is necessary!');
@@ -78,6 +87,9 @@ export class SmallNoteComponent implements OnInit {
     this.dataService.cacheData();
   }
 
+  /**
+   * Trigger the context menu positioned under the small note.
+   */
   showContextMenu(event: MouseEvent): void {
     if (this.dataService.selectedItemsCount) {
       return;

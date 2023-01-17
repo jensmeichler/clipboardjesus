@@ -23,20 +23,30 @@ import {dialog} from "@tauri-apps/api";
 import welcomeTab from '../../assets/screens/welcome.json';
 import {takeUntil} from "rxjs";
 import {DisposableService} from './disposable.service';
+import {WarningService} from "@clipboardjesus/services/warning.service";
 
+/**
+ * The main service to set all the data.
+ * (God service that simply does everything ;)
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class DataService extends DisposableService {
+  /** _blank to be set in the markup. */
   _blank = _blank;
 
+  /** Event that fires when parameters which change the view are changed. */
   changeDetectionRequired = new EventEmitter<void>();
 
+  /** Backing field of the tab index. */
   private _selectedTabIndex?: number;
+  /** Get the currently selected tab index. */
   get selectedTabIndex(): number {
     this._selectedTabIndex ??= this.storageService.selectedTabIndex;
     return this._selectedTabIndex;
   }
+  /** Set the currently selected tab index. Also updates the app title. */
   set selectedTabIndex(index: number) {
     this._selectedTabIndex = index;
     this.storageService.selectedTabIndex = index;
@@ -44,61 +54,28 @@ export class DataService extends DisposableService {
     this.changeDetectionRequired.emit();
   }
 
+  /** Array of all tabs. */
   tabs: Tab[] = [];
+  /** Get all available tab indexes. */
   get tabIndexes() { return this.tabs.map(x => x.index.toString()); }
+  /** Get the currently selected tab. */
   get tab(): Tab { return this.tabs[this.selectedTabIndex]; }
+  /** Overwrite the currently selected tab. */
   set tab(tab: Tab) { this.tabs[this.selectedTabIndex] = tab; }
 
-  private _tabsWithErrors: {[key: number]: string[]} = {};
-  hasError(tabIndex: number): boolean {
-    return Object.keys(this._tabsWithErrors).includes(tabIndex.toString());
-  }
-  setError(noteId: string) {
-    const tab = this.tabs.find(t => t.notes?.some(n => n.id === noteId));
-    this._tabsWithErrors[tab!.index] ??= [];
-    this._tabsWithErrors[tab!.index].push(noteId);
-  }
-  removeError(noteId: string) {
-    const tab = this.tabs.find(t => t.notes?.some(n => n.id === noteId));
-    if (!tab) {
-      return;
-    }
-    const indexes = this._tabsWithErrors[tab.index]?.filter(x => x !== noteId);
-    if (indexes?.length) {
-      this._tabsWithErrors[tab.index] = indexes;
-    } else {
-      delete this._tabsWithErrors[tab.index];
-    }
-  }
-
-  private _tabsWithWarnings: {[key: number]: string[]} = {};
-  hasWarning(tabIndex: number): boolean {
-    return Object.keys(this._tabsWithWarnings).includes(tabIndex.toString());
-  }
-  setWarning(noteId: string) {
-    const tab = this.tabs.find(t => t.notes?.some(n => n.id === noteId));
-    this._tabsWithWarnings[tab!.index] ??= [];
-    this._tabsWithWarnings[tab!.index].push(noteId);
-  }
-  removeWarning(noteId: string) {
-    const tab = this.tabs.find(t => t.notes?.some(n => n.id === noteId));
-    if (!tab) {
-      return;
-    }
-    const indexes = this._tabsWithWarnings[tab.index]?.filter(x => x !== noteId);
-    if (indexes?.length) {
-      this._tabsWithWarnings[tab.index] = indexes;
-    } else {
-      delete this._tabsWithWarnings[tab.index];
-    }
-  }
-
+  /** Whether the user can redo the last undone action. */
   redoPossible = this.cache.redoPossible;
+  /** Whether the user can undo the last action. */
   undoPossible = this.cache.undoPossible;
+  /** Whether the user can restore the lastly deleted tab. */
   restorePossible = this.cache.restorePossible;
 
+  /** An array of all objects that are colored. */
   private colorizedObjects: Colored[] = [];
 
+  /**
+   * The constructor of the heart of the clipboard.
+   */
   constructor(
     private readonly dialog: MatDialog,
     private readonly hashy: HashyService,
@@ -107,6 +84,7 @@ export class DataService extends DisposableService {
     private readonly fileAccessService: FileAccessService,
     private readonly clipboard: ClipboardService,
     private readonly storageService: StorageService,
+    private readonly warningService: WarningService,
   ) {
     super();
 
@@ -131,6 +109,36 @@ export class DataService extends DisposableService {
   }
 
   /**
+   * Sets a warning for the items with the provided id.
+   */
+  setWarning(draggableId: string): void {
+    this.warningService.setWarning(draggableId, this.tabs);
+  }
+
+  /**
+   * Sets an error for the items with the provided id.
+   */
+  setError(draggableId: string): void {
+    this.warningService.setError(draggableId, this.tabs);
+  }
+
+  /**
+   * Get information about the tab with the provided {@param tabIndex}.
+   * @returns Whether the tab with the provided index has at least one draggable with warnings.
+   */
+  hasWarning(tabIndex: number): boolean {
+    return this.warningService.hasWarning(tabIndex);
+  }
+
+  /**
+   * Get information about the tab with the provided {@param tabIndex}.
+   * @returns Whether the tab with the provided index has at least one draggable with errors.
+   */
+  hasError(tabIndex: number): boolean {
+    return this.warningService.hasError(tabIndex);
+  }
+
+  /**
    * Writes the current selected tab into the app title
    * and updates the query params.
    */
@@ -146,6 +154,7 @@ export class DataService extends DisposableService {
   }
 
   /**
+   * Get the current items count.
    * @returns The total count of all items on the currently selected tab.
    */
   get itemsCount(): number {
@@ -156,6 +165,7 @@ export class DataService extends DisposableService {
   }
 
   /**
+   * Get the selected items count.
    * @returns The total count of all items on the currently selected tab which are selected.
    */
   get selectedItemsCount(): number {
@@ -165,6 +175,10 @@ export class DataService extends DisposableService {
       + (this.tab.images?.filter(x => x.selected).length ?? 0);
   }
 
+  /**
+   * Compares the provided notes.
+   * @returns Whether the given {@link Note}s have the same values.
+   */
   private static compareNote(left: Note, right: Note): boolean {
     return left.content === right.content
       && left.header === right.header
@@ -172,12 +186,20 @@ export class DataService extends DisposableService {
       && left.posY === right.posY;
   }
 
+  /**
+   * Compares the provided task lists.
+   * @returns Whether the given {@link TaskList}s have the same values.
+   */
   private static compareTaskList(left: TaskList, right: TaskList): boolean {
     return left.header === right.header
       && left.posX === right.posX
       && left.posY === right.posY;
   }
 
+  /**
+   * Compares the provided note lists.
+   * @returns Whether the given {@link NoteList}s have the same values.
+   */
   private static compareNoteList(left: NoteList, right: NoteList): boolean {
     return left.notes.every(leftNote => right.notes.some(rightNote => DataService.compareNote(leftNote, rightNote)))
       && right.notes.every(rightNote => left.notes.some(leftNote => DataService.compareNote(leftNote, rightNote)))
@@ -186,17 +208,23 @@ export class DataService extends DisposableService {
       && left.posY === right.posY;
   }
 
+  /**
+   * Compares the provided images.
+   * @returns Whether the given {@link Image}s have the same values.
+   */
   private static compareImage(left: Image, right: Image): boolean {
     return left.source === right.source
       && left.posX === right.posX
       && left.posY === right.posY;
   }
 
+  /**
+   * Compares the provided colored items.
+   * @returns Whether the given {@link Colored} items have the same color.
+   */
   private static compareColors(left: Colored, right: Colored): boolean {
-    if (!left || !right) {
-      return false;
-    }
-    return left.backgroundColor === right.backgroundColor
+    return left && right
+      && left.backgroundColor === right.backgroundColor
       && left.backgroundColorGradient === right.backgroundColorGradient
       && left.foregroundColor === right.foregroundColor
   }
@@ -234,7 +262,6 @@ export class DataService extends DisposableService {
   /**
    * Gets all draggable items where the user can specify a background color.
    * This method is mainly used get colors which can be copied to another item.
-   * @param excludedItem
    */
   getColorizedObjects(excludedItem: Colored): Colored[] {
     return this.colorizedObjects.filter(item => !DataService.compareColors(excludedItem, item));
@@ -258,7 +285,6 @@ export class DataService extends DisposableService {
 
   /**
    * Applies the provided action to all items on the currently selected tab.
-   * @param action
    */
   editAllSelectedItems(action: (item: DraggableNote) => void): void {
     this.editAllItems(x => x.selected ? action(x) : {})
@@ -266,7 +292,6 @@ export class DataService extends DisposableService {
 
   /**
    * Executes the provided {@link action} for all draggable items of the currently selected tab.
-   * @param action
    */
   editAllItems(action: (item: DraggableNote) => void): void {
     this.tab.notes?.forEach(action);
@@ -301,7 +326,6 @@ export class DataService extends DisposableService {
   /**
    * Adds a new tab at the end and navigates towards it.
    * The provided index of the tab will be overwritten.
-   * @param tab
    */
   addTab(tab?: Tab): void {
     if (tab) {
@@ -327,6 +351,7 @@ export class DataService extends DisposableService {
   }
 
   /**
+   * Can the clipboard text be pasted?
    * @returns Whether the clipboard contains text which can be parsed to draggable items.
    */
   async canImportItemsFromClipboard(): Promise<boolean> {
@@ -370,7 +395,6 @@ export class DataService extends DisposableService {
 
   /**
    * Sets the correct index property for all tabs.
-   * @private
    */
   private rearrangeTabIndices(): void {
     let i = 0;
@@ -418,6 +442,9 @@ export class DataService extends DisposableService {
     this.selectedTabIndex = isRightTab ? index - 1 : index;
   }
 
+  /**
+   * Reorders the tab from the {@param sourceIndex} to the {@param targetIndex}.
+   */
   reArrangeTab(sourceIndex: number, targetIndex: number): void {
     const sourceTabCopy: Tab = JSON.parse(JSON.stringify(this.tabs[sourceIndex]));
     const targetTabCopy: Tab = JSON.parse(JSON.stringify(this.tabs[targetIndex]));
@@ -428,24 +455,16 @@ export class DataService extends DisposableService {
     this.tabs[sourceIndex] = targetTabCopy;
 
     // Switch the warnings and errors of tabs, because they are saved with the tabIndex as key
-    const sourceWarnings = [...(this._tabsWithWarnings[sourceIndex] ?? [])];
-    const sourceErrors = [...(this._tabsWithErrors[sourceIndex] ?? [])];
-    const targetWarnings = [...(this._tabsWithWarnings[targetIndex] ?? [])];
-    const targetErrors = [...(this._tabsWithErrors[targetIndex] ?? [])];
-    if (targetWarnings.length) this._tabsWithWarnings[sourceIndex] = targetWarnings;
-    else delete this._tabsWithWarnings[sourceIndex];
-    if (targetErrors.length) this._tabsWithErrors[sourceIndex] = targetErrors;
-    else delete this._tabsWithErrors[sourceIndex];
-    if (sourceWarnings.length) this._tabsWithWarnings[targetIndex] = sourceWarnings;
-    else delete this._tabsWithWarnings[targetIndex];
-    if (sourceErrors.length) this._tabsWithErrors[targetIndex] = sourceErrors;
-    else delete this._tabsWithErrors[targetIndex];
+    this.warningService.switchWarningsAndErrors(sourceIndex, targetIndex);
 
     this.cache.save(sourceIndex, targetTabCopy);
     this.cache.save(targetIndex, sourceTabCopy);
     this.cache.switchHistory(sourceIndex, targetIndex);
   }
 
+  /**
+   * Moves the lastly created tab to the first position and all other tabs to the right.
+   */
   moveLastTabToFirstPosition(): void {
     for (let i = this.tabs.length - 1; i; i--) {
       this.reArrangeTab(i, i - 1);
@@ -491,7 +510,6 @@ export class DataService extends DisposableService {
 
   /**
    * Adds the provided {@link note} to the tab.
-   * @param note
    */
   addNote(note: Note): void {
     this.defineIndex(note);
@@ -502,7 +520,6 @@ export class DataService extends DisposableService {
 
   /**
    * Adds the provided {@link noteList} to the tab.
-   * @param noteList
    */
   addNoteList(noteList: NoteList): void {
     this.defineIndex(noteList);
@@ -513,7 +530,6 @@ export class DataService extends DisposableService {
 
   /**
    * Adds the provided {@link taskList} to the tab.
-   * @param taskList
    */
   addTaskList(taskList: TaskList): void {
     this.defineIndex(taskList);
@@ -551,8 +567,8 @@ export class DataService extends DisposableService {
    */
   deleteNote(note: Note, skipIndexing?: boolean): void {
     this.disconnectAll(note);
-    this.removeError(note.id);
-    this.removeWarning(note.id);
+    this.warningService.removeError(note.id, this.tabs);
+    this.warningService.removeWarning(note.id, this.tabs);
     this.tab.notes = this.tab.notes?.filter(x => x !== note);
     if (!skipIndexing) {
       this.reArrangeIndices();
@@ -629,7 +645,7 @@ export class DataService extends DisposableService {
   /**
    * Gets the currently selected items if any is selected.
    * If nothing is selected it gets the complete tab.
-   * @param ignoreSelection
+   * @param ignoreSelection Whether to get always the complete tab.
    */
   getAsJson(ignoreSelection?: boolean): Tab {
     if (ignoreSelection || !this.selectedItemsCount) {
@@ -640,8 +656,6 @@ export class DataService extends DisposableService {
 
   /**
    * Sets all items from the provided {@link tab} onto the currently selected tab.
-   * @param tab
-   * @param skipCache
    */
   setFromTabJson(tab: Partial<Tab>, skipCache?: boolean): void {
     tab.notes?.forEach(note => {
@@ -707,7 +721,6 @@ export class DataService extends DisposableService {
 
   /**
    * Saves all tabs into a json file (*.boards.json) and downloads that file.
-   * @param fileName
    */
   async saveAll(fileName?: string): Promise<void> {
     const json = this.cache.getJsonFromAll();
@@ -737,7 +750,6 @@ export class DataService extends DisposableService {
 
   /**
    * Saves the current tab (Or the currently selected items) into the download folder of the user.
-   * @param filename
    */
   saveTabOrSelection(filename?: string): void {
     const json = this.getAsJson();
@@ -753,7 +765,6 @@ export class DataService extends DisposableService {
 
   /**
    * Set the z-index of the provided {@link item} to the highest value among items on the tab.
-   * @param item
    */
   bringToFront(item: DraggableNote): void {
     item.posZ = this.getNextIndex();
@@ -762,7 +773,6 @@ export class DataService extends DisposableService {
 
   /**
    * Set the z-index of the provided {@link item} to next value and update the other items.
-   * @param item
    */
   bringForward(item: DraggableNote): void {
     item.posZ! += 1.5;
@@ -771,7 +781,6 @@ export class DataService extends DisposableService {
 
   /**
    * Set the z-index of the provided {@link item} to value before and update the other items.
-   * @param item
    */
   sendBackward(item: DraggableNote): void {
     item.posZ! -= 1.5;
@@ -780,7 +789,6 @@ export class DataService extends DisposableService {
 
   /**
    * Set the z-index of the provided {@link item} to the lowest value among items on the tab.
-   * @param item
    */
   flipToBack(item: DraggableNote): void {
     item.posZ = 0;
@@ -790,8 +798,6 @@ export class DataService extends DisposableService {
   /**
    * Removes the provided {@link note} from the current tab
    * and creates it on the tab with the specified {@link index}.
-   * @param index
-   * @param note
    */
   moveNoteToTab(index: number, note: Note): void {
     const otherTab = this.cache.fetch(index)!;
@@ -805,8 +811,6 @@ export class DataService extends DisposableService {
   /**
    * Removes the provided {@link noteList} from the current tab
    * and creates it on the tab with the specified {@link index}.
-   * @param index
-   * @param noteList
    */
   moveNoteListToTab(index: number, noteList: NoteList): void {
     const otherTab = this.cache.fetch(index)!;
@@ -820,8 +824,6 @@ export class DataService extends DisposableService {
   /**
    * Removes the provided {@link taskList} from the current tab
    * and creates it on the tab with the specified {@link index}.
-   * @param index
-   * @param taskList
    */
   moveTaskListToTab(index: number, taskList: TaskList): void {
     const otherTab = this.cache.fetch(index)!;
@@ -835,8 +837,6 @@ export class DataService extends DisposableService {
   /**
    * Removes the provided {@link image} from the current tab
    * and creates it on the tab with the specified {@link index}.
-   * @param index
-   * @param image
    */
   moveImageToTab(index: number, image: Image): void {
     const otherTab = this.cache.fetch(index)!;
@@ -876,7 +876,7 @@ export class DataService extends DisposableService {
 
   /**
    * Go to the next tab.
-   * @param revert
+   * @param revert Whether to select the previous tab instead.
    */
   selectNextTab(revert: boolean): void {
     if (this.selectedTabIndex === 0 && revert) {
@@ -890,7 +890,6 @@ export class DataService extends DisposableService {
 
   /**
    * Select the next draggable item.
-   * @param revert
    */
   selectNextItem(revert: boolean): void {
     const selectables: DraggableNote[] = this.getCurrentTabItems();
@@ -928,7 +927,6 @@ export class DataService extends DisposableService {
 
   /**
    * Gets a draggable note via the provided {@link id}.
-   * @param id
    * @returns {@link undefined} if not existing.
    */
   getCurrentTabItem(id: string): DraggableNote | undefined {
@@ -939,8 +937,6 @@ export class DataService extends DisposableService {
    * Updates the connectedTo array of both objects.
    * Adds a connection when there was no before.
    * Removes the connection when they were connected before.
-   * @param from
-   * @param to
    */
   connect(from: DraggableNote, to: DraggableNote): void {
     if (!from.connectedTo?.includes(to.id)) {
@@ -952,6 +948,9 @@ export class DataService extends DisposableService {
     this.cacheData();
   }
 
+  /**
+   * Adds a connection between the two provided draggables.
+   */
   private static addConnection(from: DraggableNote, to: DraggableNote): void {
     if (from.connectedTo === undefined) from.connectedTo = [to.id];
     else from.connectedTo.push(to.id);
@@ -959,6 +958,9 @@ export class DataService extends DisposableService {
     else to.connectedTo.push(from.id);
   }
 
+  /**
+   * Deletes the connections from the element and the connected element.
+   */
   private static removeConnection(from: DraggableNote, to: DraggableNote): void {
     if (from.connectedTo!.length === 1) from.connectedTo = undefined;
     else from.connectedTo = from.connectedTo!.filter(id => id !== to.id);
@@ -969,7 +971,6 @@ export class DataService extends DisposableService {
   /**
    * Removes all connections from the given {@link target}
    * and the connections from other items towards it.
-   * @param target
    */
   disconnectAll(target: DraggableNote): void {
     target.connectedTo?.forEach(id => {
@@ -983,8 +984,6 @@ export class DataService extends DisposableService {
 
   /**
    * Sets the z-index of the provided {@link item} to the next free index.
-   * @param item
-   * @private
    */
   private defineIndex(item: DraggableNote): void {
     item.posZ ??= this.getNextIndex();
@@ -992,7 +991,6 @@ export class DataService extends DisposableService {
 
   /**
    * Recalculates the z-index for all items of the currently selected tab.
-   * @private
    */
   private reArrangeIndices(): void {
     let i = 1;
@@ -1000,8 +998,8 @@ export class DataService extends DisposableService {
   }
 
   /**
+   * Find out what is the next Z position that can be set.
    * @returns The next free index.
-   * @private
    */
   private getNextIndex(): number {
     const items = this.getCurrentTabItems();

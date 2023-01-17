@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {_blank, hyperlinkRegex} from '@clipboardjesus/helpers';
 
+/**
+ * Service to convert strings and do some regex stuff.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -40,6 +43,10 @@ export class StringParserService {
     return text;
   }
 
+  /**
+   * Converts the provided {@param link} to a html 'a' element
+   * which opens the link in a new browser tab (or tauri window).
+   */
   private static getAsHref(link: string): string {
     const linkRef = link.startsWith('http') ? link : `https://${link}`;
     return `<a href="${linkRef}" target="${_blank}">${link}</a>`;

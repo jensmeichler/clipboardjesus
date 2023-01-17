@@ -4,19 +4,34 @@ import {BehaviorSubject, takeUntil} from "rxjs";
 import {StorageService} from "@clipboardjesus/services/storage.service";
 import {DisposableService} from "@clipboardjesus/services/disposable.service";
 
+/**
+ * The service that provides possibilities
+ * to undo and redo actions.
+ */
 @Injectable({
   providedIn: 'root',
 })
-export class RedoService extends DisposableService {
+export class HistoryService extends DisposableService {
+  /** Array of tab arrays which contains history information. */
   possibleUndos: Tab[][] = [];
+  /** Array of tab arrays which contains history information. */
   possibleRedos: Tab[][] = [];
+  /** Array of tabs which contains history information about deleted tabs. */
   possibleRestores: Tab[] = [];
 
+  /** Whether the user can redo the last undone action. */
   undoPossible = new BehaviorSubject<boolean>(false);
+  /** Whether the user can undo the last action. */
   redoPossible = new BehaviorSubject<boolean>(false);
+  /** Whether the user can restore the lastly deleted tab. */
   restorePossible = new BehaviorSubject<boolean>(false);
 
-  constructor(private readonly storageService: StorageService) {
+  /**
+   * Create an instance of the history service.
+   */
+  constructor(
+    private readonly storageService: StorageService,
+  ) {
     super();
 
     for (let i = 0; i < 20; i++) {

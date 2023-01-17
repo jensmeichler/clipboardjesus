@@ -70,7 +70,6 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
 
   /**
    * Marks the note when a reminder is overdue.
-   * @param changes
    */
   ngOnChanges(changes: SimpleChanges): void {
     const note = changes['note']?.currentValue as Note | undefined;

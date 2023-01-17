@@ -1,17 +1,27 @@
 import {Injectable} from '@angular/core';
 import {Tab} from "@clipboardjesus/models";
-import {RedoService, StorageService} from "@clipboardjesus/services";
+import {HistoryService, StorageService} from "@clipboardjesus/services";
 
+/**
+ * The service to handle all the cached data
+ * including undo, redo, etc.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class CacheService {
+  /** Whether the user can redo the last undone action. */
   redoPossible = this.redoService.redoPossible;
+  /** Whether the user can undo the last action. */
   undoPossible = this.redoService.undoPossible;
+  /** Whether the user can restore the lastly deleted tab. */
   restorePossible = this.redoService.restorePossible;
 
+  /**
+   * Create an instance of the cache service.
+   */
   constructor(
-    private readonly redoService: RedoService,
+    private readonly redoService: HistoryService,
     private readonly storageService: StorageService,
   ) {}
 

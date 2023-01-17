@@ -4,10 +4,16 @@ import {HashyService, SettingsService} from "@clipboardjesus/services";
 import {isTauri} from "@clipboardjesus/helpers";
 import {fs} from "@tauri-apps/api";
 
+/**
+ * Service to handle file access.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class FileAccessService {
+  /**
+   * Create an instance of the file access service.
+   */
   constructor(
     private readonly hashy: HashyService,
     private readonly settings: SettingsService,
@@ -17,7 +23,6 @@ export class FileAccessService {
    * Reads the file contents from the given Path.
    * Remember that the path that is provided must be selected by the user.
    * If not the method will fail.
-   * @param path
    * @returns The file contents as string or undefined if __TAURI__ was not provided
    */
   async read(path: string): Promise<string | undefined> {

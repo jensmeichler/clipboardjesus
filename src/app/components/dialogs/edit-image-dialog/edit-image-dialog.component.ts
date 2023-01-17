@@ -4,6 +4,9 @@ import {Image} from "@clipboardjesus/models";
 import {StorageService} from "@clipboardjesus/services";
 import {getMatIconFromFileType, toBase64} from "@clipboardjesus/helpers";
 
+/**
+ * Dialog component for the edit-dialog of an image.
+ */
 @Component({
   selector: 'cb-edit-image-dialog',
   templateUrl: './edit-image-dialog.component.html',
@@ -11,30 +14,53 @@ import {getMatIconFromFileType, toBase64} from "@clipboardjesus/helpers";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditImageDialogComponent {
+  /** The content of the file from the localStorage. */
   uploaded: string | null;
+  /** Whether the image is loaded successfully. */
   loadedFromUrl = false;
 
+  /**
+   * The file type of the uploaded image.
+   * @returns {@link null} when image is not stored locally.
+   */
   get fileType(): string | null {
     return this.uploaded?.split(';')[0].replace('data:', '') ?? null;
   }
 
+  /**
+   * Information whether the image stored in the localStorage can be shown.
+   */
   get showPreview(): boolean {
     return !!this.fileType?.startsWith('image/');
   }
 
+  /**
+   * Get the icon to display when the file cannot be displayed.
+   */
   get matIcon(): string {
     return getMatIconFromFileType(this.fileType);
   }
 
+  /**
+   * Create an instance of the dialog.
+   */
   constructor(
-    public dialogRef: MatDialogRef<EditImageDialogComponent>,
-    private readonly storageService: StorageService,
+    /** The reference to the material dialog. */
+    public readonly dialogRef: MatDialogRef<EditImageDialogComponent>,
+    /** The image to edit. */
     @Inject(MAT_DIALOG_DATA) public data: Image,
+    /** The reference to the storage service to save the image locally. */
+    private readonly storageService: StorageService,
+    /** The reference to the ChangeDetector for updating the view. */
     private readonly cdr: ChangeDetectorRef,
   ) {
     this.uploaded = this.storageService.fetchImage(this.data.id);
   }
 
+  /**
+   * Confirm the dialog when the user pressed enter.
+   * Close the dialog when the user pressed escape.
+   */
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent): void {
     if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
@@ -46,16 +72,25 @@ export class EditImageDialogComponent {
     event.stopPropagation();
   }
 
+  /**
+   * Method that is called from the view on load.
+   */
   onUrlLoaded(): void {
     this.loadedFromUrl = true;
     this.cdr.markForCheck();
   }
 
+  /**
+   * Delete the uploaded image.
+   */
   removeImage(): void {
     this.uploaded = null;
     this.cdr.markForCheck();
   }
 
+  /**
+   * Select a file from the file system.
+   */
   async openFileDialog(): Promise<void> {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
@@ -63,6 +98,9 @@ export class EditImageDialogComponent {
     input.click();
   }
 
+  /**
+   * Add the file as base64 and show it as a preview.
+   */
   private async addFile(event: Event): Promise<void> {
     const file = (event as any).target.files[0] as File;
     if (!file) {
@@ -73,6 +111,9 @@ export class EditImageDialogComponent {
     this.cdr.markForCheck();
   }
 
+  /**
+   * Confirm the dialog.
+   */
   submit(): void {
     if (this.uploaded) {
       this.data.source = null;
@@ -83,6 +124,9 @@ export class EditImageDialogComponent {
     this.dialogRef.close(this.data);
   }
 
+  /**
+   * Close the dialog.
+   */
   cancel(): void {
     this.dialogRef.close(false);
   }

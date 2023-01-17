@@ -3,17 +3,28 @@ import {MatChipInputEvent} from "@angular/material/chips";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {TaskItem, TaskList} from "@clipboardjesus/models";
 
+/**
+ * Dialog component for the edit-dialog of a task list.
+ */
 @Component({
   selector: 'cb-edit-task-list-dialog',
   templateUrl: './edit-task-list-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditTaskListDialogComponent {
+  /**
+   * Create an instance of the dialog.
+   */
   constructor(
-    public dialogRef: MatDialogRef<EditTaskListDialogComponent>,
+    /** The reference to the material dialog. */
+    public readonly dialogRef: MatDialogRef<EditTaskListDialogComponent>,
+    /** The task list to edit. */
     @Inject(MAT_DIALOG_DATA) public data: TaskList,
   ) {}
 
+  /**
+   * Add a task to the list, when user hits [Enter] into the input field.
+   */
   addItem(event: MatChipInputEvent): void {
     const item = (event.value || '').trim();
 
@@ -25,6 +36,9 @@ export class EditTaskListDialogComponent {
     event.chipInput!.clear();
   }
 
+  /**
+   * Remove the task from the task list.
+   */
   removeItem(item: TaskItem): void {
     const index = this.data.items.indexOf(item);
     if (index >= 0) {
@@ -32,6 +46,10 @@ export class EditTaskListDialogComponent {
     }
   }
 
+  /**
+   * Confirm the dialog when the user pressed enter.
+   * Close the dialog when the user pressed escape.
+   */
   @HostListener('keydown', ['$event'])
   onKeyPressed(event: KeyboardEvent): void {
     if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
@@ -43,6 +61,9 @@ export class EditTaskListDialogComponent {
     event.stopPropagation();
   }
 
+  /**
+   * Confirm the dialog.
+   */
   submit(): void {
     if (!this.data.header?.trim()) {
       this.data.header = undefined;
@@ -50,6 +71,9 @@ export class EditTaskListDialogComponent {
     this.dialogRef.close(this.data);
   }
 
+  /**
+   * Close the dialog.
+   */
   cancel(): void {
     this.dialogRef.close(false);
   }

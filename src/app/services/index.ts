@@ -3,7 +3,7 @@ export * from './data.service';
 export * from './file.service';
 export * from './file-access.service';
 export * from './hashy.service';
-export * from './redo.service';
+export * from './history.service';
 export * from './settings.service';
 export * from './string-parser.service';
 export * from './storage.service';

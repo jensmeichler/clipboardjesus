@@ -1,16 +1,29 @@
 import {ChangeDetectorRef, Directive, HostListener, NgZone} from '@angular/core';
 import {SettingsService} from "@clipboardjesus/services";
 
+/**
+ * Handles the cursor animation and the information box
+ * in the bottom left corner of the tab.
+ */
 @Directive({
   selector: '[cbCursor]',
 })
 export class CursorDirective {
+  /** The reference to the cursor (#cursor in index.html). */
   cursor: HTMLElement;
+  /** The reference to the information box in the bottom left corner. */
   position?: HTMLElement;
+  /** Whether the cursor is currently moving a draggable item. */
   moving = false;
-  timer?: number;
+  /** The timeout after which the fancy animation kicks in. */
+  timeout?: NodeJS.Timeout;
+  /** The text which is displayed in the bottom left corner. */
   text?: string;
 
+  /**
+   * Create an instance of the cursor directive.
+   * At runtime there must be just one instance of that directive..
+   */
   constructor(
     private readonly settings: SettingsService,
     private readonly cdr: ChangeDetectorRef,
@@ -24,6 +37,10 @@ export class CursorDirective {
     });
   }
 
+  /**
+   * Sets the mouse animation and
+   * update the text in the info box.
+   */
   onMouseMove(event: MouseEvent): void {
     if (this.settings.animationsDisabled) {
       return;
@@ -38,14 +55,14 @@ export class CursorDirective {
 
     if (this.moving) {
       this.cursor.style.animation = 'none';
-      clearTimeout(this.timer);
+      clearTimeout(this.timeout);
     }
-    this.timer = setTimeout(() => {
+    this.timeout = setTimeout(() => {
       this.cursor.style.animationName = 'cursor-pulse';
       this.cursor.style.animationDuration = '2s';
       this.cursor.style.animationDelay = '2s';
       this.cursor.style.animationIterationCount = 'infinite';
-    }, 200) as unknown as number;
+    }, 200);
 
     this.moving = true;
     let isDraggableNote = false;
@@ -80,6 +97,9 @@ export class CursorDirective {
     }
   }
 
+  /**
+   * Remove the info box on leave.
+   */
   @HostListener('document:mouseleave')
   onWindowLeave(): void {
     if (this.settings.animationsDisabled) {
@@ -90,6 +110,9 @@ export class CursorDirective {
     this.cursor.style.display = 'none';
   }
 
+  /**
+   * Set the text of the info box.
+   */
   private setText(value: string): void {
     if (value === this.text) {
       return;
@@ -98,6 +121,9 @@ export class CursorDirective {
     this.text = value;
   }
 
+  /**
+   * Converts a string value to a {@link number}.
+   */
   private static convertPxToInt(value: string): number {
     return +value.split('px')[0];
   }

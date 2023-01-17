@@ -1,23 +1,35 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Tab} from "@clipboardjesus/models";
 
+/** The flag which will be set into the localstorage to prevent duplicate deletion of tabs. */
 export const TAB_DELETION_FLAG = 'tab_deletion_from_other_tab';
 
+/**
+ * Service to handle all the actions that save data into the localStorage.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class StorageService {
+  /** Event that fires when a tab was changed from another browser tab. */
   onTabChanged = new EventEmitter<{tab: Tab, index: number}>();
+  /** Event that fires when a tab was deleted from another browser tab. */
   onTabDeleted = new EventEmitter<number>();
+  /** Event that fires when an image was stored. */
   onImgStored = new EventEmitter<string>();
 
+  /** Get the current tab index from the localStorage. */
   get selectedTabIndex(): number {
     return +(localStorage.getItem('clipboard_tab') ?? 0);
   }
+  /** Save the current tab index in the localStorage. */
   set selectedTabIndex(index: number) {
     localStorage.setItem('clipboard_tab', index.toString());
   }
 
+  /**
+   * Create an instance of the storage service.
+   */
   constructor() {
     window.addEventListener('storage', ({oldValue, newValue, key}) => {
       const indexString = key?.split('_').reverse()[0];
@@ -75,6 +87,9 @@ export class StorageService {
     localStorage.setItem(key, content);
   }
 
+  /**
+   * Store an image into the localStorage.
+   */
   storeImage(id: string, base64: string | ArrayBuffer | null): void {
     if (typeof base64 === 'string') {
       localStorage.setItem(`clipboard_img_${id}`, base64);
@@ -84,10 +99,17 @@ export class StorageService {
     }
   }
 
+  /**
+   * Get the image with the provided {@param id} from the localStorage.
+   */
   fetchImage(id: string): string | null {
     return localStorage.getItem(`clipboard_img_${id}`);
   }
 
+  /**
+   * Delete the image with the provided id from the localStorage.
+   * @param id
+   */
   deleteImage(id: string): void {
     localStorage.removeItem(`clipboard_img_${id}`);
   }

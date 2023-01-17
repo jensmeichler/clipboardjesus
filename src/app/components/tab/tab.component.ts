@@ -60,7 +60,6 @@ export class TabComponent extends DisposableComponent implements OnInit {
   /**
    * Sets the properties which are needed to show the selection border.
    * Also attaches the mouse move event listener to update the border.
-   * @param event
    */
   tabMouseDown(event: MouseEvent): void {
     if (!this.mouseDown) {
@@ -81,7 +80,6 @@ export class TabComponent extends DisposableComponent implements OnInit {
   /**
    * Updates the cursor position.
    * Just runs, when the user is dragging on the background.
-   * @param event
    */
   async docMouseMove(event: MouseEvent): Promise<void> {
     const scrolled = scrolledPosition();
@@ -93,7 +91,6 @@ export class TabComponent extends DisposableComponent implements OnInit {
   /**
    * When the user made a border around any item, set the selected property for this.
    * Includes some extra logic when the user for example pressed some modifiers while dragging.
-   * @param event
    */
   async docMouseUp(event: MouseEvent): Promise<void> {
     const scrolled = scrolledPosition();
@@ -161,7 +158,6 @@ export class TabComponent extends DisposableComponent implements OnInit {
   /**
    * Add any file that is dropped onto the app.
    * Create notes when it was a text file, import file when it was a notes.json, etc.
-   * @param event
    */
   dropFile(event: DragEvent): void {
     const posX = event.pageX;
@@ -229,8 +225,6 @@ export class TabComponent extends DisposableComponent implements OnInit {
   /**
    * When the user has moved a draggable, save the position of it.
    * When the user has more than on item selected, move all these.
-   * @param event
-   * @param item
    */
   saveItemPosition(event: CdkDragEnd, item: DraggableNote): void {
     event.source._dragRef.reset();
@@ -271,7 +265,6 @@ export class TabComponent extends DisposableComponent implements OnInit {
 
   /**
    * Reset the cursor properties which were needed for drawing a selection border.
-   * @private
    */
   private resetCursors(): void {
     this.startCursorPosX = 0;

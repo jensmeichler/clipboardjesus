@@ -3,19 +3,31 @@ import {TranslateService} from "@ngx-translate/core";
 import {window as tauri} from "@tauri-apps/api";
 import {isTauri} from "@clipboardjesus/helpers";
 
+/** The boolean string value which is stored in the localstorage. */
 const TRUE = 'True';
+/** The available font types. */
 type Font = 'Victor Mono' | 'Roboto';
 
+/**
+ * The service which provides all the settings
+ * which can be set at the settings icon in the top right corner.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
+  /** Whether the app is currently wrapped in a tauri window. */
   isTauri: boolean;
+  /** Whether the current platform is Windows. */
   isWindows: boolean;
+  /** Whether the current platform is macOS. */
   isMacos: boolean;
+  /** Whether the current platform is Linux. */
   isLinux: boolean;
+  /** Whether the current version is the beta or production environment. */
   isBeta: boolean;
 
+  /** All the keys to access the localStorage. */
   private storageKeys = {
     animationsDisabled: 'clipboard_disable_animations',
     language: 'clipboard_lang',
@@ -26,8 +38,11 @@ export class SettingsService {
     dblClickMode: 'clipboard_dbl_click_mode',
   };
 
+  /** Backing field */
   private _alwaysOnTop!: boolean;
+  /** Set whether the window should stay always on top (just for installed tauri app) */
   get alwaysOnTop(): boolean { return this._alwaysOnTop; }
+  /** Get whether the window should stay always on top (just for installed tauri app) */
   set alwaysOnTop(value: boolean) {
     if (!isTauri) {
       return;
@@ -41,8 +56,11 @@ export class SettingsService {
     }
   }
 
+  /** Backing field */
   private _lastLoadedFilePath: string | undefined;
+  /** Set the last loaded file path (Only for tauri) */
   get lastLoadedFilePath(): string | undefined { return this._lastLoadedFilePath; }
+  /** Get the last loaded file path (Only for tauri) */
   set lastLoadedFilePath(value: string | undefined) {
     this._lastLoadedFilePath = value;
     if (value === undefined) {
@@ -52,8 +70,11 @@ export class SettingsService {
     }
   }
 
+  /** Backing field */
   private _animationsDisabled!: boolean;
+  /** Get whether the animation are disabled by the user. */
   get animationsDisabled(): boolean { return this._animationsDisabled; }
+  /** Set whether the animation should be disabled. */
   set animationsDisabled(value: boolean) {
     this._animationsDisabled = value;
     if (value) {
@@ -67,8 +88,11 @@ export class SettingsService {
     }
   }
 
+  /** Backing field */
   private _language!: string;
+  /** Get the app language. */
   get language(): string { return this._language; }
+  /** Set the app language. */
   set language(value: string) {
     this._language = value;
     this.translate.setDefaultLang(value);
@@ -80,8 +104,11 @@ export class SettingsService {
     }
   }
 
+  /** Backing field */
   private _fontFamily!: Font;
+  /** Get the app font family. */
   get fontFamily(): Font { return this._fontFamily; }
+  /** Set the app font family. */
   set fontFamily(value: Font) {
     this._fontFamily = value;
     if (value === 'Roboto') {
@@ -93,8 +120,11 @@ export class SettingsService {
     }
   }
 
+  /** Backing field */
   private _fontStyle!: string;
+  /** Get the app font style. */
   get fontStyle(): string { return this._fontStyle; }
+  /** Set the app font style. */
   set fontStyle(value: string) {
     this._fontStyle = value;
     SettingsService.setFontStyle(value);
@@ -105,8 +135,11 @@ export class SettingsService {
     }
   }
 
+  /** Backing field */
   private _dblClickMode!: boolean;
+  /** Get whether the app is in double click mode.*/
   get dblClickMode(): boolean { return this._dblClickMode; }
+  /** Set the app into double click mode. (Notes are created with double click) */
   set dblClickMode(value: boolean) {
     this._dblClickMode = value;
     if (value) {
@@ -116,6 +149,10 @@ export class SettingsService {
     }
   }
 
+  /**
+   * Creates an instance of the settings service
+   * and initializes all the values.
+   */
   constructor(private readonly translate: TranslateService) {
     this.lastLoadedFilePath = localStorage.getItem(this.storageKeys.lastLoadedFile) ?? undefined;
     this.alwaysOnTop = localStorage.getItem(this.storageKeys.alwaysOnTop) === TRUE;
@@ -132,11 +169,17 @@ export class SettingsService {
     this.isTauri = isTauri;
   }
 
+  /**
+   * Sets the font family value property of the styles.scss
+   */
   private static setFontFamily(value: string): void {
     (document.querySelector(':root') as any)
       .style.setProperty('--font-family', value);
   }
 
+  /**
+   * Sets the font style value property of the styles.scss
+   */
   private static setFontStyle(value: string): void {
     (document.querySelector(':root') as any)
       .style.setProperty('--font-style', value);

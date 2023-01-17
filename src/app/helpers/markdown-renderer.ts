@@ -1,6 +1,10 @@
 import {Renderer} from "marked";
 import {_blank} from "@clipboardjesus/helpers";
 
+/**
+ * Get the markdown renderer.
+ * @returns A renderer for the marked library.
+ */
 export function getMarkdownRenderer(): Renderer {
   const renderer = new Renderer();
 

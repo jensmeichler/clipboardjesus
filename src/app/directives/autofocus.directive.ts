@@ -1,10 +1,24 @@
 import {Directive, ElementRef, OnInit} from '@angular/core';
 
+/**
+ * Custom implementation of autofocus, because the material one is buggy.
+ */
 @Directive({
   selector: '[cbAutofocus]',
 })
 export class AutofocusDirective implements OnInit {
-  constructor(private elementRef: ElementRef) {}
+  /**
+   * The constructor of the autofocus directive.
+   * When you call this constructor manually, you are doing something wrong!
+   */
+  constructor(
+    /** The reference to the element onto which the directive is attached to. */
+    private elementRef: ElementRef,
+  ) {}
+
+  /**
+   * Focus the element on which the directive is attached to.
+   */
   ngOnInit(): void {
     this.elementRef.nativeElement.focus();
   }
