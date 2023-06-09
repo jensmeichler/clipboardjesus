@@ -101,30 +101,10 @@ export class CacheService {
     for (let i = 0; i < 20; i++) {
       const tab = this.fetch(i);
       if (tab) {
-        this.setIdsForItemsWithout(tab);
         tab.index = i;
         tabs.push(tab);
       }
     }
     return tabs;
-  }
-
-  /**
-   * Backwards compatibility for old items (Before all items had ids).
-   * TODO: remove after February 2023
-   */
-  private setIdsForItemsWithout(tab: Tab): void {
-    tab.notes?.forEach((item, index) =>
-      item.id ??= `migrated-note-${index}`
-    );
-    tab.noteLists?.forEach((item, index) =>
-      item.id ??= `migrated-note-list-${index}`
-    );
-    tab.taskLists?.forEach((item, index) =>
-      item.id ??= `migrated-task-list-${index}`
-    );
-    tab.images?.forEach((item, index) =>
-      item.id ??= `migrated-image-${index}`
-    );
   }
 }

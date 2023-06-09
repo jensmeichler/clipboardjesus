@@ -2,14 +2,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   SimpleChanges,
-  ViewChild
 } from '@angular/core';
 import {DomSanitizer, SafeHtml} from "@angular/platform-browser";
 import {MatDialog} from "@angular/material/dialog";
@@ -21,43 +19,55 @@ import {DraggableComponent, EditNoteDialogComponent} from "@clipboardjesus/compo
 import {getReminderErrors, DisplayValue} from "@clipboardjesus/helpers";
 
 @Component({
-  selector: 'cb-note',
+  selector: 'cb-note[note]',
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NoteComponent extends DraggableComponent implements OnInit, OnChanges, OnDestroy {
+  /** The note itself. */
   @Input() note!: Note;
+  /** The event that fires when this component should be rendered again. */
   @Input() changed?: EventEmitter<void>;
 
-  @ViewChild('code')
-  codeElement?: ElementRef;
-
+  /** The parsed markdown content. */
   parsedMarkdown?: SafeHtml;
 
+  /** Whether the reminder is overdue. */
   overdue = false;
+  /** Whether the reminder is nearly overdue. */
   nearlyOverdue = false;
 
+  /** The timeout IDs for the reminder timers. */
   timers: NodeJS.Timeout[] = [];
 
+  /** Static methods to create the display value to use in the markup. */
   DisplayValue = DisplayValue;
 
+  /**
+   * Creates a new note.
+   */
   constructor(
+    /** Reference to the clipboard service. */
     private readonly clipboard: ClipboardService,
+    /** Reference to the hashy service. */
     private readonly hashy: HashyService,
+    /** Reference to the material dialog. */
     private readonly dialog: MatDialog,
+    /** Reference to the data service. */
     public readonly dataService: DataService,
+    /** Reference to the change detector. */
     private readonly cdr: ChangeDetectorRef,
+    /** Reference to the dom sanitizer. */
     private readonly sanitizer: DomSanitizer,
   ) {
     super();
   }
 
+  /**
+   * Initializes the component.
+   */
   ngOnInit(): void {
-    if (!this.note) {
-      throw new Error('NoteComponent.note is necessary!');
-    }
-
     this.updateMarkdown();
     if (this.note.code !== false
       && this.note.content
@@ -127,11 +137,19 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
     }
   }
 
+  /**
+   * Disposes the timers.
+   * @private
+   */
   private disposeTimers(): void {
     this.timers.forEach(timer => clearTimeout(timer));
     this.timers = [];
   }
 
+  /**
+   * Updates and sanitizes the markdown from the note's content.
+   * @private
+   */
   private updateMarkdown(): void {
     const renderer = getMarkdownRenderer();
     this.parsedMarkdown = this.sanitizer.bypassSecurityTrustHtml(
@@ -141,11 +159,18 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
     this.cdr.markForCheck();
   }
 
+  /**
+   * Selects or deselects the note.
+   */
   select(): void {
     this.note.selected = !this.note.selected;
     this.changed?.emit();
   }
 
+  /**
+   * Handles the click onto the note.
+   * @param event
+   */
   onMouseUp(event: MouseEvent): void {
     if (this.mouseDown && this.canInteract) {
       switch (event.button) {
@@ -169,6 +194,9 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
     this.mouseDown = false;
   }
 
+  /**
+   * Copies the note's content to the clipboard.
+   */
   copy(): void {
     if (this.note.content && !this.rippleDisabled && this.canInteract) {
       this.clipboard.set(this.note.content).then(() =>
@@ -177,6 +205,11 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
     }
   }
 
+  /**
+   * Opens the edit dialog.
+   * @param event
+   * @param stopPropagation
+   */
   edit(event: MouseEvent, stopPropagation?: boolean): void {
     if (this.canInteract) {
       const note = {...this.note};
@@ -198,6 +231,9 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
     }
   }
 
+  /**
+   * Deletes the note.
+   */
   delete(event: MouseEvent): void {
     if (this.canInteract) {
       this.dataService.deleteNote(this.note);
@@ -205,6 +241,11 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
     }
   }
 
+  /**
+   * Activates or deactivates code highlighting of the note content.
+   * @param event
+   * @param stopPropagation
+   */
   toggleCodeView(event: MouseEvent, stopPropagation?: boolean): void {
     if (this.canInteract) {
       this.note.code = !this.note.code;
@@ -215,11 +256,17 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
     }
   }
 
+  /**
+   * Moves the note to the given tab.
+   */
   moveToTab(index: number): void {
     this.dataService.moveNoteToTab(index, this.note);
     this.cdr.markForCheck();
   }
 
+  /**
+   * Copies the color from the given item.
+   */
   copyColorFrom(item: Colored): void {
     this.note.backgroundColor = item.backgroundColor;
     this.note.backgroundColorGradient = item.backgroundColorGradient;
@@ -228,6 +275,10 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
     this.dataService.cacheData();
   }
 
+  /**
+   * Connects the component to other components.
+   * Used to draw mind maps for example.
+   */
   connectTo(item: DraggableNote | undefined): void {
     if (item === undefined) {
       this.dataService.disconnectAll(this.note);
@@ -238,6 +289,9 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
     this.dataService.cacheData();
   }
 
+  /**
+   * Disposes the timers disposing the component.
+   */
   ngOnDestroy(): void {
     this.disposeTimers();
   }

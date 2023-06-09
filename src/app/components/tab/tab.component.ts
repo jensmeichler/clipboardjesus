@@ -16,6 +16,9 @@ import {MatBottomSheet} from "@angular/material/bottom-sheet";
 import {CdkDragEnd} from "@angular/cdk/drag-drop";
 import {takeUntil} from "rxjs";
 
+/**
+ * The component which contains other notes, etc.
+ */
 @Component({
   selector: 'cb-tab',
   templateUrl: './tab.component.html',
@@ -23,26 +26,47 @@ import {takeUntil} from "rxjs";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TabComponent extends DisposableComponent implements OnInit {
+  /** The tab itself. */
   @Input() tab?: Tab;
+  /** The event that fires when this component should be rendered again. */
   @Input() draggableChanged?: EventEmitter<void> | undefined;
+  /** The event that fires when the connections should be updated. */
   @Input() connectionsChanged?: EventEmitter<void> | undefined;
 
+  /** The x position of the cursor when the mouse down event was fired. */
   startCursorPosX = 0;
+  /** The y position of the cursor when the mouse down event was fired. */
   startCursorPosY = 0;
+  /** The x position of the cursor when the mouse up event was fired. */
   endCursorPosX = 0;
+  /** The y position of the cursor when the mouse up event was fired. */
   endCursorPosY = 0;
+  /** Whether the tab is currently being dragged. */
   mouseDown = false;
+  /** Performance improvement for the mouse-move event handling. */
   private readonly mouseMoveEvent: OmitThisParameter<(event: MouseEvent) => void>;
+  /** Performance improvement for the mouse-move event handling. */
   private readonly mouseUpEvent: OmitThisParameter<(event: MouseEvent) => void>;
+  /** Used to not drag the notes when the user does not want to. */
   private clickedLast200ms = false;
 
+  /**
+   * Creates a new tab.
+   */
   constructor(
+    /** Reference to the hashy service. */
     private readonly hashy: HashyService,
+    /** Reference to the element. */
     private readonly elementRef: ElementRef,
+    /** Reference to the material bottom sheet. */
     private readonly bottomSheet: MatBottomSheet,
+    /** Reference to the data service. */
     public readonly dataService: DataService,
+    /** Reference to the clipboard service. */
     private readonly clipboard: ClipboardService,
+    /** Reference to the settings service. */
     private readonly settings: SettingsService,
+    /** Reference to the change detector. */
     private readonly cdr: ChangeDetectorRef,
   ) {
     super();
@@ -51,6 +75,10 @@ export class TabComponent extends DisposableComponent implements OnInit {
     this.mouseUpEvent = this.docMouseUp.bind(this);
   }
 
+  /**
+   * Initializes the component and makes sure
+   * that the change detection when the draggable property changes.
+   */
   ngOnInit(): void {
     this.draggableChanged?.pipe(takeUntil(this.destroy$)).subscribe(() =>
       this.cdr.markForCheck()
@@ -258,6 +286,9 @@ export class TabComponent extends DisposableComponent implements OnInit {
     this.dataService.cacheData();
   }
 
+  /**
+   * Reset the cursors when the mouse leaves the window.
+   */
   @HostListener('document:mouseleave')
   onWindowLeave(): void {
     this.resetCursors();

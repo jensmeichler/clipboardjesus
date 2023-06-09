@@ -1,4 +1,10 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  ViewChild
+} from '@angular/core';
 import {Colored, Note, NoteList} from "@clipboardjesus/models";
 import {DataService, HashyService, ClipboardService} from "@clipboardjesus/services";
 import {MatMenuTrigger} from "@angular/material/menu";
@@ -9,12 +15,12 @@ import {MatDialog} from "@angular/material/dialog";
  * The component which is contained in note lists.
  */
 @Component({
-  selector: 'cb-small-note',
+  selector: 'cb-small-note[note][noteList]',
   templateUrl: './small-note.component.html',
   styleUrls: ['./small-note.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SmallNoteComponent implements OnInit {
+export class SmallNoteComponent {
   /** The note itself. */
   @Input() note!: Note;
   /** The parent note list which contains this. */
@@ -24,26 +30,25 @@ export class SmallNoteComponent implements OnInit {
   @ViewChild(MatMenuTrigger)
   contextMenu!: MatMenuTrigger;
 
+  /**
+   * Create an instance of the component.
+   */
   constructor(
+    /** Reference to the hashy service. */
     private readonly hashy: HashyService,
+    /** Reference to the material dialog. */
     private readonly dialog: MatDialog,
+    /** Reference to the clipboard service. */
     private readonly clipboard: ClipboardService,
+    /** Reference to the data service. */
     public readonly dataService: DataService,
+    /** Reference to the change detector. */
     private readonly cdr: ChangeDetectorRef,
   ) {}
 
   /**
-   * Validate the inputs.
+   * Copy the note's content to the clipboard.
    */
-  ngOnInit(): void {
-    if (!this.note) {
-      throw new Error('SmallNoteComponent.note is necessary!');
-    }
-    if (!this.noteList) {
-      throw new Error('SmallNoteComponent.noteList is necessary!');
-    }
-  }
-
   async copy(): Promise<void> {
     if (!this.note?.content) {
       return;
@@ -52,6 +57,9 @@ export class SmallNoteComponent implements OnInit {
     this.hashy.show('COPIED_TO_CLIPBOARD', 600);
   }
 
+  /**
+   * Open the edit dialog.
+   */
   edit(): void {
     const note = {...this.note};
     this.dialog.open(EditNoteDialogComponent, {
@@ -67,6 +75,9 @@ export class SmallNoteComponent implements OnInit {
     });
   }
 
+  /**
+   * TODO: get rid of this method and use the one in the base class.
+   */
   delete(): void {
     if (!this.note || !this.noteList) {
       return;
@@ -76,6 +87,9 @@ export class SmallNoteComponent implements OnInit {
     this.dataService.cacheData();
   }
 
+  /**
+   * TODO: get rid of this method and use the one in the base class.
+   */
   copyColorFrom(item: Colored): void {
     if (!this.note) {
       return;

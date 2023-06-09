@@ -29,9 +29,10 @@ export class ConnectionComponent extends DisposableComponent implements OnInit {
   @Input() changed?: EventEmitter<void>;
 
   /**
-   * Create a connection instance.
+   * Create a new connection.
    */
   constructor(
+    /** Reference to the change detector. */
     private readonly cdr: ChangeDetectorRef,
   ) {
     super();

@@ -74,14 +74,31 @@ export class AppComponent implements OnInit {
   /** Whether it's Christmas currently. */
   christmas: boolean;
 
+  /** Set the currently selected tab index (in the {@link DataService}). */
   set tabIndex(value: number) {
     this.draggableChanged.emit();
     this.dataService.selectedTabIndex = value;
   }
+  /** Get the currently selected tab index. */
   get tabIndex(): number {
     return this.dataService.selectedTabIndex;
   }
 
+  /**
+   * Main entry point of the application.
+   * @param dialog reference to the material dialog
+   * @param bottomSheet reference to the material bottom sheet
+   * @param clipboard reference to the clipboard service
+   * @param dataService reference to the data service
+   * @param hashy reference to the hashy service
+   * @param router reference to the angular router
+   * @param activatedRoute reference to the angular activated route
+   * @param cache reference to the cache service
+   * @param translate reference to the ngx translate service
+   * @param settings reference to the settings service
+   * @param fileAccessService reference to the file access service
+   * @param cdr reference to the change detector
+   */
   constructor(
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
@@ -101,6 +118,9 @@ export class AppComponent implements OnInit {
     dataService.changeDetectionRequired.subscribe(() => cdr.markForCheck());
   }
 
+  /**
+   * Instantiate the app with the data stored in the localstorage.
+   */
   ngOnInit(): void {
     this.activatedRoute.queryParams.pipe(take(2)).subscribe(async (params) => {
       if (this.initialized) {
@@ -134,6 +154,11 @@ export class AppComponent implements OnInit {
     this.draggableChanged.emit();
   }
 
+  /**
+   * The tabs can be moved via drag and drop.
+   * This function is called when the user drags and drops a tab to another position.
+   * @param event
+   */
   dropTab(event: CdkDragDrop<Tab[]>): void {
     let from = +event.previousContainer.id;
     const to = +event.container.id;
@@ -160,10 +185,20 @@ export class AppComponent implements OnInit {
     }
   }
 
+  /**
+   * Gets all tab indices except the one with the given index.
+   * This is used for the drag and drop feature of tabs.
+   * @param index
+   */
   getAllListConnections(index: number): string[] {
     return this.dataService.tabs.filter(x => x.index !== index).map(x => `${x.index}`);
   }
 
+  /**
+   * All the keybindings are handled here.
+   * TODO: Move this to a separate service.
+   * @param event
+   */
   @HostListener('document:keydown', ['$event'])
   async onKeyDown(event: KeyboardEvent): Promise<void> {
     const key = event.key;
@@ -299,6 +334,10 @@ export class AppComponent implements OnInit {
     }
   }
 
+  /**
+   * Copies all the selected items as a JSON to the clipboard.
+   * This can be pasted in the same or different tab.
+   */
   async copySelectedItems(): Promise<void> {
     const selectedItems = this.dataService.getSelectedItems();
     await this.clipboard.set(JSON.stringify(selectedItems));
@@ -306,6 +345,10 @@ export class AppComponent implements OnInit {
     this.draggableChanged.emit();
   }
 
+  /**
+   * Does simply the same as {@link copySelectedItems()}
+   * but also deletes the selected items.
+   */
   async cutSelectedItems(): Promise<void> {
     const selectedItems = this.dataService.getSelectedItems();
     await this.clipboard.set(JSON.stringify(selectedItems));
@@ -314,6 +357,12 @@ export class AppComponent implements OnInit {
     this.draggableChanged.emit();
   }
 
+  /**
+   * This feature is not yet fully implemented.
+   * Currently, it creates a link with the whole data as a JSON in the query params.
+   * Later it should be possible to just have an id to the data and load it from the server.
+   * But due to the fact that i have currently no backend developed, this is not possible xD.
+   */
   async shareTab(): Promise<void> {
     const params = JSON.stringify(this.dataService.getAsJson(true));
     const route = window.location.href.split('?')[0];
@@ -321,14 +370,24 @@ export class AppComponent implements OnInit {
     this.hashy.show('COPIED_URL_TO_CLIPBOARD', 3000, 'OK');
   }
 
+  /**
+   * Saves all the data to the file system.
+   */
   async save(): Promise<void> {
     return this.dataService.saveAll();
   }
 
+  /**
+   * Opens a dialog to specify the name of the file to save.
+   */
   async saveAs(): Promise<void> {
     await this.dataService.saveAllAs();
   }
 
+  /**
+   * Opens a dialog to select a file to import.
+   * This method is currently just used in the desktop version of the app.
+   */
   async openFileDialog(): Promise<void> {
     const options = {
       multiple: false,
@@ -486,6 +545,9 @@ export class AppComponent implements OnInit {
     this.dialog.open(AboutDialogComponent);
   }
 
+  /**
+   * Simply reloads the whole application.
+   */
   reloadApp(): void {
     window.location.reload();
   }
