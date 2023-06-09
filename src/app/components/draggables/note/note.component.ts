@@ -18,6 +18,35 @@ import {ClipboardService, DataService, HashyService} from "@clipboardjesus/servi
 import {DraggableComponent, EditNoteDialogComponent} from "@clipboardjesus/components";
 import {getReminderErrors, DisplayValue} from "@clipboardjesus/helpers";
 
+/**
+ * The component which contains text pasted from the clipboard.
+ * This is the main component of the application.
+ * This is where it all began.
+ * This is the first component I wrote.
+ * This is the component that started it all.
+ * This is the component that started the clipboard jesus.
+ * And this is the component my angular career started with.
+ * So please be nice to it.
+ *
+ * It's a bit old and rusty.
+ * But it's still doing its job.
+ * And it's doing it well.
+ * I know it's not perfect.
+ * But it's doing its best.
+ * And it's doing it with all its heart.
+ *
+ * And maybe one day I'll rewrite it.
+ * Or maybe I'll just leave it as it is.
+ *
+ * You know, it's like a good old friend.
+ * You know it's not perfect.
+ * But you love it anyway.
+ *
+ * And you know what?
+ * I love this component.
+ *
+ * ❤️
+ */
 @Component({
   selector: 'cb-note[note]',
   templateUrl: './note.component.html',
