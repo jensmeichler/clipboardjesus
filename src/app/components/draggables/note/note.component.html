@@ -22,7 +22,7 @@
   </mat-card-content>
   <mat-card-content *ngIf="note.code" data-cy="note-content">
     <pre *ngIf="note.content" class="note-code-content">
-      <code #code [highlight]="note.content" style="padding: 0; margin: -22px 0 -42px 0"></code>
+      <code class="dont-be-too-big" [highlight]="note.content" style="padding: 0; margin: -22px 0 -42px 0"></code>
     </pre>
   </mat-card-content>
   <mat-card-actions align="end">

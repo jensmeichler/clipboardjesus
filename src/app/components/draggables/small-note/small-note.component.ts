@@ -17,7 +17,7 @@ import {MatDialog} from "@angular/material/dialog";
 @Component({
   selector: 'cb-small-note[note][noteList]',
   templateUrl: './small-note.component.html',
-  styleUrls: ['./small-note.component.css'],
+  styleUrls: ['./small-note.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SmallNoteComponent {

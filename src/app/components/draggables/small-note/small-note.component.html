@@ -6,7 +6,7 @@
         (contextmenu)="showContextMenu($event)"
         role="menuitem"
         data-cy="small-note">
-  {{ note.content }}
+  {{ !note.header ? note.content : note.header }}
 </button>
 
 <div [matMenuTriggerFor]="contextMenu"

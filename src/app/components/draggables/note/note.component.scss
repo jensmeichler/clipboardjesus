@@ -6,6 +6,13 @@
     }
   }
 
+  .dont-be-too-big,
+  ::ng-deep .markdown {
+    max-width: calc(100vw - 32px);
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
   &:has(.overdue)::after {
     content: '❗';
     position: absolute;
