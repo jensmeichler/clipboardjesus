@@ -1,28 +1,32 @@
 :host {
+  --max-width: calc(100vw - 32px);
+
   ::ng-deep .markdown {
     filter: var(--drop-shadow-light);
     &>p:last-child {
       margin-bottom: 0;
     }
-  }
 
-  .dont-be-too-big,
-  ::ng-deep .markdown {
-    max-width: calc(100vw - 32px);
-    text-overflow: ellipsis;
-    overflow: hidden;
+    // Don't be too big
+    max-width: var(--max-width);
+    overflow-y: auto;
   }
 
   &:has(.overdue)::after {
     content: '❗';
     position: absolute;
     top: 32px;
-    right: -32px;
+    right: -48px;
     font-size: 3rem;
     border-radius: 50%;
     z-index: -1;
     animation: exclamation-mark-animation ease-in-out 1s;
   }
+}
+
+.dont-be-too-big {
+  max-width: var(--max-width);
+  overflow-y: auto;
 }
 
 @keyframes exclamation-mark-animation {
