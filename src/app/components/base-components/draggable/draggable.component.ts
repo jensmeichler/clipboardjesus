@@ -1,5 +1,6 @@
 import {Component, ViewChild} from '@angular/core';
 import {MatMenuTrigger} from "@angular/material/menu";
+import {fromEvent, map, Subject, takeUntil} from "rxjs";
 
 /**
  * Base component for draggable items.
@@ -24,6 +25,20 @@ export class DraggableComponent {
   mouseDown = false;
   /** The delta which the mouse is moved while mouse down. */
   movedPx = 0;
+
+  /**
+   * Destroy subject to complete the sub to the resize event.
+   * TODO: remove after angular update and use takeUntilDestroyed!
+   */
+  private destroy$ = new Subject<void>();
+
+  @ViewChild('.draggable-item')
+  private item?: HTMLElement;
+  /** The computed width in px of the item. */
+  width$ = fromEvent(window, 'resize').pipe(
+    takeUntil(this.destroy$),
+    map(() => this.item?.getBoundingClientRect().width ?? 0)
+  )
 
   /**
    * Whether the user not dragged the item.
@@ -71,5 +86,14 @@ export class DraggableComponent {
     }
     this.rippleDisabled = false;
     this.mouseDown = false;
+  }
+
+  /**
+   * Complete all subscriptions.
+   * TODO: remove after angular update and use takeUntilDestroyed!
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

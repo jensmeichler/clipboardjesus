@@ -5,6 +5,7 @@
           (mouseup)="onMouseUp($event)"
           [class.docked-left]="taskList.posX === 0"
           [class.docked-top]="taskList.posY === 49"
+          [class.docked-right]="taskList.posX === ((dataService.viewWidth$ | async) ?? 0) - ((this.width$ | async) ?? 0)"
           [style.background-color]="taskList.backgroundColor"
           [style.color]="taskList.foregroundColor"
           [cbHighlightColor]="taskList.backgroundColorGradient"

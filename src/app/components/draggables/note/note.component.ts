@@ -321,7 +321,8 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
   /**
    * Disposes the timers disposing the component.
    */
-  ngOnDestroy(): void {
+  override ngOnDestroy(): void {
+    super.ngOnDestroy();
     this.disposeTimers();
   }
 }

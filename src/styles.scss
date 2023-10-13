@@ -224,6 +224,10 @@ a[href] {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
 }
+.docked-right {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
 
 .animated {
   animation: default-animation .3s;

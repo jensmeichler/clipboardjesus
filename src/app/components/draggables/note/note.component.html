@@ -7,6 +7,7 @@
           [class.overdue]="overdue"
           [class.docked-left]="note.posX === 0"
           [class.docked-top]="note.posY === 49"
+          [class.docked-right]="note.posX === ((dataService.viewWidth$ | async) ?? 0) - ((this.width$ | async) ?? 0)"
           [matRippleDisabled]="rippleDisabled"
           [style.background-color]="note.backgroundColor"
           [style.color]="note.foregroundColor" matRipple

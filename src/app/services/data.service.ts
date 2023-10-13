@@ -21,7 +21,7 @@ import {
 import {_blank, isTauri} from "@clipboardjesus/helpers";
 import {dialog} from "@tauri-apps/api";
 import welcomeTab from '../../assets/screens/welcome.json';
-import {takeUntil} from "rxjs";
+import {fromEvent, map, takeUntil} from "rxjs";
 import {DisposableService} from './disposable.service';
 import {WarningService} from "@clipboardjesus/services/warning.service";
 
@@ -38,6 +38,12 @@ export class DataService extends DisposableService {
 
   /** Event that fires when parameters which change the view are changed. */
   changeDetectionRequired = new EventEmitter<void>();
+
+  /** The full width of the window in px (100vw). */
+  viewWidth$ = fromEvent(window, 'resize').pipe(
+    takeUntil(this.destroy$),
+    map(() => window.innerWidth)
+  );
 
   /** Backing field of the tab index. */
   private _selectedTabIndex?: number;

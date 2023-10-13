@@ -6,6 +6,7 @@
           (mouseup)="onMouseUp($event)"
           [class.docked-left]="image.posX === 0"
           [class.docked-top]="image.posY === 49"
+          [class.docked-right]="image.posX === ((dataService.viewWidth$ | async) ?? 0) - ((this.width$ | async) ?? 0)"
           [matRippleDisabled]="rippleDisabled"
           class="flex-container" matRipple
           [cbHighlightColor]="undefined"

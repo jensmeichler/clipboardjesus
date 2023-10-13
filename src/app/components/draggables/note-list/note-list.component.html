@@ -5,6 +5,7 @@
           (mouseup)="onMouseUp($event)"
           [class.docked-left]="noteList.posX === 0"
           [class.docked-top]="noteList.posY === 49"
+          [class.docked-right]="noteList.posX === ((dataService.viewWidth$ | async) ?? 0) - ((this.width$ | async) ?? 0)"
           [style.background-color]="noteList.backgroundColor"
           [style.color]="noteList.foregroundColor"
           [cbHighlightColor]="noteList.backgroundColorGradient"
