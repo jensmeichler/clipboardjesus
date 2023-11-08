@@ -12,19 +12,26 @@ import {DisposableService} from "@clipboardjesus/services/disposable.service";
   providedIn: 'root',
 })
 export class HistoryService extends DisposableService {
+  /** Whether the user can redo the last undone action. */
+  private _undoPossible = new BehaviorSubject<boolean>(false);
+  /** Whether the user can undo the last action. */
+  private _redoPossible = new BehaviorSubject<boolean>(false);
+  /** Whether the user can restore the lastly deleted tab. */
+  private _restorePossible = new BehaviorSubject<boolean>(false);
+
+  /** Whether the user can redo the last undone action. (Readonly) */
+  readonly undoPossible = this._undoPossible.asObservable();
+  /** Whether the user can undo the last action. (Readonly) */
+  readonly redoPossible = this._redoPossible.asObservable();
+  /** Whether the user can restore the lastly deleted tab. (Readonly) */
+  readonly restorePossible = this._restorePossible.asObservable();
+
   /** Array of tab arrays which contains history information. */
   possibleUndos: Tab[][] = [];
   /** Array of tab arrays which contains history information. */
   possibleRedos: Tab[][] = [];
   /** Array of tabs which contains history information about deleted tabs. */
   possibleRestores: Tab[] = [];
-
-  /** Whether the user can redo the last undone action. */
-  undoPossible = new BehaviorSubject<boolean>(false);
-  /** Whether the user can undo the last action. */
-  redoPossible = new BehaviorSubject<boolean>(false);
-  /** Whether the user can restore the lastly deleted tab. */
-  restorePossible = new BehaviorSubject<boolean>(false);
 
   /**
    * Create an instance of the history service.
@@ -107,7 +114,7 @@ export class HistoryService extends DisposableService {
   recreate(): Tab | undefined {
     const restoredTab = this.possibleRestores.pop();
     if (!this.possibleRestores.length) {
-      this.restorePossible.next(false);
+      this._restorePossible.next(false);
     }
     return restoredTab;
   }
@@ -137,7 +144,7 @@ export class HistoryService extends DisposableService {
     const tab = this.storageService.fetchTab(index);
     if (tab) {
       this.possibleRestores.push(tab);
-      this.restorePossible.next(true);
+      this._restorePossible.next(true);
     }
     this.possibleUndos[index] = [];
     this.possibleRedos[index] = [];
@@ -148,15 +155,15 @@ export class HistoryService extends DisposableService {
    * @param index The index of the deleted tab.
    */
   private updateHistory(index: number): void {
-    if (!this.possibleUndos[index].length && this.undoPossible.getValue()) {
-      this.undoPossible.next(false);
-    } else if (this.possibleUndos[index].length && !this.undoPossible.getValue()) {
-      this.undoPossible.next(true);
+    if (!this.possibleUndos[index].length && this._undoPossible.getValue()) {
+      this._undoPossible.next(false);
+    } else if (this.possibleUndos[index].length && !this._undoPossible.getValue()) {
+      this._undoPossible.next(true);
     }
-    if (!this.possibleRedos[index].length && this.redoPossible.getValue()) {
-      this.redoPossible.next(false);
-    } else if (this.possibleRedos[index].length && !this.redoPossible.getValue()) {
-      this.redoPossible.next(true);
+    if (!this.possibleRedos[index].length && this._redoPossible.getValue()) {
+      this._redoPossible.next(false);
+    } else if (this.possibleRedos[index].length && !this._redoPossible.getValue()) {
+      this._redoPossible.next(true);
     }
   }
 }

@@ -120,21 +120,21 @@
 
       <mat-divider></mat-divider>
 
-      <ng-container *ngIf="dataService.undoPossible | async">
+      <ng-container *ngIf="redoService.undoPossible | async">
         <button (click)="dataService.undo()" mat-menu-item [attr.aria-label]="'UNDO_LAST_ACTION' | translate">
           <mat-icon>undo</mat-icon>
           {{ 'UNDO_LAST_ACTION' | translate }}
         </button>
       </ng-container>
 
-      <ng-container *ngIf="dataService.redoPossible | async">
+      <ng-container *ngIf="redoService.redoPossible | async">
         <button (click)="dataService.redo()" mat-menu-item [attr.aria-label]="'REDO_LAST_ACTION' | translate">
           <mat-icon>redo</mat-icon>
           {{ 'REDO_LAST_ACTION' | translate }}
         </button>
       </ng-container>
 
-      <ng-container *ngIf="dataService.restorePossible | async">
+      <ng-container *ngIf="redoService.restorePossible | async">
         <button (click)="dataService.restoreTab()" mat-menu-item [attr.aria-label]="'RESTORE_CLOSED_TAB' | translate">
           <mat-icon>restore_page</mat-icon>
           {{ 'RESTORE_CLOSED_TAB' | translate }}
@@ -142,7 +142,7 @@
       </ng-container>
 
       <mat-divider
-        *ngIf="(dataService.redoPossible | async) || (dataService.undoPossible | async) || (dataService.restorePossible | async)">
+        *ngIf="(redoService.redoPossible | async) || (redoService.undoPossible | async) || (redoService.restorePossible | async)">
       </mat-divider>
 
       <button (click)="saveTabOrSelection()" mat-menu-item [attr.aria-label]="'SAVE_TAB' | translate">

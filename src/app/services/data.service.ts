@@ -56,19 +56,10 @@ export class DataService extends DisposableService {
 
   /** Array of all tabs. */
   tabs: Tab[] = [];
-  /** Get all available tab indexes. */
-  get tabIndexes() { return this.tabs.map(x => x.index.toString()); }
   /** Get the currently selected tab. */
   get tab(): Tab { return this.tabs[this.selectedTabIndex]; }
   /** Overwrite the currently selected tab. */
   set tab(tab: Tab) { this.tabs[this.selectedTabIndex] = tab; }
-
-  /** Whether the user can redo the last undone action. */
-  redoPossible = this.cache.redoPossible;
-  /** Whether the user can undo the last action. */
-  undoPossible = this.cache.undoPossible;
-  /** Whether the user can restore the lastly deleted tab. */
-  restorePossible = this.cache.restorePossible;
 
   /** An array of all objects that are colored. */
   private colorizedObjects: Colored[] = [];
@@ -268,7 +259,7 @@ export class DataService extends DisposableService {
   }
 
   /**
-   * Sets the selected property to {@link true} for all selectable items.
+   * Sets the selected property to true for all selectable items.
    * __Will just be applied for the currently selected tab!__
    */
   selectAll(): void {

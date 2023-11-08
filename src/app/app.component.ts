@@ -12,7 +12,6 @@ import {MatDialog} from "@angular/material/dialog";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CdkDragDrop, CdkDragEnd} from "@angular/cdk/drag-drop";
-import {TranslateService} from "@ngx-translate/core";
 import {dialog} from "@tauri-apps/api";
 import {take} from "rxjs";
 import {
@@ -37,7 +36,7 @@ import {
   FileAccessService,
   HashyService,
   SettingsService,
-  ClipboardService
+  ClipboardService, HistoryService
 } from "@clipboardjesus/services";
 
 /**
@@ -90,11 +89,11 @@ export class AppComponent implements OnInit {
    * @param bottomSheet reference to the material bottom sheet
    * @param clipboard reference to the clipboard service
    * @param dataService reference to the data service
+   * @param redoService reference to the history service (Handles undo and redo)
    * @param hashy reference to the hashy service
    * @param router reference to the angular router
    * @param activatedRoute reference to the angular activated route
    * @param cache reference to the cache service
-   * @param translate reference to the ngx translate service
    * @param settings reference to the settings service
    * @param fileAccessService reference to the file access service
    * @param cdr reference to the change detector
@@ -103,13 +102,13 @@ export class AppComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly bottomSheet: MatBottomSheet,
     private readonly clipboard: ClipboardService,
-    public readonly dataService: DataService,
-    public readonly hashy: HashyService,
+    protected readonly dataService: DataService,
+    protected readonly redoService: HistoryService,
+    protected readonly hashy: HashyService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly cache: CacheService,
-    private readonly translate: TranslateService,
-    public readonly settings: SettingsService,
+    protected readonly settings: SettingsService,
     private readonly fileAccessService: FileAccessService,
     cdr: ChangeDetectorRef,
   ) {
@@ -627,7 +626,7 @@ export class AppComponent implements OnInit {
    * This method saves the current mouse position to create
    * the draggable at this position (if chosen in context menu).
    * @param event
-   * @param ignoreMousePosition If {@link true} the new draggable
+   * @param ignoreMousePosition If true the new draggable
    *  will be created in the top left corner of the tab
    */
   showContextMenu(event: MouseEvent, ignoreMousePosition?: boolean): void {

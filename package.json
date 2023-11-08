@@ -2,7 +2,7 @@
   "name": "clipboard",
   "version": "1.0.0",
   "scripts": {
-    "start": "ng serve --port 4201",
+    "start": "ng serve",
     "build": "ng build --base-href",
     "lint": "ng lint",
     "e2e": "cypress open --e2e",

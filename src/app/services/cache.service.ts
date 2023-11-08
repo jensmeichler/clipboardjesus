@@ -10,13 +10,6 @@ import {HistoryService, StorageService} from "@clipboardjesus/services";
   providedIn: 'root',
 })
 export class CacheService {
-  /** Whether the user can redo the last undone action. */
-  redoPossible = this.redoService.redoPossible;
-  /** Whether the user can undo the last action. */
-  undoPossible = this.redoService.undoPossible;
-  /** Whether the user can restore the lastly deleted tab. */
-  restorePossible = this.redoService.restorePossible;
-
   /**
    * Create an instance of the cache service.
    */
