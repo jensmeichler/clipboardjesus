@@ -13,9 +13,9 @@
   <mat-card-title *ngIf="noteList.header">
     {{ noteList.header }}
   </mat-card-title>
-  <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="noteList.notes" cdkDropList role="menu">
+  <mat-card-content (cdkDropListDropped)="dropItem($event)" [cdkDropListData]="noteList.notes" cdkDropList>
    <span *ngFor="let note of noteList.notes" class="note-within-list" style="margin: 0" cdkDrag>
-     <cb-small-note [note]="note" [noteList]="noteList"></cb-small-note>
+     <cb-small-note [note]="note" [noteList]="noteList" role="menu"></cb-small-note>
      <span>
        <button (click)="editNote(note)" class="item-button" mat-icon-button
                [attr.aria-label]="'EDIT' | translate">
