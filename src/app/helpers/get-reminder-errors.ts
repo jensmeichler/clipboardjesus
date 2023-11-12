@@ -17,7 +17,7 @@ interface ReminderErrors {
 /**
  * Get information about the reminder errors and warnings.
  * @returns An error object if the reminder is overdue or nearly overdue.
- *  The result will be {@link null} when reminder is not overdue or nearly overdue.
+ *  The result will be null when reminder is not overdue or nearly overdue.
  */
 export function getReminderErrors(reminder: Reminder): ReminderErrors | null {
   const now = new Date();

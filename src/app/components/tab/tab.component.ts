@@ -52,21 +52,21 @@ export class TabComponent extends DisposableComponent implements OnInit {
 
   /**
    * Creates a new tab.
+   * @param hashy Reference to the hashy service.
+   * @param elementRef Reference to the element.
+   * @param bottomSheet Reference to the material bottom sheet.
+   * @param dataService Reference to the data service.
+   * @param clipboard Reference to the clipboard service.
+   * @param settings Reference to the settings service.
+   * @param cdr Reference to the change detector.
    */
   constructor(
-    /** Reference to the hashy service. */
     private readonly hashy: HashyService,
-    /** Reference to the element. */
     private readonly elementRef: ElementRef,
-    /** Reference to the material bottom sheet. */
     private readonly bottomSheet: MatBottomSheet,
-    /** Reference to the data service. */
-    public readonly dataService: DataService,
-    /** Reference to the clipboard service. */
+    protected readonly dataService: DataService,
     private readonly clipboard: ClipboardService,
-    /** Reference to the settings service. */
     private readonly settings: SettingsService,
-    /** Reference to the change detector. */
     private readonly cdr: ChangeDetectorRef,
   ) {
     super();

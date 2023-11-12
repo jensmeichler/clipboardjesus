@@ -42,7 +42,6 @@ export class HistoryService extends DisposableService {
     super();
 
     for (let i = 0; i < 20; i++) {
-      // Initialize the arrays.
       this.possibleUndos.push([]);
       this.possibleRedos.push([]);
     }

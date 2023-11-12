@@ -63,7 +63,7 @@ export class ImageComponent extends DraggableComponent implements OnInit {
     /** Reference to the clipboard service. */
     private readonly clipboard: ClipboardService,
     /** Reference to the data service. */
-    public readonly dataService: DataService,
+    protected readonly dataService: DataService,
     /** Reference to the material dialog. */
     private readonly dialog: MatDialog,
     /** Reference to the storage service. */

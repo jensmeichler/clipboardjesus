@@ -15,13 +15,13 @@ import {DataService} from "@clipboardjesus/services";
 export class ImportDialogComponent {
   /**
    * Create an instance of the dialog.
+   * @param data The tab array as JSON.
+   * @param bottomSheetRef Reference to the material bottom sheet.
+   * @param dataService Reference to the data service.
    */
   constructor(
-    /** The tab array as JSON */
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: string,
-    /** Reference to the material bottom sheet. */
+    @Inject(MAT_BOTTOM_SHEET_DATA) protected data: string,
     private readonly bottomSheetRef: MatBottomSheetRef<ImportDialogComponent>,
-    /** Reference to the data service. */
     private readonly dataService: DataService,
   ) {}
 

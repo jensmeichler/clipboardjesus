@@ -21,7 +21,7 @@ export class EditImageDialogComponent {
 
   /**
    * The file type of the uploaded image.
-   * @returns {@link null} when image is not stored locally.
+   * @returns null when image is not stored locally.
    */
   get fileType(): string | null {
     return this.uploaded?.split(';')[0].replace('data:', '') ?? null;
@@ -43,15 +43,15 @@ export class EditImageDialogComponent {
 
   /**
    * Create an instance of the dialog.
+   * @param dialogRef The reference to the material dialog.
+   * @param data The image to edit.
+   * @param storageService The reference to the storage service to save the image locally.
+   * @param cdr The reference to the ChangeDetector for updating the view.
    */
   constructor(
-    /** The reference to the material dialog. */
-    public readonly dialogRef: MatDialogRef<EditImageDialogComponent>,
-    /** The image to edit. */
-    @Inject(MAT_DIALOG_DATA) public data: Image,
-    /** The reference to the storage service to save the image locally. */
+    protected readonly dialogRef: MatDialogRef<EditImageDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) protected data: Image,
     private readonly storageService: StorageService,
-    /** The reference to the ChangeDetector for updating the view. */
     private readonly cdr: ChangeDetectorRef,
   ) {
     this.uploaded = this.storageService.fetchImage(this.data.id);

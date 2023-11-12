@@ -14,12 +14,12 @@ import {TaskItem, TaskList} from "@clipboardjesus/models";
 export class EditTaskListDialogComponent {
   /**
    * Create an instance of the dialog.
+   * @param dialogRef The reference to the material dialog.
+   * @param data The task list to edit.
    */
   constructor(
-    /** The reference to the material dialog. */
-    public readonly dialogRef: MatDialogRef<EditTaskListDialogComponent>,
-    /** The task list to edit. */
-    @Inject(MAT_DIALOG_DATA) public data: TaskList,
+    protected readonly dialogRef: MatDialogRef<EditTaskListDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) protected data: TaskList,
   ) {}
 
   /**

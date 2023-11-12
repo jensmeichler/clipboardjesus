@@ -18,7 +18,7 @@ export class NoteList extends DraggableNoteBase implements Colored {
 
   /**
    * Default constructor for note lists.
-   * @param id Will be generated automatically when {@link null} is provided.
+   * @param id Will be generated automatically when null is provided.
    * @param posX How far from the left border of the tab the item is positioned.
    * @param posY How far from the top border of the tab the item is positioned.
    * @param header The header of the note list.
@@ -27,7 +27,6 @@ export class NoteList extends DraggableNoteBase implements Colored {
     id: string | null,
     posX: number,
     posY: number,
-    /** The header of the list. */
     public header?: string,
   ) {
     super(id, posX, posY);

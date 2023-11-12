@@ -19,7 +19,7 @@ export class Note extends DraggableNoteBase implements Colored {
 
   /**
    * Default constructor for notes.
-   * @param id Will be generated automatically when {@link null} is provided.
+   * @param id Will be generated automatically when null is provided.
    * @param posX How far from the left border of the tab the item is positioned.
    * @param posY How far from the top border of the tab the item is positioned.
    * @param content The content of the note.
@@ -30,11 +30,8 @@ export class Note extends DraggableNoteBase implements Colored {
     id: string | null,
     posX: number,
     posY: number,
-    /** The content of the note. This content is what will be stored into the clipboard. */
     public content?: string,
-    /** The header of the note. */
     public header?: string,
-    /** The reminder when the note should be highlighted. */
     public reminder?: Reminder,
   ) {
     super(id, posX, posY);

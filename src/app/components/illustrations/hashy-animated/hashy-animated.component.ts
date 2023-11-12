@@ -19,9 +19,9 @@ export class HashyAnimatedComponent {
 
   /**
    * The animated component which displays the mascot of the application.
+   * @param hashy The service to know whether to display hashy.
    */
   constructor(
-    /** The service to know whether to display hashy. */
-    public readonly hashy: HashyService,
+    protected readonly hashy: HashyService,
   ) {}
 }

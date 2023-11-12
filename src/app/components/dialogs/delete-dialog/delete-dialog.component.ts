@@ -14,11 +14,11 @@ import {DataService} from "@clipboardjesus/services";
 export class DeleteDialogComponent {
   /**
    * Create an instance of the dialog.
+   * @param bottomSheetRef Reference to the material bottom sheet.
+   * @param dataService Reference to the data service.
    */
   constructor(
-    /** Reference to the material bottom sheet. */
     private readonly bottomSheetRef: MatBottomSheetRef<DeleteDialogComponent>,
-    /** Reference to the data service. */
     private readonly dataService: DataService,
   ) {}
 

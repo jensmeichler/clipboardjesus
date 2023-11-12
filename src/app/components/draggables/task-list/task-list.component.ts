@@ -40,9 +40,9 @@ export class TaskListComponent extends DraggableComponent {
     /** Reference to the material dialog. */
     private readonly dialog: MatDialog,
     /** Reference to the data service. */
-    public readonly dataService: DataService,
+    protected readonly dataService: DataService,
     /** Reference to the string parser service. */
-    public readonly stringParser: StringParserService,
+    protected readonly stringParser: StringParserService,
     /** Reference to the change detector. */
     private readonly cdr: ChangeDetectorRef,
   ) {

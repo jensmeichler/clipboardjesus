@@ -14,12 +14,12 @@ import {MatChipInputEvent} from "@angular/material/chips";
 export class EditNoteListDialogComponent {
   /**
    * Create an instance of the dialog.
+   * @param dialogRef The reference to the material dialog.
+   * @param data The note list to edit.
    */
   constructor(
-    /** The reference to the material dialog. */
-    public readonly dialogRef: MatDialogRef<EditNoteListDialogComponent>,
-    /** The note list to edit. */
-    @Inject(MAT_DIALOG_DATA) public data: NoteList,
+    protected readonly dialogRef: MatDialogRef<EditNoteListDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) protected data: NoteList,
   ) {}
 
   /**

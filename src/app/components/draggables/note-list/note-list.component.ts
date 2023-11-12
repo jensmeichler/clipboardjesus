@@ -37,7 +37,7 @@ export class NoteListComponent extends DraggableComponent {
     /** Reference to the material dialog. */
     private readonly dialog: MatDialog,
     /** Reference to the data service. */
-    public readonly dataService: DataService,
+    protected readonly dataService: DataService,
     /** Reference to the clipboard service. */
     private readonly clipboard: ClipboardService,
     /** Reference to the change detector. */

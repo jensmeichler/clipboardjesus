@@ -12,7 +12,6 @@ export class TaskItem {
    * @param value The text value of the item.
    */
   constructor(
-    /** The text value of the item. */
     public value: string,
   ) {}
 }

@@ -27,14 +27,14 @@ export class EditTabDialogComponent {
 
   /**
    * Create an instance of the dialog.
+   * @param dialogRef The reference to the material dialog.
+   * @param data The tab to edit and the function to update the view.
+   * @param dataService Reference to the data service.
    */
   constructor(
-    /** The reference to the material dialog. */
-    public readonly dialogRef: MatDialogRef<EditTabDialogComponent>,
-    /** The tab to edit and the function to update the view. */
-    @Inject(MAT_DIALOG_DATA) public data: { tab: Tab, changeFn: () => void },
-    /** Reference to the data service. */
-    public readonly dataService: DataService,
+    protected readonly dialogRef: MatDialogRef<EditTabDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) protected data: { tab: Tab, changeFn: () => void },
+    protected readonly dataService: DataService,
   ) {
     this.tab = data.tab;
     this.changeFn = data.changeFn;

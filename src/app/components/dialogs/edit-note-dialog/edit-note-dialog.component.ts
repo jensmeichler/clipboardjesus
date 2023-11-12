@@ -19,13 +19,13 @@ export class EditNoteDialogComponent {
 
   /**
    * Create an instance of the dialog.
+   * @param dialogRef The reference to the material dialog.
+   * @param data The note to edit.
+   * @param cdr The reference to the ChangeDetector for updating the view.
    */
   constructor(
-    /** The reference to the material dialog. */
-    public readonly dialogRef: MatDialogRef<EditNoteDialogComponent>,
-    /** The note to edit. */
-    @Inject(MAT_DIALOG_DATA) public data: Note,
-    /** The reference to the ChangeDetector for updating the view. */
+    protected readonly dialogRef: MatDialogRef<EditNoteDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) protected data: Note,
     private readonly cdr: ChangeDetectorRef,
   ) {}
 

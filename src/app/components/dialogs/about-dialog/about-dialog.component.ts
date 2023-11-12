@@ -14,14 +14,14 @@ import {DataService, SettingsService} from "@clipboardjesus/services";
 export class AboutDialogComponent {
   /**
    * Create an instance of the dialog.
+   * @param dialogRef The reference to the material dialog.
+   * @param dataService The reference to the data service.
+   * @param settings The reference to the settings service.
    */
   constructor(
-    /** The reference to the material dialog. */
-    public readonly dialogRef: MatDialogRef<AboutDialogComponent>,
-    /** The reference to the data service. */
-    public readonly dataService: DataService,
-    /** The reference to the settings service. */
-    public readonly settings: SettingsService
+    protected readonly dialogRef: MatDialogRef<AboutDialogComponent>,
+    protected readonly dataService: DataService,
+    protected readonly settings: SettingsService
   ) {}
 
   /**

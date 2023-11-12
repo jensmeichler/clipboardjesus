@@ -41,7 +41,7 @@ export class SmallNoteComponent {
     /** Reference to the clipboard service. */
     private readonly clipboard: ClipboardService,
     /** Reference to the data service. */
-    public readonly dataService: DataService,
+    protected readonly dataService: DataService,
     /** Reference to the change detector. */
     private readonly cdr: ChangeDetectorRef,
   ) {}

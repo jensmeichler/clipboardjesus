@@ -10,9 +10,9 @@ export class AutofocusDirective implements OnInit {
   /**
    * The constructor of the autofocus directive.
    * When you call this constructor manually, you are doing something wrong!
+   * @param elementRef The reference to the element onto which the directive is attached to.
    */
   constructor(
-    /** The reference to the element onto which the directive is attached to. */
     private elementRef: ElementRef,
   ) {}
 
