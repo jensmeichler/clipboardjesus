@@ -333,8 +333,8 @@
             [style.font-family]="font.family"
             [style.font-style]="font.style"
             (click)="settings.fontFamily = font.family; settings.fontStyle = font.style"
-            mat-menu-item [attr.aria-label]="font.family">
-      {{ font.family }}
+            mat-menu-item [attr.aria-label]="font.fullName">
+      {{ font.fullName }}
     </button>
   </mat-menu>
   <cb-hashy-animated [christmas]="christmas"></cb-hashy-animated>
