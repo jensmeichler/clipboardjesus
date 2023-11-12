@@ -323,6 +323,19 @@
             mat-menu-item aria-label="Roboto italic">
       Roboto italic
     </button>
+    <mat-divider></mat-divider>
+    <button *ngIf="fetchFontsButtonActive"
+            (click)="openSetFontDialog(); $event.stopPropagation()"
+            mat-menu-item aria-label="Other font">
+      {{ 'MORE' | translate }} ...
+    </button>
+    <button *ngFor="let font of localFonts"
+            [style.font-family]="font.family"
+            [style.font-style]="font.style"
+            (click)="settings.fontFamily = font.family; settings.fontStyle = font.style"
+            mat-menu-item [attr.aria-label]="font.family">
+      {{ font.family }}
+    </button>
   </mat-menu>
   <cb-hashy-animated [christmas]="christmas"></cb-hashy-animated>
 </div>

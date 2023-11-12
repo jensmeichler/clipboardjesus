@@ -72,6 +72,15 @@ export class AppComponent implements OnInit {
   initialized = false;
   /** Whether it's Christmas currently. */
   christmas: boolean;
+  /** Whether the button 'Other' in the font selection dropdown is available. */
+  fetchFontsButtonActive = false;
+  /** Set of locally installed fonts. Will contain values after the user pressed on 'Other fonts' and granted access. */
+  localFonts : {
+    family: string,
+    fullName: string,
+    postscriptName?: string,
+    style: string,
+  }[] = [];
 
   /** Set the currently selected tab index (in the {@link DataService}). */
   set tabIndex(value: number) {
@@ -110,8 +119,9 @@ export class AppComponent implements OnInit {
     private readonly cache: CacheService,
     protected readonly settings: SettingsService,
     private readonly fileAccessService: FileAccessService,
-    cdr: ChangeDetectorRef,
+    private readonly cdr: ChangeDetectorRef,
   ) {
+    this.fetchFontsButtonActive = 'queryLocalFonts' in window;
     const date = new Date();
     this.christmas = date.getMonth() === 11 && date.getDate() <= 27;
     dataService.changeDetectionRequired.subscribe(() => cdr.markForCheck());
@@ -549,6 +559,27 @@ export class AppComponent implements OnInit {
    */
   reloadApp(): void {
     window.location.reload();
+  }
+
+  /**
+   * Opens a dialog where the user can select any font from his local machine.
+   * The selected font will be saved to settings and used as default afterward.
+   */
+  openSetFontDialog(): void {
+    if (!('queryLocalFonts' in window)) {
+      throw new Error('Failed to load local fonts.');
+    }
+
+    (window as any).queryLocalFonts().then((fonts: {
+      family: string,
+      fullName: string,
+      postscriptName?: string,
+      style: string,
+    }[]) => {
+      this.localFonts = fonts;
+      this.fetchFontsButtonActive = false;
+      this.cdr.markForCheck();
+    });
   }
 
   /**

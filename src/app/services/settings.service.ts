@@ -5,8 +5,6 @@ import {isTauri} from "@clipboardjesus/helpers";
 
 /** The boolean string value which is stored in the localstorage. */
 const TRUE = 'True';
-/** The available font types. */
-type Font = 'Victor Mono' | 'Roboto';
 
 /**
  * The service which provides all the settings
@@ -105,17 +103,20 @@ export class SettingsService {
   }
 
   /** Backing field */
-  private _fontFamily!: Font;
+  private _fontFamily!: string;
   /** Get the app font family. */
-  get fontFamily(): Font { return this._fontFamily; }
+  get fontFamily(): string { return this._fontFamily; }
   /** Set the app font family. */
-  set fontFamily(value: Font) {
+  set fontFamily(value: string) {
     this._fontFamily = value;
     if (value === 'Roboto') {
       SettingsService.setFontFamily('var(--font-family-roboto)');
       localStorage.removeItem(this.storageKeys.fontFamily);
-    } else {
+    } else if (value === 'Victor Mono') {
       SettingsService.setFontFamily('var(--font-family-victor)');
+      localStorage.setItem(this.storageKeys.fontFamily, value);
+    } else {
+      SettingsService.setFontFamily(value);
       localStorage.setItem(this.storageKeys.fontFamily, value);
     }
   }
@@ -158,7 +159,7 @@ export class SettingsService {
     this.alwaysOnTop = localStorage.getItem(this.storageKeys.alwaysOnTop) === TRUE;
     this.animationsDisabled = localStorage.getItem(this.storageKeys.animationsDisabled) === TRUE;
     this.language = localStorage.getItem(this.storageKeys.language) ?? 'en';
-    this.fontFamily = localStorage.getItem(this.storageKeys.fontFamily) as Font ?? 'Roboto';
+    this.fontFamily = localStorage.getItem(this.storageKeys.fontFamily) ?? 'Roboto';
     this.fontStyle = localStorage.getItem(this.storageKeys.fontStyle) ?? 'normal';
     this.dblClickMode = localStorage.getItem(this.storageKeys.dblClickMode) === TRUE;
 
