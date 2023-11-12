@@ -10,7 +10,8 @@
       "posX": 0,
       "posY": 84,
       "posZ": 1,
-      "content": "# Welcome to Clip#board 👋\n\n## Discover the possibilities that Clip#board offers you ✨\n\n- Create notes from your clipboard by just clicking into the app\n- Copy these notes into your clipboard by clicking onto them\n- Drag and drop everywhere 🎉\n- Many more features... 🔥"
+      "header": "Welcome to Clip#board 👋",
+      "content": "## Discover the possibilities that Clip#board offers you ✨\n\n- Create notes from your clipboard by just clicking into the app\n- Copy these notes into your clipboard by clicking onto them\n- Drag and drop everywhere 🎉\n- Many more features... 🔥"
     },
     {
       "id": "welcome_note_2",
