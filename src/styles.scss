@@ -42,6 +42,11 @@ html, body {
   }
 }
 
+::selection {
+  color: black;
+  background-color: var(--color-secondary);
+}
+
 .hide {
   display: none;
 }
