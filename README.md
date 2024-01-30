@@ -1,4 +1,4 @@
-# Clip#board [![Angular](https://badges.aleen42.com/src/angular.svg)](https://angular.io/)  [![Test runs](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/c1e5r5&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/c1e5r5/runs)
+# Clip#board [![Test runs](https://img.shields.io/endpoint?url=https://dashboard.cypress.io/badge/simple/c1e5r5&style=flat&logo=cypress)](https://dashboard.cypress.io/projects/c1e5r5/runs)
 
 Clip#board is a tool to manage and organize your clipboard.
 You can add notes on click everywhere, or import files you
