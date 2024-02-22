@@ -376,7 +376,7 @@ export class AppComponent implements OnInit {
     const params = JSON.stringify(this.dataService.getAsJson(true));
     const route = window.location.href.split('?')[0];
     await this.clipboard.set(`${route}?params=${btoa(params)}`);
-    this.hashy.show('COPIED_URL_TO_CLIPBOARD', 3000, 'OK');
+    this.hashy.show('COPIED_URL_TO_CLIPBOARD', 'OK');
   }
 
   /**
@@ -430,7 +430,7 @@ export class AppComponent implements OnInit {
         if (isTabsArray) {
           importFile();
         } else {
-          this.hashy.show('Could not read file', 7000, 'Try anyway', () =>
+          this.hashy.show('Could not read file', 'Try anyway', () =>
             importFile()
           );
         }
@@ -646,7 +646,7 @@ export class AppComponent implements OnInit {
         this.draggableChanged.emit();
         break;
     }
-    this.hashy.show(question, 5000, answer, undefined, () => {
+    this.hashy.show(question, answer, undefined, () => {
       this.logoReplacedEasterEggCount++;
       event.source._dragRef.reset();
     });

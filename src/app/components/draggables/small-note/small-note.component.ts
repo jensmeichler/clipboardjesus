@@ -54,7 +54,7 @@ export class SmallNoteComponent {
       return;
     }
     await this.clipboard.set(this.note.content);
-    this.hashy.show('COPIED_TO_CLIPBOARD', 600);
+    this.hashy.show('COPIED_TO_CLIPBOARD');
   }
 
   /**

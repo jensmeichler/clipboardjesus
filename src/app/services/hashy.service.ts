@@ -30,15 +30,13 @@ export class HashyService {
    * Opens a snackbar in the bottom left corner of the app.
    * If you call the method twice, the last call will overwrite the first one.
    * @param text The text which will be shown in the snackbar.
-   * @param milliseconds The time in milliseconds the snackbar will stay.
    * @param button The text that appears on the button. If undefined, no button will be displayed.
    * @param buttonAction The action that will be called if the user clicks the button.
-   * @param dismissAction The action that will be called if the snackbar expires
-   * (after the amount of {@link milliseconds} exceeded).
+   * @param dismissAction The action that will be called if the snackbar expires.
+   *   (The duration the snackbar will stay is dependent on the amount of text displayed.)
    */
   show(
     text: string | { text: string, interpolateParams: Object },
-    milliseconds: number,
     button?: string,
     buttonAction?: Function,
     dismissAction?: Function
@@ -54,8 +52,13 @@ export class HashyService {
       .subscribe(([translatedText, translatedButton]) => {
         this.showHashy.next(true);
 
+        let durationInMs = translatedText.length * 120;
+        if (button) {
+          durationInMs += 1000 + translatedButton.length * 100;
+        }
+
         let snackBarRef = this.snackBar.open(translatedText, translatedButton, {
-          duration: milliseconds,
+          duration: durationInMs,
           horizontalPosition: "left"
         });
 

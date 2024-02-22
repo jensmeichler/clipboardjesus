@@ -157,7 +157,7 @@ export class TabComponent extends DisposableComponent implements OnInit {
               const image = new Image(null, currentPosX, currentPosY, null);
               this.dataService.addImage(image, clipboardImage);
             } else {
-              this.hashy.show('CLIPBOARD_EMPTY', 3000);
+              this.hashy.show('CLIPBOARD_EMPTY');
             }
           } else {
             this.dataService.addNote(
@@ -233,7 +233,6 @@ export class TabComponent extends DisposableComponent implements OnInit {
       } else {
         this.hashy.show(
           {text: 'FILE_TYPE_NOT_SUPPORTED', interpolateParams: {type: file.type.toUpperCase()}},
-          4000,
           'OK'
         );
       }

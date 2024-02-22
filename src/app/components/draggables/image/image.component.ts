@@ -174,14 +174,14 @@ export class ImageComponent extends DraggableComponent implements OnInit {
     if (!this.rippleDisabled && this.canInteract) {
       if (this.image.source) {
         this.clipboard.set(this.image.source).then(() =>
-          this.hashy.show('COPIED_URL_TO_CLIPBOARD', 600)
+          this.hashy.show('COPIED_URL_TO_CLIPBOARD')
         );
       } else {
         const base64 = this.storageService.fetchImage(this.image.id);
         if (base64) {
           this.clipboard.setFile(base64).then((success) => {
             if (success) {
-              this.hashy.show('COPIED_TO_CLIPBOARD', 600)
+              this.hashy.show('COPIED_TO_CLIPBOARD')
             } else {
               this.open();
             }

@@ -229,7 +229,7 @@ export class NoteComponent extends DraggableComponent implements OnInit, OnChang
   copy(): void {
     if (this.note.content && !this.rippleDisabled && this.canInteract) {
       this.clipboard.set(this.note.content).then(() =>
-        this.hashy.show('COPIED_TO_CLIPBOARD', 600)
+        this.hashy.show('COPIED_TO_CLIPBOARD')
       );
     }
   }

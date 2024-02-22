@@ -723,7 +723,6 @@ export class DataService extends DisposableService {
       if (await this.fileAccessService.write(contents, fileName)) {
         this.hashy.show(
           {text: 'SAVED_TABS_AS', interpolateParams: {savedAs: fileName}},
-          5000,
           'OK'
         );
       } else {
@@ -733,7 +732,6 @@ export class DataService extends DisposableService {
       const savedAs = this.fileService.save(contents, 'boards.json', fileName);
       this.hashy.show(
         {text: 'SAVED_TABS_AS', interpolateParams: {savedAs}},
-        3000,
         'OK'
       );
     }
@@ -748,7 +746,6 @@ export class DataService extends DisposableService {
     const savedAs = this.fileService.save(JSON.stringify(json), 'notes.json', filename);
     this.hashy.show(
       {text: 'SAVED_TAB_AS', interpolateParams: {savedAs}},
-      3000,
       'OK'
     );
     this.cacheData();
