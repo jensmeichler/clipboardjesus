@@ -34,6 +34,7 @@ export class SettingsService {
     lastLoadedFile: 'clipboard_last_loaded_file',
     alwaysOnTop: 'clipboard_always_on_top',
     dblClickMode: 'clipboard_dbl_click_mode',
+    lightMode: 'clipboard_light_mode',
   };
 
   /** Backing field */
@@ -144,9 +145,25 @@ export class SettingsService {
   set dblClickMode(value: boolean) {
     this._dblClickMode = value;
     if (value) {
-      localStorage.setItem(this.storageKeys.fontStyle, TRUE);
+      localStorage.setItem(this.storageKeys.dblClickMode, TRUE);
     } else {
-      localStorage.removeItem(this.storageKeys.fontStyle);
+      localStorage.removeItem(this.storageKeys.dblClickMode);
+    }
+  }
+
+  /** Backing field */
+  private _lightMode!: boolean;
+  /** Get whether the app is in light mode.*/
+  get lightMode(): boolean { return this._lightMode; }
+  /** Set the app into light mode. (Default is dark) */
+  set lightMode(value: boolean) {
+    this._lightMode = value;
+    if (value) {
+      SettingsService.setTheme('light');
+      localStorage.setItem(this.storageKeys.lightMode, TRUE);
+    } else {
+      SettingsService.setTheme('dark');
+      localStorage.removeItem(this.storageKeys.lightMode);
     }
   }
 
@@ -162,6 +179,7 @@ export class SettingsService {
     this.fontFamily = localStorage.getItem(this.storageKeys.fontFamily) ?? 'Roboto';
     this.fontStyle = localStorage.getItem(this.storageKeys.fontStyle) ?? 'normal';
     this.dblClickMode = localStorage.getItem(this.storageKeys.dblClickMode) === TRUE;
+    this.lightMode = localStorage.getItem(this.storageKeys.lightMode) === TRUE;
 
     this.isBeta = !isTauri && !window.location.href.includes('clipboardjesus.com');
     this.isWindows = navigator.platform.indexOf('Win') > -1;
@@ -174,7 +192,7 @@ export class SettingsService {
    * Sets the font family value property of the styles.scss
    */
   private static setFontFamily(value: string): void {
-    (document.querySelector(':root') as any)
+    document.querySelector<HTMLElement>(':root')!
       .style.setProperty('--font-family', value);
   }
 
@@ -182,7 +200,15 @@ export class SettingsService {
    * Sets the font style value property of the styles.scss
    */
   private static setFontStyle(value: string): void {
-    (document.querySelector(':root') as any)
+    document.querySelector<HTMLElement>(':root')!
       .style.setProperty('--font-style', value);
+  }
+
+  /**
+   * Sets the font style value property of the styles.scss
+   */
+  private static setTheme(value: 'dark' | 'light'): void {
+    document.querySelector<HTMLElement>(':root')!
+      .setAttribute('theme', value);
   }
 }

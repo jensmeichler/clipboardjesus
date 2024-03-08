@@ -191,7 +191,7 @@
   <ng-container *ngIf="!settings.isTauri; else tauri">
     <button (click)="showContextMenu($event, true); $event.stopPropagation()"
             [matTooltip]="'MORE' | translate" [attr.aria-label]="'MORE' | translate"
-            matTooltipPosition="left" matTooltipShowDelay="1000"
+            matTooltipPosition="left" [matTooltipShowDelay]="1000"
             class="context-menu-button" mat-icon-button>
       <mat-icon>menu_open</mat-icon>
     </button>
@@ -200,7 +200,7 @@
     <button (click)="openFileDialog(); $event.stopPropagation()"
             [matTooltip]="'OPEN_FILE' | translate" [attr.aria-label]="'OPEN_FILE' | translate"
             class="context-menu-button" mat-icon-button matTooltipPosition="left"
-            matTooltipShowDelay="1000">
+            [matTooltipShowDelay]="1000">
       <mat-icon>file_open</mat-icon>
     </button>
   </ng-template>
@@ -243,6 +243,17 @@
             [matTooltip]="'ENABLE_DBL_CLICK_MODE_TOOLTIP' | translate">
       <mat-icon>mouse</mat-icon>
       {{ 'ENABLE_DBL_CLICK_MODE' | translate }}
+    </button>
+
+    <button *ngIf="!settings.lightMode" (click)="settings.lightMode = true" mat-menu-item
+            [attr.aria-label]="'ENABLE_LIGHT_MODE' | translate">
+      <mat-icon>light_mode</mat-icon>
+      {{ 'ENABLE_LIGHT_MODE' | translate }}
+    </button>
+    <button *ngIf="settings.lightMode" (click)="settings.lightMode = false" mat-menu-item
+            [attr.aria-label]="'ENABLE_DARK_MODE' | translate">
+      <mat-icon>dark_mode</mat-icon>
+      {{ 'ENABLE_DARK_MODE' | translate }}
     </button>
 
     <ng-container *ngIf="settings.isTauri">

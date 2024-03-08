@@ -1,4 +1,5 @@
 :root {
+  color-scheme: dark;
   --color-background: #131313;
   --color-transparency-light: #FFFFFF19;
   --color-transparency-medium: #FFFFFF4D;
@@ -8,25 +9,30 @@
   --color-primary-opacity: #7B1EA267;
   --color-secondary: #69f0ae;
   --color-warn: red;
+
+  &[theme="light"] {
+    color-scheme: light;
+  }
+
   --shadow-light: 0 0 8px #131313a8;
   --shadow-strong: 0 0 16px black;
   --shadow-overdue: 0 0 32px var(--color-warn);
+  --drop-shadow-light: drop-shadow(2px 3px 6px #0000009D);
+  --drop-shadow-medium: drop-shadow(2px 2px 3px #000000B2);
+  --drop-shadow-strong: drop-shadow(2px 4px 3px black);
+
   --width-edit-dialog: 50vw;
   --margin-edge: 24px;
+  --border-radius: 12px;
+  --drag-drop-transition: all cubic-bezier(0, 0, 0.2, 1) 250ms;
+
   --font-style: normal;
   --font-family: var(--font-family-roboto);
   --font-family-victor: 'Victor Mono', monospace;
   --font-family-roboto: 'Roboto';
-  --border-radius: 12px;
-  --drop-shadow-light: drop-shadow(2px 3px 6px #0000009D);
-  --drop-shadow-medium: drop-shadow(2px 2px 3px #000000B2);
-  --drop-shadow-strong: drop-shadow(2px 4px 3px black);
-  --drag-drop-transition: all cubic-bezier(0, 0, 0.2, 1) 250ms;
 }
 
 html, body {
-  // noinspection CssUnknownProperty
-  color-scheme: dark;
   overflow: hidden;
 
   margin: 0;
