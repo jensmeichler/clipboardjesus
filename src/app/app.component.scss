@@ -125,7 +125,7 @@
   animation: logo-animation cubic-bezier(.5, -.3, 0, 2) 6s;
   transform: translate(2em, -0.24em) scale(0.2);
   width: auto;
-  filter: drop-shadow(0 0 16px black);
+  filter: var(--drop-shadow-logo);
   z-index: 103;
 }
 

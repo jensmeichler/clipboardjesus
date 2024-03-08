@@ -10,16 +10,32 @@
   --color-secondary: #69f0ae;
   --color-warn: red;
 
-  &[theme="light"] {
-    color-scheme: light;
-  }
-
   --shadow-light: 0 0 8px #131313a8;
   --shadow-strong: 0 0 16px black;
   --shadow-overdue: 0 0 32px var(--color-warn);
   --drop-shadow-light: drop-shadow(2px 3px 6px #0000009D);
   --drop-shadow-medium: drop-shadow(2px 2px 3px #000000B2);
   --drop-shadow-strong: drop-shadow(2px 4px 3px black);
+  --drop-shadow-logo: drop-shadow(0 0 16px black);
+
+  &[theme="light"] {
+    color-scheme: light;
+    --color-background: white;
+    --color-transparency-light: #00000019;
+    --color-transparency-medium: #0000004D;
+    --color-transparency-strong: #00000090;
+
+    --shadow-light: 0 1px 4px 1px #2F2F2F26,0 1px 2px 0 #2F2F2F26;
+    --shadow-strong: 0 0 12px 0 #2F2F2F50;
+    --drop-shadow-light: none;
+    --drop-shadow-medium: none;
+    --drop-shadow-strong: none;
+    --drop-shadow-logo:
+      drop-shadow(4px 0 0 black)
+      drop-shadow(-4px 0 0 black)
+      drop-shadow(0 4px 0 black)
+      drop-shadow(0 -4px 0 black);
+  }
 
   --width-edit-dialog: 50vw;
   --margin-edge: 24px;
@@ -97,7 +113,7 @@ html, body {
 .mat-tab-group {
   .mat-tab-header {
     width: calc(100vw - 180px - 32px);
-    border: none;
+    border: none !important;
     .mat-tab-label:last-child {
       min-width: 0;
     }
