@@ -21,7 +21,7 @@
       "prefix": "cb",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser-esbuild",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/clipboard",
             "index": "src/index.html",
@@ -64,7 +64,8 @@
                 }
               ],
               "outputHashing": "all",
-              "extractLicenses": true
+              "extractLicenses": true,
+              "sourceMap": true
             },
             "development": {
               "buildOptimizer": false,
