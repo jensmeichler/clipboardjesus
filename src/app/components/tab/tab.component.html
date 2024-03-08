@@ -2,8 +2,8 @@
      (mousedown)="tabMouseDown($event)"
      (drop)="dropFile($event)"
      [style.background]="tab.url ? 'url('+tab.url+') no-repeat center center' : tab.color !== '#131313'
-       ? 'linear-gradient(to bottom, transparent, #131313), radial-gradient(' + tab.color + ', #131313)'
-       : '#131313'"
+       ? 'linear-gradient(to bottom, transparent, var(--color-background)), radial-gradient(' + tab.color + ', var(--color-background))'
+       : 'var(--color-background)'"
      data-cy="tab">
   <ng-container *ngFor="let from of dataService.getCurrentTabItems()">
     <ng-container *ngIf="from.connectedTo">
