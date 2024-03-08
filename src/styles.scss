@@ -244,6 +244,11 @@ a[href] {
   }
 }
 
+.mat-input-element:after {
+  // Remove the weird height of date fields
+  content: none !important;
+}
+
 .cdk-global-scrollblock {
   overflow-y: inherit;
 }
