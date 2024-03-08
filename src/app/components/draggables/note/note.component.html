@@ -250,7 +250,7 @@
   <ng-container *ngFor="let item of dataService.tab.images">
     <button (click)="connectTo(item)"
             mat-menu-item [attr.aria-label]="'CONNECT_TO' | translate"
-            [style.background]="'#212121'">
+            [style.background]="'var(--color-note)'">
       <mat-icon>{{note.connectedTo?.includes(item.id) ? 'close' : 'link'}}</mat-icon>
       {{DisplayValue.fromImage(item)}}
     </button>
@@ -258,7 +258,7 @@
 
   <button *ngIf="note.connectedTo" (click)="connectTo(undefined)"
           mat-menu-item [attr.aria-label]="'CONNECT_TO_NOTHING' | translate"
-          [style.background]="'#212121'">
+          [style.background]="'var(--color-note)'">
     <mat-icon>link_off</mat-icon>
     {{'CONNECT_TO_NOTHING' | translate}}
   </button>

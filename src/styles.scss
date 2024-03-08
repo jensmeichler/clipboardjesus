@@ -1,10 +1,12 @@
 :root {
   color-scheme: dark;
+
   --color-background: #131313;
   --color-transparency-light: #FFFFFF19;
   --color-transparency-medium: #FFFFFF4D;
   --color-transparency-strong: #FFFFFF90;
   --color-note: #212121;
+  --color-note-accent: white;
   --color-primary: #7b1ea2;
   --color-primary-opacity: #7B1EA267;
   --color-secondary: #69f0ae;
@@ -20,10 +22,13 @@
 
   &[theme="light"] {
     color-scheme: light;
+
     --color-background: white;
     --color-transparency-light: #00000019;
     --color-transparency-medium: #0000004D;
     --color-transparency-strong: #00000090;
+    --color-note: white;
+    --color-note-accent: black;
 
     --shadow-light: 0 1px 4px 1px #2F2F2F26,0 1px 2px 0 #2F2F2F26;
     --shadow-strong: 0 0 12px 0 #2F2F2F50;

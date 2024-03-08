@@ -7,9 +7,9 @@ import {Colored} from "./colored.model";
  */
 export class TaskList extends DraggableNoteBase implements Colored {
   /** The color of the text. */
-  foregroundColor: string = '#ffffff';
+  foregroundColor: string = 'var(--color-note-accent)';
   /** The color of the background. */
-  backgroundColor: string = '#212121';
+  backgroundColor: string = 'var(--color-note)';
   /** The color of the background gradient if specified. */
   backgroundColorGradient?: string;
 
