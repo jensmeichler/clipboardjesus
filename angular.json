@@ -34,8 +34,8 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
-              "src/assets/styles/purple-green.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/material.scss"
             ],
             "scripts": [
               "node_modules/marked/marked.min.js"
