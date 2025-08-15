@@ -1,5 +1,6 @@
 import {EventEmitter, Injectable} from '@angular/core';
-import {Tab} from "@clipboardjesus/models";
+import {Note, Tab} from "@clipboardjesus/models";
+import {HashyService} from "@clipboardjesus/services/hashy.service";
 
 /** The flag which will be set into the localstorage to prevent duplicate deletion of tabs. */
 export const TAB_DELETION_FLAG = 'tab_deletion_from_other_tab';
@@ -30,7 +31,7 @@ export class StorageService {
   /**
    * Create an instance of the storage service.
    */
-  constructor() {
+  constructor(private readonly hashy: HashyService) {
     window.addEventListener('storage', ({oldValue, newValue, key}) => {
       const indexString = key?.split('_').reverse()[0];
       if (indexString === undefined) {
@@ -60,7 +61,34 @@ export class StorageService {
     if (!content) {
       return;
     }
-    return JSON.parse(content) as Tab;
+
+    try {
+      return JSON.parse(content) as Tab;
+    } catch (error) {
+      this.hashy.show('FAILED_TO_LOAD_TAB', 'OK');
+      console.error('Failed to parse tab content from localStorage', error, content);
+
+      // Try to restore as much as possible from the corrupted content.
+      // The goal here is just to provide as much data as possible to the user.
+      // This should never happen, but if it does, we want to handle it gracefully.
+      const tab: Tab = {
+        index: index,
+        label: 'Corrupted Tab',
+        color: '#ff0000',
+        notes: [
+          new Note(
+            null,
+            0,
+            0,
+            content,
+            'Restored from corrupted data:',
+          )
+        ]
+      }
+
+      this.setTab(tab, index);
+      return tab;
+    }
   }
 
   /**
